@@ -1,0 +1,12 @@
+module.exports = {
+    UNASSIGNED: 1,
+    ASSIGNED: 2,
+    SYNCHRONIZED: 3,
+    SURVEYING: 4,
+    IN_RECOVERY: 5,
+    IN_SUPERVISION: 6,
+    CLOSED: 7,
+    FINISHED_IN_FIELD: 8,
+    FINISHED_IN_CABINET: 9,
+    APPROVED: 10
+};
