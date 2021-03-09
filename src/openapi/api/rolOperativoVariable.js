@@ -1,9 +1,9 @@
 module.exports = {
-    '/api/rolOperativoVariable' : {
-        get : {
-            summary : 'List of roles operativos variables',
-            security : [],
-            parameters : [
+    '/api/rolOperativoVariable': {
+        get: {
+            summary: 'List of roles operativos variables',
+            security: [],
+            parameters: [
                 {
                     in: 'query',
                     name: 'page',
@@ -11,7 +11,7 @@ module.exports = {
                     schema: {type: 'integer'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {
@@ -23,8 +23,8 @@ module.exports = {
                                     total: {type: 'integer'},
                                     roloperativos: {
                                         type: 'array',
-                                        items:{$ref: '#/components/schemas/RolOperativoVariable'},
-                                        example:{
+                                        items: {$ref: '#/components/schemas/RolOperativoVariable'},
+                                        example: {
                                             ID_USUARIO: 1,
                                             ID_ROL_USUARIO: 'CODIFICADOR',
                                             ID_OPERATIVO: '1',
@@ -51,7 +51,7 @@ module.exports = {
         post: {
             summary: 'Create new rol operativo variable',
             security: [],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/RolOperativoVariable'}}}
@@ -96,7 +96,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/RolOperativoVariable'}}}
@@ -118,7 +118,7 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         },
@@ -152,15 +152,15 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }
     },
-    '/api/rolOperativoVariable/{ID_ROL_USUARIO}/{OBSERVACION}/{ID_VARIABLE}' : {
-        get : {
-            summary : 'List of roles operativos variables',
-            security : [],
+    '/api/rolOperativoVariable/{ID_ROL_USUARIO}/{OBSERVACION}/{ID_VARIABLE}': {
+        get: {
+            summary: 'List of roles operativos variables',
+            security: [],
             parameters: [
                 {
                     in: 'query',
@@ -181,7 +181,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {

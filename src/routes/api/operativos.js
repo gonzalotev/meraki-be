@@ -7,6 +7,6 @@ module.exports = router => {
         .put(OperativosController.update)
         .delete(OperativosController.delete);
     router.route('/:DESCRIPCION/:ID_OPERATIVO/:ID_FUENTE')
-        .get(OperativosController.fetchOne)
+        .get(OperativosController.fetchOne);
     return router;
 };

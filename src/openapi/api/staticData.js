@@ -13,12 +13,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {
-                                    roles: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/Role'}
-                                    }
-                                }
+                                properties: {}
                             }
                         }
                     }

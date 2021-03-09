@@ -11,7 +11,6 @@ class OperativosController{
             await Operativos.startTransaction();
             const operativos = await Operativos.find(page, {
                 ...filter
-                
             });
             const total = await Operativos.countRows();
             await Operativos.commitTransaction();

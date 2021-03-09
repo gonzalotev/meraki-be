@@ -98,29 +98,6 @@ module.exports = {
                 }
             }
         },
-        '/swagger': {
-            get: {
-                operationId: 'getHealth',
-                security: [],
-                responses: {
-                    200: {
-                        description: 'Success',
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    type: 'object',
-                                    properties: {}
-                                }
-                            }
-                        }
-                    },
-                    default: {
-                        description: 'Error',
-                        content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                    }
-                }
-            }
-        },
         ...publicApi,
         ...api
     },

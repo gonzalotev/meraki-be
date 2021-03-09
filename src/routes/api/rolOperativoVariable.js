@@ -7,6 +7,6 @@ module.exports = router => {
         .put(RolOperativoVariableController.update)
         .delete(RolOperativoVariableController.delete);
     router.route('/:ID_ROL_USUARIO/:OBSERVACION/:ID_VARIABLE')
-        .get(RolOperativoVariableController.fetchOne)
+        .get(RolOperativoVariableController.fetchOne);
     return router;
 };

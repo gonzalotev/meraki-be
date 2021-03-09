@@ -1,9 +1,9 @@
 module.exports = {
-    '/api/operativos' : {
-        get : {
-            summary : 'List of operativos',
-            security : [],
-            parameters : [
+    '/api/operativos': {
+        get: {
+            summary: 'List of operativos',
+            security: [],
+            parameters: [
                 {
                     in: 'query',
                     name: 'page',
@@ -11,7 +11,7 @@ module.exports = {
                     schema: {type: 'integer'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {
@@ -23,8 +23,8 @@ module.exports = {
                                     total: {type: 'integer'},
                                     operativos: {
                                         type: 'array',
-                                        items:{$ref: '#/components/schemas/Operativos'},
-                                        example:{
+                                        items: {$ref: '#/components/schemas/Operativos'},
+                                        example: {
                                             ID_OPERATIVO: 1,
                                             ID_FUENTE: 1,
                                             DESCRIPCION: 'Operativo EPH 2do trimestre 2020',
@@ -59,7 +59,7 @@ module.exports = {
         post: {
             summary: 'Create new operativo',
             security: [],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/Operativos'}}}
@@ -90,7 +90,7 @@ module.exports = {
                     required: true,
                     name: 'DESCRIPCION',
                     schema: {type: 'string'}
-                },
+                }
                 // {
                 //     in: 'query',
                 //     required: true,
@@ -104,7 +104,7 @@ module.exports = {
                 //     schema: {type: 'string'}
                 // }
             ],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/Operativos'}}}
@@ -126,7 +126,7 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         },
@@ -160,16 +160,16 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }
     },
-    '/api/operativo/{DESCRIPCION}/{ID_OPERATIVO}/{ID_FUENTE}' : {
-        get : {
-            summary : 'List of operativos',
-            security : [],
-            parameters : [
+    '/api/operativo/{DESCRIPCION}/{ID_OPERATIVO}/{ID_FUENTE}': {
+        get: {
+            summary: 'List of operativos',
+            security: [],
+            parameters: [
                 {
                     in: 'path',
                     name: 'DESCRIPCION',
@@ -189,7 +189,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {

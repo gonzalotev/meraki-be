@@ -1,6 +1,6 @@
 module.exports = {
     type: 'object',
-    properties : {
+    properties: {
         DESCRIPCION_ORIGINAL: {
             type: 'string',
             nullable: false

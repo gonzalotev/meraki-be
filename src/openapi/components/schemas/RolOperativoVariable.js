@@ -1,6 +1,6 @@
 module.exports = {
     type: 'object',
-    properties : {
+    properties: {
         ID_ROL_USUARIO: {
             type: 'string',
             nullable: false

@@ -10,7 +10,7 @@ class RolOperativoVariableController{
             } = req.query;
             await RolOperativoVariable.startTransaction();
             const operativosvariables = await RolOperativoVariable.find(page, {
-                ...filter,
+                ...filter
                 //FECHA_BAJA: null
             });
             const total = await RolOperativoVariable.countRows();

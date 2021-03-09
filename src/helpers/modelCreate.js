@@ -76,7 +76,7 @@ class ModelCreate {
             .into(this.tableName).timeout(this.timeout);
     }
 
-    insertMany(props) {
+    insertMany (props) {
         if (isArray(props) && head(props) instanceof Object) {
             const inserts = map(props, prop => ({
                 id: uuid(),
@@ -99,7 +99,7 @@ class ModelCreate {
             .where(filters).orderBy(orderBy).timeout(this.timeout);
     }
 
-    async findOne (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+    async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
             return results;
@@ -112,8 +112,12 @@ class ModelCreate {
     }
 
     async findById (ids, columns = this.selectableProps, orderBy = ORDER_BY) {
-        const row = await this.knex.select(columns).from(this.tableName).where(ids).orderBy(orderBy).timeout(this.timeout);
-        return head(row)
+        const row = await this.knex
+            .select(columns)
+            .from(this.tableName).where(ids)
+            .orderBy(orderBy)
+            .timeout(this.timeout);
+        return head(row);
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {

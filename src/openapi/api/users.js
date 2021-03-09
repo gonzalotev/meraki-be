@@ -106,7 +106,7 @@ module.exports = {
                     'application/json': {
                         schema: {
                             type: 'object',
-                            allOf: [{$ref: '#/components/schemas/CreateUser'}],
+                            allOf: [{$ref: '#/components/schemas/User'}],
                             required: ['id']
                         }
                     }
@@ -140,79 +140,8 @@ module.exports = {
             description: 'Return list of User',
             parameters: [
                 {
-                    name: 'role',
-                    in: 'query',
-                    description: 'One or more Role',
-                    schema: {type: 'string'}
-                },
-                {
-                    name: 'term',
+                    name: 'q',
                     description: 'word to look up, it will search on username, name, surname, email and documentId',
-                    in: 'query',
-                    schema: {type: 'string'}
-                },
-                {
-                    name: 'skip',
-                    in: 'query',
-                    description: 'Skip of current pagination',
-                    schema: {
-                        type: 'integer',
-                        minimum: 0,
-                        default: 0
-                    }
-                },
-                {
-                    name: 'state',
-                    in: 'query',
-                    description: 'stateId of the profile',
-                    schema: {
-                        type: 'string',
-                        enum: [
-                            '02',
-                            '06',
-                            '10',
-                            '14',
-                            '18',
-                            '22',
-                            '26',
-                            '30',
-                            '34',
-                            '38',
-                            '42',
-                            '46',
-                            '50',
-                            '54',
-                            '58',
-                            '62',
-                            '66',
-                            '70',
-                            '74',
-                            '78',
-                            '82',
-                            '86',
-                            '90',
-                            '94',
-                            '99'
-                        ]
-                    }
-                },
-                {
-                    name: 'department',
-                    in: 'query',
-                    schema: {type: 'string'}
-                },
-                {
-                    name: 'assignment',
-                    in: 'query',
-                    schema: {type: 'string'}
-                },
-                {
-                    name: 'fraction',
-                    in: 'query',
-                    schema: {type: 'string'}
-                },
-                {
-                    name: 'segment',
                     in: 'query',
                     schema: {type: 'string'}
                 }
@@ -225,11 +154,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    documents: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/ProfileUser'}
-                                    },
-                                    toal: {type: 'integer'}
+                                    users: {
+                                        type: 'array'
+                                    }
                                 }
                             }
                         }
@@ -250,7 +177,7 @@ module.exports = {
             requestBody: {
                 description: 'Username and Password',
                 required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/CreateUser'}}}
+                content: {'application/json': {schema: {$ref: '#/components/schemas/User'}}}
             },
             responses: {
                 200: {

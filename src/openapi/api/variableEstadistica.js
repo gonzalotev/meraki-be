@@ -1,9 +1,9 @@
 module.exports = {
-    '/api/variableEstadistica' : {
-        get : {
-            summary : 'List of variables estadisticas',
-            security : [],
-            parameters : [
+    '/api/variableEstadistica': {
+        get: {
+            summary: 'List of variables estadisticas',
+            security: [],
+            parameters: [
                 {
                     in: 'query',
                     name: 'page',
@@ -11,7 +11,7 @@ module.exports = {
                     schema: {type: 'integer'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {
@@ -23,8 +23,8 @@ module.exports = {
                                     total: {type: 'integer'},
                                     variables: {
                                         type: 'array',
-                                        items:{$ref: '#/components/schemas/VariableEstadistica'},
-                                        example:{
+                                        items: {$ref: '#/components/schemas/VariableEstadistica'},
+                                        example: {
                                             NOMBRE: 'Actividad económica',
                                             ABREVIATURA: 'Actividad económica',
                                             ID_VARIABLE: '20011',
@@ -51,7 +51,7 @@ module.exports = {
         post: {
             summary: 'Create new variable estadistica',
             security: [],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/VariableEstadistica'}}}
@@ -76,7 +76,7 @@ module.exports = {
         put: {
             summary: 'Update variable estadistica',
             security: [],
-            parameters : [
+            parameters: [
                 {
                     in: 'path',
                     name: 'NOMBRE',
@@ -90,7 +90,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/VariableEstadistica'}}}
@@ -112,14 +112,14 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         },
         delete: {
             summary: 'Delete variable estadistica',
             security: [],
-            parameters : [
+            parameters: [
                 {
                     in: 'path',
                     name: 'NOMBRE',
@@ -140,16 +140,16 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }
     },
-    '/api/variableEstadistica/{NOMBRE}/{ID_VARIABLE}/' : {
-        get : {
-            summary : 'List of variables estadisticas',
-            security : [],
-            parameters : [
+    '/api/variableEstadistica/{NOMBRE}/{ID_VARIABLE}/': {
+        get: {
+            summary: 'List of variables estadisticas',
+            security: [],
+            parameters: [
                 {
                     in: 'path',
                     name: 'NOMBRE',
@@ -163,7 +163,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {

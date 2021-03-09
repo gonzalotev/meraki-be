@@ -1,4 +1,4 @@
-ENUT-BE
+SiCI-BE
 
 To start the project u need to run `npm start`<br>
 To start in development u need to run `npm run dev`<br>
