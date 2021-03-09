@@ -140,7 +140,7 @@ module.exports = {
             description: 'Return list of User',
             parameters: [
                 {
-                    name: 'q',
+                    name: 'term',
                     description: 'word to look up, it will search on username, name, surname, email and documentId',
                     in: 'query',
                     schema: {type: 'string'}
