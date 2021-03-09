@@ -7,6 +7,6 @@ module.exports = router => {
         .put(VariableEstadisticaController.update)
         .delete(VariableEstadisticaController.delete);
     router.route('/:NOMBRE/:ID_VARIABLE/')
-        .get(VariableEstadisticaController.fetchOne)
+        .get(VariableEstadisticaController.fetchOne);
     return router;
 };

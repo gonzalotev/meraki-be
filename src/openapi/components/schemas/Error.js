@@ -1,9 +1,6 @@
 module.exports = {
     type: 'object',
-    required: [
-        'code',
-        'message'
-    ],
+    required: ['code', 'message'],
     properties: {
         code: {
             type: 'integer',

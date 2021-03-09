@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
 const {OpenApiValidator} = require('express-openapi-validator');
 
-const mongoose = require('./helpers/mongoose');
 const logger = require('./helpers/logger');
 
 const Router = require('./routes');
@@ -52,7 +51,6 @@ class App {
     }
 
     _configure() {
-        mongoose.configure();
         this._middlewares();
         return this._routes();
     }

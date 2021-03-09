@@ -71,10 +71,10 @@
     "knex": "^0.20.14",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
-    "mongoose": "^5.9.9",
     "node-fetch": "^2.6.1",
     "oracledb": "^5.1.0",
     "pg": "^8.2.1",
+    "querystring": "^0.2.1",
     "require-dir": "^1.2.0",
     "saslprep": "^1.0.3",
     "swagger-ui-express": "^4.1.4",
@@ -86,8 +86,8 @@
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
     "del": "^5.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint": "^7.21.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-lodash": "^7.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "expect": "^25.3.0",
@@ -111,12 +111,12 @@
     "url": "https://"
   },
   "bugs": {
-    "url": "https://jira.indec.gob.ar/projects/ENUT/issues"
+    "url": "https://jira.indec.gob.ar/projects/sici/issues"
   },
   "homepage": "https://",
   "engines": {
     "node": ">=12.14"
   },
-  "author": "gverges@INDEC (https://github.com/indec-it)",
+  "author": "indec-it",
   "license": "MIT"
 }

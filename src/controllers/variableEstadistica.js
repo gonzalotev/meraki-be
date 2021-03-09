@@ -1,6 +1,7 @@
 const {VariableEstadistica} = include('/models');
 const head = require('lodash/head');
 const {PAGE_SIZE} = process.env;
+
 class VariableEstadisticaController{
     static async fetch(req, res, next){
         try {
@@ -10,7 +11,7 @@ class VariableEstadisticaController{
             } = req.query;
             await VariableEstadistica.startTransaction();
             const variables = await VariableEstadistica.find(page, {
-                ...filter,
+                ...filter
             });
             const total = await VariableEstadistica.countRows();
             await VariableEstadistica.commitTransaction();
@@ -23,6 +24,7 @@ class VariableEstadisticaController{
             next(err);
         }
     }
+
     static async fetchOne(req, res, next){
         try {
             const variable = await VariableEstadistica.findById(req.params);
@@ -31,6 +33,7 @@ class VariableEstadisticaController{
             next(err);
         }
     }
+
     static async create(req, res, next){
         try {
             await VariableEstadistica.startTransaction();
@@ -44,6 +47,7 @@ class VariableEstadisticaController{
             next(err);
         }
     }
+
     static async update(req, res, next){
         try{
             await VariableEstadistica.startTransaction();
@@ -57,6 +61,7 @@ class VariableEstadisticaController{
             next(err);
         }
     }
+
     static async delete(req, res, next){
         try {
             await VariableEstadistica.startTransaction();

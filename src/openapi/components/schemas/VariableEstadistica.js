@@ -1,6 +1,6 @@
 module.exports = {
     type: 'object',
-    properties : {
+    properties: {
         NOMBRE: {
             type: 'string',
             nullable: false

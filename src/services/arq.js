@@ -2,29 +2,18 @@ const fetch = require('node-fetch');
 const {stringify} = require('querystring');
 const Errors = include('helpers/error');
 
-const {
-    AUTH_ENDPOINT,
-    AUTH_CLIENT_ID,
-    AUTH
-} = process.env;
+const {AUTH_ENDPOINT, AUTH_CLIENT_ID, AUTH} = process.env;
 
 const OAUTH_API = `${AUTH_ENDPOINT}oauth/`;
 
 class ArqService {
-    async login({
-        username, password
-    }) {
+    async login({username, password}) {
         try {
             const arqResponse = await fetch(
                 `${OAUTH_API}login`,
                 {
                     method: 'post',
-                    body: JSON.stringify(
-                        {
-                            username,
-                            password
-                        }
-                    ),
+                    body: JSON.stringify({username, password}),
                     headers: {
                         'content-type': 'application/json',
                         credentials: 'same-origin',
@@ -66,8 +55,7 @@ class ArqService {
 
     async getFromArch(token, route, filters) {
         try {
-            const routeWithFilters = filters ?
-                `${route}?${stringify(filters)}` : route;
+            const routeWithFilters = filters ? `${route}?${stringify(filters)}` : route;
             const arqResponse = await fetch(
                 `${OAUTH_API}${routeWithFilters}`,
                 {

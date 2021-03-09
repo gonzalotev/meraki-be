@@ -7,6 +7,6 @@ module.exports = router => {
         .put(DiccionarioLinguisticoController.update)
         .delete(DiccionarioLinguisticoController.delete);
     router.route('/:DESCRIPCION_ORIGINAL/:ID_TIPOLOGIA_DE_DICCIONARIO/:ID_VARIABLE')
-        .get(DiccionarioLinguisticoController.fetchOne)
+        .get(DiccionarioLinguisticoController.fetchOne);
     return router;
 };

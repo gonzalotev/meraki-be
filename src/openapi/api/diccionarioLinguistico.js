@@ -1,9 +1,9 @@
 module.exports = {
-    '/api/diccionarioLinguistico' : {
-        get : {
-            summary : 'List of diccionarios linguisticos',
-            security : [],
-            parameters : [
+    '/api/diccionarioLinguistico': {
+        get: {
+            summary: 'List of diccionarios linguisticos',
+            security: [],
+            parameters: [
                 {
                     in: 'query',
                     name: 'page',
@@ -11,7 +11,7 @@ module.exports = {
                     schema: {type: 'integer'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {
@@ -23,8 +23,8 @@ module.exports = {
                                     total: {type: 'integer'},
                                     diccionarios: {
                                         type: 'array',
-                                        items:{$ref: '#/components/schemas/DiccionarioLinguistico'},
-                                        example:{
+                                        items: {$ref: '#/components/schemas/DiccionarioLinguistico'},
+                                        example: {
                                             DESCRIPCION_ORIGINAL: 'ME',
                                             ID_TIPOLOGIA_DE_DICCIONARIO: 'ANU',
                                             ID_VARIABLE: '20011',
@@ -50,7 +50,7 @@ module.exports = {
         post: {
             summary: 'Create new diccionario linguistico',
             security: [],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/DiccionarioLinguistico'}}}
@@ -95,7 +95,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            requestBody:{
+            requestBody: {
                 description: 'The new user-rol',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/DiccionarioLinguistico'}}}
@@ -117,7 +117,7 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         },
@@ -151,16 +151,16 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content : {'application/json': {schema:{$ref:'#/components/schemas/Error'}}}
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }
     },
-    '/api/diccionarioLinguistico/{DESCRIPCION_ORIGINAL}/{ID_TIPOLOGIA_DE_DICCIONARIO}/{ID_VARIABLE}' : {
-        get : {
-            summary : 'List of diccionarios linguisticos',
-            security : [],
-            parameters : [
+    '/api/diccionarioLinguistico/{DESCRIPCION_ORIGINAL}/{ID_TIPOLOGIA_DE_DICCIONARIO}/{ID_VARIABLE}': {
+        get: {
+            summary: 'List of diccionarios linguisticos',
+            security: [],
+            parameters: [
                 {
                     in: 'path',
                     name: 'DESCRIPCION_ORIGINAL',
@@ -180,7 +180,7 @@ module.exports = {
                     schema: {type: 'string'}
                 }
             ],
-            responses : {
+            responses: {
                 200: {
                     description: 'ok',
                     content: {
