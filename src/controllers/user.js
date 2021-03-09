@@ -1,8 +1,8 @@
 const head = require('lodash/head');
 const pick = require('lodash/pick');
 
-const {UsersService} = include('services');
 const {ArqService} = include('services');
+const {buildArchQuery} = include('util');
 
 class UserController {
     static async login(req, res, next) {
@@ -39,7 +39,12 @@ class UserController {
 
     static async fetchUsers(req, res, next) {
         try {
-            res.send({users: await UsersService.fetchUsers(req.query.q)});
+            const token = req.get('Authorization');
+            const archUsers = await ArqService.fetchUsers(
+                buildArchQuery({...req.query, getTotals: true}, req.user),
+                token
+            );
+            res.send(archUsers);
         } catch (err) {
             next(err);
         }
