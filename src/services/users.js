@@ -1,11 +1,11 @@
 const knex = include('helpers/database');
 
 class UsersService {
-    static async fetchUsers(q) {
+    static async fetchUsers(term) {
         const users = await knex.select('*')
             .from('USUARIOS')
-            .where('NOMBRE', 'like', `%${q}%`)
-            .orWhere('APELLIDOS', 'like', `%${q}%`);
+            .where('NOMBRE', 'like', `%${term}%`)
+            .orWhere('APELLIDOS', 'like', `%${term}%`);
 
         return users.map(user => ({
             surname: user.APELLIDOS,

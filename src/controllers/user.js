@@ -17,7 +17,7 @@ class UserController {
         }
     }
 
-    static session(req, res, next) {
+    static getSession(req, res, next) {
         try {
             res.send({success: true, user: req.user});
         } catch (err) {

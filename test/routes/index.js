@@ -12,12 +12,6 @@ App.test();
 const {app} = App;
 const request = require('supertest')(app);
 
-const getWrappingErrors = error => {
-    return get(error, 'assertion.params.actual.errors');
-};
+const getWrappingErrors = error => get(error, 'assertion.params.actual.errors');
 
-module.exports = {
-    request,
-    Sinon,
-    getWrappingErrors
-};
+module.exports = {request, Sinon, getWrappingErrors};

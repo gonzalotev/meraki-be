@@ -1,7 +1,7 @@
 const {UserController} = include('controllers');
 
 module.exports = router => {
-    router.get('/session', UserController.session);
+    router.get('/session', UserController.getSession);
     router.route('/:id')
         .get(UserController.fetchUser)
         .put(UserController.updateUser)
