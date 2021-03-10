@@ -1,11 +1,18 @@
 module.exports = {
-    '/api/staticData': {
+    '/api/static-data': {
         get: {
             security: [
                 {bearerAuth: []}
             ],
-            operationId: 'getStaticData',
             description: 'Return data preload',
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'role',
+                    required: false,
+                    schema: {type: 'boolean'}
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -13,7 +20,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {}
+                                properties: { roles: { type: 'array'}}
                             }
                         }
                     }
