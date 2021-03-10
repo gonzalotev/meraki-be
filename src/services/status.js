@@ -1,6 +1,5 @@
 const every = require('lodash/every');
 const concat = require('lodash/concat');
-
 const pkg = root_path('package.json');
 
 /**
@@ -19,16 +18,16 @@ const generateStatus = (deps, optionalDeps = []) => ({
 
 class StatusService {
     static getStatus() {
-        return generateStatus([StatusService.getMongoDBStatus()]);
+        return generateStatus([StatusService.getDBStatus()]);
     }
 
     static getHealth() {
-        return StatusService.getMongoDBStatus();
+        return StatusService.getDBStatus();
     }
 
-    static getMongoDBStatus() {
+    static getDBStatus() {
         return {
-            name: 'PostgreSQL',
+            name: 'OracleDB',
             status: process.env.database || 'down'
         };
     }

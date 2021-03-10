@@ -1,7 +1,7 @@
+const pkg = root_path('package.json');
 const components = require('./components');
 const publicApi = require('./publicApi');
 const api = require('./api');
-const pkg = root_path('package.json');
 
 module.exports = {
     openapi: '3.0.2',
@@ -18,6 +18,7 @@ module.exports = {
     paths: {
         '/ping': {
             get: {
+                description: 'Endpoint ping',
                 operationId: 'ping',
                 security: [],
                 responses: {
