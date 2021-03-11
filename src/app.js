@@ -5,17 +5,11 @@ const cors = require('cors');
 const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
 const {OpenApiValidator} = require('express-openapi-validator');
-
 const logger = require('./helpers/logger');
-
 const Router = require('./routes');
 const packageJson = require('../package.json');
 
-const {
-    BODY_LIMIT,
-    NODE_ENV,
-    PORT
-} = process.env;
+const {BODY_LIMIT, NODE_ENV, PORT} = process.env;
 
 class App {
     constructor() {
@@ -93,7 +87,6 @@ class App {
             express.use(helmet.hsts({maxAge: sixtyDaysInSeconds}));
             express.use(cors());
         }
-        return;
     }
 
     async _routes() {
@@ -107,7 +100,6 @@ class App {
             validateResponses: true
         }).install(express);
         Router.configure(express);
-        return;
     }
 }
 
