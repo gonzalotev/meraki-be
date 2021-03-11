@@ -1,15 +1,12 @@
-const { RoleType } = include('models');
 const assign = require('lodash/assign');
-
+const { RoleTypeService } = include('services');
 class StaticController {
     static async fetch(req, res, next) {
         try {
             const data = {};
             const { role } = req.query;
             if(role){
-                await RoleType.startTransaction();
-                const roles = await RoleType.find();
-                await RoleType.commitTransaction();
+                const roles = await RoleTypeService.find();
                 assign(data, {roles});
             }
             res.send(data);

@@ -1,6 +1,6 @@
-const { StaticController } = include('controllers');
+const { StaticDataController } = include('controllers');
 
 module.exports = router => {
-    router.route('/').get(StaticController.fetch);
+    router.route('/').get(StaticDataController.fetch);
     return router;
 };
