@@ -4,17 +4,17 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
-            summary: 'Get types attributes',
-            description: `**Return** *italic*
-                [data](https://www.google.com/search?q=traductor&oq=tr&aqs=chrome.1.69i60j69i59j69i57j69i59l2j69i61j69i60l2.2142j0j7&sourceid=chrome&ie=UTF-8) preload`,
+            summary: 'Get static values',
+            description: `**Get** all the basic data of the application, *eg*: role types.
+                            To get data, just send the resource name equal to true.
+                            eg: /api/static-data?role=true`,
             parameters: [
                 {
                     in: 'query',
                     name: 'role',
                     required: false,
                     schema: {
-                        type: 'boolean',
-                        enum: [true, false]
+                        type: 'boolean'
                     }
                 }
             ],
@@ -25,7 +25,36 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: { roles: { type: 'array'}}
+                                properties: {
+                                    roles: {
+                                        type: 'array',
+                                        items: { $ref: '#/components/schemas/RoleType'}
+                                    }
+                                },
+                                example: {
+                                    roles: [
+                                        {
+                                            id: 'AUDITOR',
+                                            description: 'Auditor description',
+                                            observation: 'Auditor observation',
+                                            domain: 'Auditor domain',
+                                            createdAt: '2021-03-15',
+                                            deletedAt: null,
+                                            userCreator: 1,
+                                            userDestroyer: null
+                                        },
+                                        {
+                                            id: 'SUPERVISOR',
+                                            description: 'Supervisor description',
+                                            observation: 'Supervisor observation',
+                                            domain: 'Supervisor domain',
+                                            createdAt: '2021-03-15',
+                                            deletedAt: '2021-03-16',
+                                            userCreator: 1,
+                                            userDestroyer: 2
+                                        }
+                                    ]
+                                }
                             }
                         }
                     }
@@ -34,10 +63,6 @@ module.exports = {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
-            },
-            externalDocs: {
-                description: 'Learn more about user operations provided by this API.',
-                url: 'http://api.example.com/docs/user-operations/'
             }
         }
     }
