@@ -1,5 +1,5 @@
 const users = require('./users');
-const staticData = require('./staticData');
+const staticData = require('./static-data');
 const diccionarioLinguistico = require('./diccionarioLinguistico');
 const operativos = require('./operativos');
 const variableEstadistica = require('./variableEstadistica');

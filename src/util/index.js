@@ -6,7 +6,8 @@ const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
 const toLower = require('lodash/toLower');
 const values = require('lodash/values');
-
+const moment = require('moment');
+const isDate = require('lodash/isDate');
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
     objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat({
@@ -26,4 +27,17 @@ const buildArchQuery = query => {
     return archFilter;
 };
 
-module.exports = {buildArchQuery, reducedList};
+const dateToString = date => {
+    if(isDate(date)){
+        return moment(date).format('YYYY-MM-DD');
+    }
+    return null;
+};
+const dateTimeToString = dateTime => {
+    if(isDate(dateTime)){
+        return moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
+    }
+    return null;
+};
+
+module.exports = {buildArchQuery, reducedList, dateToString, dateTimeToString};
