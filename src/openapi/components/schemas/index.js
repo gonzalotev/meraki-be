@@ -8,6 +8,7 @@ const DiccionarioLinguistico = require('./DiccionarioLinguistico');
 const Operativos = require('./Operativos');
 const VariableEstadistica = require('./VariableEstadistica');
 const RolOperativoVariable = require('./RolOperativoVariable');
+const UserRole = require('./UserRole');
 
 module.exports = {
     ArrayString: {
@@ -51,5 +52,6 @@ module.exports = {
     DiccionarioLinguistico,
     Operativos,
     VariableEstadistica,
-    RolOperativoVariable
+    RolOperativoVariable,
+    UserRole
 };
