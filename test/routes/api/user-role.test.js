@@ -3,8 +3,13 @@ const {
     Sinon
 } = require('..');
 
+<<<<<<< HEAD
 const { ArqService } = include('services');
 const { UserRole } = include('models');
+=======
+const { ArqService, UserRoleService } = include('services');
+
+>>>>>>> feat: create dictionary linguistic endpoint
 describe('api/user-role', () => {
     let token;
     let tokenValidation;
@@ -61,10 +66,17 @@ describe('api/user-role', () => {
                     deletedAt: null
                 }
             ];
+<<<<<<< HEAD
             Sinon.stub(UserRole, 'findByPage').returns(Promise.resolve(fakeUserRoles));
         });
         afterEach(() => {
             UserRole.findByPage.restore();
+=======
+            Sinon.stub(UserRoleService, 'find').returns(Promise.resolve(fakeUserRoles));
+        });
+        afterEach(() => {
+            UserRoleService.find.restore();
+>>>>>>> feat: create dictionary linguistic endpoint
         });
         it('should return users and roles', done => {
             request

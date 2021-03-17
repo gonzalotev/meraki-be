@@ -1,6 +1,9 @@
 /* eslint-disable require-atomic-updates */
 const uuid = require('uuidv4').uuid;
+<<<<<<< HEAD
 const { setDate, getOffset, getPageSize} = include('util');
+=======
+>>>>>>> feat: create dictionary linguistic endpoint
 const assign = require('lodash/assign');
 const forEach = require('lodash/forEach');
 const head = require('lodash/head');
@@ -9,11 +12,15 @@ const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
+<<<<<<< HEAD
 const keys = require('lodash/keys');
 const values = require('lodash/values');
 const invert = require('lodash/invert');
 const mapKeys = require('lodash/mapKeys');
 const has = require('lodash/has');
+=======
+
+>>>>>>> feat: create dictionary linguistic endpoint
 // The model that uses Knexjs to store and retrieve data from a
 // database using the provided `knex` instance.
 // Custom functionality can be composed on top of this set of models.
@@ -27,13 +34,21 @@ const ORDER_BY = [{
 }];
 class ModelCreate {
     constructor({
+<<<<<<< HEAD
         knex, name, tableName, selectableProps, timeout, handleProps
+=======
+        knex, name, tableName, selectableProps, timeout
+>>>>>>> feat: create dictionary linguistic endpoint
     }) {
         this.knex = knex || {},
         this.name = name || 'name',
         this.tableName = tableName || 'tablename',
+<<<<<<< HEAD
         this.selectableProps = selectableProps || {},
         this.handleProps = handleProps || {},
+=======
+        this.selectableProps = selectableProps || [],
+>>>>>>> feat: create dictionary linguistic endpoint
         this.timeout = timeout || 10000;
     }
 
@@ -58,11 +73,19 @@ class ModelCreate {
         const objectToSave = {};
         //eslint-disable-next-line
         map(props, (value, index) => {
+<<<<<<< HEAD
             if (includes(keys(this.selectableProps), index)) {
                 if (isObject(value)) {
                     assign(objectToSave, {[this.selectableProps[index]]: JSON.stringify(value)});
                 } else {
                     assign(objectToSave, {[this.selectableProps[index]]: value});
+=======
+            if (includes(this.selectableProps, `${this.tableName}.${index}`)) {
+                if (isObject(value)) {
+                    assign(objectToSave, {[index]: JSON.stringify(value)});
+                } else {
+                    assign(objectToSave, {[index]: value});
+>>>>>>> feat: create dictionary linguistic endpoint
                 }
             }
             return;
@@ -71,6 +94,7 @@ class ModelCreate {
         return objectToSave;
     }
 
+<<<<<<< HEAD
     async insertOne (props, userCreator=null) {
         const objectToSave = this.jsonToString({...props});
         assign(objectToSave, {[this.handleProps.createdAt]: new Date()});
@@ -92,6 +116,20 @@ class ModelCreate {
     }
 
     insertMany(props) {
+=======
+    insertOne (props) {
+        const objectToSave = this.jsonToString(props);
+        objectToSave.FECHA_ALTA = new Date();
+        if (this.transaction) {
+            return this.transaction(this.tableName).insert(objectToSave).returning(this.selectableProps)
+                .timeout(this.timeout);
+        }
+        return this.knex.insert(objectToSave).returning(this.selectableProps)
+            .into(this.tableName).timeout(this.timeout);
+    }
+
+    insertMany (props) {
+>>>>>>> feat: create dictionary linguistic endpoint
         if (isArray(props) && head(props) instanceof Object) {
             const inserts = map(props, prop => ({
                 id: uuid(),
@@ -109,6 +147,7 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
+<<<<<<< HEAD
     find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const tableFilters = this.jsonToString(filters);
         if(has(this.handleProps, 'deletedAt')){
@@ -124,6 +163,14 @@ class ModelCreate {
         return map(results, result =>setDate(result));
     }
     async findOne (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+=======
+    find (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+        return this.knex.select(columns).from(this.tableName)
+            .where(filters).orderBy(orderBy).timeout(this.timeout);
+    }
+
+    async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+>>>>>>> feat: create dictionary linguistic endpoint
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
             return results;
@@ -135,6 +182,7 @@ class ModelCreate {
         return this.knex.select(columns).from(this.tableName).orderBy(orderBy).timeout(this.timeout);
     }
 
+<<<<<<< HEAD
     async findById (rowId, columns = this.selectableProps, orderBy = ORDER_BY) {
         const id = this.jsonToString(rowId);
         const objectTosend = await this.knex.select(columns)
@@ -143,6 +191,15 @@ class ModelCreate {
             .orderBy(orderBy)
             .timeout(this.timeout);
         return head(objectTosend);
+=======
+    async findById (ids, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const row = await this.knex
+            .select(columns)
+            .from(this.tableName).where(ids)
+            .orderBy(orderBy)
+            .timeout(this.timeout);
+        return head(row);
+>>>>>>> feat: create dictionary linguistic endpoint
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {
@@ -165,6 +222,7 @@ class ModelCreate {
     }
 
     async updateOne (filters, props) {
+<<<<<<< HEAD
         const id = this.jsonToString(filters);
         const objectToSave = this.jsonToString(props);
         if (this.transaction) {
@@ -184,6 +242,26 @@ class ModelCreate {
             .timeout(this.timeout);
 
         return this.convertKeyNames(head(modifiedObject));
+=======
+        //const object = await this.findOne(filters);
+        /*if (object && object.__v !== undefined) {
+            props.__v = object.__v;
+            props.__v += 1;
+        } else {
+            props.__v = 0;
+        }*/
+
+        const objectToSave = this.jsonToString(props);
+        if (this.transaction) {
+            const modifiedObject = await this.transaction(this.tableName)
+                .update(objectToSave).from(this.tableName).where(filters)
+                .returning(this.selectableProps).timeout(this.timeout);
+            return modifiedObject;
+        }
+        const modifiedObject = await this.knex.update(objectToSave).from(this.tableName).where(filters)
+            .returning(this.selectableProps).timeout(this.timeout);
+        return head(modifiedObject);
+>>>>>>> feat: create dictionary linguistic endpoint
     }
 
     async updateMany (filters, props) {
@@ -209,6 +287,7 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
+<<<<<<< HEAD
     deleteOne (idRow, userDestroyer=null) {
         const id = this.jsonToString(idRow);
         const unsubscribeData = {[this.handleProps.deletedAt]: new Date()};
@@ -225,6 +304,19 @@ class ModelCreate {
             .from(this.tableName)
             .where(id)
             .timeout(this.timeout);
+=======
+    deleteOne (id) {
+        if (this.transaction) {
+            return this.transaction(this.tableName).update({
+                deleted: true,
+                deletedAt: new Date()
+            }).where({id}).timeout(this.timeout);
+        }
+        return this.knex.update({
+            deleted: true,
+            deletedAt: new Date()
+        }).from(this.tableName).where({id}).timeout(this.timeout);
+>>>>>>> feat: create dictionary linguistic endpoint
     }
 
     deleteMany (ids) {
@@ -260,6 +352,7 @@ class ModelCreate {
             return false;
         }
     }
+<<<<<<< HEAD
 
     getColumnsNames(){
         return values(this.selectableProps);
@@ -272,6 +365,8 @@ class ModelCreate {
     invertSelectableProps(){
         return invert(this.selectableProps);
     }
+=======
+>>>>>>> feat: create dictionary linguistic endpoint
 }
 
 module.exports = ModelCreate;

@@ -4,6 +4,7 @@ const Error = require('./Error');
 const ValidateToken = require('./ValidateToken');
 const Success = require('./Success');
 const Files = require('./Files');
+<<<<<<< HEAD
 const DiccionarioLinguistico = require('./DiccionarioLinguistico');
 const Operativos = require('./Operativos');
 const RolOperativoVariable = require('./RolOperativoVariable');
@@ -12,6 +13,14 @@ const VariableStadistics = require ('./VariableStadistics');
 const Nomenclators = require('./Nomenclators');
 const Assigment = require('./Assigment');
 const Lots = require('./Lots');
+=======
+const DictionaryLinguistic = require('./DictionaryLinguistic');
+const Operativos = require('./Operativos');
+const VariableEstadistica = require('./VariableEstadistica');
+const RolOperativoVariable = require('./RolOperativoVariable');
+const UserRole = require('./UserRole');
+
+>>>>>>> feat: create dictionary linguistic endpoint
 module.exports = {
     ArrayString: {
         type: 'array',
@@ -51,6 +60,7 @@ module.exports = {
     ValidateToken,
     Success,
     Files,
+<<<<<<< HEAD
     DiccionarioLinguistico,
     Operativos,
     RolOperativoVariable,
@@ -59,4 +69,11 @@ module.exports = {
     Nomenclators,
     Assigment,
     Lots
+=======
+    DictionaryLinguistic,
+    Operativos,
+    VariableEstadistica,
+    RolOperativoVariable,
+    UserRole
+>>>>>>> feat: create dictionary linguistic endpoint
 };
