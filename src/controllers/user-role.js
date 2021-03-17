@@ -17,6 +17,14 @@ class UserRoleController {
             next(error);
         }
     }
+    static async update(req, res, next){
+        try{
+            const userRole = await UserRole.updateOne(req.params, req.body);
+            res.send({ sucess: true, userRole });
+        } catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = UserRoleController;

@@ -1,19 +1,17 @@
 module.exports = {
     type: 'object',
     properties: {
-        id_user: {
+        userId: {
             type: 'string',
             maxLength: 50
         },
-        id_role: {
+        roleId: {
             type: 'string',
-            maxLength: 50,
-            nullable: false
+            maxLength: 50
         },
         description: {
             type: 'string',
-            maxLength: 120,
-            nullable: false
+            maxLength: 120
         },
         observation: {
             type: 'string',

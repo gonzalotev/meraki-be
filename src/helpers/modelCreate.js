@@ -75,11 +75,14 @@ class ModelCreate {
         let objectCreated;
         if (this.transaction) {
             objectCreated = await this.transaction(this.tableName)
-                .insert(objectToSave).returning(this.getColumnsNames())
+                .insert(objectToSave)
+                .returning(this.getColumnsNames())
                 .timeout(this.timeout);
         } else {
-            objectCreated = await this.knex.insert(objectToSave).returning(this.getColumnsNames())
-                .into(this.tableName).timeout(this.timeout);
+            objectCreated = await this.knex.insert(objectToSave)
+                .returning(this.getColumnsNames())
+                .into(this.tableName)
+                .timeout(this.timeout);
         }
         return setDate(this.convertKeyNames(head(objectCreated)));
     }
@@ -103,8 +106,9 @@ class ModelCreate {
     }
 
     find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const tableFilters = this.jsonToString(filters);
         return this.knex.select(columns).from(this.tableName)
-            .where(filters).orderBy(orderBy).timeout(this.timeout);
+            .where(tableFilters).orderBy(orderBy).timeout(this.timeout);
     }
     async findByPage(page, filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
         const results = await this.knex.select(columns).from(this.tableName)
@@ -148,25 +152,25 @@ class ModelCreate {
     }
 
     async updateOne (filters, props) {
-        delete props.id;
-        const object = await this.findOne(filters);
-        if (object && object.__v !== undefined) {
-            props.__v = object.__v;
-            props.__v += 1;
-        } else {
-            props.__v = 0;
-        }
-
+        const tableFilters = this.jsonToString(filters);
         const objectToSave = this.jsonToString(props);
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
-                .update(objectToSave).from(this.tableName).where(filters)
-                .returning(this.selectableProps).timeout(this.timeout);
-            return head(modifiedObject);
+                .update(objectToSave)
+                .from(this.tableName)
+                .where(tableFilters)
+                .returning(this.getColumnsNames())
+                .timeout(this.timeout);
+
+            return setDate(this.convertKeyNames(head(modifiedObject)));
         }
-        const modifiedObject = await this.knex.update(objectToSave).from(this.tableName).where(filters)
-            .returning(this.selectableProps).timeout(this.timeout);
-        return head(modifiedObject);
+        const modifiedObject = await this.knex.update(objectToSave)
+            .from(this.tableName)
+            .where(tableFilters)
+            .returning(this.getColumnsNames())
+            .timeout(this.timeout);
+
+        return setDate(this.convertKeyNames(head(modifiedObject)));
     }
 
     async updateMany (filters, props) {
