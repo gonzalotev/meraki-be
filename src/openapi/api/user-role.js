@@ -166,6 +166,43 @@ module.exports = {
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
+        },
+        delete: {
+            security: [
+                {bearerAuth: []}
+            ],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'userId',
+                    required: true,
+                    schema: {
+                        type: 'string',
+                        maxLength: 50
+                    },
+                    description: 'Id of the user to update'
+                },
+                {
+                    in: 'path',
+                    name: 'roleId',
+                    required: true,
+                    schema: {
+                        type: 'string',
+                        maxLength: 50
+                    },
+                    description: 'Role of the user to update'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {'application/json': { schema: { $ref: '#/components/schemas/Success'}}}
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
         }
     }
 };

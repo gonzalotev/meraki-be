@@ -25,6 +25,14 @@ class UserRoleController {
             next(error);
         }
     }
+    static async delete(req, res, next){
+        try{
+            const result = await UserRole.deleteOne(req.params);
+            res.send({ success: result});
+        } catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = UserRoleController;

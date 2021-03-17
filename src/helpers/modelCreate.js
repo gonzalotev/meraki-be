@@ -197,16 +197,17 @@ class ModelCreate {
     }
 
     deleteOne (id) {
+        const tableId = this.jsonToString(id);
         if (this.transaction) {
-            return this.transaction(this.tableName).update({
-                deleted: true,
-                deletedAt: new Date()
-            }).where({id}).timeout(this.timeout);
+            return this.transaction(this.tableName)
+                .update({[this.selectableProps.deletedAt]: new Date()})
+                .where(tableId)
+                .timeout(this.timeout);
         }
-        return this.knex.update({
-            deleted: true,
-            deletedAt: new Date()
-        }).from(this.tableName).where({id}).timeout(this.timeout);
+        return this.knex.update({[this.selectableProps.deletedAt]: new Date()})
+            .from(this.tableName)
+            .where(tableId)
+            .timeout(this.timeout);
     }
 
     deleteMany (ids) {
