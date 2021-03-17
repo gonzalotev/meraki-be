@@ -32,6 +32,8 @@ const buildArchQuery = query => {
 const dateToString = date => {
     if(isDate(date)){
         return moment(date).format('YYYY-MM-DD');
+    }else if(moment(date, 'DD-MMM-YY', true).isValid()){
+        return moment(date, 'DD-MMM-YY').format('YYYY-MM-DD');
     }
     return null;
 };

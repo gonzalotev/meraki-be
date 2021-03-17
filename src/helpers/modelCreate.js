@@ -71,7 +71,7 @@ class ModelCreate {
 
     async insertOne (props, userCreator=null) {
         const objectToSave = this.jsonToString({...props, userCreator});
-        objectToSave[this.selectableProps.createdAt] = new Date();
+        assign(objectToSave, {[this.selectableProps.createdAt]: new Date()});
         let objectCreated;
         if (this.transaction) {
             objectCreated = await this.transaction(this.tableName)
@@ -81,7 +81,7 @@ class ModelCreate {
             objectCreated = await this.knex.insert(objectToSave).returning(this.getColumnsNames())
                 .into(this.tableName).timeout(this.timeout);
         }
-        return this.convertKeyNames(head(objectCreated));
+        return setDate(this.convertKeyNames(head(objectCreated)));
     }
 
     insertMany(props) {

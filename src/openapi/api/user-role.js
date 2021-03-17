@@ -67,7 +67,7 @@ module.exports = {
             ],
             requestBody: {
                 required: true,
-                content: { 'aplication/json': {schema: {$ref: '#/components/schemas/UserRole'}}}
+                content: { 'application/json': {schema: {$ref: '#/components/schemas/UserRole'}}}
             },
             responses: {
                 200: {
