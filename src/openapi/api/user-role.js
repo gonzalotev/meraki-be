@@ -32,7 +32,7 @@ module.exports = {
                                 example: {
                                     userRoles: [
                                         {
-                                            id_user: 1,
+                                            id_user: 'xxxx-xxxx-xxx-xxxxx',
                                             id_role: 'AUDITOR',
                                             description: 'auditor description',
                                             domain: 'auditor domain',
@@ -41,7 +41,7 @@ module.exports = {
                                             deletedAt: '2021-03-15'
                                         },
                                         {
-                                            id_user: 2,
+                                            id_user: 'xxxx-xxxx-xxx-xxxxx',
                                             id_role: 'FAKE',
                                             description: 'fake description',
                                             domain: 'fake domain',
@@ -50,6 +50,47 @@ module.exports = {
                                             deletedAt: null
                                         }
                                     ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        post: {
+            security: [
+                {bearerAuth: []}
+            ],
+            requestBody: {
+                required: true,
+                content: { 'aplication/json': {schema: {$ref: '#/components/schemas/UserRole'}}}
+            },
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    success: { type: 'boolean'},
+                                    userRole: { $ref: '#/components/schemas/UserRole'}
+                                },
+                                example: {
+                                    success: true,
+                                    userRole: {
+                                        id_user: 'xxxx-xxxx-xxx-xxxxx',
+                                        id_role: 'FAKE',
+                                        description: 'fake description',
+                                        domain: 'fake domain',
+                                        observation: 'fake observation',
+                                        createdAt: '2021-03-15',
+                                        deletedAt: null
+                                    }
                                 }
                             }
                         }

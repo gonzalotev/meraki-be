@@ -1,5 +1,6 @@
 /* eslint-disable require-atomic-updates */
 const uuid = require('uuidv4').uuid;
+const { setDate, getOffset, getPageSize} = include('util');
 const assign = require('lodash/assign');
 const forEach = require('lodash/forEach');
 const head = require('lodash/head');
@@ -8,7 +9,10 @@ const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
-
+const keys = require('lodash/keys');
+const values = require('lodash/values');
+const invert = require('lodash/invert');
+const mapKeys = require('lodash/mapKeys');
 // The model that uses Knexjs to store and retrieve data from a
 // database using the provided `knex` instance.
 // Custom functionality can be composed on top of this set of models.
@@ -17,7 +21,7 @@ const toLower = require('lodash/toLower');
 // needed by composing a new object out of the one returned by this function ;)
 
 const ORDER_BY = [{
-    column: 'FECHA_ALTA',
+    column: 'createdAt',
     order: 'asc'
 }];
 class ModelCreate {
@@ -27,7 +31,7 @@ class ModelCreate {
         this.knex = knex || {},
         this.name = name || 'name',
         this.tableName = tableName || 'tablename',
-        this.selectableProps = selectableProps || [],
+        this.selectableProps = selectableProps || {},
         this.timeout = timeout || 10000;
     }
 
@@ -52,11 +56,11 @@ class ModelCreate {
         const objectToSave = {};
         //eslint-disable-next-line
         map(props, (value, index) => {
-            if (includes(this.selectableProps, `${this.tableName}.${index}`)) {
+            if (includes(keys(this.selectableProps), index)) {
                 if (isObject(value)) {
-                    assign(objectToSave, {[index]: JSON.stringify(value)});
+                    assign(objectToSave, {[this.selectableProps[index]]: JSON.stringify(value)});
                 } else {
-                    assign(objectToSave, {[index]: value});
+                    assign(objectToSave, {[this.selectableProps[index]]: value});
                 }
             }
             return;
@@ -65,18 +69,22 @@ class ModelCreate {
         return objectToSave;
     }
 
-    insertOne (props) {
-        const objectToSave = this.jsonToString(props);
-        objectToSave.FECHA_ALTA = new Date();
+    async insertOne (props, userCreator=null) {
+        const objectToSave = this.jsonToString({...props, userCreator});
+        objectToSave[this.selectableProps.createdAt] = new Date();
+        let objectCreated;
         if (this.transaction) {
-            return this.transaction(this.tableName).insert(objectToSave).returning(this.selectableProps)
+            objectCreated = await this.transaction(this.tableName)
+                .insert(objectToSave).returning(this.getColumnsNames())
                 .timeout(this.timeout);
+        } else {
+            objectCreated = await this.knex.insert(objectToSave).returning(this.getColumnsNames())
+                .into(this.tableName).timeout(this.timeout);
         }
-        return this.knex.insert(objectToSave).returning(this.selectableProps)
-            .into(this.tableName).timeout(this.timeout);
+        return this.convertKeyNames(head(objectCreated));
     }
 
-    insertMany (props) {
+    insertMany(props) {
         if (isArray(props) && head(props) instanceof Object) {
             const inserts = map(props, prop => ({
                 id: uuid(),
@@ -94,12 +102,17 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
-    find (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+    find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         return this.knex.select(columns).from(this.tableName)
             .where(filters).orderBy(orderBy).timeout(this.timeout);
     }
-
-    async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+    async findByPage(page, filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+        const results = await this.knex.select(columns).from(this.tableName)
+            .where(filters).limit(getPageSize()).offset(getOffset(page))
+            .orderBy(orderBy).timeout(this.timeout);
+        return map(results, result =>setDate(result));
+    }
+    async findOne (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
             return results;
@@ -111,13 +124,8 @@ class ModelCreate {
         return this.knex.select(columns).from(this.tableName).orderBy(orderBy).timeout(this.timeout);
     }
 
-    async findById (ids, columns = this.selectableProps, orderBy = ORDER_BY) {
-        const row = await this.knex
-            .select(columns)
-            .from(this.tableName).where(ids)
-            .orderBy(orderBy)
-            .timeout(this.timeout);
-        return head(row);
+    findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
+        return this.knex.select(columns).from(this.tableName).where({id}).orderBy(orderBy).timeout(this.timeout);
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {
@@ -140,20 +148,21 @@ class ModelCreate {
     }
 
     async updateOne (filters, props) {
-        //const object = await this.findOne(filters);
-        /*if (object && object.__v !== undefined) {
+        delete props.id;
+        const object = await this.findOne(filters);
+        if (object && object.__v !== undefined) {
             props.__v = object.__v;
             props.__v += 1;
         } else {
             props.__v = 0;
-        }*/
+        }
 
         const objectToSave = this.jsonToString(props);
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
                 .update(objectToSave).from(this.tableName).where(filters)
                 .returning(this.selectableProps).timeout(this.timeout);
-            return modifiedObject;
+            return head(modifiedObject);
         }
         const modifiedObject = await this.knex.update(objectToSave).from(this.tableName).where(filters)
             .returning(this.selectableProps).timeout(this.timeout);
@@ -228,6 +237,18 @@ class ModelCreate {
             console.log(filters, props);
             return false;
         }
+    }
+
+    getColumnsNames(){
+        return values(this.selectableProps);
+    }
+    convertKeyNames(object){
+        const selectableProps = this.invertSelectableProps();
+        const objectToSend = mapKeys(object, (value, key) => selectableProps[key]);
+        return objectToSend;
+    }
+    invertSelectableProps(){
+        return invert(this.selectableProps);
     }
 }
 

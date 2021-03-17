@@ -2,8 +2,8 @@ module.exports = {
     type: 'object',
     properties: {
         id_user: {
-            type: 'number',
-            minimum: 1
+            type: 'string',
+            maxLength: 50
         },
         id_role: {
             type: 'string',
@@ -27,12 +27,14 @@ module.exports = {
         },
         createdAt: {
             type: 'string',
-            format: 'date'
+            format: 'date',
+            readOnly: true
         },
         deletedAt: {
             type: 'string',
             format: 'date',
-            nullable: true
+            nullable: true,
+            readOnly: true
         }
     }
 };

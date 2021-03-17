@@ -9,6 +9,7 @@ const values = require('lodash/values');
 const moment = require('moment');
 const isDate = require('lodash/isDate');
 const { getOffset, getPageSize } = require('./getOffset');
+
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
     objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat({
@@ -41,11 +42,17 @@ const dateTimeToString = dateTime => {
     return null;
 };
 
+const setDate = obj => {
+    assign(obj, { createdAt: dateToString(obj.createdAt), deletedAt: dateToString(obj.deletedAt)});
+    return obj;
+};
+
 module.exports = {
     buildArchQuery,
     reducedList,
     dateToString,
     dateTimeToString,
     getOffset,
-    getPageSize
+    getPageSize,
+    setDate
 };
