@@ -6,6 +6,7 @@ module.exports = router => {
         .post(UserRoleController.create);
     router.route('/:userId/:roleId')
         .put(UserRoleController.update)
-        .delete(UserRoleController.delete);
+        .delete(UserRoleController.delete)
+        .get(UserRoleController.fetchOne);
     return router;
 };

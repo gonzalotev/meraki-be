@@ -128,8 +128,14 @@ class ModelCreate {
         return this.knex.select(columns).from(this.tableName).orderBy(orderBy).timeout(this.timeout);
     }
 
-    findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
-        return this.knex.select(columns).from(this.tableName).where({id}).orderBy(orderBy).timeout(this.timeout);
+    async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const tableId = this.jsonToString(id);
+        const objectTosend = await this.knex.select(columns)
+            .from(this.tableName)
+            .where(tableId)
+            .orderBy(orderBy)
+            .timeout(this.timeout);
+        return setDate(head(objectTosend));
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {

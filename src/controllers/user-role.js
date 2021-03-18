@@ -33,6 +33,14 @@ class UserRoleController {
             next(error);
         }
     }
+    static async fetchOne(req, res, next){
+        try{
+            const userRole = await UserRole.findById(req.params);
+            res.send({ userRole });
+        } catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = UserRoleController;
