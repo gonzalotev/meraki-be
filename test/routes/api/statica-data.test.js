@@ -3,12 +3,12 @@ const {
     Sinon
 } = require('..');
 
-const { ArqService } = include('services');
-const { UserRole } = include('models');
-describe('api/user-role', () => {
+const { ArqService, RoleTypeService } = include('services');
+
+describe('api/static-data', () => {
     let token;
     let tokenValidation;
-    let fakeUserRoles;
+    let fakeRoles;
 
     beforeEach(() => {
         token = 'Bearer fake-token';
@@ -39,41 +39,43 @@ describe('api/user-role', () => {
         ArqService.validateToken.restore();
     });
 
-    describe('fetch user and role', () => {
+    describe('fetchRoles', () => {
         beforeEach(() => {
-            fakeUserRoles = [
+            fakeRoles = [
                 {
-                    id_user: 1,
-                    id_role: 'AUDITOR',
-                    description: 'auditor description',
-                    domain: 'auditor domain',
-                    observation: 'auditor observation',
+                    id: 'AUDITOR',
+                    description: 'Auditor description',
+                    observation: 'Auditor observation',
+                    domain: 'Auditor domain',
                     createdAt: '2021-03-15',
-                    deletedAt: '2021-03-15'
+                    deletedAt: null,
+                    userCreator: 1,
+                    userDestroyer: null
                 },
                 {
-                    id_user: 2,
-                    id_role: 'FAKE',
-                    description: 'fake description',
-                    domain: 'fake domain',
-                    observation: 'fake observation',
+                    id: 'SUPERVISOR',
+                    description: 'Supervisor description',
+                    observation: 'Supervisor observation',
+                    domain: 'Supervisor domain',
                     createdAt: '2021-03-15',
-                    deletedAt: null
+                    deletedAt: '2021-03-16',
+                    userCreator: 1,
+                    userDestroyer: 2
                 }
             ];
-            Sinon.stub(UserRole, 'findByPage').returns(Promise.resolve(fakeUserRoles));
+            Sinon.stub(RoleTypeService, 'find').returns(Promise.resolve(fakeRoles));
         });
         afterEach(() => {
-            UserRole.findByPage.restore();
+            RoleTypeService.find.restore();
         });
-        it('should return users and roles', done => {
+        it('should return roles types', done => {
             request
-                .get('/api/user-role')
+                .get('/api/static-data?role=true')
                 .set('Authorization', token)
                 .expect(200)
                 .end((err, res) => {
-                    res.body.should.have.property('userRoles').which.is.an.Array();
-                    res.body.userRoles.should.be.deepEqual(fakeUserRoles);
+                    res.body.should.have.property('roles').which.is.an.Array();
+                    res.body.roles.should.be.deepEqual(fakeRoles);
                     done();
                 });
         });
