@@ -5,6 +5,7 @@ const operativos = require('./operativos');
 const variableEstadistica = require('./variableEstadistica');
 const rolOperativoVariable = require('./rolOperativoVariable');
 const userRole = require('./user-role');
+const roles = require('./roles');
 module.exports = {
     ...diccionarioLinguistico,
     ...operativos,
@@ -12,5 +13,6 @@ module.exports = {
     ...rolOperativoVariable,
     ...users,
     ...staticData,
-    ...userRole
+    ...userRole,
+    ...roles
 };
