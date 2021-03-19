@@ -1,16 +1,16 @@
 module.exports = {
     type: 'object',
     properties: {
-        userCreator: {
-            type: 'string',
-            maxLength: 50
-        },
-        variableId: {
+        id: {
             type: 'integer'
         },
-        description: {
+        name: {
             type: 'string',
             maxLength: 120
+        },
+        abbreviature: {
+            type: 'string',
+            maxLength: 30
         },
         observation: {
             type: 'string',
@@ -21,11 +21,6 @@ module.exports = {
             type: 'string',
             maxLength: 300,
             nullable: true
-        },
-        createdAt: {
-            type: 'string',
-            format: 'date',
-            readOnly: true
         }
     }
 };

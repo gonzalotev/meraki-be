@@ -1,16 +1,15 @@
 const ModelCreate = include('/helpers/modelCreate');
-const name = 'StatisticalVariable';
+const name = 'VariableStadistics';
 const tableName = 'VARIABLES_ESTADISTICAS';
 const selectableProps = {
-    userCreator: 'ID_USUARIO',
-    varibleId: 'ID_VARIABLE',
+    id: 'ID_VARIABLE',
     name: 'NOMBRE',
+    abbreviation: 'ABREVIATURA',
     domain: 'DOMINIO',
-    observation: 'OBSERVACION',
-    createdAt: 'FECHA_ALTA'
+    observation: 'OBSERVACION'
 };
 
-class StatisticalsVariables extends ModelCreate{
+class VariableStadistics extends ModelCreate{
     constructor(props){
         super({
             ...props,
@@ -21,4 +20,4 @@ class StatisticalsVariables extends ModelCreate{
     }
 }
 
-module.exports = knex => new StatisticalsVariables({knex});
+module.exports = knex => new VariableStadistics({knex});
