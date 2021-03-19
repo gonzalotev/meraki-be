@@ -26,12 +26,13 @@ const ORDER_BY = [{
 }];
 class ModelCreate {
     constructor({
-        knex, name, tableName, selectableProps, timeout
+        knex, name, tableName, selectableProps, timeout, handleProps
     }) {
         this.knex = knex || {},
         this.name = name || 'name',
         this.tableName = tableName || 'tablename',
         this.selectableProps = selectableProps || {},
+        this.handleProps = handleProps || {},
         this.timeout = timeout || 10000;
     }
 
@@ -71,11 +72,10 @@ class ModelCreate {
 
     async insertOne (props, userCreator=null) {
         const objectToSave = this.jsonToString({...props});
-        assign(objectToSave, {FECHA_ALTA: new Date()});
+        assign(objectToSave, {[this.handleProps.createdAt]: new Date()});
         if(userCreator){
-            assign(objectToSave, {ID_USUARIO_ALTA: userCreator});
+            assign(objectToSave, {[this.handleProps.userCreator]: userCreator});
         }
-        console.log(objectToSave);
         if (this.transaction) {
             const objectCreated = await this.transaction(this.tableName)
                 .insert(objectToSave)
@@ -87,8 +87,6 @@ class ModelCreate {
             .returning(this.getColumnsNames())
             .into(this.tableName)
             .timeout(this.timeout);
-        console.log(objectCreated);
-        console.log(this.convertKeyNames(head(objectCreated)));
         return this.convertKeyNames(head(objectCreated));
     }
 
@@ -112,10 +110,7 @@ class ModelCreate {
 
     find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const tableFilters = this.jsonToString(filters);
-        console.log(tableFilters);
-        console.log(columns);
-        console.log(orderBy);
-        console.log(this.tableName);
+        assign(tableFilters, {[this.handleProps.deletedAt]: null});
         return this.knex.select(columns).from(this.tableName)
             .where(tableFilters).orderBy(orderBy).timeout(this.timeout);
     }
@@ -137,14 +132,14 @@ class ModelCreate {
         return this.knex.select(columns).from(this.tableName).orderBy(orderBy).timeout(this.timeout);
     }
 
-    async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
-        const tableId = this.jsonToString(id);
+    async findById (rowId, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const id = this.jsonToString(rowId);
         const objectTosend = await this.knex.select(columns)
             .from(this.tableName)
-            .where(tableId)
+            .where(id)
             .orderBy(orderBy)
             .timeout(this.timeout);
-        return setDate(head(objectTosend));
+        return head(objectTosend);
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {
@@ -167,13 +162,13 @@ class ModelCreate {
     }
 
     async updateOne (filters, props) {
-        const tableFilters = this.jsonToString(filters);
+        const id = this.jsonToString(filters);
         const objectToSave = this.jsonToString(props);
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
                 .update(objectToSave)
                 .from(this.tableName)
-                .where(tableFilters)
+                .where(id)
                 .returning(this.getColumnsNames())
                 .timeout(this.timeout);
 
@@ -181,11 +176,11 @@ class ModelCreate {
         }
         const modifiedObject = await this.knex.update(objectToSave)
             .from(this.tableName)
-            .where(tableFilters)
+            .where(id)
             .returning(this.getColumnsNames())
             .timeout(this.timeout);
 
-        return setDate(this.convertKeyNames(head(modifiedObject)));
+        return this.convertKeyNames(head(modifiedObject));
     }
 
     async updateMany (filters, props) {
@@ -211,17 +206,21 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
-    deleteOne (id) {
-        const tableId = this.jsonToString(id);
+    deleteOne (idRow, userDestroyer=null) {
+        const id = this.jsonToString(idRow);
+        const unsubscribeData = {[this.handleProps.deletedAt]: new Date()};
+        if(userDestroyer){
+            assign(unsubscribeData, {[this.handleProps.userDestroyer]: userDestroyer});
+        }
         if (this.transaction) {
             return this.transaction(this.tableName)
-                .update({[this.selectableProps.deletedAt]: new Date()})
-                .where(tableId)
+                .update(unsubscribeData)
+                .where(id)
                 .timeout(this.timeout);
         }
-        return this.knex.update({[this.selectableProps.deletedAt]: new Date()})
+        return this.knex.update(unsubscribeData)
             .from(this.tableName)
-            .where(tableId)
+            .where(id)
             .timeout(this.timeout);
     }
 

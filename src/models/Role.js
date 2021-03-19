@@ -7,10 +7,16 @@ const selectableProps = {
     observation: 'OBSERVACION',
     domain: 'DOMINIO'
 };
+const handleProps = {
+    createdAt: 'FECHA_ALTA',
+    deletedAt: 'FECHA_BAJA',
+    userCreator: 'ID_USUARIO_ALTA',
+    userDestroyer: 'ID_USUARIO_BAJA'
+};
 
 class RoleType extends ModelCreate {
     constructor(props) {
-        super({ ...props, name, tableName, selectableProps });
+        super({ ...props, name, tableName, selectableProps, handleProps });
     }
 }
 
