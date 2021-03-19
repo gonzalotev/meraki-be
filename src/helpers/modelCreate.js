@@ -21,7 +21,7 @@ const mapKeys = require('lodash/mapKeys');
 // needed by composing a new object out of the one returned by this function ;)
 
 const ORDER_BY = [{
-    column: 'createdAt',
+    column: 'FECHA_ALTA',
     order: 'asc'
 }];
 class ModelCreate {
@@ -70,21 +70,26 @@ class ModelCreate {
     }
 
     async insertOne (props, userCreator=null) {
-        const objectToSave = this.jsonToString({...props, userCreator});
-        assign(objectToSave, {[this.selectableProps.createdAt]: new Date()});
-        let objectCreated;
+        const objectToSave = this.jsonToString({...props});
+        assign(objectToSave, {FECHA_ALTA: new Date()});
+        if(userCreator){
+            assign(objectToSave, {ID_USUARIO_ALTA: userCreator});
+        }
+        console.log(objectToSave);
         if (this.transaction) {
-            objectCreated = await this.transaction(this.tableName)
+            const objectCreated = await this.transaction(this.tableName)
                 .insert(objectToSave)
                 .returning(this.getColumnsNames())
                 .timeout(this.timeout);
-        } else {
-            objectCreated = await this.knex.insert(objectToSave)
-                .returning(this.getColumnsNames())
-                .into(this.tableName)
-                .timeout(this.timeout);
+            return this.convertKeyNames(head(objectCreated));
         }
-        return setDate(this.convertKeyNames(head(objectCreated)));
+        const objectCreated = await this.knex.insert(objectToSave)
+            .returning(this.getColumnsNames())
+            .into(this.tableName)
+            .timeout(this.timeout);
+        console.log(objectCreated);
+        console.log(this.convertKeyNames(head(objectCreated)));
+        return this.convertKeyNames(head(objectCreated));
     }
 
     insertMany(props) {
@@ -107,6 +112,10 @@ class ModelCreate {
 
     find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const tableFilters = this.jsonToString(filters);
+        console.log(tableFilters);
+        console.log(columns);
+        console.log(orderBy);
+        console.log(this.tableName);
         return this.knex.select(columns).from(this.tableName)
             .where(tableFilters).orderBy(orderBy).timeout(this.timeout);
     }

@@ -9,7 +9,7 @@ const Operativos = require('./Operativos');
 const VariableEstadistica = require('./VariableEstadistica');
 const RolOperativoVariable = require('./RolOperativoVariable');
 const UserRole = require('./UserRole');
-const RoleType = require('./RoleType');
+const Role = require('./Role');
 module.exports = {
     ArrayString: {
         type: 'array',
@@ -54,5 +54,5 @@ module.exports = {
     VariableEstadistica,
     RolOperativoVariable,
     UserRole,
-    RoleType
+    Role
 };

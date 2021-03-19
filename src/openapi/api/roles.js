@@ -1,22 +1,8 @@
 module.exports = {
-    '/api/static-data': {
+    '/api/roles': {
         get: {
             security: [
                 {bearerAuth: []}
-            ],
-            summary: 'Get static values',
-            description: `**Get** all the basic data of the application, *eg*: role types.
-                            To get data, just send the resource name equal to true.
-                            eg: /api/static-data?role=true`,
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'role',
-                    required: false,
-                    schema: {
-                        type: 'boolean'
-                    }
-                }
             ],
             responses: {
                 200: {
@@ -37,23 +23,51 @@ module.exports = {
                                             id: 'AUDITOR',
                                             description: 'Auditor description',
                                             observation: 'Auditor observation',
-                                            domain: 'Auditor domain',
-                                            createdAt: '2021-03-15',
-                                            deletedAt: null,
-                                            userCreator: 1,
-                                            userDestroyer: null
+                                            domain: 'Auditor domain'
                                         },
                                         {
                                             id: 'SUPERVISOR',
                                             description: 'Supervisor description',
                                             observation: 'Supervisor observation',
-                                            domain: 'Supervisor domain',
-                                            createdAt: '2021-03-15',
-                                            deletedAt: '2021-03-16',
-                                            userCreator: 1,
-                                            userDestroyer: 2
+                                            domain: 'Supervisor domain'
                                         }
                                     ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        post: {
+            security: [
+                {bearerAuth: []}
+            ],
+            requestBody: {
+                required: true,
+                content: { 'application/json': {schema: {$ref: '#/components/schemas/Role'}}}
+            },
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    role: { $ref: '#/components/schemas/Role'}
+                                },
+                                example: {
+                                    role: {
+                                        id: 'SUPERVISOR',
+                                        description: 'Supervisor description',
+                                        observation: 'Supervisor observation',
+                                        domain: 'Supervisor domain'
+                                    }
                                 }
                             }
                         }
