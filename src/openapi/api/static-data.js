@@ -28,7 +28,11 @@ module.exports = {
                                 properties: {
                                     roles: {
                                         type: 'array',
+<<<<<<< HEAD
                                         items: { $ref: '#/components/schemas/Role'}
+=======
+                                        items: { $ref: '#/components/schemas/RoleType'}
+>>>>>>> feat: create dictionary linguistic endpoint
                                     }
                                 },
                                 example: {
@@ -65,6 +69,7 @@ module.exports = {
                 }
             }
         }
+<<<<<<< HEAD
     },
     '/api/static-data/variable-stadistics': {
         get: {
@@ -200,5 +205,7 @@ module.exports = {
                 }
             }
         }
+=======
+>>>>>>> feat: create dictionary linguistic endpoint
     }
 };

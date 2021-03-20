@@ -1,6 +1,10 @@
 const {Router} = require('express');
 const get = require('lodash/get');
+<<<<<<< HEAD
 const { authenticate, errorHandler} = require('./middlewares');
+=======
+const { errorHandler} = require('./middlewares');
+>>>>>>> feat: create dictionary linguistic endpoint
 
 const {StatusController} = include('controllers');
 const Logger = include('helpers/logger');
@@ -27,7 +31,11 @@ const localRoute = route => {
 class Routes {
     static configure(app) {
         app.use('/', localRoute(Router()));
+<<<<<<< HEAD
         app.use('/api', authenticate, require('./api')(Router()));
+=======
+        app.use('/api', /* authenticate, */ require('./api')(Router()));
+>>>>>>> feat: create dictionary linguistic endpoint
         Logger.info('Loading public-api...');
         app.use('/public-api', require('./public-api')(Router()));
         app.use(errorHandler);
