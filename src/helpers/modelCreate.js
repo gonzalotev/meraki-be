@@ -110,7 +110,9 @@ class ModelCreate {
 
     find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const tableFilters = this.jsonToString(filters);
-        assign(tableFilters, {[this.handleProps.deletedAt]: null});
+        if(this.handleProps.deletedAt){
+            assign(tableFilters, {[this.handleProps.deletedAt]: null});
+        }
         return this.knex.select(columns).from(this.tableName)
             .where(tableFilters).orderBy(orderBy).timeout(this.timeout);
     }
