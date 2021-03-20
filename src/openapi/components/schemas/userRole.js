@@ -1,37 +1,38 @@
 module.exports = {
     type: 'object',
     properties: {
-        DESCRIPCION_ORIGINAL: {
+        id_user: {
             type: 'string',
+            maxLength: 50
+        },
+        id_role: {
+            type: 'string',
+            maxLength: 50,
             nullable: false
         },
-        ID_TIPOLOGIA_DE_DICCIONARIO: {
+        description: {
             type: 'string',
+            maxLength: 120,
             nullable: false
         },
-        ID_VARIABLE: {
+        observation: {
             type: 'string',
-            nullable: false
-        },
-        DESCRIPCION_DESTINO: {
-            type: 'string',
+            maxLength: 120,
             nullable: true
         },
-        OBSERVACION: {
+        domain: {
             type: 'string',
+            maxLength: 300,
             nullable: true
         },
-        DOMINIO: {
+        createdAt: {
             type: 'string',
-            nullable: true
+            format: 'date'
         },
-        SUPERVISADO: {
-            type: 'integer',
+        deletedAt: {
+            type: 'string',
+            format: 'date',
             nullable: true
-        },
-        ID_USUARIO_ALTA: {
-            type: 'integer',
-            nullable: false
         }
     }
 };

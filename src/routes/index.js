@@ -1,10 +1,6 @@
 const {Router} = require('express');
 const get = require('lodash/get');
-<<<<<<< HEAD
-const { authenticate, errorHandler} = require('./middlewares');
-=======
-const { errorHandler} = require('./middlewares');
->>>>>>> feat: create dictionary linguistic endpoint
+const { /*authenticate,*/ errorHandler} = require('./middlewares');
 
 const {StatusController} = include('controllers');
 const Logger = include('helpers/logger');
@@ -16,7 +12,7 @@ const Logger = include('helpers/logger');
  * <b> /ready </b> Check if everything is ok and running </br>
  * <b> /health </b> Check if external agents are ok </br>
  * <b> /api </b> main link, this manage all functions of be </br>
- * <b> /public-api </b> Links publics for external and not logging request /br>
+ * <b> /publicApi </b> Links publics for external and not logging request /br>
  * <b> /swagger </b> Documentation /br>
  * <b> * </b> returns error page when not matching url can be found </br>
  */
@@ -31,13 +27,9 @@ const localRoute = route => {
 class Routes {
     static configure(app) {
         app.use('/', localRoute(Router()));
-<<<<<<< HEAD
-        app.use('/api', authenticate, require('./api')(Router()));
-=======
         app.use('/api', /* authenticate, */ require('./api')(Router()));
->>>>>>> feat: create dictionary linguistic endpoint
-        Logger.info('Loading public-api...');
-        app.use('/public-api', require('./public-api')(Router()));
+        Logger.info('Loading publicApi...');
+        app.use('/publicApi', require('./publicApi')(Router()));
         app.use(errorHandler);
     }
 }

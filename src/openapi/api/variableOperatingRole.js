@@ -1,7 +1,7 @@
 module.exports = {
-    '/api/diccionarioLinguistico': {
+    '/api/variableOperatingRole': {
         get: {
-            summary: 'List of diccionarios linguisticos',
+            summary: 'List of variables operating role',
             security: [],
             parameters: [
                 {
@@ -21,19 +21,20 @@ module.exports = {
                                 properties: {
                                     limit: {type: 'integer'},
                                     total: {type: 'integer'},
-                                    diccionarios: {
+                                    rolOperatives: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/DiccionarioLinguistico'},
+                                        items: {$ref: '#/components/schemas/VariableOperatingRole'},
                                         example: {
-                                            DESCRIPCION_ORIGINAL: 'ME',
-                                            ID_TIPOLOGIA_DE_DICCIONARIO: 'ANU',
+                                            ID_USUARIO: 1,
+                                            ID_ROL_USUARIO: 'CODIFICADOR',
+                                            ID_OPERATIVO: '1',
+                                            ID_LOTE: '1',
                                             ID_VARIABLE: '20011',
-                                            DESCRIPCION_DESTINO: null,
-                                            OBSERVACION: null,
-                                            DOMINIO: null,
-                                            SUPERVISADO: null,
-                                            ID_USUARIO_ALTA: 1,
-                                            FECHA_ALTA: '2021-02-08T03:00:00.000Z'
+                                            OBSERVACION: 'Juan esta codificando',
+                                            DOMINIO: 'null',
+                                            SI_NO: 1,
+                                            FECHA_ALTA: '2021-02-08T03:00:00.000Z',
+                                            FECHA_BAJA: '2021-02-08T03:00:00.000Z'
                                         }
                                     }
                                 }
@@ -48,12 +49,12 @@ module.exports = {
             }
         },
         post: {
-            summary: 'Create new diccionario linguistico',
+            summary: 'Create new rol operativo variable',
             security: [],
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/DiccionarioLinguistico'}}}
+                content: {'application/json': {schema: {$ref: '#/components/schemas/VariableOperatingRole'}}}
             },
             responses: {
                 200: {
@@ -64,7 +65,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    insertedOne: {$ref: '#/components/schemas/DiccionarioLinguistico'}
+                                    insertedOne: {$ref: '#/components/schemas/VariableOperatingRole'}
                                 }
                             }
                         }
@@ -73,19 +74,19 @@ module.exports = {
             }
         },
         put: {
-            summary: 'Update diccionario linguistico',
+            summary: 'Update rol operativo variable',
             security: [],
             parameters: [
                 {
                     in: 'query',
                     required: true,
-                    name: 'DESCRIPCION_ORIGINAL',
+                    name: 'ID_ROL_USUARIO',
                     schema: {type: 'string'}
                 },
                 {
                     in: 'query',
                     required: true,
-                    name: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                    name: 'OBSERVACION',
                     schema: {type: 'string'}
                 },
                 {
@@ -98,7 +99,7 @@ module.exports = {
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/DiccionarioLinguistico'}}}
+                content: {'application/json': {schema: {$ref: '#/components/schemas/VariableOperatingRole'}}}
             },
             responses: {
                 200: {
@@ -109,7 +110,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    updatedOne: {$ref: '#/components/schemas/DiccionarioLinguistico'}
+                                    updatedOne: {$ref: '#/components/schemas/VariableOperatingRole'}
                                 }
                             }
                         }
@@ -122,19 +123,19 @@ module.exports = {
             }
         },
         delete: {
-            summary: 'Delete diccionario linguistico',
+            summary: 'Delete rol operativo variable',
             security: [],
             parameters: [
                 {
                     in: 'query',
                     required: true,
-                    name: 'DESCRIPCION_ORIGINAL',
+                    name: 'ID_ROL_USUARIO',
                     schema: {type: 'string'}
                 },
                 {
                     in: 'query',
                     required: true,
-                    name: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                    name: 'OBSERVACION',
                     schema: {type: 'string'}
                 },
                 {
@@ -148,49 +149,6 @@ module.exports = {
                 200: {
                     description: 'ok',
                     content: {'application/json': {schema: {type: 'object'}}}
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/diccionarioLinguistico/{DESCRIPCION_ORIGINAL}/{ID_TIPOLOGIA_DE_DICCIONARIO}/{ID_VARIABLE}': {
-        get: {
-            summary: 'List of diccionarios linguisticos',
-            security: [],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'DESCRIPCION_ORIGINAL',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_VARIABLE',
-                    required: true,
-                    schema: {type: 'string'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {diccionario: {$ref: '#/components/schemas/DiccionarioLinguistico'}}
-                            }
-                        }
-                    }
                 },
                 default: {
                     description: 'Error',

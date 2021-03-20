@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/static-data': {
+    '/api/staticData': {
         get: {
             security: [
                 {bearerAuth: []}
@@ -7,7 +7,7 @@ module.exports = {
             summary: 'Get static values',
             description: `**Get** all the basic data of the application, *eg*: role types.
                             To get data, just send the resource name equal to true.
-                            eg: /api/static-data?role=true`,
+                            eg: /api/staticData?role=true`,
             parameters: [
                 {
                     in: 'query',
@@ -28,11 +28,7 @@ module.exports = {
                                 properties: {
                                     roles: {
                                         type: 'array',
-<<<<<<< HEAD
-                                        items: { $ref: '#/components/schemas/Role'}
-=======
                                         items: { $ref: '#/components/schemas/RoleType'}
->>>>>>> feat: create dictionary linguistic endpoint
                                     }
                                 },
                                 example: {
@@ -69,143 +65,5 @@ module.exports = {
                 }
             }
         }
-<<<<<<< HEAD
-    },
-    '/api/static-data/variable-stadistics': {
-        get: {
-            security: [
-                {bearerAuth: []}
-            ],
-            responses: {
-                200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    variableStadistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/VariableStadistics'}
-                                    }
-                                },
-                                example: {
-                                    variableStadistics: [
-                                        {
-                                            id: 'FAKE',
-                                            name: 'fake description',
-                                            abbreviation: 'fake abbreviation',
-                                            domain: 'fake domain',
-                                            observation: 'fake observation'
-                                        },
-                                        {
-                                            id: 'FAKE',
-                                            name: 'fake description',
-                                            abbreviation: 'fake abbreviation',
-                                            domain: 'fake domain',
-                                            observation: 'fake observation'
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/static-data/shortDescription': {
-        get: {
-            security: [
-                {bearerAuth: []}
-            ],
-            responses: {
-                200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    nomenclators: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/Nomenclators'}
-                                    }
-                                },
-                                example: {
-                                    nomenclators: [
-                                        {
-                                            id: 'fake id',
-                                            initial: 'fake initial',
-                                            shortDescription: 'fake short description',
-                                            longDescription: 'fake long description'
-                                        },
-                                        {
-                                            id: 'fake id',
-                                            initial: 'fake initial',
-                                            shortDescription: 'fake short description',
-                                            longDescription: 'fake long description'
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/static-data/lots': {
-        get: {
-            security: [
-                {bearerAuth: []}
-            ],
-            responses: {
-                200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    lots: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/Lots'}
-                                    }
-                                },
-                                example: {
-                                    lots: [
-                                        {
-                                            operativeId: 'fake operativeId',
-                                            lotId: 'fake lotId',
-                                            description: 'fake description'
-                                        },
-                                        {
-                                            operativeId: 'fake operativeId',
-                                            lotId: 'fake lotId',
-                                            description: 'fake description'
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-=======
->>>>>>> feat: create dictionary linguistic endpoint
     }
 };

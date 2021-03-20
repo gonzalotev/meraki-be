@@ -1,24 +1,15 @@
 const ModelCreate = include('/helpers/modelCreate');
-const name = 'Lots';
-const tableName = 'LOTES';
-const selectableProps = {
-    operativId: 'ID_OPERATIVO',
-    lotId: 'ID_LOTE',
-    description: 'DESCRIPCION'
-};
-const handleProps = {
-    createdAt: 'FECHA_ALTA',
-    deletedAt: 'FECHA_FIN_BORRADO',
-    userCreator: 'ID_USUARIO'
-};
+const {lotsAttrib, datesWithUserAttrib, lotsTableName} = include('constants');
+const name = 'lots';
+
 class Lots extends ModelCreate{
     constructor(props){
         super({
             ...props,
-            tableName,
+            tableName: lotsTableName,
             name,
-            selectableProps,
-            handleProps
+            selectableProps: lotsAttrib,
+            handleProps: datesWithUserAttrib
         });
     }
 }

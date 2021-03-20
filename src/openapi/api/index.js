@@ -1,19 +1,19 @@
-const users = require('./users');
-const assigments = require('./assigments');
+const users = require('./user');
+const assignments = require('./assignments');
 const staticData = require('./staticData');
-const DictionaryLinguistic = require('./DictionaryLinguistic');
+const DictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
 const statisticalVariable = require('./statisticalVariable');
-const rolOperativoVariable = require('./rolOperativoVariable');
-const userRole = require('./user-role');
+const variableOperationalRole = require('./variableOperatingRole');
+const roles = require('./userRole');
 
 module.exports = {
-    ...assigments,
+    ...assignments,
     ...DictionaryLinguistic,
     ...operatives,
     ...statisticalVariable,
-    ...rolOperativoVariable,
+    ...variableOperationalRole,
     ...users,
     ...staticData,
-    ...userRole
+    ...roles
 };

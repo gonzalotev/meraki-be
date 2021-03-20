@@ -1,19 +1,16 @@
-const {VariableOperatingRole} = include('/models');
+const {variableOperatingRole} = include('/models');
 const head = require('lodash/head');
 const {PAGE_SIZE} = process.env;
 
 class VariableOperatingRoleController {
     static async fetch(req, res, next){
         try {
-            const {
-                page,
-                ...filter
-            } = req.query;
-            await VariableOperatingRole.startTransaction();
-            const operatingRoles = await VariableOperatingRole.find(page, {...filter});
-            const total = await VariableOperatingRole.countRows();
-            await VariableOperatingRole.commitTransaction();
-            res.send({limit: PAGE_SIZE, total, operatingRoles});
+            const {page, ...filter} = req.query;
+            await variableOperatingRole.startTransaction();
+            const operativeVariables = await variableOperatingRole.find(page, {...filter});
+            const total = await variableOperatingRole.countRows();
+            await variableOperatingRole.commitTransaction();
+            res.send({limit: PAGE_SIZE, total, operativeVariables});
         } catch(err) {
             next(err);
         }
@@ -21,8 +18,8 @@ class VariableOperatingRoleController {
 
     static async fetchOne(req, res, next){
         try {
-            const operatingRole = await VariableOperatingRole.findById(req.params);
-            res.send({operatingRole});
+            const operativeVariables = await variableOperatingRole.findById(req.params);
+            res.send({operativeVariables});
         } catch(err) {
             next(err);
         }
@@ -30,10 +27,10 @@ class VariableOperatingRoleController {
 
     static async create(req, res, next){
         try {
-            await VariableOperatingRole.startTransaction();
-            const operatingRole = head(await VariableOperatingRole.insertOne(req.body));
-            await VariableOperatingRole.commitTransaction();
-            res.send({success: true, operatingRole});
+            await variableOperatingRole.startTransaction();
+            const operativeVariables = head(await variableOperatingRole.insertOne(req.body));
+            await variableOperatingRole.commitTransaction();
+            res.send({success: true, operativeVariables});
         } catch(err) {
             next(err);
         }
@@ -41,10 +38,10 @@ class VariableOperatingRoleController {
 
     static async update(req, res, next){
         try{
-            await VariableOperatingRole.startTransaction();
-            const operatingRole = await VariableOperatingRole.updateOne(req.query, req.body);
-            await VariableOperatingRole.commitTransaction();
-            res.send({success: true, operatingRole});
+            await variableOperatingRole.startTransaction();
+            const operativeVariables = await variableOperatingRole.updateOne(req.query, req.body);
+            await variableOperatingRole.commitTransaction();
+            res.send({success: true, operativeVariables});
         } catch(err){
             next(err);
         }
@@ -52,9 +49,9 @@ class VariableOperatingRoleController {
 
     static async delete(req, res, next){
         try {
-            await VariableOperatingRole.startTransaction();
-            await VariableOperatingRole.deletedOne(req.query);
-            await VariableOperatingRole.commitTransaction();
+            await variableOperatingRole.startTransaction();
+            await variableOperatingRole.deletedOne(req.query);
+            await variableOperatingRole.commitTransaction();
             res.send({success: true});
         } catch(err) {
             next(err);

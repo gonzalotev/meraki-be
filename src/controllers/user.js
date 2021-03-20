@@ -1,6 +1,5 @@
 const head = require('lodash/head');
 const pick = require('lodash/pick');
-
 const {ArqService} = include('services');
 const {buildArchQuery} = include('util');
 

@@ -78,6 +78,52 @@ const variableOperatingRoleAttrib = [
 
 const rolesTableName = 'ROLES_SICI';
 
+const datesAttrib = {
+    createdAt: 'FECHA_ALTA',
+    deletedAt: 'FECHA_BAJA'
+};
+
+const roleSiCITableName = 'ROLES_SICI';
+
+const rolesSiCIAttrib = {
+    userId: 'ID_USUARIO',
+    roleId: 'ID_ROL_USUARIO',
+    description: 'DESCRIPCION',
+    domain: 'DOMINIO',
+    observation: 'OBSERVACION'
+};
+
+const lotsTableName = 'LOTES';
+
+const lotsAttrib = {
+    operativeId: 'ID_OPERATIVO',
+    lotId: 'ID_LOTE',
+    description: 'DESCRIPCION'
+};
+const datesWithUserAttrib = {
+    createdAt: 'FECHA_ALTA',
+    deletedAt: 'FECHA_FIN_BORRADO',
+    userCreator: 'ID_USUARIO'
+};
+
+const variablesAttrib = {
+    roleId: 'ID_ROL_USUARIO',
+    operativeId: 'ID_OPERATIVO',
+    lotId: 'ID_LOTE',
+    variableId: 'ID_VARIABLE',
+    observation: 'OBSERVACION',
+    domain: 'DOMINIO',
+    isSupervised: 'SI_NO'
+};
+
+const nomenclatorsAttrib = {
+    roleId: 'ID_ROL_USUARIO',
+    nomenclatorId: 'ID_NOMENCLADOR',
+    domain: 'DOMINIO',
+    observation: 'OBSERVACION',
+    isSupervised: 'SI_NO'
+};
+
 module.export = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -89,5 +135,13 @@ module.export = {
     roleTypeAttrib,
     variableOperatingRoleTableName,
     variableOperatingRoleAttrib,
-    rolesTableName
+    rolesTableName,
+    datesAttrib,
+    datesWithUserAttrib,
+    roleSiCITableName,
+    rolesSiCIAttrib,
+    lotsAttrib,
+    lotsTableName,
+    variablesAttrib,
+    nomenclatorsAttrib
 };
