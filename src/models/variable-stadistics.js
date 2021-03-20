@@ -8,6 +8,10 @@ const selectableProps = {
     domain: 'DOMINIO',
     observation: 'OBSERVACION'
 };
+const handleProps = {
+    createdAt: 'FECHA_ALTA',
+    userCreator: 'ID_USUARIO'
+};
 
 class VariableStadistics extends ModelCreate{
     constructor(props){
@@ -15,7 +19,8 @@ class VariableStadistics extends ModelCreate{
             ...props,
             tableName,
             name,
-            selectableProps
+            selectableProps,
+            handleProps
         });
     }
 }

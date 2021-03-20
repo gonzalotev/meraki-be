@@ -1,20 +1,17 @@
 const ModelCreate = include('/helpers/modelCreate');
-const name = 'Nomenclators';
-const tableName = 'NOMENCLADORES';
+const name = 'Lots';
+const tableName = 'LOTES';
 const selectableProps = {
-    id: 'ID_NOMENCLADOR',
-    initial: 'SIGLA',
-    shortDescription: 'DESCRIPCION_ABREVIADA',
-    longDescription: 'DESCRIPCION_COMPLETA'
+    operativId: 'ID_OPERATIVO',
+    lotId: 'ID_LOTE',
+    description: 'DESCRIPCION'
 };
-
 const handleProps = {
     createdAt: 'FECHA_ALTA',
-    deletedAt: 'FECHA_FIN_PUBLICACION',
+    deletedAt: 'FECHA_FIN_BORRADO',
     userCreator: 'ID_USUARIO'
-}
-
-class Nomenclators extends ModelCreate{
+};
+class Lots extends ModelCreate{
     constructor(props){
         super({
             ...props,
@@ -26,4 +23,4 @@ class Nomenclators extends ModelCreate{
     }
 }
 
-module.exports = knex => new Nomenclators({knex});
+module.exports = knex => new Lots({knex});
