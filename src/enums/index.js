@@ -1,5 +1,3 @@
 const states = require('./states');
 
-module.exports = {
-    states
-};
+module.exports = {states};

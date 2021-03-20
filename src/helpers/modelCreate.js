@@ -88,7 +88,6 @@ class ModelCreate {
 >>>>>>> feat: create dictionary linguistic endpoint
                 }
             }
-            return;
         });
 
         return objectToSave;
@@ -253,13 +252,17 @@ class ModelCreate {
 
         const objectToSave = this.jsonToString(props);
         if (this.transaction) {
-            const modifiedObject = await this.transaction(this.tableName)
-                .update(objectToSave).from(this.tableName).where(filters)
-                .returning(this.selectableProps).timeout(this.timeout);
-            return modifiedObject;
+            return await this.transaction(this.tableName)
+                .update(objectToSave)
+                .from(this.tableName).where(filters)
+                .returning(this.selectableProps)
+                .timeout(this.timeout);
         }
-        const modifiedObject = await this.knex.update(objectToSave).from(this.tableName).where(filters)
-            .returning(this.selectableProps).timeout(this.timeout);
+        const modifiedObject = await this.knex
+            .update(objectToSave)
+            .from(this.tableName).where(filters)
+            .returning(this.selectableProps)
+            .timeout(this.timeout);
         return head(modifiedObject);
 >>>>>>> feat: create dictionary linguistic endpoint
     }
@@ -278,11 +281,17 @@ class ModelCreate {
                 return this.jsonToString(prop);
             }));
             if (this.transaction) {
-                return this.transaction(this.tableName).update(updates).from(this.tableName).where(filters)
-                    .returning(this.selectableProps).timeout(this.timeout);
+                return this.transaction(this.tableName)
+                    .update(updates)
+                    .from(this.tableName).where(filters)
+                    .returning(this.selectableProps)
+                    .timeout(this.timeout);
             }
-            return this.knex.update(updates).from(this.tableName).where(filters)
-                .returning(this.selectableProps).timeout(this.timeout);
+            return this.knex
+                .update(updates)
+                .from(this.tableName).where(filters)
+                .returning(this.selectableProps)
+                .timeout(this.timeout);
         }
         return Promise.reject('not a valid array of data');
     }
@@ -307,30 +316,39 @@ class ModelCreate {
 =======
     deleteOne (id) {
         if (this.transaction) {
-            return this.transaction(this.tableName).update({
-                deleted: true,
-                deletedAt: new Date()
-            }).where({id}).timeout(this.timeout);
+            return this.transaction(this.tableName)
+                .update({
+                    deleted: true,
+                    deletedAt: new Date()
+                }).where({id})
+                .timeout(this.timeout);
         }
+<<<<<<< HEAD
         return this.knex.update({
             deleted: true,
             deletedAt: new Date()
         }).from(this.tableName).where({id}).timeout(this.timeout);
 >>>>>>> feat: create dictionary linguistic endpoint
+=======
+        return this.knex
+            .update({deleted: true, deletedAt: new Date()})
+            .from(this.tableName).where({id})
+            .timeout(this.timeout);
+>>>>>>> refactor: general changes
     }
 
     deleteMany (ids) {
         if (isArray(ids) && String instanceof head(ids)) {
             if (this.transaction) {
-                return this.transaction(this.tableName).update({
-                    deleted: true,
-                    deletedat: new Date()
-                }).whereIn('id', ids).timeout(this.timeout);
+                return this.transaction(this.tableName)
+                    .update({deleted: true, deletedAt: new Date()})
+                    .whereIn('id', ids)
+                    .timeout(this.timeout);
             }
-            return this.knex.update({
-                deleted: true,
-                deletedat: new Date()
-            }).from(this.tableName).whereIn('id', ids).timeout(this.timeout);
+            return this.knex
+                .update({deleted: true, deletedAt: new Date()})
+                .from(this.tableName).whereIn('id', ids)
+                .timeout(this.timeout);
         }
     }
 

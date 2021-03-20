@@ -52,10 +52,7 @@ class UserController {
 
     static async newUser(req, res, next) {
         try {
-            const user = pick(
-                req.body,
-                ['name', 'surname', 'documentId', 'email']
-            );
+            const user = pick(req.body, ['name', 'surname', 'documentId', 'email']);
             const {attributes, roles} = req.body;
             user.access = {attributes, roles};
             const result = await ArqService.postFromArch(req.get('Authorization'), 'users/new', {user});
@@ -70,10 +67,7 @@ class UserController {
 
     static async updateUser(req, res, next) {
         try {
-            const user = pick(
-                req.body,
-                ['id', 'name', 'surname', 'documentId', 'email']
-            );
+            const user = pick(req.body, ['id', 'name', 'surname', 'documentId', 'email']);
             const {attributes, roles} = req.body;
             user.access = {attributes, roles};
             await ArqService.putFromArch(req.get('Authorization'), `users/${req.params.id}`, {user});

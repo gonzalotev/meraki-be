@@ -1,11 +1,12 @@
 const assign = require('lodash/assign');
 const { RoleTypeService } = include('services');
-class StaticController {
+
+class StaticDataController {
     static async fetch(req, res, next) {
         try {
             const data = {};
-            const { role } = req.query;
-            if(role){
+            const {role} = req.query;
+            if(role) {
                 const roles = await RoleTypeService.find();
                 assign(data, {roles});
             }
@@ -16,4 +17,4 @@ class StaticController {
     }
 }
 
-module.exports = StaticController;
+module.exports = StaticDataController;

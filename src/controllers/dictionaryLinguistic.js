@@ -1,4 +1,5 @@
 const { DictionaryLinguisticService } = include('services');
+
 class DictionaryLinguisticController {
     static async fetch(req, res, next) {
         try {

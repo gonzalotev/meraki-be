@@ -1,8 +1,5 @@
 module.exports = [
-    {
-        id: '02',
-        name: 'CABA'
-    },
+    {id: '02', name: 'CABA'},
     {
         id: '06',
         name: 'Buenos Aires'
