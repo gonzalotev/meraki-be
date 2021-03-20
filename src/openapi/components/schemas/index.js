@@ -7,7 +7,6 @@ const Files = require('./Files');
 const DiccionarioLinguistico = require('./DiccionarioLinguistico');
 const Operativos = require('./Operativos');
 const RolOperativoVariable = require('./RolOperativoVariable');
-const UserRole = require('./UserRole');
 const Role = require('./Role');
 const VariableStadistics = require ('./VariableStadistics');
 const Nomenclators = require('./Nomenclators');
@@ -55,7 +54,6 @@ module.exports = {
     DiccionarioLinguistico,
     Operativos,
     RolOperativoVariable,
-    UserRole,
     Role,
     VariableStadistics,
     Nomenclators,

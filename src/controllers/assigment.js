@@ -17,7 +17,7 @@ const selectableVariableProps = {
     domain: 'DOMINIO',
     isSupervised: 'SI_NO'
 };
-const selectableProps = {
+const selectableNomenclatorProps = {
     roleId: 'ID_ROL_USUARIO',
     nomenclatorId: 'ID_NOMENCLADOR',
     domain: 'DOMINIO',
@@ -26,13 +26,13 @@ const selectableProps = {
 };
 
 class AssigmentController {
-    static async fetch(req, res, next) {
+    static async find(req, res, next) {
         try {
             const { userId } = req.params;
-            const roles = await RoleUser.find({userId}, selectableRoleProps);
+            const roles = await RoleUser.find({ userId }, selectableRoleProps);
             const statisticalsVariables = await RoleOperativeVariable.find({userId}, selectableVariableProps);
-            const nomenclators = await RoleNomenclator.find({userId}, selectableProps);
-            res.send({ roles, statisticalsVariables, nomenclators });
+            const nomenclators = await RoleNomenclator.find({userId}, selectableNomenclatorProps);
+            res.send({ userId, roles, statisticalsVariables, nomenclators });
         } catch(error) {
             next(error);
         }

@@ -5,5 +5,6 @@ module.exports = router => {
         .post(AssigmentController.create)
         .put(AssigmentController.update)
         .delete(AssigmentController.delete);
+    router.route('/:userId').get(AssigmentController.find);
     return router;
 };
