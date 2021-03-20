@@ -13,6 +13,7 @@ const keys = require('lodash/keys');
 const values = require('lodash/values');
 const invert = require('lodash/invert');
 const mapKeys = require('lodash/mapKeys');
+const has = require('lodash/has');
 // The model that uses Knexjs to store and retrieve data from a
 // database using the provided `knex` instance.
 // Custom functionality can be composed on top of this set of models.
@@ -110,7 +111,7 @@ class ModelCreate {
 
     find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const tableFilters = this.jsonToString(filters);
-        if(this.handleProps.deletedAt){
+        if(has(this.handleProps, 'deletedAt')){
             assign(tableFilters, {[this.handleProps.deletedAt]: null});
         }
         return this.knex.select(columns).from(this.tableName)
@@ -174,7 +175,7 @@ class ModelCreate {
                 .returning(this.getColumnsNames())
                 .timeout(this.timeout);
 
-            return setDate(this.convertKeyNames(head(modifiedObject)));
+            return this.convertKeyNames(head(modifiedObject));
         }
         const modifiedObject = await this.knex.update(objectToSave)
             .from(this.tableName)

@@ -12,6 +12,7 @@ const Role = require('./Role');
 const VariableStadistics = require ('./VariableStadistics');
 const Nomenclators = require('./Nomenclators');
 const Assigment = require('./Assigment');
+const Lots = require('./Lots');
 module.exports = {
     ArrayString: {
         type: 'array',
@@ -58,5 +59,6 @@ module.exports = {
     Role,
     VariableStadistics,
     Nomenclators,
-    Assigment
+    Assigment,
+    Lots
 };

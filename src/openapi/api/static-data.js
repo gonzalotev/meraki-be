@@ -157,5 +157,48 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/static-data/lots': {
+        get: {
+            security: [
+                {bearerAuth: []}
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    lots: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/Lots'}
+                                    }
+                                },
+                                example: {
+                                    lots: [
+                                        {
+                                            operativeId: 'fake operativeId',
+                                            lotId: 'fake lotId',
+                                            description: 'fake description'
+                                        },
+                                        {
+                                            operativeId: 'fake operativeId',
+                                            lotId: 'fake lotId',
+                                            description: 'fake description'
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
     }
 };

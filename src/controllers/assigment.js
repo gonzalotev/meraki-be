@@ -65,6 +65,31 @@ class AssigmentController {
             next(error);
         }
     }
+    static async update(req, res, next){
+        try {
+            let success = false;
+            const { userId } = req.body;
+            const { body } = req;
+            if(has(body, 'role')){
+                const { id: roleId, ...role } = body.role;
+                await RoleUser.updateOne({roleId, userId}, role);
+                success = true;
+            }
+            if(has(body, 'nomenclator')){
+                const { id: nomenclatorId, roleId, ...nomenclator } = body.nomenclator;
+                await RoleNomenclator.updateOne({roleId, nomenclatorId, userId}, nomenclator);
+                success = true;
+            }
+            if(has(body, 'statisticalVariable')){
+                const { id: variableId, roleId, ...statisticalVariable } = body.statisticalVariable;
+                await RoleOperativeVariable.updateOne({roleId, variableId, userId}, statisticalVariable);
+                success = true;
+            }
+            res.send({ success });
+        } catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = AssigmentController;
