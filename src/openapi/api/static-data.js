@@ -28,7 +28,7 @@ module.exports = {
                                 properties: {
                                     roles: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/RoleType'}
+                                        items: { $ref: '#/components/schemas/Role'}
                                     }
                                 },
                                 example: {
@@ -52,6 +52,141 @@ module.exports = {
                                             deletedAt: '2021-03-16',
                                             userCreator: 1,
                                             userDestroyer: 2
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/static-data/variable-stadistics': {
+        get: {
+            security: [
+                {bearerAuth: []}
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    variableStadistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/VariableStadistics'}
+                                    }
+                                },
+                                example: {
+                                    variableStadistics: [
+                                        {
+                                            id: 'FAKE',
+                                            name: 'fake description',
+                                            abbreviation: 'fake abbreviation',
+                                            domain: 'fake domain',
+                                            observation: 'fake observation'
+                                        },
+                                        {
+                                            id: 'FAKE',
+                                            name: 'fake description',
+                                            abbreviation: 'fake abbreviation',
+                                            domain: 'fake domain',
+                                            observation: 'fake observation'
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/static-data/shortDescription': {
+        get: {
+            security: [
+                {bearerAuth: []}
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    nomenclators: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/Nomenclators'}
+                                    }
+                                },
+                                example: {
+                                    nomenclators: [
+                                        {
+                                            id: 'fake id',
+                                            initial: 'fake initial',
+                                            shortDescription: 'fake short description',
+                                            longDescription: 'fake long description'
+                                        },
+                                        {
+                                            id: 'fake id',
+                                            initial: 'fake initial',
+                                            shortDescription: 'fake short description',
+                                            longDescription: 'fake long description'
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/static-data/lots': {
+        get: {
+            security: [
+                {bearerAuth: []}
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    lots: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/Lots'}
+                                    }
+                                },
+                                example: {
+                                    lots: [
+                                        {
+                                            operativeId: 'fake operativeId',
+                                            lotId: 'fake lotId',
+                                            description: 'fake description'
+                                        },
+                                        {
+                                            operativeId: 'fake operativeId',
+                                            lotId: 'fake lotId',
+                                            description: 'fake description'
                                         }
                                     ]
                                 }

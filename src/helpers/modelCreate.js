@@ -1,5 +1,6 @@
 /* eslint-disable require-atomic-updates */
 const uuid = require('uuidv4').uuid;
+const { setDate, getOffset, getPageSize} = include('util');
 const assign = require('lodash/assign');
 const forEach = require('lodash/forEach');
 const head = require('lodash/head');
@@ -8,7 +9,11 @@ const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
-
+const keys = require('lodash/keys');
+const values = require('lodash/values');
+const invert = require('lodash/invert');
+const mapKeys = require('lodash/mapKeys');
+const has = require('lodash/has');
 // The model that uses Knexjs to store and retrieve data from a
 // database using the provided `knex` instance.
 // Custom functionality can be composed on top of this set of models.
@@ -22,12 +27,13 @@ const ORDER_BY = [{
 }];
 class ModelCreate {
     constructor({
-        knex, name, tableName, selectableProps, timeout
+        knex, name, tableName, selectableProps, timeout, handleProps
     }) {
         this.knex = knex || {},
         this.name = name || 'name',
         this.tableName = tableName || 'tablename',
-        this.selectableProps = selectableProps || [],
+        this.selectableProps = selectableProps || {},
+        this.handleProps = handleProps || {},
         this.timeout = timeout || 10000;
     }
 
@@ -52,11 +58,11 @@ class ModelCreate {
         const objectToSave = {};
         //eslint-disable-next-line
         map(props, (value, index) => {
-            if (includes(this.selectableProps, `${this.tableName}.${index}`)) {
+            if (includes(keys(this.selectableProps), index)) {
                 if (isObject(value)) {
-                    assign(objectToSave, {[index]: JSON.stringify(value)});
+                    assign(objectToSave, {[this.selectableProps[index]]: JSON.stringify(value)});
                 } else {
-                    assign(objectToSave, {[index]: value});
+                    assign(objectToSave, {[this.selectableProps[index]]: value});
                 }
             }
             return;
@@ -65,18 +71,27 @@ class ModelCreate {
         return objectToSave;
     }
 
-    insertOne (props) {
-        const objectToSave = this.jsonToString(props);
-        objectToSave.FECHA_ALTA = new Date();
-        if (this.transaction) {
-            return this.transaction(this.tableName).insert(objectToSave).returning(this.selectableProps)
-                .timeout(this.timeout);
+    async insertOne (props, userCreator=null) {
+        const objectToSave = this.jsonToString({...props});
+        assign(objectToSave, {[this.handleProps.createdAt]: new Date()});
+        if(userCreator){
+            assign(objectToSave, {[this.handleProps.userCreator]: userCreator});
         }
-        return this.knex.insert(objectToSave).returning(this.selectableProps)
-            .into(this.tableName).timeout(this.timeout);
+        if (this.transaction) {
+            const objectCreated = await this.transaction(this.tableName)
+                .insert(objectToSave)
+                .returning(this.getColumnsNames())
+                .timeout(this.timeout);
+            return this.convertKeyNames(head(objectCreated));
+        }
+        const objectCreated = await this.knex.insert(objectToSave)
+            .returning(this.getColumnsNames())
+            .into(this.tableName)
+            .timeout(this.timeout);
+        return this.convertKeyNames(head(objectCreated));
     }
 
-    insertMany (props) {
+    insertMany(props) {
         if (isArray(props) && head(props) instanceof Object) {
             const inserts = map(props, prop => ({
                 id: uuid(),
@@ -94,12 +109,21 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
-    find (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+    find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const tableFilters = this.jsonToString(filters);
+        if(has(this.handleProps, 'deletedAt')){
+            assign(tableFilters, {[this.handleProps.deletedAt]: null});
+        }
         return this.knex.select(columns).from(this.tableName)
-            .where(filters).orderBy(orderBy).timeout(this.timeout);
+            .where(tableFilters).orderBy(orderBy).timeout(this.timeout);
     }
-
-    async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+    async findByPage(page, filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+        const results = await this.knex.select(columns).from(this.tableName)
+            .where(filters).limit(getPageSize()).offset(getOffset(page))
+            .orderBy(orderBy).timeout(this.timeout);
+        return map(results, result =>setDate(result));
+    }
+    async findOne (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
             return results;
@@ -111,13 +135,14 @@ class ModelCreate {
         return this.knex.select(columns).from(this.tableName).orderBy(orderBy).timeout(this.timeout);
     }
 
-    async findById (ids, columns = this.selectableProps, orderBy = ORDER_BY) {
-        const row = await this.knex
-            .select(columns)
-            .from(this.tableName).where(ids)
+    async findById (rowId, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const id = this.jsonToString(rowId);
+        const objectTosend = await this.knex.select(columns)
+            .from(this.tableName)
+            .where(id)
             .orderBy(orderBy)
             .timeout(this.timeout);
-        return head(row);
+        return head(objectTosend);
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {
@@ -140,24 +165,25 @@ class ModelCreate {
     }
 
     async updateOne (filters, props) {
-        //const object = await this.findOne(filters);
-        /*if (object && object.__v !== undefined) {
-            props.__v = object.__v;
-            props.__v += 1;
-        } else {
-            props.__v = 0;
-        }*/
-
+        const id = this.jsonToString(filters);
         const objectToSave = this.jsonToString(props);
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
-                .update(objectToSave).from(this.tableName).where(filters)
-                .returning(this.selectableProps).timeout(this.timeout);
-            return modifiedObject;
+                .update(objectToSave)
+                .from(this.tableName)
+                .where(id)
+                .returning(this.getColumnsNames())
+                .timeout(this.timeout);
+
+            return this.convertKeyNames(head(modifiedObject));
         }
-        const modifiedObject = await this.knex.update(objectToSave).from(this.tableName).where(filters)
-            .returning(this.selectableProps).timeout(this.timeout);
-        return head(modifiedObject);
+        const modifiedObject = await this.knex.update(objectToSave)
+            .from(this.tableName)
+            .where(id)
+            .returning(this.getColumnsNames())
+            .timeout(this.timeout);
+
+        return this.convertKeyNames(head(modifiedObject));
     }
 
     async updateMany (filters, props) {
@@ -183,17 +209,22 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
-    deleteOne (id) {
-        if (this.transaction) {
-            return this.transaction(this.tableName).update({
-                deleted: true,
-                deletedAt: new Date()
-            }).where({id}).timeout(this.timeout);
+    deleteOne (idRow, userDestroyer=null) {
+        const id = this.jsonToString(idRow);
+        const unsubscribeData = {[this.handleProps.deletedAt]: new Date()};
+        if(userDestroyer){
+            assign(unsubscribeData, {[this.handleProps.userDestroyer]: userDestroyer});
         }
-        return this.knex.update({
-            deleted: true,
-            deletedAt: new Date()
-        }).from(this.tableName).where({id}).timeout(this.timeout);
+        if (this.transaction) {
+            return this.transaction(this.tableName)
+                .update(unsubscribeData)
+                .where(id)
+                .timeout(this.timeout);
+        }
+        return this.knex.update(unsubscribeData)
+            .from(this.tableName)
+            .where(id)
+            .timeout(this.timeout);
     }
 
     deleteMany (ids) {
@@ -228,6 +259,18 @@ class ModelCreate {
             console.log(filters, props);
             return false;
         }
+    }
+
+    getColumnsNames(){
+        return values(this.selectableProps);
+    }
+    convertKeyNames(object){
+        const selectableProps = this.invertSelectableProps();
+        const objectToSend = mapKeys(object, (value, key) => selectableProps[key]);
+        return objectToSend;
+    }
+    invertSelectableProps(){
+        return invert(this.selectableProps);
     }
 }
 

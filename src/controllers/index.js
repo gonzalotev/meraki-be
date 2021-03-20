@@ -3,7 +3,6 @@ const upperFirst = require('lodash/upperFirst');
 const camelCase = require('lodash/camelCase');
 const includes = require('lodash/includes');
 const reduce = require('lodash/reduce');
-
 const controllers = reduce(fs.readdirSync(__dirname), (controllersObj, filename) => {
     if (!includes(filename, 'index.js')) {
         // eslint-disable-next-line lodash/prefer-lodash-method

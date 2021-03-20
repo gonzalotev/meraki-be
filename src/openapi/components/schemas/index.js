@@ -6,9 +6,12 @@ const Success = require('./Success');
 const Files = require('./Files');
 const DiccionarioLinguistico = require('./DiccionarioLinguistico');
 const Operativos = require('./Operativos');
-const VariableEstadistica = require('./VariableEstadistica');
 const RolOperativoVariable = require('./RolOperativoVariable');
-const RoleType = require('./RoleType');
+const Role = require('./Role');
+const VariableStadistics = require ('./VariableStadistics');
+const Nomenclators = require('./Nomenclators');
+const Assigment = require('./Assigment');
+const Lots = require('./Lots');
 module.exports = {
     ArrayString: {
         type: 'array',
@@ -50,7 +53,10 @@ module.exports = {
     Files,
     DiccionarioLinguistico,
     Operativos,
-    VariableEstadistica,
     RolOperativoVariable,
-    RoleType
+    Role,
+    VariableStadistics,
+    Nomenclators,
+    Assigment,
+    Lots
 };
