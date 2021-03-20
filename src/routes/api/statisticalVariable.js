@@ -3,10 +3,11 @@ const {StatisticalVariableController} = include('controllers');
 module.exports = router => {
     router.route('/')
         .get(StatisticalVariableController.fetch)
-        .post(StatisticalVariableController.create)
+        .post(StatisticalVariableController.create);
+    router.route('/:id/')
         .put(StatisticalVariableController.update)
-        .delete(StatisticalVariableController.delete);
-    router.route('/:NOMBRE/:ID_VARIABLE/')
+        .delete(StatisticalVariableController.delete)
         .get(StatisticalVariableController.fetchOne);
+
     return router;
 };

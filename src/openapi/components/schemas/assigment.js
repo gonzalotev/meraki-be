@@ -53,7 +53,7 @@ module.exports = {
                     maxLength: 300,
                     nullable: true
                 },
-                aprroved: {type: 'boolean'}
+                approved: {type: 'boolean'}
             }
         },
         statisticalVariable: {
@@ -78,7 +78,7 @@ module.exports = {
                     maxLength: 300,
                     nullable: true
                 },
-                aprroved: {type: 'boolean'}
+                approved: {type: 'boolean'}
             }
         }
     }

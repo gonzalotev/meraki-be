@@ -1,26 +1,19 @@
-const User = require('./User');
-const Profile = require('./Profile');
-const Error = require('./Error');
-const ValidateToken = require('./ValidateToken');
-const Success = require('./Success');
-const Files = require('./Files');
-<<<<<<< HEAD
-const DiccionarioLinguistico = require('./DiccionarioLinguistico');
-const Operativos = require('./Operativos');
-const RolOperativoVariable = require('./RolOperativoVariable');
-const Role = require('./Role');
-const VariableStadistics = require ('./VariableStadistics');
-const Nomenclators = require('./Nomenclators');
-const Assigment = require('./Assigment');
-const Lots = require('./Lots');
-=======
-const DictionaryLinguistic = require('./DictionaryLinguistic');
-const Operativos = require('./Operativos');
-const VariableEstadistica = require('./VariableEstadistica');
-const RolOperativoVariable = require('./RolOperativoVariable');
-const UserRole = require('./UserRole');
+const Assigment = require('./assigment');
+const DictionaryLinguistic = require('./dictionaryLinguistic');
+const Error = require('./error');
+const Files = require('./files');
+const Lots = require('./lots');
+const Nomenclators = require('./nomenclators');
+const Operatives = require('./operatives');
+const Profile = require('./profile');
+const Role = require('./role');
+const StatisticalVariable = require('./statisticalVariable');
+const Success = require('./success');
+const User = require('./user');
+const UserRole = require('./userRole');
+const ValidateToken = require('./validateToken');
+const VariableOperatingRole = require('./variableOperatingRole');
 
->>>>>>> feat: create dictionary linguistic endpoint
 module.exports = {
     ArrayString: {
         type: 'array',
@@ -54,26 +47,19 @@ module.exports = {
             attributes: {type: 'object'}
         }
     },
-    Profile,
-    User,
-    Error,
-    ValidateToken,
-    Success,
-    Files,
-<<<<<<< HEAD
-    DiccionarioLinguistico,
-    Operativos,
-    RolOperativoVariable,
-    Role,
-    VariableStadistics,
-    Nomenclators,
     Assigment,
-    Lots
-=======
     DictionaryLinguistic,
-    Operativos,
-    VariableEstadistica,
-    RolOperativoVariable,
-    UserRole
->>>>>>> feat: create dictionary linguistic endpoint
+    Error,
+    Files,
+    Lots,
+    Nomenclators,
+    Operatives,
+    Profile,
+    Role,
+    StatisticalVariable,
+    Success,
+    User,
+    UserRole,
+    ValidateToken,
+    VariableOperatingRole
 };

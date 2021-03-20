@@ -2,7 +2,7 @@ const knex = include('helpers/database');
 const { dateToString, getOffset, getPageSize } = include('util');
 const { rolesTableName } = include('constants');
 
-class RoleTypeService {
+class UserRoleService {
     static async find(page) {
         const userRoles = await knex.select()
             .from(rolesTableName)
@@ -21,4 +21,4 @@ class RoleTypeService {
     }
 }
 
-module.exports = RoleTypeService;
+module.exports = UserRoleService;

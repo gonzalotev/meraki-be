@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/assigments': {
+    '/api/assignments': {
         post: {
             security: [
                 {bearerAuth: []}
@@ -58,7 +58,7 @@ module.exports = {
             }
         }
     },
-    '/api/assigments/{userId}': {
+    '/api/assignments/{userId}': {
         get: {
             security: [
                 {bearerAuth: []}
@@ -72,7 +72,7 @@ module.exports = {
                         type: 'string',
                         maxLength: 50
                     },
-                    description: 'User id of assigments'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {

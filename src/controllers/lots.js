@@ -9,22 +9,25 @@ class LotsController {
             next(error);
         }
     }
+
     static async create(req, res, next) {
         try{
             const lot = await Lots.insertOne(req.body);
-            res.send({ sucess: true, lot });
+            res.send({ success: true, lot });
         } catch(error) {
             next(error);
         }
     }
+
     static async update(req, res, next){
         try{
             const lot = await Lots.updateOne(req.params, req.body);
-            res.send({ sucess: true, lot });
+            res.send({ success: true, lot });
         } catch(error) {
             next(error);
         }
     }
+
     static async delete(req, res, next){
         try{
             const result = await Lots.deleteOne(req.params);
@@ -33,6 +36,7 @@ class LotsController {
             next(error);
         }
     }
+
     static async fetchOne(req, res, next){
         try{
             const lot = await Lots.findById(req.params);

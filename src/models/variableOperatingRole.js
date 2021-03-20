@@ -2,7 +2,7 @@ const toNumber = require('lodash/toNumber');
 const get = require('lodash/get');
 const {PAGE_SIZE} = process.env;
 const ModelCreate = include('/helpers/modelCreate');
-const { variableOperatingRoleTableName, variableOperatingRoleAttrib} = include('constants');
+const {variableOperatingRoleTableName, variableOperatingRoleAttrib} = include('constants');
 const name = 'variableOperatingRole';
 
 class VariableOperatingRole extends ModelCreate{
@@ -23,6 +23,7 @@ class VariableOperatingRole extends ModelCreate{
             .orderBy([{ column: 'FECHA_ALTA', order: 'desc' }])
             .offset(PAGE_SIZE * toNumber(skip));
     }
+
     async countRows (filters = {}) {
         const result = await this.knex(this.tableName)
             .count()

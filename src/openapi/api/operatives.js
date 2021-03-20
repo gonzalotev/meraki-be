@@ -1,7 +1,7 @@
 module.exports = {
-    '/api/operativos': {
+    '/api/operatives': {
         get: {
-            summary: 'List of operativos',
+            summary: 'List of operatives',
             security: [],
             parameters: [
                 {
@@ -21,9 +21,9 @@ module.exports = {
                                 properties: {
                                     limit: {type: 'integer'},
                                     total: {type: 'integer'},
-                                    operativos: {
+                                    operatives: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/Operativos'},
+                                        items: {$ref: '#/components/schemas/Operatives'},
                                         example: {
                                             ID_OPERATIVO: 1,
                                             ID_FUENTE: 1,
@@ -62,7 +62,7 @@ module.exports = {
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/Operativos'}}}
+                content: {'application/json': {schema: {$ref: '#/components/schemas/Operatives'}}}
             },
             responses: {
                 200: {
@@ -73,7 +73,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    insertedOne: {$ref: '#/components/schemas/Operativos'}
+                                    insertedOne: {$ref: '#/components/schemas/Operatives'}
                                 }
                             }
                         }
@@ -107,7 +107,7 @@ module.exports = {
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/Operativos'}}}
+                content: {'application/json': {schema: {$ref: '#/components/schemas/Operatives'}}}
             },
             responses: {
                 200: {
@@ -118,7 +118,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    updatedOne: {$ref: '#/components/schemas/Operativos'}
+                                    updatedOne: {$ref: '#/components/schemas/Operatives'}
                                 }
                             }
                         }
@@ -167,7 +167,7 @@ module.exports = {
     },
     '/api/operativo/{DESCRIPCION}/{ID_OPERATIVO}/{ID_FUENTE}': {
         get: {
-            summary: 'List of operativos',
+            summary: 'List of operatives',
             security: [],
             parameters: [
                 {
@@ -196,7 +196,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {operativo: {$ref: '#/components/schemas/Operativos'}}
+                                properties: {operative: {$ref: '#/components/schemas/Operatives'}}
                             }
                         }
                     }

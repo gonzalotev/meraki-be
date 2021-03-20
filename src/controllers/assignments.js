@@ -1,42 +1,21 @@
 const { RoleNomenclator, RoleOperativeVariable, RoleUser } = include('models');
 const { rename } = include('util');
+const { rolesSiCIAttrib, variablesAttrib, nomenclatorsAttrib } = include('constants');
 const has = require('lodash/has');
-const assign = require('lodash/assign');
-const selectableRoleProps = {
-    id: 'ID_ROL_USUARIO',
-    description: 'DESCRIPCION',
-    domain: 'DOMINIO',
-    observation: 'OBSERVACION'
-};
-const selectableVariableProps = {
-    roleId: 'ID_ROL_USUARIO',
-    operativeId: 'ID_OPERATIVO',
-    lotId: 'ID_LOTE',
-    variableId: 'ID_VARIABLE',
-    observation: 'OBSERVACION',
-    domain: 'DOMINIO',
-    isSupervised: 'SI_NO'
-};
-const selectableNomenclatorProps = {
-    roleId: 'ID_ROL_USUARIO',
-    nomenclatorId: 'ID_NOMENCLADOR',
-    domain: 'DOMINIO',
-    observation: 'OBSERVACION',
-    isSupervised: 'SI_NO'
-};
 
 class AssigmentController {
     static async find(req, res, next) {
         try {
             const { userId } = req.params;
-            const roles = await RoleUser.find({ userId }, selectableRoleProps);
-            const statisticalsVariables = await RoleOperativeVariable.find({userId}, selectableVariableProps);
-            const nomenclators = await RoleNomenclator.find({userId}, selectableNomenclatorProps);
-            res.send({ userId, roles, statisticalsVariables, nomenclators });
+            const roles = await RoleUser.find({ userId }, rolesSiCIAttrib);
+            const statisticsVariables = await RoleOperativeVariable.find({userId}, variablesAttrib);
+            const nomenclators = await RoleNomenclator.find({userId}, nomenclatorsAttrib);
+            res.send({ userId, roles, statisticsVariables, nomenclators });
         } catch(error) {
             next(error);
         }
     }
+
     static async create(req, res, next){
         try {
             let success = false;
@@ -44,20 +23,17 @@ class AssigmentController {
             const { body } = req;
             if(has(body, 'role')){
                 const role = rename(body.role, 'id', 'roleId');
-                assign(role, { userId });
-                await RoleUser.insertOne(role);
+                await RoleUser.insertOne({...role, userId});
                 success = true;
             }
             if(has(body, 'nomenclator')){
                 const nomenclator = rename(body.nomenclator, 'id', 'nomenclatorId');
-                assign(nomenclator, { userId });
-                await RoleNomenclator.insertOne(nomenclator);
+                await RoleNomenclator.insertOne({...nomenclator, userId});
                 success = true;
             }
             if(has(body, 'statisticalVariable')){
                 const statisticalVariable = rename(body.statisticalVariable, 'id', 'variableId');
-                assign(statisticalVariable, { userId });
-                await RoleOperativeVariable.insertOne(statisticalVariable);
+                await RoleOperativeVariable.insertOne({...statisticalVariable, userId});
                 success = true;
             }
             res.send({ success });
@@ -65,6 +41,7 @@ class AssigmentController {
             next(error);
         }
     }
+
     static async update(req, res, next){
         try {
             let success = false;
@@ -90,6 +67,7 @@ class AssigmentController {
             next(error);
         }
     }
+
     static async delete(req, res, next){
         try {
             let success = false;

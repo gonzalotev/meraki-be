@@ -8,5 +8,6 @@ module.exports = router => {
         .put(RoleController.update)
         .get(RoleController.find)
         .delete(RoleController.delete);
+
     return router;
 };

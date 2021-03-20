@@ -19,7 +19,7 @@ To run seed u need to run `npm run db:seed`
   /routes -- defines API endpoints and passes requests to corresponding controllers
     /api -- api routes that need a valid authentication
     /middlewares -- main handler of routes validations
-    /public-api -- the main public api all routers that not need authenticate should be here
+    /publicApi -- the main public api all routers that not need authenticate should be here
     index.js -- the main Express app
   /services -- all business logic should be here
   /util -- functions that are often used should be here 

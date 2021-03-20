@@ -1,4 +1,5 @@
 const { Role } = include('models');
+
 class RoleController {
     static async fetch(req, res, next) {
         try {
@@ -8,6 +9,7 @@ class RoleController {
             next(error);
         }
     }
+
     static async find(req, res, next){
         try{
             const role = await Role.findById(req.params);
@@ -16,6 +18,7 @@ class RoleController {
             next(error);
         }
     }
+
     static async create(req, res, next){
         try {
             const userCreator = req.user.id;
@@ -25,6 +28,7 @@ class RoleController {
             next(error);
         }
     }
+
     static async update(req, res, next){
         try{
             const role = await Role.updateOne(req.params, req.body);
@@ -33,6 +37,7 @@ class RoleController {
             next(error);
         }
     }
+
     static async delete(req, res, next){
         try{
             const userDestroyer = req.user.id;

@@ -8,15 +8,11 @@ const toLower = require('lodash/toLower');
 const values = require('lodash/values');
 const moment = require('moment');
 const isDate = require('lodash/isDate');
-<<<<<<< HEAD
 const includes = require('lodash/includes');
 const keys = require('lodash/keys');
 const clone = require('lodash/clone');
 const { getOffset, getPageSize } = require('./getOffset');
 
-=======
-const { getOffset, getPageSize } = require('./getOffset');
->>>>>>> feat: create dictionary linguistic endpoint
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
     objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat({
@@ -39,11 +35,8 @@ const buildArchQuery = query => {
 const dateToString = date => {
     if(isDate(date)){
         return moment(date).format('YYYY-MM-DD');
-<<<<<<< HEAD
     }else if(moment(date, 'DD-MMM-YY', true).isValid()){
         return moment(date, 'DD-MMM-YY').format('YYYY-MM-DD');
-=======
->>>>>>> feat: create dictionary linguistic endpoint
     }
     return null;
 };
@@ -54,7 +47,6 @@ const dateTimeToString = dateTime => {
     return null;
 };
 
-<<<<<<< HEAD
 const setDate = obj => {
     assign(obj, { createdAt: dateToString(obj.createdAt), deletedAt: dateToString(obj.deletedAt)});
     return obj;
@@ -68,19 +60,13 @@ const rename = (obj, key, newKey) => {
     return obj;
 };
 
-=======
->>>>>>> feat: create dictionary linguistic endpoint
 module.exports = {
     buildArchQuery,
     reducedList,
     dateToString,
     dateTimeToString,
     getOffset,
-<<<<<<< HEAD
     getPageSize,
     setDate,
     rename
-=======
-    getPageSize
->>>>>>> feat: create dictionary linguistic endpoint
 };

@@ -1,5 +1,5 @@
 module.exports = {
-    '/public-api/session': {
+    '/publicApi/session': {
         post: {
             operationId: 'validate token',
             security: [],
