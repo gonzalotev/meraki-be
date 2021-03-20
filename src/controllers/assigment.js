@@ -90,6 +90,31 @@ class AssigmentController {
             next(error);
         }
     }
+    static async delete(req, res, next){
+        try {
+            let success = false;
+            const { userId } = req.body;
+            const { body } = req;
+            if(has(body, 'role')){
+                const { id: roleId } = body.role;
+                await RoleUser.deleteOne({roleId, userId});
+                success = true;
+            }
+            if(has(body, 'nomenclator')){
+                const { id: nomenclatorId, roleId } = body.nomenclator;
+                await RoleNomenclator.deleteOne({roleId, nomenclatorId, userId});
+                success = true;
+            }
+            if(has(body, 'statisticalVariable')){
+                const { id: variableId, roleId } = body.statisticalVariable;
+                await RoleOperativeVariable.deleteOne({roleId, variableId, userId});
+                success = true;
+            }
+            res.send({ success });
+        } catch(error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = AssigmentController;
