@@ -1,6 +1,7 @@
 const knex = include('helpers/database');
 const { dateToString, getOffset, getPageSize } = include('util');
-const { rolesTableName } = include('constants');
+const { rolesTableName, assignmentRolesAttrib } = include('constants');
+const { roleUser } = include('models');
 
 class UserRoleService {
     static async find(page) {
@@ -18,6 +19,11 @@ class UserRoleService {
             createdAt: dateToString(userRole.FECHA_ALTA),
             deletedAt: dateToString(userRole.FECHA_BAJA)
         }));
+    }
+
+    static async findOne(userId) {
+        const userRole = await roleUser.findOne({ID_USUARIO: userId}, assignmentRolesAttrib);
+        return {role: userRole || {}};
     }
 }
 

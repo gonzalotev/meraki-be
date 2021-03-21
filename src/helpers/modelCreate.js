@@ -4,9 +4,12 @@ const { setDate, getOffset, getPageSize} = include('util');
 const assign = require('lodash/assign');
 const forEach = require('lodash/forEach');
 const head = require('lodash/head');
+const includes = require('lodash/includes');
 const isArray = require('lodash/isArray');
+const isObject = require('lodash/isObject');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
+const keys = require('lodash/keys');
 const values = require('lodash/values');
 const invert = require('lodash/invert');
 const mapKeys = require('lodash/mapKeys');
@@ -53,26 +56,31 @@ class ModelCreate {
     jsonToString (props) {
         const objectToSave = {};
         //eslint-disable-next-line
-        Object.entries(props).map((item, index)  => {
-            return assign(objectToSave, {[this.selectableProps[index]]: item[1]});
+        map(props, (value, index) => {
+            if (includes(keys(this.selectableProps), index)) {
+                if (isObject(value)) {
+                    assign(objectToSave, {[this.selectableProps[index]]: JSON.stringify(value)});
+                } else {
+                    assign(objectToSave, {[this.selectableProps[index]]: value});
+                }
+            }
         });
-
         return objectToSave;
     }
 
-    async insertOne (props, userCreator=null) {
-        const objectToSave = this.jsonToString({...props});
-        assign(objectToSave, {[this.handleProps.createdAt]: new Date()});
-        if(userCreator){
-            assign(objectToSave, {[this.handleProps.userCreator]: userCreator});
+    async insertOne (objectToSave) {
+        if (this.transaction) {
+            const objectCreated = await this.transaction(this.tableName)
+                .insert(objectToSave)
+                .returning(this.getColumnsNames())
+                .timeout(this.timeout);
+            return this.convertKeyNames(head(objectCreated));
         }
-
-        await this.knex.insert(objectToSave)
+        const objectCreated = await this.knex.insert(objectToSave)
             .returning(this.getColumnsNames())
             .into(this.tableName)
             .timeout(this.timeout);
-
-        return {...props, userCreator};
+        return head(objectCreated);
     }
 
     insertMany(props) {
@@ -97,8 +105,8 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
-    find ( filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
-        const tableFilters = this.jsonToString(filters);
+    find(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const tableFilters = filters;
         if(has(this.handleProps, 'deletedAt')){
             assign(tableFilters, {[this.handleProps.deletedAt]: null});
         }
@@ -108,6 +116,7 @@ class ModelCreate {
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
+
     async findByPage(page, filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
         const results = await this.knex.select(columns)
             .from(this.tableName)
@@ -118,7 +127,7 @@ class ModelCreate {
             .timeout(this.timeout);
         return map(results, result =>setDate(result));
     }
-    async findOne (filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
+    async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
             return results;
@@ -206,9 +215,9 @@ class ModelCreate {
             }
             return this.knex
                 .update(updates)
-                .from(this.tableName).where(filters)
-                .returning(this.selectableProps)
-                .timeout(this.timeout);
+                .from(this.tableName)
+                .where(filters)
+                .returning(this.selectableProps).timeout(this.timeout);
         }
         return Promise.reject('not a valid array of data');
     }

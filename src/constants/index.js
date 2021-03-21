@@ -59,13 +59,13 @@ const datesAttrib = {
     deletedAt: 'FECHA_BAJA'
 };
 
-const assignmentRolesAttrib = {
-    userId: 'ID_USUARIO',
-    roleId: 'ID_ROL_USUARIO',
-    description: 'DESCRIPCION',
-    domain: 'DOMINIO',
-    observation: 'OBSERVACION'
-};
+const assignmentRolesAttrib = [
+    'ID_USUARIO',
+    'ID_ROL_USUARIO',
+    'DESCRIPCION',
+    'DOMINIO',
+    'OBSERVACION'
+];
 
 const rolesTableName = 'TIPOS_DE_ROLES';
 
