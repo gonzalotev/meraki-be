@@ -6,7 +6,7 @@ const Lots = require('./lots');
 const Nomenclators = require('./nomenclators');
 const Operatives = require('./operatives');
 const Profile = require('./profile');
-const Role = require('./role');
+const Roles = require('./roles');
 const StatisticalVariable = require('./statisticalVariable');
 const Success = require('./success');
 const User = require('./user');
@@ -55,7 +55,7 @@ module.exports = {
     Nomenclators,
     Operatives,
     Profile,
-    Role,
+    Roles,
     StatisticalVariable,
     Success,
     User,

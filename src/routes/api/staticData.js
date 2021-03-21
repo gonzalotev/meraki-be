@@ -2,7 +2,8 @@ const {
     StaticDataController,
     StatisticalVariableController,
     NomenclatorsController,
-    LotsController
+    LotsController,
+    RolesController
 } = include('controllers');
 
 module.exports = router => {
@@ -10,6 +11,7 @@ module.exports = router => {
     router.route('/statisticalVariable').get(StatisticalVariableController.fetch);
     router.route('/shortDescription').get(NomenclatorsController.fetch);
     router.route('/lots').get(LotsController.fetch);
+    router.route('/roles').get(RolesController.fetch);
 
     return router;
 };

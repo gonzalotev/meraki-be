@@ -4,12 +4,9 @@ const { setDate, getOffset, getPageSize} = include('util');
 const assign = require('lodash/assign');
 const forEach = require('lodash/forEach');
 const head = require('lodash/head');
-const includes = require('lodash/includes');
 const isArray = require('lodash/isArray');
-const isObject = require('lodash/isObject');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
-const keys = require('lodash/keys');
 const values = require('lodash/values');
 const invert = require('lodash/invert');
 const mapKeys = require('lodash/mapKeys');
@@ -56,14 +53,8 @@ class ModelCreate {
     jsonToString (props) {
         const objectToSave = {};
         //eslint-disable-next-line
-        map(props, (value, index) => {
-            if (includes(keys(this.selectableProps), index)) {
-                if (isObject(value)) {
-                    assign(objectToSave, {[this.selectableProps[index]]: JSON.stringify(value)});
-                } else {
-                    assign(objectToSave, {[this.selectableProps[index]]: value});
-                }
-            }
+        Object.entries(props).map((item, index)  => {
+            return assign(objectToSave, {[this.selectableProps[index]]: item[1]});
         });
 
         return objectToSave;
@@ -75,18 +66,13 @@ class ModelCreate {
         if(userCreator){
             assign(objectToSave, {[this.handleProps.userCreator]: userCreator});
         }
-        if (this.transaction) {
-            const objectCreated = await this.transaction(this.tableName)
-                .insert(objectToSave)
-                .returning(this.getColumnsNames())
-                .timeout(this.timeout);
-            return this.convertKeyNames(head(objectCreated));
-        }
-        const objectCreated = await this.knex.insert(objectToSave)
+
+        await this.knex.insert(objectToSave)
             .returning(this.getColumnsNames())
             .into(this.tableName)
             .timeout(this.timeout);
-        return this.convertKeyNames(head(objectCreated));
+
+        return {...props, userCreator};
     }
 
     insertMany(props) {
@@ -277,7 +263,7 @@ class ModelCreate {
             return this.insertOne(props);
         } catch(err) {
             // eslint-disable-next-line
-            console.log(filters, props);
+            console.error(filters, props);
             return false;
         }
     }

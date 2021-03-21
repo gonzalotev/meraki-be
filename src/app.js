@@ -92,6 +92,7 @@ class App {
     async _routes() {
         const apiSpec = include('openapi');
         const options = {swaggerOptions: {validatorUrl: null}};
+
         express.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSpec, options));
 
         await new OpenApiValidator({
