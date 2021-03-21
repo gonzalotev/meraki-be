@@ -5,7 +5,8 @@ const DictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
 const statisticalVariable = require('./statisticalVariable');
 const variableOperationalRole = require('./variableOperatingRole');
-const roles = require('./userRole');
+const userRoles = require('./userRole');
+const roles = require('./roles');
 
 module.exports = {
     ...assignments,
@@ -15,5 +16,6 @@ module.exports = {
     ...variableOperationalRole,
     ...users,
     ...staticData,
+    ...userRoles,
     ...roles
 };

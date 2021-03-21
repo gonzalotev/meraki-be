@@ -52,13 +52,32 @@ const staticalVariableAttrib = [
     `${staticalVariableTableName}.FECHA_ALTA`
 ];
 
-const roleTypeTableName = 'TIPOS_DE_ROLES';
+const assignmentRolesTableName = 'ROLES_SICI';
 
-const roleTypeAttrib = [
-    `${roleTypeTableName}.ID_ROL_USUARIO`,
-    `${roleTypeTableName}.DESCRIPCION`,
-    `${roleTypeTableName}.OBSERVACION`,
-    `${roleTypeTableName}.DOMINIO`
+const datesAttrib = {
+    createdAt: 'FECHA_ALTA',
+    deletedAt: 'FECHA_BAJA'
+};
+
+const assignmentRolesAttrib = {
+    userId: 'ID_USUARIO',
+    roleId: 'ID_ROL_USUARIO',
+    description: 'DESCRIPCION',
+    domain: 'DOMINIO',
+    observation: 'OBSERVACION'
+};
+
+const rolesTableName = 'TIPOS_DE_ROLES';
+
+const rolesAttrib = [
+    'ID_ROL_USUARIO',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'FECHA_ALTA'
 ];
 
 const variableOperatingRoleTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';
@@ -75,23 +94,6 @@ const variableOperatingRoleAttrib = [
     `${variableOperatingRoleTableName}.FECHA_ALTA`,
     `${variableOperatingRoleTableName}.FECHA_BAJA`
 ];
-
-const rolesTableName = 'ROLES_SICI';
-
-const datesAttrib = {
-    createdAt: 'FECHA_ALTA',
-    deletedAt: 'FECHA_BAJA'
-};
-
-const roleSiCITableName = 'ROLES_SICI';
-
-const rolesSiCIAttrib = {
-    userId: 'ID_USUARIO',
-    roleId: 'ID_ROL_USUARIO',
-    description: 'DESCRIPCION',
-    domain: 'DOMINIO',
-    observation: 'OBSERVACION'
-};
 
 const lotsTableName = 'LOTES';
 
@@ -124,22 +126,21 @@ const nomenclatorsAttrib = {
     isSupervised: 'SI_NO'
 };
 
-module.export = {
+module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
     operativesAttrib,
     operativesTableName,
     staticalVariableAttrib,
     staticalVariableTableName,
-    roleTypeTableName,
-    roleTypeAttrib,
+    rolesTableName,
+    rolesAttrib,
     variableOperatingRoleTableName,
     variableOperatingRoleAttrib,
-    rolesTableName,
+    assignmentRolesTableName,
+    assignmentRolesAttrib,
     datesAttrib,
     datesWithUserAttrib,
-    roleSiCITableName,
-    rolesSiCIAttrib,
     lotsAttrib,
     lotsTableName,
     variablesAttrib,

@@ -1,9 +1,7 @@
 module.exports = {
     '/api/roles': {
         get: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
             responses: {
                 200: {
                     description: 'Success',
@@ -14,7 +12,7 @@ module.exports = {
                                 properties: {
                                     roles: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Role'}
+                                        items: { $ref: '#/components/schemas/Roles'}
                                     }
                                 },
                                 example: {
@@ -44,12 +42,10 @@ module.exports = {
             }
         },
         post: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
             requestBody: {
                 required: true,
-                content: { 'application/json': {schema: {$ref: '#/components/schemas/Role'}}}
+                content: { 'application/json': {schema: {$ref: '#/components/schemas/Roles'}}}
             },
             responses: {
                 200: {
@@ -59,7 +55,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    role: { $ref: '#/components/schemas/Role'}
+                                    role: { $ref: '#/components/schemas/Roles'}
                                 },
                                 example: {
                                     role: {
@@ -105,7 +101,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    role: { $ref: '#/components/schemas/Role'}
+                                    role: { $ref: '#/components/schemas/Roles'}
                                 },
                                 example: {
                                     role: {
@@ -143,7 +139,7 @@ module.exports = {
             ],
             requestBody: {
                 required: true,
-                content: { 'application/json': {schema: {$ref: '#/components/schemas/Role'}}}
+                content: { 'application/json': {schema: {$ref: '#/components/schemas/Roles'}}}
             },
             responses: {
                 200: {
@@ -153,7 +149,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    role: { $ref: '#/components/schemas/Role'}
+                                    role: { $ref: '#/components/schemas/Roles'}
                                 },
                                 example: {
                                     role: {

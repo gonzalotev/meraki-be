@@ -1,13 +1,14 @@
-const { RoleController } = include('controllers');
+const { RolesController } = include('controllers');
 
 module.exports = router => {
     router.route('/')
-        .get(RoleController.fetch)
-        .post(RoleController.create);
+        .get(RolesController.fetch)
+        .post(RolesController.create);
+
     router.route('/:id')
-        .put(RoleController.update)
-        .get(RoleController.find)
-        .delete(RoleController.delete);
+        .put(RolesController.update)
+        .get(RolesController.find)
+        .delete(RolesController.delete);
 
     return router;
 };
