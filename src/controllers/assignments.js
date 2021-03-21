@@ -1,16 +1,17 @@
 const { RoleNomenclator, RoleOperativeVariable, RoleUser } = include('models');
+const { UserRoleService } = include('services');
 const { rename } = include('util');
-const { rolesSiCIAttrib, variablesAttrib, nomenclatorsAttrib } = include('constants');
+const { variablesAttrib, nomenclatorsAttrib } = include('constants');
 const has = require('lodash/has');
 
 class AssigmentController {
     static async find(req, res, next) {
         try {
             const { userId } = req.params;
-            const roles = await RoleUser.find({ userId }, rolesSiCIAttrib);
+            const {role} = await UserRoleService.findOne(userId);
             const statisticsVariables = await RoleOperativeVariable.find({userId}, variablesAttrib);
             const nomenclators = await RoleNomenclator.find({userId}, nomenclatorsAttrib);
-            res.send({ userId, roles, statisticsVariables, nomenclators });
+            res.send({ userId, role, statisticsVariables, nomenclators });
         } catch(error) {
             next(error);
         }
