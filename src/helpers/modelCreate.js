@@ -171,14 +171,12 @@ class ModelCreate {
         }
     }
 
-    async updateOne (filters, props) {
-        const id = this.jsonToString(filters);
-        const objectToSave = this.jsonToString(props);
+    async updateOne(filters, objectToSave) {
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
                 .update(objectToSave)
                 .from(this.tableName)
-                .where(id)
+                .where(filters)
                 .returning(this.getColumnsNames())
                 .timeout(this.timeout);
 
@@ -186,7 +184,7 @@ class ModelCreate {
         }
         const modifiedObject = await this.knex.update(objectToSave)
             .from(this.tableName)
-            .where(id)
+            .where(filters)
             .returning(this.getColumnsNames())
             .timeout(this.timeout);
 

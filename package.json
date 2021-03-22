@@ -18,7 +18,7 @@
   "scripts": {
     "start:migrate": "npm run db:migrate && node index.js",
     "start": "node index.js",
-    "start:nodemon": "nodemon index.js",
+    "nodemon": "nodemon index.js",
     "dev": "gulp dev",
     "test": "gulp eslint && npm run test:cover",
     "test:teamcity": "cross-env NODE_ENV=test PORT=9999 nyc mocha",

@@ -28,6 +28,10 @@ module.exports = {
                     type: 'string',
                     maxLength: 300,
                     nullable: true
+                },
+                createdAt: {
+                    type: 'string',
+                    nullable: true
                 }
             }
         },

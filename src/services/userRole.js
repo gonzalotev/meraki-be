@@ -23,7 +23,38 @@ class UserRoleService {
 
     static async findOne(userId) {
         const userRole = await roleUser.findOne({ID_USUARIO: userId}, assignmentRolesAttrib);
-        return {role: userRole || {}};
+        return {role: userRole ? {
+            id: userRole.ID_ROL_USUARIO,
+            description: userRole.DESCRIPCION,
+            domain: userRole.DOMINIO,
+            observation: userRole.OBSERVACION,
+            createdAt: userRole.FECHA_ALTA
+        } : {}};
+    }
+
+    static async saveAssignmentRole(role, userId) {
+        const createRole = {
+            ID_USUARIO: userId,
+            ID_ROL_USUARIO: role.id,
+            DESCRIPCION: role.description,
+            DOMINIO: role.domain,
+            OBSERVACION: role.observation,
+            FECHA_ALTA: new Date()
+        };
+        const newRole = await roleUser.insertOne(createRole);
+        return newRole;
+    }
+
+    static async updateAssignmentRole(role, userId) {
+        const updateRole = {
+            ID_USUARIO: userId,
+            ID_ROL_USUARIO: role.id,
+            DESCRIPCION: role.description,
+            DOMINIO: role.domain,
+            OBSERVACION: role.observation,
+            FECHA_ALTA: new Date()
+        };
+        return await roleUser.updateOne({ID_USUARIO: userId}, updateRole);
     }
 }
 
