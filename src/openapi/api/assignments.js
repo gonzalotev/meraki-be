@@ -68,10 +68,7 @@ module.exports = {
                     in: 'path',
                     name: 'userId',
                     required: true,
-                    schema: {
-                        type: 'string',
-                        maxLength: 50
-                    },
+                    schema: {type: 'string', maxLength: 50},
                     description: 'User id of assignment'
                 }
             ],

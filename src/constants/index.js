@@ -37,19 +37,19 @@ const operativesAttrib = [
     `${operativesTableName}.FECHA_ALTA`
 ];
 
-const staticalVariableTableName = 'VARIABLES_ESTADISTICAS';
+const assignmentStaticalVariableTableName = 'VARIABLES_ESTADISTICAS';
 
-const staticalVariableAttrib = [
-    `${staticalVariableTableName}.ID_VARIABLE`,
-    `${staticalVariableTableName}.NOMBRE`,
-    `${staticalVariableTableName}.ABREVIATURA`,
-    `${staticalVariableTableName}.DIGITOS`,
-    `${staticalVariableTableName}.SUPERVISADO`,
-    `${staticalVariableTableName}.DOMINIO`,
-    `${staticalVariableTableName}.OBSERVACION`,
-    `${staticalVariableTableName}.ID_PADRE`,
-    `${staticalVariableTableName}.ID_USUARIO`,
-    `${staticalVariableTableName}.FECHA_ALTA`
+const assignmentStaticalVariableAttrib = [
+    'ID_VARIABLE',
+    'NOMBRE',
+    'ABREVIATURA',
+    'DIGITOS',
+    'SUPERVISADO',
+    'DOMINIO',
+    'OBSERVACION',
+    'ID_PADRE',
+    'ID_USUARIO',
+    'FECHA_ALTA'
 ];
 
 const assignmentRolesTableName = 'ROLES_SICI';
@@ -64,7 +64,9 @@ const assignmentRolesAttrib = [
     'ID_ROL_USUARIO',
     'DESCRIPCION',
     'DOMINIO',
-    'OBSERVACION'
+    'OBSERVACION',
+    'FECHA_BAJA',
+    'FECHA_ALTA'
 ];
 
 const rolesTableName = 'TIPOS_DE_ROLES';
@@ -83,56 +85,60 @@ const rolesAttrib = [
 const variableOperatingRoleTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';
 
 const variableOperatingRoleAttrib = [
-    `${variableOperatingRoleTableName}.ID_USUARIO`,
-    `${variableOperatingRoleTableName}.ID_ROL_USUARIO`,
-    `${variableOperatingRoleTableName}.ID_OPERATIVO`,
-    `${variableOperatingRoleTableName}.ID_LOTE`,
-    `${variableOperatingRoleTableName}.ID_VARIABLE`,
-    `${variableOperatingRoleTableName}.OBSERVACION`,
-    `${variableOperatingRoleTableName}.DOMINIO`,
-    `${variableOperatingRoleTableName}.SI_NO`,
-    `${variableOperatingRoleTableName}.FECHA_ALTA`,
-    `${variableOperatingRoleTableName}.FECHA_BAJA`
+    'ID_USUARIO',
+    'ID_ROL_USUARIO',
+    'ID_OPERATIVO',
+    'ID_LOTE',
+    'ID_VARIABLE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SI_NO',
+    'FECHA_ALTA',
+    'FECHA_BAJA'
 ];
 
 const lotsTableName = 'LOTES';
 
-const lotsAttrib = {
-    operativeId: 'ID_OPERATIVO',
-    lotId: 'ID_LOTE',
-    description: 'DESCRIPCION'
-};
+const lotsAttrib = [
+    'ID_OPERATIVO',
+    'ID_LOTE',
+    'DESCRIPCION'
+];
+
 const datesWithUserAttrib = {
     createdAt: 'FECHA_ALTA',
     deletedAt: 'FECHA_FIN_BORRADO',
     userCreator: 'ID_USUARIO'
 };
 
-const variablesAttrib = {
-    roleId: 'ID_ROL_USUARIO',
-    operativeId: 'ID_OPERATIVO',
-    lotId: 'ID_LOTE',
-    variableId: 'ID_VARIABLE',
-    observation: 'OBSERVACION',
-    domain: 'DOMINIO',
-    isSupervised: 'SI_NO'
-};
+const variablesAttrib = [
+    'ID_ROL_USUARIO',
+    'ID_OPERATIVO',
+    'ID_LOTE',
+    'ID_VARIABLE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SI_NO'
+];
 
-const nomenclatorsAttrib = {
-    roleId: 'ID_ROL_USUARIO',
-    nomenclatorId: 'ID_NOMENCLADOR',
-    domain: 'DOMINIO',
-    observation: 'OBSERVACION',
-    isSupervised: 'SI_NO'
-};
+const assignmentRoleNomenclatorsTableName = 'RELACION_ROLES_USUARIOS_NOMENCLADORES';
+
+const assignmentRoleNomenclatorsAttrib = [
+    'ID_USUARIO',
+    'ID_ROL_USUARIO',
+    'ID_NOMENCLADOR',
+    'DOMINIO',
+    'OBSERVACION',
+    'SI_NO'
+];
 
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
     operativesAttrib,
     operativesTableName,
-    staticalVariableAttrib,
-    staticalVariableTableName,
+    assignmentStaticalVariableAttrib,
+    assignmentStaticalVariableTableName,
     rolesTableName,
     rolesAttrib,
     variableOperatingRoleTableName,
@@ -144,5 +150,6 @@ module.exports = {
     lotsAttrib,
     lotsTableName,
     variablesAttrib,
-    nomenclatorsAttrib
+    assignmentRoleNomenclatorsTableName,
+    assignmentRoleNomenclatorsAttrib
 };

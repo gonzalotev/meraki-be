@@ -1,7 +1,6 @@
-const { RoleNomenclator, RoleOperativeVariable, RoleUser } = include('models');
-const { UserRoleService } = include('services');
+const { RoleNomenclator, RoleUser, RoleOperativeVariable } = include('models');
+const { UserRoleService, StatisticVariableService, RoleNomenclatorService } = include('services');
 const { rename } = include('util');
-const { variablesAttrib, nomenclatorsAttrib } = include('constants');
 const has = require('lodash/has');
 
 class AssigmentController {
@@ -9,9 +8,10 @@ class AssigmentController {
         try {
             const { userId } = req.params;
             const {role} = await UserRoleService.findOne(userId);
-            const statisticsVariables = await RoleOperativeVariable.find({userId}, variablesAttrib);
-            const nomenclators = await RoleNomenclator.find({userId}, nomenclatorsAttrib);
-            res.send({ userId, role, statisticsVariables, nomenclators });
+            const {statisticalVariable} = await StatisticVariableService.findOne(userId);
+            const {nomenclator} = await RoleNomenclatorService.findOne(userId);
+
+            res.send({assignment: { userId, role, statisticalVariable, nomenclator }});
         } catch(error) {
             next(error);
         }
@@ -23,8 +23,11 @@ class AssigmentController {
             const { userId } = req.body;
             const { body } = req;
             if(has(body, 'role')){
-                const role = rename(body.role, 'id', 'roleId');
-                await RoleUser.insertOne({...role, userId});
+                if(body.role.createdAt) {
+                    await UserRoleService.updateAssignmentRole(body.role, userId);
+                } else {
+                    await UserRoleService.saveAssignmentRole(body.role, userId);
+                }
                 success = true;
             }
             if(has(body, 'nomenclator')){
