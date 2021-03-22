@@ -7,4 +7,5 @@ coverage
 .nyc_output
 .vscode
 package-lock.json
+.env-uat
 >>>>>>> feat: create dictionary linguistic endpoint
