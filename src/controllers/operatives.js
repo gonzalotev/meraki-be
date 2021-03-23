@@ -1,22 +1,16 @@
-const {Operatives} = include('/models');
-const head = require('lodash/head');
-const {PAGE_SIZE} = process.env;
+const { OperativesService } = include('services');
 
 class OperativesController {
     static async fetch(req, res, next){
         try {
-            const {page, ...filter} = req.query;
-            await Operatives.startTransaction();
-            const operatives = await Operatives.find(page, {...filter});
-            const total = await Operatives.countRows();
-            await Operatives.commitTransaction();
-            res.send({limit: PAGE_SIZE, total, operatives});
+            const operatives = await OperativesService.find();
+            res.send({ operatives });
         } catch(err) {
             next(err);
         }
     }
 
-    static async fetchOne(req, res, next){
+    /*static async fetchOne(req, res, next){
         try {
             res.send({operatives: await Operatives.findById(req.params)});
         } catch(err) {
@@ -55,7 +49,7 @@ class OperativesController {
         } catch(err) {
             next(err);
         }
-    }
+    }*/
 }
 
 module.exports = OperativesController;

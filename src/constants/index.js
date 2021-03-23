@@ -17,24 +17,24 @@ const dictionaryLinguisticAttrib = [
 const operativesTableName = 'OPERATIVOS';
 
 const operativesAttrib = [
-    `${operativesTableName}.ID_OPERATIVO`,
-    `${operativesTableName}.ID_FUENTE`,
-    `${operativesTableName}.DESCRIPCION`,
-    `${operativesTableName}.OBSERVACION`,
-    `${operativesTableName}.DOMINIO`,
-    `${operativesTableName}.FECHA_LLEGADA_OPERATIVO`,
-    `${operativesTableName}.TOTAL_REGISTROS_OPERATIVO`,
-    `${operativesTableName}.CONTACTO_OPERATIVO`,
-    `${operativesTableName}.MAIL_CONTACTO`,
-    `${operativesTableName}.FECHA_INICIO_CODIFICACION`,
-    `${operativesTableName}.FECHA_FIN_CODIFICACION`,
-    `${operativesTableName}.FECHA_INICIO_ENTREGA`,
-    `${operativesTableName}.FECHA_INICIO_BORRADO`,
-    `${operativesTableName}.FECHA_FIN_BORRADO`,
-    `${operativesTableName}.CALIDAD_TOTAL_OPERATIVO`,
-    `${operativesTableName}.NIVEL_ERROR_OPERATIVO`,
-    `${operativesTableName}.ID_USUARIO`,
-    `${operativesTableName}.FECHA_ALTA`
+    'ID_OPERATIVO',
+    'ID_FUENTE',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'FECHA_LLEGADA_OPERATIVO',
+    'TOTAL_REGISTROS_OPERATIVO',
+    'CONTACTO_OPERATIVO',
+    'MAIL_CONTACTO',
+    'FECHA_INICIO_CODIFICACION',
+    'FECHA_FIN_CODIFICACION',
+    'FECHA_INICIO_ENTREGA',
+    'FECHA_INICIO_BORRADO',
+    'FECHA_FIN_BORRADO',
+    'CALIDAD_TOTAL_OPERATIVO',
+    'NIVEL_ERROR_OPERATIVO',
+    'ID_USUARIO',
+    'FECHA_ALTA'
 ];
 
 const assignmentStaticalVariableTableName = 'VARIABLES_ESTADISTICAS';

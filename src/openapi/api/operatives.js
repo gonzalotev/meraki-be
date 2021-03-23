@@ -3,14 +3,6 @@ module.exports = {
         get: {
             summary: 'List of operatives',
             security: [],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: true,
-                    schema: {type: 'integer'}
-                }
-            ],
             responses: {
                 200: {
                     description: 'ok',
@@ -19,31 +11,29 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    limit: {type: 'integer'},
-                                    total: {type: 'integer'},
                                     operatives: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/Operatives'},
-                                        example: {
-                                            ID_OPERATIVO: 1,
-                                            ID_FUENTE: 1,
-                                            DESCRIPCION: 'Operativo EPH 2do trimestre 2020',
-                                            OBSERVACION: null,
-                                            DOMINIO: null,
-                                            FECHA_LLEGADA_OPERATIVO: null,
-                                            TOTAL_REGISTROS_OPERATIVO: null,
-                                            CONTACTO_OPERATIVO: null,
-                                            MAIL_CONTACTO: null,
-                                            FECHA_INICIO_CODIFICACION: null,
-                                            FECHA_FIN_CODIFICACION: null,
-                                            FECHA_INICIO_ENTREGA: null,
-                                            FECHA_INICIO_BORRADO: null,
-                                            FECHA_FIN_BORRADO: null,
-                                            CALIDAD_TOTAL_OPERATIVO: null,
-                                            NIVEL_ERROR_OPERATIVO: null,
-                                            ID_USUARIO: 1,
-                                            FECHA_ALTA: '2021-02-08T03:00:00.000Z'
-                                        }
+                                        example: [{
+                                            id: 1,
+                                            sourceId: 1,
+                                            description: 'Operativo EPH 2do trimestre 2020',
+                                            observation: null,
+                                            domain: null,
+                                            dateArrival: null,
+                                            totalRecords: null,
+                                            contact: null,
+                                            contactEmail: null,
+                                            encodingStartDate: null,
+                                            encodingEndDate: null,
+                                            deliveryStartDate: null,
+                                            eraseStartDate: null,
+                                            eraseEndDate: null,
+                                            totalQuality: null,
+                                            errorLevel: null,
+                                            userId: 1,
+                                            createdAt: '2021-02-08'
+                                        }]
                                     }
                                 }
                             }
@@ -57,106 +47,19 @@ module.exports = {
             }
         },
         post: {
-            summary: 'Create new operativo',
-            security: [],
+            summary: 'Create new operative',
+            security: [
+                {bearerAuth: []}
+            ],
             requestBody: {
-                description: 'The new user-rol',
+                description: 'The new operative',
                 required: true,
                 content: {'application/json': {schema: {$ref: '#/components/schemas/Operatives'}}}
             },
             responses: {
                 200: {
                     description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    success: {type: 'boolean'},
-                                    insertedOne: {$ref: '#/components/schemas/Operatives'}
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        put: {
-            summary: 'Update operativo',
-            security: [],
-            parameters: [
-                {
-                    in: 'query',
-                    required: true,
-                    name: 'DESCRIPCION',
-                    schema: {type: 'string'}
-                }
-                // {
-                //     in: 'query',
-                //     required: true,
-                //     name: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                //     schema: {type: 'string'}
-                // },
-                // {
-                //     in: 'query',
-                //     required: true,
-                //     name: 'ID_VARIABLE',
-                //     schema: {type: 'string'}
-                // }
-            ],
-            requestBody: {
-                description: 'The new user-rol',
-                required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/Operatives'}}}
-            },
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    success: {type: 'boolean'},
-                                    updatedOne: {$ref: '#/components/schemas/Operatives'}
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        delete: {
-            summary: 'Delete operativo',
-            security: [],
-            parameters: [
-                {
-                    in: 'query',
-                    required: true,
-                    name: 'DESCRIPCION',
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'query',
-                    required: true,
-                    name: 'ID_OPERATIVO',
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'query',
-                    required: true,
-                    name: 'ID_FUENTE',
-                    schema: {type: 'string'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': {schema: {type: 'object'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Success'}}}
                 },
                 default: {
                     description: 'Error',
@@ -165,41 +68,84 @@ module.exports = {
             }
         }
     },
-    '/api/operativo/{DESCRIPCION}/{ID_OPERATIVO}/{ID_FUENTE}': {
+    '/api/operatives/{id}': {
         get: {
-            summary: 'List of operatives',
-            security: [],
+            summary: 'Find an operative by id',
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'path',
-                    name: 'DESCRIPCION',
+                    name: 'id',
                     required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_OPERATIVO',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_FUENTE',
-                    required: true,
-                    schema: {type: 'string'}
+                    schema: {type: 'integer'}
                 }
             ],
             responses: {
                 200: {
-                    description: 'ok',
+                    description: 'Success',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {operative: {$ref: '#/components/schemas/Operatives'}}
+                                properties: { operative: {$ref: '#/components/schemas/Operatives'}}
                             }
                         }
                     }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        put: {
+            summary: 'Update operative',
+            security: [
+                {bearerAuth: []}
+            ],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'integer'}
+                }
+            ],
+            requestBody: {
+                description: 'Data to update',
+                required: true,
+                content: {'application/json': {schema: {$ref: '#/components/schemas/Operatives'}}}
+            },
+            responses: {
+                200: {
+                    description: 'Ok',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Success'}}}
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        delete: {
+            summary: 'Delete an operative by id',
+            security: [
+                {bearerAuth: []}
+            ],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'integer'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Ok',
+                    content: { 'application/json': {schema: { $ref: '#/components/schemas/Success'}}}
                 },
                 default: {
                     description: 'Error',
