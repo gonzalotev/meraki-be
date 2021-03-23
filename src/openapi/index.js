@@ -10,7 +10,7 @@ module.exports = {
         version: pkg.version
     },
     servers: [
-        {url: 'http://localhost:3001'}
+        {url: 'https://dev-sicibe.indec.gob.ar/'}
     ],
     security: [
         {bearerAuth: []}
