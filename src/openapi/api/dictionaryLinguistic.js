@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/dictionaryLinguistic': {
+    '/api/dictionary-linguistic': {
         get: {
             security: [
                 {bearerAuth: []}
@@ -30,23 +30,16 @@ module.exports = {
                                     }
                                 },
                                 example: {
-                                    dictionary: [
+                                    dictionaryLinguistic: [
                                         {
-                                            id_user: 1,
-                                            id_role: 'AUDITOR',
-                                            description: 'auditor description',
-                                            domain: 'auditor domain',
-                                            observation: 'auditor observation',
-                                            createdAt: '2021-03-15',
-                                            deletedAt: '2021-03-15'
-                                        },
-                                        {
-                                            id_user: 2,
-                                            id_role: 'FAKE',
-                                            description: 'fake description',
-                                            domain: 'fake domain',
+                                            originalDescription: 'FAKE',
+                                            typologyDictionaryId: 'XXX',
+                                            variableId: '00000',
+                                            destinationDescription: 'fake description',
                                             observation: 'fake observation',
-                                            createdAt: '2021-03-15',
+                                            domain: 'fake domain',
+                                            approved: false,
+                                            createdAt: '2021-02-08',
                                             deletedAt: null
                                         }
                                     ]

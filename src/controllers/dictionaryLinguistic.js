@@ -3,9 +3,9 @@ const {DictionaryLinguistic} = include('/models');
 const {PAGE_SIZE} = process.env;
 
 class DictionaryLinguisticController {
-    static fetch(req, res, next) {
+    static async fetch(req, res, next) {
         try {
-            const dictionaryLinguistic = DictionaryLinguisticService.findAll();
+            const dictionaryLinguistic = await DictionaryLinguisticService.find(req.query.page);
             res.send({ dictionaryLinguistic });
         } catch(error) {
             next(error);
@@ -36,7 +36,7 @@ class DictionaryLinguisticController {
 
     static create(req, res, next){
         try {
-            const dictionary = DictionaryLinguisticService.create(req.body, 'req.user.id');
+            const dictionary = DictionaryLinguisticService.create(req.body, req.user.id);
             res.send({ success: true, dictionary });
         } catch(err) {
             next(err);

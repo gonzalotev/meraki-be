@@ -21,27 +21,22 @@ module.exports = {
         contactEmail: {type: 'string'},
         encodingStartDate: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         encodingEndDate: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         deliveryStartDate: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         eraseStartDate: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         eraseEndDate: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         totalQuality: {type: 'integer'},
@@ -49,7 +44,6 @@ module.exports = {
         userId: {type: 'string'},
         createdAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         }
     }

@@ -2,7 +2,9 @@ module.exports = {
     '/api/operatives': {
         get: {
             summary: 'List of operatives',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             responses: {
                 200: {
                     description: 'ok',
@@ -17,22 +19,22 @@ module.exports = {
                                         example: [{
                                             id: 1,
                                             sourceId: 1,
-                                            description: 'Operativo EPH 2do trimestre 2020',
+                                            description: 'Fake description',
                                             observation: null,
                                             domain: null,
                                             dateArrival: null,
                                             totalRecords: null,
                                             contact: null,
                                             contactEmail: null,
-                                            encodingStartDate: null,
+                                            encodingStartDate: '2021-01-27 10:42:17',
                                             encodingEndDate: null,
-                                            deliveryStartDate: null,
-                                            eraseStartDate: null,
-                                            eraseEndDate: null,
+                                            deliveryStartDate: '2021-01-27 10:42:17',
+                                            eraseStartDate: '2021-01-27 10:42:17',
+                                            eraseEndDate: '2021-01-27 10:42:17',
                                             totalQuality: null,
                                             errorLevel: null,
-                                            userId: 1,
-                                            createdAt: '2021-02-08'
+                                            userId: 'xxxxxx-xxxx-xxx-xxxxx',
+                                            createdAt: '2021-01-27 10:42:17'
                                         }]
                                     }
                                 }
@@ -122,30 +124,6 @@ module.exports = {
                 200: {
                     description: 'Ok',
                     content: { 'application/json': { schema: { $ref: '#/components/schemas/Success'}}}
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        delete: {
-            summary: 'Delete an operative by id',
-            security: [
-                {bearerAuth: []}
-            ],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'id',
-                    required: true,
-                    schema: {type: 'integer'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'Ok',
-                    content: { 'application/json': {schema: { $ref: '#/components/schemas/Success'}}}
                 },
                 default: {
                     description: 'Error',

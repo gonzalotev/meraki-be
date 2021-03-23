@@ -1,8 +1,10 @@
 module.exports = {
-    '/api/variableOperatingRole': {
+    '/api/variable-operating-role': {
         get: {
             summary: 'List of variables operating role',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'query',
@@ -50,7 +52,9 @@ module.exports = {
         },
         post: {
             summary: 'Create new rol operativo variable',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
@@ -75,7 +79,9 @@ module.exports = {
         },
         put: {
             summary: 'Update rol operativo variable',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'query',
@@ -124,7 +130,9 @@ module.exports = {
         },
         delete: {
             summary: 'Delete rol operativo variable',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'query',

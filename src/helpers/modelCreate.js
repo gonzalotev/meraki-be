@@ -135,12 +135,13 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
-        return this.knex.select(columns)
+    async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
+        const foundObject = await this.knex.select(columns)
             .from(this.tableName)
             .where(id)
             .orderBy(orderBy)
             .timeout(this.timeout);
+        return head(foundObject);
     }
 
     findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {
@@ -164,6 +165,8 @@ class ModelCreate {
 
     async updateOne(filters, props) {
         const objectToSave = this.jsonToString(props);
+        console.log(filters);
+        console.log(objectToSave);
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
                 .update(objectToSave)

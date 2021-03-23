@@ -1,8 +1,10 @@
 module.exports = {
-    '/api/statisticalVariable': {
+    '/api/statistical-variable': {
         get: {
             summary: 'List of statistics variables',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'query',
@@ -50,7 +52,9 @@ module.exports = {
         },
         post: {
             summary: 'Create new variable estadistica',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
@@ -75,7 +79,9 @@ module.exports = {
         },
         put: {
             summary: 'Update variable estadistica',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'path',
@@ -118,7 +124,9 @@ module.exports = {
         },
         delete: {
             summary: 'Delete variable estadistica',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
             parameters: [
                 {
                     in: 'path',

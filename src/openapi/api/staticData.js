@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/staticData': {
+    '/api/static-data': {
         get: {
             security: [{bearerAuth: []}],
             summary: 'Get static values',

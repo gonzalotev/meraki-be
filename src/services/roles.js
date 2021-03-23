@@ -1,12 +1,9 @@
-const knex = include('helpers/database');
 const { dateToString } = include('util');
-const {rolesTableName} = include('constants');
-const { roles } = include('models');
+const { roles: rolesModel } = include('models');
 
 class RoleService {
     static async fetch() {
-        const roles = await knex.select()
-            .from(rolesTableName);
+        const roles = await rolesModel.find();
 
         return roles.map(role => ({
             id: role.ID_ROL_USUARIO,
@@ -31,7 +28,7 @@ class RoleService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const role = await roles.insertOne(formattedRole);
+        const role = await rolesModel.insertOne(formattedRole);
 
         return {
             id: role.ID_ROL_USUARIO,
