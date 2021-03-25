@@ -10,9 +10,10 @@ module.exports = {
         version: pkg.version
     },
     servers: [
-        {url: 'https://dev-sicibe.indec.gob.ar/'},
-        {url: 'https://qa-sicibe.indec.gob.ar/'},
-        {url: 'https://prod-sicibe.indec.gob.ar/'}
+        {url: 'http://dev-sicibe.indec.gob.ar/'},
+        {url: 'http://qa-sicibe.indec.gob.ar/'},
+        {url: 'http://prod-sicibe.indec.gob.ar/'},
+        {url: 'http://localhost:3001/'}
     ],
     security: [
         {bearerAuth: []}

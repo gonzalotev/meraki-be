@@ -1,10 +1,10 @@
 const { roles } = include('models');
-const { RoleService } = include('services');
+const { RolesService } = include('services');
 
 class RolesController {
     static async fetch(req, res, next) {
         try {
-            const roles = await RoleService.fetch();
+            const roles = await RolesService.fetch();
             res.send({ roles });
         } catch(error) {
             next(error);
@@ -23,7 +23,7 @@ class RolesController {
     static async create(req, res, next){
         try {
             const userCreator = req.user.id;
-            const role = await RoleService.create(req.body, userCreator);
+            const role = await RolesService.create(req.body, userCreator);
             res.send({ success: true, role });
         } catch(error) {
             next(error);
