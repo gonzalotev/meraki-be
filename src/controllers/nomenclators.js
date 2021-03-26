@@ -1,5 +1,5 @@
+const {NomenclatorsService} = include('services');
 const {Nomenclators} = include('models');
-
 class NomenclatorsController {
     static async fetch(req, res, next) {
         try {
@@ -43,6 +43,14 @@ class NomenclatorsController {
             res.send({ nomenclator });
         } catch(error) {
             next(error);
+        }
+    }
+    static async fetchStaticNomenclators(req, res, next){
+        try{
+            const nomenclators = await NomenclatorsService.fetchStaticNomenclators();
+            res.send({nomenclators});
+        } catch(err){
+            next(err);
         }
     }
 }

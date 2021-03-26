@@ -1,4 +1,5 @@
-const { statisticalVariable: statisticalVariableModel } = include('models');
+const {statisticalVariable: statisticalVariableModel} = include('models');
+const {staticalVariableAttrib} = include('constants/staticData');
 const { dateToString } = include('util');
 class StatisticalVariableService {
     static async fetch() {
@@ -84,6 +85,15 @@ class StatisticalVariableService {
             userId: variable.ID_USUARIO,
             createdAt: dateToString(variable.FECHA_ALTA)
         };
+    }
+
+    static async fetchStaticVariables(){
+        const statisticalVariables = await statisticalVariableModel.findAll(staticalVariableAttrib);
+        return statisticalVariables.map(variable => ({
+            id: variable.ID_VARIABLE,
+            name: variable.NOMBRE,
+            abbreviation: variable.ABREVIATURA
+        }));
     }
 }
 

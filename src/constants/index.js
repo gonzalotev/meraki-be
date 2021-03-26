@@ -82,27 +82,40 @@ const rolesAttrib = [
     'FECHA_ALTA'
 ];
 
-const variableOperatingRoleTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';
-
-const variableOperatingRoleAttrib = [
-    'ID_USUARIO',
-    'ID_ROL_USUARIO',
-    'ID_OPERATIVO',
-    'ID_LOTE',
-    'ID_VARIABLE',
-    'OBSERVACION',
-    'DOMINIO',
-    'SI_NO',
-    'FECHA_ALTA',
-    'FECHA_BAJA'
-];
-
 const lotsTableName = 'LOTES';
 
 const lotsAttrib = [
     'ID_OPERATIVO',
     'ID_LOTE',
-    'DESCRIPCION'
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'NOMBRE_ARCHIVO',
+    'FORMATO_ARCHIVO',
+    'CANTIDAD_DE_REGISTROS',
+    'FECHA_CARGA_DATOS_LOTE',
+    'FECHA_FIN_CARGA_DATOS_LOTE',
+    'CALIDAD_LOTE_TOTAL',
+    'NIVEL_ERROR_LOTE_TOTAL',
+    'LOTE_RECHAZADO',
+    'FECHA_LOTE_RECHAZADO',
+    'LOTE_APROBADO',
+    'FECHA_LOTE_APROBADO',
+    'SE_RETROALIMENTA',
+    'FECHA_INICIO_RETROALIMENTACION',
+    'FECHA_FIN_RETROALIMENTACION',
+    'LOTE_ENTREGADO_AREA',
+    'FECHA_ENTREGA_AREA',
+    'LOTE_ENTREGADO_A_DATA_LAKE',
+    'FECHA_INICIO_A_DATA_LAKE',
+    'FECHA_FIN_A_DATA_LAKE',
+    'LOTE_DE_RESGUARDO_O_COPIA',
+    'FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA',
+    'SE_BORRA_TODO_EL_LOTE',
+    'FECHA_INICIO_BORRADO',
+    'FECHA_FIN_BORRADO',
+    'ID_USUARIO',
+    'FECHA_ALTA'
 ];
 
 const datesWithUserAttrib = {
@@ -147,6 +160,42 @@ const assignmentRoleOperativeVariableAttrib = [
     'FECHA_BAJA'
 ];
 
+const nomenclatorsTableName = 'NOMENCLADORES';
+const nomenclatorsAttrib = [
+    'ID_NOMENCLADOR',
+    'SIGLA',
+    'DESCRIPCION_ABREVIADA',
+    'DOMINIO',
+    'OBSERVACION',
+    'TOTAL_DE_DIGITOS',
+    'CANTIDAD_NIVELES',
+    'ID_TIPO',
+    'ID_SUBTIPO',
+    'FECHA_INICIO_IMPLEMENTACION',
+    'FECHA_FIN_IMPLEMENTACION',
+    'FECHA_INICIO_PUBLICACION',
+    'FECHA_FIN_PUBLICACION',
+    'FECHA_INICIO_OFICIAL',
+    'FECHA_FIN_OFICIAL',
+    'FECHA_INICIO_ACTUALIZACION',
+    'FECHA_FIN_ACTUALIZACION',
+    'CLASIFICADOR_OFICIAL',
+    'CLASIFICADOR_NACIONAL',
+    'CLASIFICADOR_INTERNACIONAL',
+    'CLASIFICADOR_EXTERNO',
+    'ID_TIPO_CLASIFICADOR',
+    'COEFICIENTE',
+    'EN_CONSTRUCCION',
+    'PRUEBA_PILOTO',
+    'USO_INTERNO',
+    'HABILITADO',
+    'IDIOMA_CASTELLANO',
+    'FRACCIONADO_EN_PALABRAS',
+    'IDIOMA_INGLES',
+    'ID_USUARIO',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -156,8 +205,6 @@ module.exports = {
     staticalVariableTableName,
     rolesTableName,
     rolesAttrib,
-    variableOperatingRoleTableName,
-    variableOperatingRoleAttrib,
     assignmentRolesTableName,
     assignmentRolesAttrib,
     datesAttrib,
@@ -168,5 +215,7 @@ module.exports = {
     assignmentRoleNomenclatorsTableName,
     assignmentRoleNomenclatorsAttrib,
     assignmentRoleOperativeVariableTableName,
-    assignmentRoleOperativeVariableAttrib
+    assignmentRoleOperativeVariableAttrib,
+    nomenclatorsAttrib,
+    nomenclatorsTableName
 };

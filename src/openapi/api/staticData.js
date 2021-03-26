@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/static-data': {
+    '/api/staticData': {
         get: {
             security: [{bearerAuth: []}],
             summary: 'Get static values',
@@ -50,6 +50,118 @@ module.exports = {
                                             userDeleted: 2
                                         }
                                     ]
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/staticData/shortDescription': {
+        get: {
+            security: [{bearerAuth: []}],
+            summary: 'Get static nomenclatorsvalues',
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    nomenclators: {
+                                        type: 'array',
+                                        items: { $ref: '#/components/schemas/Roles'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/staticData/lots': {
+        get: {
+            security: [{bearerAuth: []}],
+            summary: 'Get static lots values',
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    nomenclators: {
+                                        type: 'array',
+                                        items: { $ref: '#/components/schemas/Roles'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/staticData/roles': {
+        get: {
+            security: [{bearerAuth: []}],
+            summary: 'Get static roles values',
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    nomenclators: {
+                                        type: 'array',
+                                        items: { $ref: '#/components/schemas/Roles'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/staticData/statisticalV   ariable': {
+        get: {
+            security: [{bearerAuth: []}],
+            summary: 'Get static roles values',
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    nomenclators: {
+                                        type: 'array',
+                                        items: { $ref: '#/components/schemas/Roles'}
+                                    }
                                 }
                             }
                         }

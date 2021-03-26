@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/statistical-variable': {
+    '/api/statisticalVariable': {
         get: {
             summary: 'List of statistics variables',
             security: [
@@ -68,7 +68,7 @@ module.exports = {
             }
         }
     },
-    '/api/statistical-variable/{id}': {
+    '/api/statisticalVariable/{id}': {
         get: {
             summary: 'Update variable estadistica',
             security: [

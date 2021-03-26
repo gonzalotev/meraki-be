@@ -36,6 +36,14 @@ class StatisticalVariableController {
             next(err);
         }
     }
+    static async fetchStaticVariables(req, res, next){
+        try{
+            const statisticalVariables = await StatisticVariableService.fetchStaticVariables();
+            res.send({statisticalVariables});
+        }catch(err){
+            next(err);
+        }
+    }
 }
 
 module.exports = StatisticalVariableController;
