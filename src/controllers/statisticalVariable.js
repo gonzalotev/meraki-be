@@ -1,16 +1,10 @@
-const {VariableEstadistica: StatisticalVariable} = include('/models');
-const head = require('lodash/head');
-const {PAGE_SIZE} = process.env;
+const { StatisticVariableService } = include('services');
 
 class StatisticalVariableController {
     static async fetch(req, res, next){
         try {
-            const {page, ...filter} = req.query;
-            await StatisticalVariable.startTransaction();
-            const variables = await StatisticalVariable.find(page, {...filter});
-            const total = await StatisticalVariable.countRows();
-            await StatisticalVariable.commitTransaction();
-            res.send({limit: PAGE_SIZE, total, variables});
+            const statisticalVariables = await StatisticVariableService.fetch();
+            res.send({statisticalVariables});
         } catch(err) {
             next(err);
         }
@@ -18,7 +12,7 @@ class StatisticalVariableController {
 
     static async fetchOne(req, res, next){
         try {
-            const variable = await StatisticalVariable.findById(req.params);
+            const variable = await StatisticVariableService.findOne(req.params);
             res.send({variable});
         } catch(err) {
             next(err);
@@ -27,9 +21,7 @@ class StatisticalVariableController {
 
     static async create(req, res, next){
         try {
-            await StatisticalVariable.startTransaction();
-            const statisticalVariable = head(await StatisticalVariable.insertOne(req.body));
-            await StatisticalVariable.commitTransaction();
+            const statisticalVariable = await StatisticVariableService.create(req.body, req.user.id);
             res.send({success: true, statisticalVariable});
         } catch(err) {
             next(err);
@@ -38,22 +30,9 @@ class StatisticalVariableController {
 
     static async update(req, res, next){
         try{
-            await StatisticalVariable.startTransaction();
-            const statisticalVariable = await StatisticalVariable.updateOne(req.query, req.body);
-            await StatisticalVariable.commitTransaction();
+            const statisticalVariable = await StatisticVariableService.update(req.params, req.body);
             res.send({success: true, statisticalVariable});
         } catch(err){
-            next(err);
-        }
-    }
-
-    static async delete(req, res, next){
-        try {
-            await StatisticalVariable.startTransaction();
-            await StatisticalVariable.deletedOne(req.query);
-            await StatisticalVariable.commitTransaction();
-            res.send({success: true});
-        } catch(err) {
             next(err);
         }
     }

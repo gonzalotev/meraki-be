@@ -52,7 +52,7 @@ class DictionaryLinguisticService {
             deletedAt: dateToString(dictionary.FECHA_BAJA)
         };
     }
-    static async delete(props, userDestroyer){
+    static async delete(props, userDeleted){
         const {
             originalDescription: DESCRIPCION_ORIGINAL,
             typologyDictionaryId: ID_TIPOLOGIA_DE_DICCIONARIO,
@@ -61,7 +61,7 @@ class DictionaryLinguisticService {
         const id = {DESCRIPCION_ORIGINAL, ID_TIPOLOGIA_DE_DICCIONARIO, ID_VARIABLE};
         const success = await dictionaryLinguistic.deleteOne(id, {
             FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDestroyer
+            ID_USUARIO_BAJA: userDeleted
         });
         return success;
     }

@@ -13,7 +13,7 @@ class RoleTypeService {
             createdAt: dateToString(role.FECHA_ALTA),
             deletedAt: dateToString(role.FECHA_BAJA),
             userCreator: role.ID_USUARIO_ALTA,
-            userDestroyer: role.ID_USUARIO_BAJA
+            userDeleted: role.ID_USUARIO_BAJA
         }));
     }
 }

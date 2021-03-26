@@ -37,9 +37,9 @@ const operativesAttrib = [
     'FECHA_ALTA'
 ];
 
-const assignmentStaticalVariableTableName = 'VARIABLES_ESTADISTICAS';
+const staticalVariableTableName = 'VARIABLES_ESTADISTICAS';
 
-const assignmentStaticalVariableAttrib = [
+const staticalVariableAttrib = [
     'ID_VARIABLE',
     'NOMBRE',
     'ABREVIATURA',
@@ -132,13 +132,28 @@ const assignmentRoleNomenclatorsAttrib = [
     'SI_NO'
 ];
 
+const assignmentRoleOperativeVariableTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';
+
+const assignmentRoleOperativeVariableAttrib = [
+    'ID_USUARIO',
+    'ID_ROL_USUARIO',
+    'ID_OPERATIVO',
+    'ID_LOTE',
+    'ID_VARIABLE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SI_NO',
+    'FECHA_ALTA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
     operativesAttrib,
     operativesTableName,
-    assignmentStaticalVariableAttrib,
-    assignmentStaticalVariableTableName,
+    staticalVariableAttrib,
+    staticalVariableTableName,
     rolesTableName,
     rolesAttrib,
     variableOperatingRoleTableName,
@@ -151,5 +166,7 @@ module.exports = {
     lotsTableName,
     variablesAttrib,
     assignmentRoleNomenclatorsTableName,
-    assignmentRoleNomenclatorsAttrib
+    assignmentRoleNomenclatorsAttrib,
+    assignmentRoleOperativeVariableTableName,
+    assignmentRoleOperativeVariableAttrib
 };

@@ -165,8 +165,6 @@ class ModelCreate {
 
     async updateOne(filters, props) {
         const objectToSave = this.jsonToString(props);
-        console.log(filters);
-        console.log(objectToSave);
         if (this.transaction) {
             const modifiedObject = await this.transaction(this.tableName)
                 .update(objectToSave)

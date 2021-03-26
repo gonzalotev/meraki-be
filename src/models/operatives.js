@@ -6,8 +6,8 @@ class Operatives extends ModelCreate{
     constructor(props){
         super({
             ...props,
-            tableName: operativesTableName,
             name,
+            tableName: operativesTableName,
             selectableProps: operativesAttrib
         });
     }

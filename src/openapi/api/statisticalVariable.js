@@ -5,14 +5,6 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: true,
-                    schema: {type: 'integer'}
-                }
-            ],
             responses: {
                 200: {
                     description: 'ok',
@@ -21,9 +13,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    limit: {type: 'integer'},
-                                    total: {type: 'integer'},
-                                    variables: {
+                                    statisticalVariables: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/StatisticalVariable'},
                                         example: {
@@ -76,6 +66,41 @@ module.exports = {
                     }
                 }
             }
+        }
+    },
+    '/api/statistical-variable/{id}': {
+        get: {
+            summary: 'Update variable estadistica',
+            security: [
+                {bearerAuth: []}
+            ],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    statisticalVariable: {$ref: '#/components/schemas/StatisticalVariable'}
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
         },
         put: {
             summary: 'Update variable estadistica',
@@ -85,13 +110,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'NOMBRE',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_VARIABLE',
+                    name: 'id',
                     required: true,
                     schema: {type: 'string'}
                 }
@@ -115,36 +134,6 @@ module.exports = {
                             }
                         }
                     }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        delete: {
-            summary: 'Delete variable estadistica',
-            security: [
-                {bearerAuth: []}
-            ],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'NOMBRE',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_VARIABLE',
-                    required: true,
-                    schema: {type: 'string'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': {schema: {type: 'object'}}}
                 },
                 default: {
                     description: 'Error',

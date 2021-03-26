@@ -34,7 +34,7 @@ module.exports = {
             type: 'string',
             readOnly: true
         },
-        userDestroyer: {
+        userDeleted: {
             type: 'string',
             readOnly: true
         }

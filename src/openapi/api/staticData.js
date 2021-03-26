@@ -37,7 +37,7 @@ module.exports = {
                                             createdAt: '2021-03-15',
                                             deletedAt: null,
                                             userCreator: 1,
-                                            userDestroyer: null
+                                            userDeleted: null
                                         },
                                         {
                                             id: 'SUPERVISOR',
@@ -47,7 +47,7 @@ module.exports = {
                                             createdAt: '2021-03-15',
                                             deletedAt: '2021-03-16',
                                             userCreator: 1,
-                                            userDestroyer: 2
+                                            userDeleted: 2
                                         }
                                     ]
                                 }

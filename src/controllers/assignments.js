@@ -1,5 +1,5 @@
 const { RoleNomenclator, RoleUser, RoleOperativeVariable } = include('models');
-const { UserRoleService, StatisticVariableService, RoleNomenclatorService } = include('services');
+const { UserRoleService, RoleOperativeVariableService, RoleNomenclatorService } = include('services');
 const { rename } = include('util');
 const has = require('lodash/has');
 
@@ -8,7 +8,7 @@ class AssigmentController {
         try {
             const { userId } = req.params;
             const {role} = await UserRoleService.findOne(userId);
-            const {statisticalVariable} = await StatisticVariableService.findOne(userId);
+            const {statisticalVariable} = await RoleOperativeVariableService.findOne(userId);
             const {nomenclator} = await RoleNomenclatorService.findOne(userId);
 
             res.send({assignment: { userId, role, statisticalVariable, nomenclator }});
