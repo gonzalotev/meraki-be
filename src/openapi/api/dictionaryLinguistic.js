@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/dictionaryLinguistic': {
+    '/api/DictionaryLinguistic': {
         get: {
             security: [
                 {bearerAuth: []}
