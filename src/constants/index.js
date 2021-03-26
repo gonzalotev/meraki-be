@@ -142,7 +142,9 @@ const assignmentRoleNomenclatorsAttrib = [
     'ID_NOMENCLADOR',
     'DOMINIO',
     'OBSERVACION',
-    'SI_NO'
+    'SI_NO',
+    'FECHA_ALTA',
+    'FECHA_BAJA'
 ];
 
 const assignmentRoleOperativeVariableTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';

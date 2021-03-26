@@ -1,5 +1,5 @@
 const ModelCreate = include('/helpers/modelCreate');
-const {datesAttrib, assignmentRolesTableName, assignmentRolesAttrib} = include('constants');
+const {assignmentRolesTableName, assignmentRolesAttrib} = include('constants');
 const name = 'roleUser';
 
 class RoleUser extends ModelCreate{
@@ -8,8 +8,7 @@ class RoleUser extends ModelCreate{
             ...props,
             tableName: assignmentRolesTableName,
             name,
-            selectableProps: assignmentRolesAttrib,
-            handleProps: datesAttrib
+            selectableProps: assignmentRolesAttrib
         });
     }
 }
