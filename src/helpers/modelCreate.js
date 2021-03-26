@@ -9,7 +9,7 @@ const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
-
+const isDate = require('lodash/isDate');
 // The model that uses Knexjs to store and retrieve data from a
 // database using the provided `knex` instance.
 // Custom functionality can be composed on top of this set of models.
@@ -52,7 +52,7 @@ class ModelCreate {
         //eslint-disable-next-line
         map(props, (value, index) => {
             if (includes(this.selectableProps, index)) {
-                if (isObject(value)) {
+                if (isObject(value) && !isDate(value)) {
                     assign(objectToSave, {[index]: JSON.stringify(value)});
                 } else {
                     assign(objectToSave, {[index]: value});
