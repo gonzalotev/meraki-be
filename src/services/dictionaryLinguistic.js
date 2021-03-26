@@ -4,7 +4,6 @@ const { dateToString } = include('util');
 class DictionaryLinguisticService {
     static async find(page) {
         const dictionaries = await dictionaryLinguistic.findByPage(page);
-        console.log(dictionaries);
         return dictionaries.map(dictionary => ({
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
             typologyDictionaryId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,

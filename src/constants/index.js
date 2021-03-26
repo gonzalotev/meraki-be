@@ -198,6 +198,19 @@ const nomenclatorsAttrib = [
     'FECHA_ALTA'
 ];
 
+const chatTypeTableName = 'TIPOS_DE_CHAT';
+const chatTypeAttrib = [
+    'ID_TIPO_CHAT',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -219,5 +232,7 @@ module.exports = {
     assignmentRoleOperativeVariableTableName,
     assignmentRoleOperativeVariableAttrib,
     nomenclatorsAttrib,
-    nomenclatorsTableName
+    nomenclatorsTableName,
+    chatTypeAttrib,
+    chatTypeTableName
 };
