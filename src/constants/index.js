@@ -237,6 +237,24 @@ const relationTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const dictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
+const dictionaryTypeAttrib = [
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'DESCRIPCION',
+    'SI_PALABRA_NO_FRASE_ORIGEN',
+    'SI_DESCRIPCION_DESTINO',
+    'SI_PALABRA_NO_FRASE_DESTINO',
+    'EXPRESION_REGULAR',
+    'VALIDACION',
+    'SUPERVISADO',
+    'DOMINIO',
+    'OBSERVACION',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -264,5 +282,7 @@ module.exports = {
     netTypeTableName,
     netTypeAttrib,
     relationTypeTableName,
-    relationTypeAttrib
+    relationTypeAttrib,
+    dictionaryTypeTableName,
+    dictionaryTypeAttrib
 };

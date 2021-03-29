@@ -1,4 +1,9 @@
-const {ChatTypeController, NetTypeController, RelationTypeController} = include('controllers');
+const {
+    ChatTypeController,
+    NetTypeController,
+    RelationTypeController,
+    DictionaryTypeController
+} = include('controllers');
 
 module.exports = router => {
     router.route('/chats')
@@ -22,5 +27,12 @@ module.exports = router => {
         .get(RelationTypeController.find)
         .put(RelationTypeController.update)
         .delete(RelationTypeController.delete);
+    router.route('/dictionaries')
+        .get(DictionaryTypeController.fetch)
+        .post(DictionaryTypeController.create);
+    router.route('/dictionaries/:id')
+        .get(DictionaryTypeController.find)
+        .put(DictionaryTypeController.update)
+        .delete(DictionaryTypeController.delete);
     return router;
 };

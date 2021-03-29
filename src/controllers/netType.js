@@ -3,8 +3,6 @@ const { NetTypeService } = include('services');
 class NetTypeController {
     static async fetch(req, res, next) {
         try {
-
-            console.log('estoy en net');
             const nets = await NetTypeService.fetch();
             res.send({ nets });
         } catch(error) {
@@ -14,7 +12,6 @@ class NetTypeController {
 
     static async find(req, res, next) {
         try {
-            console.log('estoy en net');
             const net = await NetTypeService.findOne(req.params);
             res.send({ net });
         } catch(error) {
