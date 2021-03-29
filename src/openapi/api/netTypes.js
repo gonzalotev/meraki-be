@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/types/chats': {
+    '/api/types/nets': {
         get: {
             security: [{bearerAuth: []}],
             responses: {
@@ -10,7 +10,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chats: {
+                                    nets: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -28,14 +28,14 @@ module.exports = {
         post: {
             security: [{bearerAuth: []}],
             requestBody: {
-                description: 'The new  type of chat to create',
+                description: 'The new  type of net to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -58,10 +58,10 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    chat: {
+                                    net: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -84,7 +84,7 @@ module.exports = {
             }
         }
     },
-    '/api/types/chats/{id}': {
+    '/api/types/nets/{id}': {
         put: {
             security: [{bearerAuth: []}],
             parameters: [
@@ -92,19 +92,19 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: 'Net type id to update'
                 }
             ],
             requestBody: {
-                description: 'The new  type of chat to create',
+                description: 'Changes to save',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -127,10 +127,10 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    chat: {
+                                    net: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -159,8 +159,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: 'Net type id to delete'
                 }
             ],
             responses: {
@@ -181,8 +181,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: 'Net type id to get'
                 }
             ],
             responses: {
@@ -193,10 +193,10 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chat: {
+                                    net: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},

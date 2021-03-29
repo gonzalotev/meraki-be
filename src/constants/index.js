@@ -211,8 +211,8 @@ const chatTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const redTypeTableName = 'TIPOS_DE_RED';
-const redTypeAttrib = [
+const netTypeTableName = 'TIPOS_DE_RED';
+const netTypeAttrib = [
     'ID_TIPO_RED',
     'DESCRIPCION',
     'SUPERVISADO',
@@ -248,6 +248,6 @@ module.exports = {
     nomenclatorsTableName,
     chatTypeAttrib,
     chatTypeTableName,
-    redTypeTableName,
-    redTypeAttrib
+    netTypeTableName,
+    netTypeAttrib
 };
