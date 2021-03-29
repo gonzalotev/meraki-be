@@ -7,7 +7,7 @@ const statisticalVariable = require('./statisticalVariable');
 const roles = require('./roles');
 const chatTypes = require('./chatTypes');
 const netTypes = require('./netTypes');
-
+const relationTypes = require('./relationTypes');
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -17,5 +17,6 @@ module.exports = {
     ...staticData,
     ...roles,
     ...chatTypes,
-    ...netTypes
+    ...netTypes,
+    ...relationTypes
 };

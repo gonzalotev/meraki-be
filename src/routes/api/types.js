@@ -1,4 +1,4 @@
-const {ChatTypeController, NetTypeController} = include('controllers');
+const {ChatTypeController, NetTypeController, RelationTypeController} = include('controllers');
 
 module.exports = router => {
     router.route('/chats')
@@ -15,6 +15,12 @@ module.exports = router => {
         .get(NetTypeController.find)
         .put(NetTypeController.update)
         .delete(NetTypeController.delete);
-
+    router.route('/relations')
+        .get(RelationTypeController.fetch)
+        .post(RelationTypeController.create);
+    router.route('/relations/:id')
+        .get(RelationTypeController.find)
+        .put(RelationTypeController.update)
+        .delete(RelationTypeController.delete);
     return router;
 };

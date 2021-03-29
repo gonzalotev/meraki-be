@@ -224,6 +224,19 @@ const netTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const relationTypeTableName = 'TIPOS_DE_RELACION';
+const relationTypeAttrib = [
+    'ID_TIPO_RELACION',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -249,5 +262,7 @@ module.exports = {
     chatTypeAttrib,
     chatTypeTableName,
     netTypeTableName,
-    netTypeAttrib
+    netTypeAttrib,
+    relationTypeTableName,
+    relationTypeAttrib
 };
