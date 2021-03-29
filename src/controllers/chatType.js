@@ -19,27 +19,27 @@ class ChatTypeController {
         }
     }
 
-    static create(req, res, next){
+    static async create(req, res, next){
         try {
-            const chatType = ChatTypeService.create(req.body, req.user.id);
+            const chatType = await ChatTypeService.create(req.body, req.user.id);
             res.send({ success: true, chatType });
         } catch(err) {
             next(err);
         }
     }
 
-    static update(req, res, next){
+    static async update(req, res, next){
         try{
-            const chatType = ChatTypeService.update(req.params, req.body);
+            const chatType = await ChatTypeService.update(req.params, req.body);
             res.send({success: true, chatType});
         } catch(err){
             next(err);
         }
     }
 
-    static delete(req, res, next){
+    static async delete(req, res, next){
         try {
-            const success = ChatTypeService.delete(req.params, req.user.id);
+            const success = await ChatTypeService.delete(req.params, req.user.id);
             res.send({success});
         } catch(err) {
             next(err);

@@ -1,9 +1,7 @@
 module.exports = {
     '/api/dictionaryLinguistic': {
         get: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
             parameters: [
                 {
                     in: 'query',

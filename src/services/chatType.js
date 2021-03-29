@@ -91,7 +91,7 @@ class ChatTypeService {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
-        return success;
+        return !!success;
     }
 }
 

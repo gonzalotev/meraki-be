@@ -211,6 +211,19 @@ const chatTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const redTypeTableName = 'TIPOS_DE_RED';
+const redTypeAttrib = [
+    'ID_TIPO_RED',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -234,5 +247,7 @@ module.exports = {
     nomenclatorsAttrib,
     nomenclatorsTableName,
     chatTypeAttrib,
-    chatTypeTableName
+    chatTypeTableName,
+    redTypeTableName,
+    redTypeAttrib
 };
