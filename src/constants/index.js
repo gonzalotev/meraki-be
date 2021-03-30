@@ -267,6 +267,20 @@ const documentTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const nomenclatorSubtypeTableName = 'SUBTIPO_DE_NOMENCLADOR';
+const nomenclatorSubtypeAttrib = [
+    'ID_TIPO',
+    'ID_SUBTIPO',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -298,5 +312,7 @@ module.exports = {
     dictionaryTypeTableName,
     dictionaryTypeAttrib,
     documentTypeTableName,
-    documentTypeAttrib
+    documentTypeAttrib,
+    nomenclatorSubtypeTableName,
+    nomenclatorSubtypeAttrib
 };

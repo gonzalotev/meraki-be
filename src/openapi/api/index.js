@@ -10,6 +10,7 @@ const netTypes = require('./netTypes');
 const relationTypes = require('./relationTypes');
 const dictionaryTypes = require('./dictionaryType');
 const documentTypes = require('./documentTypes');
+const nomenclatorSubtypes = require('./nomenclatorSubtypes');
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -22,5 +23,6 @@ module.exports = {
     ...netTypes,
     ...relationTypes,
     ...dictionaryTypes,
-    ...documentTypes
+    ...documentTypes,
+    ...nomenclatorSubtypes
 };
