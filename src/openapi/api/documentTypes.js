@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/types/documents': {
+    '/api/editors': {
         get: {
             security: [{bearerAuth: []}],
             responses: {
@@ -10,7 +10,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    documents: {
+                                    editors: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -58,7 +58,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    document: {
+                                    editor: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -84,7 +84,7 @@ module.exports = {
             }
         }
     },
-    '/api/types/documents/{id}': {
+    '/api/editors/{id}': {
         put: {
             security: [{bearerAuth: []}],
             parameters: [
@@ -93,7 +93,7 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Documents type id to update'
+                    description: 'Editor id to update'
                 }
             ],
             requestBody: {
@@ -127,7 +127,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    document: {
+                                    editor: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -160,7 +160,7 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Document type id to delete'
+                    description: 'Editor id to delete'
                 }
             ],
             responses: {
@@ -182,7 +182,7 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Document type id to get'
+                    description: 'Editor id to find'
                 }
             ],
             responses: {
@@ -193,7 +193,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    document: {
+                                    editor: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},

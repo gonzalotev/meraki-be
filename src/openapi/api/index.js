@@ -11,6 +11,7 @@ const relationTypes = require('./relationTypes');
 const dictionaryTypes = require('./dictionaryType');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
+const editors = require('./editors');
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -24,5 +25,6 @@ module.exports = {
     ...relationTypes,
     ...dictionaryTypes,
     ...documentTypes,
-    ...nomenclatorSubtypes
+    ...nomenclatorSubtypes,
+    ...editors
 };

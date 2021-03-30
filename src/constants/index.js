@@ -281,6 +281,19 @@ const nomenclatorSubtypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const editorsTableName = 'EDITORES';
+const editorsAttrib = [
+    'ID_EDITOR',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -314,5 +327,7 @@ module.exports = {
     documentTypeTableName,
     documentTypeAttrib,
     nomenclatorSubtypeTableName,
-    nomenclatorSubtypeAttrib
+    nomenclatorSubtypeAttrib,
+    editorsTableName,
+    editorsAttrib
 };
