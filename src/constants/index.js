@@ -254,6 +254,18 @@ const dictionaryTypeAttrib = [
     'FECHA_BAJA',
     'ID_USUARIO_BAJA'
 ];
+const documentTypeTableName = 'TIPOS_DE_DOCUMENTOS';
+const documentTypeAttrib = [
+    'ID_TIPO_DOCUMENTO',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
 
 module.exports = {
     dictionaryLinguisticTableName,
@@ -284,5 +296,7 @@ module.exports = {
     relationTypeTableName,
     relationTypeAttrib,
     dictionaryTypeTableName,
-    dictionaryTypeAttrib
+    dictionaryTypeAttrib,
+    documentTypeTableName,
+    documentTypeAttrib
 };

@@ -2,7 +2,8 @@ const {
     ChatTypeController,
     NetTypeController,
     RelationTypeController,
-    DictionaryTypeController
+    DictionaryTypeController,
+    DocumentTypeController
 } = include('controllers');
 
 module.exports = router => {
@@ -34,5 +35,12 @@ module.exports = router => {
         .get(DictionaryTypeController.find)
         .put(DictionaryTypeController.update)
         .delete(DictionaryTypeController.delete);
+    router.route('/documents')
+        .get(DocumentTypeController.fetch)
+        .post(DocumentTypeController.create);
+    router.route('/documents/:id')
+        .get(DocumentTypeController.find)
+        .put(DocumentTypeController.update)
+        .delete(DocumentTypeController.delete);
     return router;
 };

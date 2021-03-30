@@ -9,6 +9,7 @@ const chatTypes = require('./chatTypes');
 const netTypes = require('./netTypes');
 const relationTypes = require('./relationTypes');
 const dictionaryTypes = require('./dictionaryType');
+const documentTypes = require('./documentTypes');
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -20,5 +21,6 @@ module.exports = {
     ...chatTypes,
     ...netTypes,
     ...relationTypes,
-    ...dictionaryTypes
+    ...dictionaryTypes,
+    ...documentTypes
 };

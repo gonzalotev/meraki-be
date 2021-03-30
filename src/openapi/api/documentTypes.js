@@ -1,7 +1,6 @@
 module.exports = {
-    '/api/types/dictionaries': {
+    '/api/types/documents': {
         get: {
-            tags: ['Tipo de Diccionario'],
             security: [{bearerAuth: []}],
             responses: {
                 200: {
@@ -11,7 +10,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionaries: {
+                                    documents: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -28,9 +27,8 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
             requestBody: {
-                description: 'The new  type of dictionary to create',
+                description: 'The new  type of document to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -39,14 +37,9 @@ module.exports = {
                             properties: {
                                 id: {type: 'string'},
                                 description: {type: 'string'},
-                                isOriginAWord: {type: 'boolean'},
-                                haveDesnityDescription: {type: 'boolean'},
-                                isDestinyAWord: {type: 'boolean'},
-                                haveRegex: {type: 'boolean'},
-                                validation: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -65,19 +58,14 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    dictionary: {
+                                    document: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -96,17 +84,16 @@ module.exports = {
             }
         }
     },
-    '/api/types/dictionaries/{id}': {
+    '/api/types/documents/{id}': {
         put: {
-            security: [{ bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
+            security: [{bearerAuth: []}],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Dictionary type id to update'
+                    description: 'Documents type id to update'
                 }
             ],
             requestBody: {
@@ -119,14 +106,9 @@ module.exports = {
                             properties: {
                                 id: {type: 'string'},
                                 description: {type: 'string'},
-                                isOriginAWord: {type: 'boolean'},
-                                haveDesnityDescription: {type: 'boolean'},
-                                isDestinyAWord: {type: 'boolean'},
-                                haveRegex: {type: 'boolean'},
-                                validation: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -145,19 +127,14 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    dictionary: {
+                                    document: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -177,14 +154,13 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Dictionary type id to delete'
+                    description: 'Document type id to delete'
                 }
             ],
             responses: {
@@ -200,14 +176,13 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Dictionary type id to get'
+                    description: 'Document type id to get'
                 }
             ],
             responses: {
@@ -218,19 +193,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionary: {
+                                    document: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
