@@ -2,6 +2,7 @@ module.exports = {
     '/api/staticData': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Static Data'],
             summary: 'Get static values',
             description: `**Get** all the basic data of the application, *eg*: role types.
                             To get data, just send the resource name equal to true.
@@ -65,6 +66,7 @@ module.exports = {
     '/api/staticData/shortDescription': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Static Data'],
             summary: 'Get static nomenclatorsvalues',
             responses: {
                 200: {
@@ -93,6 +95,7 @@ module.exports = {
     '/api/staticData/lots': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Static Data'],
             summary: 'Get static lots values',
             responses: {
                 200: {
@@ -121,6 +124,7 @@ module.exports = {
     '/api/staticData/roles': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Static Data'],
             summary: 'Get static roles values',
             responses: {
                 200: {
@@ -146,9 +150,10 @@ module.exports = {
             }
         }
     },
-    '/api/staticData/statisticalV   ariable': {
+    '/api/staticData/statisticalVariable': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Static Data'],
             summary: 'Get static roles values',
             responses: {
                 200: {

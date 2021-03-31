@@ -21,8 +21,7 @@ class UserRoleService {
             id: userRole.ID_ROL_USUARIO,
             description: userRole.DESCRIPCION,
             domain: userRole.DOMINIO,
-            observation: userRole.OBSERVACION,
-            createdAt: userRole.FECHA_ALTA
+            observation: userRole.OBSERVACION
         } : {}};
     }
 
@@ -49,6 +48,14 @@ class UserRoleService {
             FECHA_ALTA: new Date()
         };
         return await roleUser.updateOne({ID_USUARIO: userId}, updateRole);
+    }
+
+    static async deleteAssigmentRole(role, userId){
+        const deleteRole = {
+            ID_USUARIO: userId,
+            ID_ROL_USUARIO: role.id
+        };
+        return await roleUser.deleteOne(deleteRole, {FECHA_BAJA: new Date()});
     }
 }
 

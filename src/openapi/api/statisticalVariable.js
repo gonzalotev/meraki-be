@@ -5,6 +5,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Statistical Variable'],
             responses: {
                 200: {
                     description: 'ok',
@@ -45,6 +46,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Statistical Variable'],
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
@@ -74,6 +76,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Statistical Variable'],
             parameters: [
                 {
                     in: 'path',
@@ -107,6 +110,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Statistical Variable'],
             parameters: [
                 {
                     in: 'path',

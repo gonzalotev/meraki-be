@@ -1,7 +1,8 @@
 module.exports = {
-    '/api/editors': {
+    '/api/types/documents': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -10,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    editors: {
+                                    documents: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -27,6 +28,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             requestBody: {
                 description: 'The new  type of document to create',
                 required: true,
@@ -58,7 +60,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    editor: {
+                                    document: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -84,16 +86,17 @@ module.exports = {
             }
         }
     },
-    '/api/editors/{id}': {
+    '/api/types/documents/{id}': {
         put: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Editor id to update'
+                    description: 'Documents type id to update'
                 }
             ],
             requestBody: {
@@ -127,7 +130,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    editor: {
+                                    document: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -154,13 +157,14 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Editor id to delete'
+                    description: 'Document type id to delete'
                 }
             ],
             responses: {
@@ -176,13 +180,14 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Editor id to find'
+                    description: 'Document type id to get'
                 }
             ],
             responses: {
@@ -193,7 +198,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    editor: {
+                                    document: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},

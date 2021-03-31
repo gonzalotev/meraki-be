@@ -2,6 +2,7 @@ module.exports = {
     '/api/dictionaryLinguistic': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Dictionary Linguistic'],
             parameters: [
                 {
                     in: 'query',

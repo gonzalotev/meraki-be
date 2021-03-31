@@ -5,6 +5,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Operatives'],
             responses: {
                 200: {
                     description: 'ok',
@@ -53,6 +54,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Operatives'],
             requestBody: {
                 description: 'The new operative',
                 required: true,
@@ -76,6 +78,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',
@@ -107,6 +110,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',

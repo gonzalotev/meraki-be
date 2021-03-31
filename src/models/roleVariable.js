@@ -3,9 +3,9 @@ const {
     assignmentRoleOperativeVariableTableName,
     assignmentRoleOperativeVariableAttrib
 } = include('constants');
-const name = 'roleOperativeVariable';
+const name = 'roleVariable';
 
-class StatisticalVariable extends ModelCreate{
+class RoleVariable extends ModelCreate{
     constructor(props){
         super({
             ...props,
@@ -16,4 +16,4 @@ class StatisticalVariable extends ModelCreate{
     }
 }
 
-module.exports = knex => new StatisticalVariable({knex});
+module.exports = knex => new RoleVariable({knex});

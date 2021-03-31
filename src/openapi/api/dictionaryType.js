@@ -1,7 +1,7 @@
 module.exports = {
     '/api/types/dictionaries': {
         get: {
-            tags: ['Tipo de Diccionario'],
+            tags: ['Types'],
             security: [{bearerAuth: []}],
             responses: {
                 200: {
@@ -28,7 +28,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
+            tags: ['Types'],
             requestBody: {
                 description: 'The new  type of dictionary to create',
                 required: true,
@@ -99,7 +99,7 @@ module.exports = {
     '/api/types/dictionaries/{id}': {
         put: {
             security: [{ bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
@@ -177,7 +177,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
@@ -200,7 +200,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Tipo de Diccionario'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',

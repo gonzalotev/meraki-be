@@ -2,6 +2,7 @@ module.exports = {
     '/api/types/nets': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -27,6 +28,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             requestBody: {
                 description: 'The new  type of net to create',
                 required: true,
@@ -87,6 +89,7 @@ module.exports = {
     '/api/types/nets/{id}': {
         put: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
@@ -154,6 +157,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
@@ -176,6 +180,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',

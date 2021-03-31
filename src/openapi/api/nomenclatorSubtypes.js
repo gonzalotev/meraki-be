@@ -2,6 +2,7 @@ module.exports = {
     '/api/nomenclatorSubtypes': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Nomenclator Subtype'],
             responses: {
                 200: {
                     description: 'ok',
@@ -27,6 +28,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
+            tags: ['Nomenclator Subtype'],
             requestBody: {
                 description: 'The new  type of net to create',
                 required: true,
@@ -89,6 +91,7 @@ module.exports = {
     '/api/nomenclatorSubtypes/{id}/{typeId}': {
         put: {
             security: [{bearerAuth: []}],
+            tags: ['Nomenclator Subtype'],
             parameters: [
                 {
                     in: 'path',
@@ -165,6 +168,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
+            tags: ['Nomenclator Subtype'],
             parameters: [
                 {
                     in: 'path',
@@ -194,6 +198,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Nomenclator Subtype'],
             parameters: [
                 {
                     in: 'path',

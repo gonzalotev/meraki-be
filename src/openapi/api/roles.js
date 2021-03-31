@@ -2,6 +2,7 @@ module.exports = {
     '/api/roles': {
         get: {
             security: [{bearerAuth: []}],
+            tags: ['Roles'],
             responses: {
                 200: {
                     description: 'Success',
@@ -43,6 +44,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
+            tags: ['Roles'],
             requestBody: {
                 required: true,
                 content: { 'application/json': {schema: {$ref: '#/components/schemas/Roles'}}}
@@ -78,9 +80,8 @@ module.exports = {
     },
     '/api/roles/{id}': {
         get: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['Roles'],
             parameters: [
                 {
                     in: 'path',
@@ -122,9 +123,8 @@ module.exports = {
             }
         },
         put: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['Roles'],
             parameters: [
                 {
                     in: 'path',
@@ -170,9 +170,8 @@ module.exports = {
             }
         },
         delete: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['Roles'],
             parameters: [
                 {
                     in: 'path',
