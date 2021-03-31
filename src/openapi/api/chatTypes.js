@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/types/chats': {
+    '/api/chatTypes': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -13,7 +13,20 @@ module.exports = {
                                 properties: {
                                     chats: {
                                         type: 'array',
-                                        items: {}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'integer'},
+                                                description: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -86,7 +99,7 @@ module.exports = {
             }
         }
     },
-    '/api/types/chats/{id}': {
+    '/api/chatTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],

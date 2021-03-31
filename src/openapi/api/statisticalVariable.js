@@ -16,19 +16,7 @@ module.exports = {
                                 properties: {
                                     statisticalVariables: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/StatisticalVariable'},
-                                        example: {
-                                            NOMBRE: 'Actividad económica',
-                                            ABREVIATURA: 'Actividad económica',
-                                            ID_VARIABLE: '20011',
-                                            DIGITOS: 3,
-                                            OBSERVACION: null,
-                                            DOMINIO: null,
-                                            SUPERVISADO: null,
-                                            ID_PADRE: 100,
-                                            ID_USUARIO: 1,
-                                            FECHA_ALTA: '2021-02-08T03:00:00.000Z'
-                                        }
+                                        items: {$ref: '#/components/schemas/StatisticalVariable'}
                                     }
                                 }
                             }

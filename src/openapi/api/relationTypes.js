@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/types/relations': {
+    '/api/relationTypes': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -13,7 +13,20 @@ module.exports = {
                                 properties: {
                                     relations: {
                                         type: 'array',
-                                        items: {}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'integer'},
+                                                description: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -86,7 +99,7 @@ module.exports = {
             }
         }
     },
-    '/api/types/relations/{id}': {
+    '/api/relationTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],

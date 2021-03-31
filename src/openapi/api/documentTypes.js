@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/types/documents': {
+    '/api/documentTypes': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -13,7 +13,20 @@ module.exports = {
                                 properties: {
                                     documents: {
                                         type: 'array',
-                                        items: {}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'string'},
+                                                description: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -86,7 +99,7 @@ module.exports = {
             }
         }
     },
-    '/api/types/documents/{id}': {
+    '/api/documentTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],

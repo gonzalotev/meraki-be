@@ -12,7 +12,6 @@ const Success = require('./success');
 const User = require('./user');
 const UserRole = require('./userRole');
 const ValidateToken = require('./validateToken');
-const VariableOperatingRole = require('./variableOperatingRole');
 
 module.exports = {
     ArrayString: {
@@ -60,6 +59,5 @@ module.exports = {
     Success,
     User,
     UserRole,
-    ValidateToken,
-    VariableOperatingRole
+    ValidateToken
 };

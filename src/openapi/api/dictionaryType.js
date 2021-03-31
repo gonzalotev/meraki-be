@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/types/dictionaries': {
+    '/api/dictionaryTypes': {
         get: {
             tags: ['Types'],
             security: [{bearerAuth: []}],
@@ -13,7 +13,25 @@ module.exports = {
                                 properties: {
                                     dictionaries: {
                                         type: 'array',
-                                        items: {}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'string'},
+                                                description: {type: 'string'},
+                                                isOriginAWord: {type: 'boolean'},
+                                                haveDesnityDescription: {type: 'boolean'},
+                                                isDestinyAWord: {type: 'boolean'},
+                                                haveRegex: {type: 'boolean'},
+                                                validation: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                domain: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -96,7 +114,7 @@ module.exports = {
             }
         }
     },
-    '/api/types/dictionaries/{id}': {
+    '/api/dictionaryTypes/{id}': {
         put: {
             security: [{ bearerAuth: []}],
             tags: ['Types'],

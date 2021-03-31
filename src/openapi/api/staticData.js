@@ -78,7 +78,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Roles'}
+                                        items: { $ref: '#/components/schemas/Nomenclators'}
                                     }
                                 }
                             }
@@ -107,7 +107,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Roles'}
+                                        items: { $ref: '#/components/schemas/Lots'}
                                     }
                                 }
                             }
@@ -165,7 +165,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Roles'}
+                                        items: { $ref: '#/components/schemas/StatisticalVariable'}
                                     }
                                 }
                             }
