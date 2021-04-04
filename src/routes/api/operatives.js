@@ -3,9 +3,9 @@ const {OperativesController} = include('controllers');
 module.exports = router => {
     router.route('/')
         .get(OperativesController.fetch)
-        .post(OperativesController.create)
-        .put(OperativesController.update)
-        .delete(OperativesController.delete);
-
+        .post(OperativesController.create);
+    router.route('/:id')
+        .get(OperativesController.find)
+        .put(OperativesController.update);
     return router;
 };

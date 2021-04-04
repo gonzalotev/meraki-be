@@ -1,5 +1,5 @@
+const {LotsService} = include('services');
 const {Lots} = include('models');
-
 class LotsController {
     static async fetch(req, res, next) {
         try {
@@ -43,6 +43,14 @@ class LotsController {
             res.send({ lot });
         } catch(error) {
             next(error);
+        }
+    }
+    static async fetchStaticLots(req, res, next){
+        try{
+            const lots = await LotsService.fetchStaticLots();
+            res.send({lots});
+        }catch(err) {
+            next(err);
         }
     }
 }

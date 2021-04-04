@@ -1,21 +1,30 @@
 const users = require('./user');
 const assignments = require('./assignments');
 const staticData = require('./staticData');
-const DictionaryLinguistic = require('./dictionaryLinguistic');
+const dictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
 const statisticalVariable = require('./statisticalVariable');
-const variableOperationalRole = require('./variableOperatingRole');
-const userRoles = require('./userRole');
 const roles = require('./roles');
-
+const chatTypes = require('./chatTypes');
+const netTypes = require('./netTypes');
+const relationTypes = require('./relationTypes');
+const dictionaryTypes = require('./dictionaryType');
+const documentTypes = require('./documentTypes');
+const nomenclatorSubtypes = require('./nomenclatorSubtypes');
+const editors = require('./editors');
 module.exports = {
     ...assignments,
-    ...DictionaryLinguistic,
+    ...dictionaryLinguistic,
     ...operatives,
     ...statisticalVariable,
-    ...variableOperationalRole,
     ...users,
     ...staticData,
-    ...userRoles,
-    ...roles
+    ...roles,
+    ...chatTypes,
+    ...netTypes,
+    ...relationTypes,
+    ...dictionaryTypes,
+    ...documentTypes,
+    ...nomenclatorSubtypes,
+    ...editors
 };

@@ -1,15 +1,9 @@
-const knex = include('helpers/database');
-const { dateToString, getOffset, getPageSize } = include('util');
-const { rolesTableName, assignmentRolesAttrib } = include('constants');
+const { dateToString } = include('util');
 const { roleUser } = include('models');
 
 class UserRoleService {
     static async find(page) {
-        const userRoles = await knex.select()
-            .from(rolesTableName)
-            .limit(getPageSize())
-            .offset(getOffset(page));
-
+        const userRoles = await roleUser.findByPage(page);
         return userRoles.map(userRole => ({
             idUser: userRole.ID_USUARIO,
             idRole: userRole.ID_ROL_USUARIO,
@@ -22,13 +16,12 @@ class UserRoleService {
     }
 
     static async findOne(userId) {
-        const userRole = await roleUser.findOne({ID_USUARIO: userId}, assignmentRolesAttrib);
+        const userRole = await roleUser.findOne({ID_USUARIO: userId});
         return {role: userRole ? {
             id: userRole.ID_ROL_USUARIO,
             description: userRole.DESCRIPCION,
             domain: userRole.DOMINIO,
-            observation: userRole.OBSERVACION,
-            createdAt: userRole.FECHA_ALTA
+            observation: userRole.OBSERVACION
         } : {}};
     }
 
@@ -55,6 +48,14 @@ class UserRoleService {
             FECHA_ALTA: new Date()
         };
         return await roleUser.updateOne({ID_USUARIO: userId}, updateRole);
+    }
+
+    static async deleteAssigmentRole(role, userId){
+        const deleteRole = {
+            ID_USUARIO: userId,
+            ID_ROL_USUARIO: role.id
+        };
+        return await roleUser.deleteOne(deleteRole, {FECHA_BAJA: new Date()});
     }
 }
 

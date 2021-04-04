@@ -4,6 +4,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['User'],
             operationId: 'session',
             description: 'Return current session',
             responses: {
@@ -23,6 +24,7 @@ module.exports = {
             security: [
                 {bearerAuth: []}
             ],
+            tags: ['User'],
             operationId: 'fetchUser',
             description: 'Return an User',
             parameters: [
@@ -48,9 +50,8 @@ module.exports = {
             }
         },
         delete: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['User'],
             operationId: 'deleteUser',
             description: 'Delete or Enable an User',
             parameters: [
@@ -83,9 +84,8 @@ module.exports = {
             }
         },
         put: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['User'],
             operationId: 'updateUser',
             description: 'Insert new Arq Profile, Only admins are allowed to perfom actions here',
             parameters: [
@@ -133,9 +133,8 @@ module.exports = {
     },
     '/api/users': {
         get: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['User'],
             operationId: 'fetchUsers',
             description: 'Return list of User',
             parameters: [
@@ -169,9 +168,8 @@ module.exports = {
             }
         },
         post: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['User'],
             operationId: 'newUser',
             description: 'Insert new Arq Profile, Only admins are allowed to perfom actions here',
             requestBody: {
@@ -200,9 +198,8 @@ module.exports = {
     },
     '/api/users/password/recovery': {
         post: {
-            security: [
-                {bearerAuth: []}
-            ],
+            security: [{bearerAuth: []}],
+            tags: ['User'],
             operationId: 'askPasswordRecovery',
             description: 'Request new user password',
             requestBody: {

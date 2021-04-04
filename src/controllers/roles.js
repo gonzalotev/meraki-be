@@ -1,4 +1,3 @@
-const { roles } = include('models');
 const { RolesService } = include('services');
 
 class RolesController {
@@ -13,7 +12,7 @@ class RolesController {
 
     static async find(req, res, next){
         try{
-            const role = await roles.findById(req.params);
+            const role = await RolesService.findOne(req.params);
             res.send({ role });
         } catch(error) {
             next(error);
@@ -32,7 +31,7 @@ class RolesController {
 
     static async update(req, res, next){
         try{
-            const role = await roles.updateOne(req.params, req.body);
+            const role = await RolesService.update(req.params, req.body);
             res.send({ role });
         } catch(error) {
             next(error);
@@ -41,9 +40,9 @@ class RolesController {
 
     static async delete(req, res, next){
         try{
-            const userDestroyer = req.user.id;
-            const result = await roles.deleteOne(req.params, userDestroyer);
-            res.send({ success: result});
+            const userDeleted = req.user.id;
+            const success = await RolesService.delete(req.params, userDeleted);
+            res.send({ success });
         } catch(error) {
             next(error);
         }

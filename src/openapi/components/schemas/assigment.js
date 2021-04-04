@@ -28,10 +28,6 @@ module.exports = {
                     type: 'string',
                     maxLength: 300,
                     nullable: true
-                },
-                createdAt: {
-                    type: 'string',
-                    nullable: true
                 }
             }
         },
@@ -67,6 +63,8 @@ module.exports = {
                     type: 'string',
                     maxLength: 5
                 },
+                operativeId: {type: 'integer'},
+                lotId: {type: 'integer'},
                 roleId: {
                     type: 'string',
                     maxLength: 50,
