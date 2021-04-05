@@ -1,21 +1,21 @@
 module.exports = {
     type: 'object',
     properties: {
-        original_description: {
+        originalDescription: {
             type: 'string',
             maxLength: 50
         },
-        id_tipology_dictionary: {
+        typologyDictionaryId: {
             type: 'string',
             maxLength: 50,
             nullable: false
         },
-        id_variable: {
+        variableId: {
             type: 'string',
             maxLength: 120,
             nullable: false
         },
-        destination_description: {
+        destinationDescription: {
             type: 'string',
             maxLength: 120,
             nullable: true
