@@ -5,8 +5,8 @@ module.exports = router => {
         .get(OperativesController.fetch)
         .post(OperativesController.create)
         .put(OperativesController.update)
-        .delete(OperativesController.delete);
-    router.route('/:DESCRIPCION/:ID_OPERATIVO/:ID_FUENTE')
-        .get(OperativesController.fetchOne);
+        // .delete(OperativesController.delete);
+    // router.route('/:DESCRIPCION/:ID_OPERATIVO/:ID_FUENTE')
+    //     .get(OperativesController.fetchOne);
     return router;
 };

@@ -20,6 +20,19 @@ module.exports = {
             type: 'string',
             maxLength: 300,
             nullable: true
+        },
+        createdAt: {
+            type: 'string',
+            format: 'date'
+        },
+        userCreator: {type: 'string'},
+        userDeleted: {
+            type: 'string',
+            nullable: true
+        },
+        deletedAt: {
+            type: 'string',
+            nullable: true
         }
     }
 };

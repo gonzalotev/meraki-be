@@ -1,24 +1,19 @@
-const {Operatives} = include('/models');
-const head = require('lodash/head');
-const {PAGE_SIZE} = process.env;
+const { OperativesService } = include('services');
 
 class OperativesController {
     static async fetch(req, res, next){
         try {
-            const {page, ...filter} = req.query;
-            await Operatives.startTransaction();
-            const operatives = await Operatives.find(page, {...filter});
-            const total = await Operatives.countRows();
-            await Operatives.commitTransaction();
-            res.send({limit: PAGE_SIZE, total, operatives});
+            const operatives = await OperativesService.find();
+            res.send({ operatives });
         } catch(err) {
             next(err);
         }
     }
 
-    static async fetchOne(req, res, next){
+    static async find(req, res, next){
         try {
-            res.send({operatives: await Operatives.findById(req.params)});
+            const operative = await OperativesService.findOne(req.params);
+            res.send({operative});
         } catch(err) {
             next(err);
         }
@@ -26,9 +21,7 @@ class OperativesController {
 
     static async create(req, res, next){
         try {
-            await Operatives.startTransaction();
-            const operative = head(await Operatives.insertOne(req.body));
-            await Operatives.commitTransaction();
+            const operative = await OperativesService.create(req.body, req.user.id);
             res.send({success: true, operative});
         } catch(err) {
             next(err);
@@ -37,22 +30,9 @@ class OperativesController {
 
     static async update(req, res, next){
         try{
-            await Operatives.startTransaction();
-            const operative = await Operatives.updateOne(req.query, req.body);
-            await Operatives.commitTransaction();
+            const operative = await OperativesService.update(req.params, req.body);
             res.send({success: true, operative});
         } catch(err){
-            next(err);
-        }
-    }
-
-    static async delete(req, res, next){
-        try {
-            await Operatives.startTransaction();
-            await Operatives.deletedOne(req.query);
-            await Operatives.commitTransaction();
-            res.send({success: true});
-        } catch(err) {
             next(err);
         }
     }

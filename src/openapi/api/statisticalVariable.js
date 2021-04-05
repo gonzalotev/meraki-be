@@ -2,15 +2,10 @@ module.exports = {
     '/api/statisticalVariable': {
         get: {
             summary: 'List of statistics variables',
-            security: [],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: true,
-                    schema: {type: 'integer'}
-                }
+            security: [
+                {bearerAuth: []}
             ],
+            tags: ['Statistical Variable'],
             responses: {
                 200: {
                     description: 'ok',
@@ -19,23 +14,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    limit: {type: 'integer'},
-                                    total: {type: 'integer'},
-                                    variables: {
+                                    statisticalVariables: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/StatisticalVariable'},
-                                        example: {
-                                            NOMBRE: 'Actividad económica',
-                                            ABREVIATURA: 'Actividad económica',
-                                            ID_VARIABLE: '20011',
-                                            DIGITOS: 3,
-                                            OBSERVACION: null,
-                                            DOMINIO: null,
-                                            SUPERVISADO: null,
-                                            ID_PADRE: 100,
-                                            ID_USUARIO: 1,
-                                            FECHA_ALTA: '2021-02-08T03:00:00.000Z'
-                                        }
+                                        items: {$ref: '#/components/schemas/StatisticalVariable'}
                                     }
                                 }
                             }
@@ -50,7 +31,10 @@ module.exports = {
         },
         post: {
             summary: 'Create new variable estadistica',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
+            tags: ['Statistical Variable'],
             requestBody: {
                 description: 'The new user-rol',
                 required: true,
@@ -72,20 +56,53 @@ module.exports = {
                     }
                 }
             }
-        },
-        put: {
+        }
+    },
+    '/api/statisticalVariable/{id}': {
+        get: {
             summary: 'Update variable estadistica',
-            security: [],
+            security: [
+                {bearerAuth: []}
+            ],
+            tags: ['Statistical Variable'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'NOMBRE',
+                    name: 'id',
                     required: true,
                     schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    statisticalVariable: {$ref: '#/components/schemas/StatisticalVariable'}
+                                }
+                            }
+                        }
+                    }
                 },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        put: {
+            summary: 'Update variable estadistica',
+            security: [
+                {bearerAuth: []}
+            ],
+            tags: ['Statistical Variable'],
+            parameters: [
                 {
                     in: 'path',
-                    name: 'ID_VARIABLE',
+                    name: 'id',
                     required: true,
                     schema: {type: 'string'}
                 }
@@ -109,34 +126,6 @@ module.exports = {
                             }
                         }
                     }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        delete: {
-            summary: 'Delete variable estadistica',
-            security: [],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'NOMBRE',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'ID_VARIABLE',
-                    required: true,
-                    schema: {type: 'string'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': {schema: {type: 'object'}}}
                 },
                 default: {
                     description: 'Error',

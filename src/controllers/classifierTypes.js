@@ -1,5 +1,6 @@
 const { classifierTypes } = include('models');
 const { ClassifierTypesService } = include('services');
+const assign = require('lodash/assign');
 
 class ClassifierTypesController {
     static async fetch(req, res, next) {

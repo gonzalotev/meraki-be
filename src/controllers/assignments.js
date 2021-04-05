@@ -1,6 +1,4 @@
-const { RoleNomenclator, RoleUser, RoleOperativeVariable } = include('models');
-const { UserRoleService, StatisticVariableService, RoleNomenclatorService } = include('services');
-const { rename } = include('util');
+const { UserRoleService, RoleVariableService, RoleNomenclatorService } = include('services');
 const has = require('lodash/has');
 
 class AssigmentController {
@@ -8,7 +6,7 @@ class AssigmentController {
         try {
             const { userId } = req.params;
             const {role} = await UserRoleService.findOne(userId);
-            const {statisticalVariable} = await StatisticVariableService.findOne(userId);
+            const {statisticalVariable} = await RoleVariableService.findOne(userId);
             const {nomenclator} = await RoleNomenclatorService.findOne(userId);
 
             res.send({assignment: { userId, role, statisticalVariable, nomenclator }});
@@ -31,13 +29,19 @@ class AssigmentController {
                 success = true;
             }
             if(has(body, 'nomenclator')){
-                const nomenclator = rename(body.nomenclator, 'id', 'nomenclatorId');
-                await RoleNomenclator.insertOne({...nomenclator, userId});
+                if(body.nomenclator.createdAt) {
+                    await RoleNomenclatorService.updateAssignmentNomenclator(body.nomenclator, userId);
+                } else {
+                    await RoleNomenclatorService.saveAssignmentNomenclator(body.nomenclator, userId);
+                }
                 success = true;
             }
             if(has(body, 'statisticalVariable')){
-                const statisticalVariable = rename(body.statisticalVariable, 'id', 'variableId');
-                await RoleOperativeVariable.insertOne({...statisticalVariable, userId});
+                if(body.statisticalVariable.createdAt) {
+                    await RoleVariableService.updateAssignmentVariable(body.statisticalVariable, userId);
+                } else {
+                    await RoleVariableService.saveAssignmentVariable(body.statisticalVariable, userId);
+                }
                 success = true;
             }
             res.send({ success });
@@ -49,21 +53,17 @@ class AssigmentController {
     static async update(req, res, next){
         try {
             let success = false;
-            const { userId } = req.body;
-            const { body } = req;
+            const { userId, ...body } = req.body;
             if(has(body, 'role')){
-                const { id: roleId, ...role } = body.role;
-                await RoleUser.updateOne({roleId, userId}, role);
+                await UserRoleService.updateAssignmentRole(body.role, userId);
                 success = true;
             }
             if(has(body, 'nomenclator')){
-                const { id: nomenclatorId, roleId, ...nomenclator } = body.nomenclator;
-                await RoleNomenclator.updateOne({roleId, nomenclatorId, userId}, nomenclator);
+                await RoleNomenclatorService.updateAssignmentNomenclator(body.nomenclator, userId);
                 success = true;
             }
             if(has(body, 'statisticalVariable')){
-                const { id: variableId, roleId, ...statisticalVariable } = body.statisticalVariable;
-                await RoleOperativeVariable.updateOne({roleId, variableId, userId}, statisticalVariable);
+                await RoleVariableService.updateAssignmentVariable(body.statisticalVariable, userId);
                 success = true;
             }
             res.send({ success });
@@ -75,21 +75,17 @@ class AssigmentController {
     static async delete(req, res, next){
         try {
             let success = false;
-            const { userId } = req.body;
-            const { body } = req;
+            const { userId, ...body } = req.body;
             if(has(body, 'role')){
-                const { id: roleId } = body.role;
-                await RoleUser.deleteOne({roleId, userId});
+                await UserRoleService.deleteAssigmentRole(body.role, userId);
                 success = true;
             }
             if(has(body, 'nomenclator')){
-                const { id: nomenclatorId, roleId } = body.nomenclator;
-                await RoleNomenclator.deleteOne({roleId, nomenclatorId, userId});
+                await RoleNomenclatorService.deleteAssigmentNomenclator(body.nomenclator, userId);
                 success = true;
             }
             if(has(body, 'statisticalVariable')){
-                const { id: variableId, roleId } = body.statisticalVariable;
-                await RoleOperativeVariable.deleteOne({roleId, variableId, userId});
+                await RoleVariableService.deleteAssigmentVariable(body.statisticalVariable, userId);
                 success = true;
             }
             res.send({ success });
