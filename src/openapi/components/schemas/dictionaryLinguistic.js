@@ -30,6 +30,7 @@ module.exports = {
             maxLength: 300,
             nullable: true
         },
+        approved: {type: 'boolean'},
         createdAt: {
             type: 'string',
             format: 'date'

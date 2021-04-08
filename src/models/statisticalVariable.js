@@ -1,5 +1,5 @@
 const ModelCreate = include('/helpers/modelCreate');
-const {assignmentStaticalVariableAttrib, assignmentStaticalVariableTableName} = include('constants');
+const {staticalVariableAttrib, staticalVariableTableName} = include('constants');
 const name = 'statisticalVariable';
 
 class StatisticalVariable extends ModelCreate{
@@ -7,8 +7,8 @@ class StatisticalVariable extends ModelCreate{
         super({
             ...props,
             name,
-            selectableProps: assignmentStaticalVariableAttrib,
-            tableName: assignmentStaticalVariableTableName
+            selectableProps: staticalVariableAttrib,
+            tableName: staticalVariableTableName
         });
     }
 }

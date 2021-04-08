@@ -4,8 +4,6 @@ module.exports = router => {
     router.route('/')
         .get(OperativesController.fetch)
         .post(OperativesController.create)
-        .put(OperativesController.update)
-        .delete(OperativesController.delete);
-
+        .put(OperativesController.update);
     return router;
 };
