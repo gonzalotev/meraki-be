@@ -10,7 +10,6 @@ const Roles = require('./roles');
 const StatisticalVariable = require('./statisticalVariable');
 const Success = require('./success');
 const User = require('./user');
-const UserRole = require('./userRole');
 const ValidateToken = require('./validateToken');
 
 module.exports = {
@@ -58,6 +57,5 @@ module.exports = {
     StatisticalVariable,
     Success,
     User,
-    UserRole,
     ValidateToken
 };

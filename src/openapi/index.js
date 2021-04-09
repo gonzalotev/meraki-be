@@ -11,7 +11,6 @@ module.exports = {
     },
     servers: [
         {url: 'https://dev-sicibe.indec.gob.ar/'},
-        {url: 'https://dev-sicibe.indec.gob.ar:5006/'},
         {url: 'https://qa-sicibe.indec.gob.ar/'},
         {url: 'https://prod-sicibe.indec.gob.ar/'},
         {url: 'http://localhost:3001/'}

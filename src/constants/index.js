@@ -294,6 +294,19 @@ const editorsAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const typesSpecialPhrasesTableName = 'TIPOS_DE_FRASES_ESPECIALES';
+
+const typesSpecialPhrasesAttrib = [
+    'ID_TIPO_FRASE_ESPECIAL',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
