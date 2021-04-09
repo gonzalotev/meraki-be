@@ -215,9 +215,9 @@ const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
 const specialPhraseTypeAttrib = [
     'ID_TIPO_FRASE_ESPECIAL',
     'DESCRIPCION',
-    'DOMINIO',
-    'OBSERVACION',
     'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'FECHA_BAJA',

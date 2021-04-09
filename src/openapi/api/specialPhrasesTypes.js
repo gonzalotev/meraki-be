@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    specialphrases: {
+                                    specialPhrasesTypes: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
@@ -73,7 +73,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    specialphrase: {
+                                    specialPhraseType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -143,7 +143,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    specialphrase: {
+                                    specialPhraseType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -211,7 +211,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    specialphrase: {
+                                    specialPhraseType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
