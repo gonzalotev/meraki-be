@@ -1,11 +1,7 @@
 module.exports = {
     type: 'object',
     properties: {
-        id_user: {
-            type: 'string',
-            maxLength: 50
-        },
-        id_role: {
+        id: {
             type: 'string',
             maxLength: 50,
             nullable: false
@@ -23,15 +19,6 @@ module.exports = {
         domain: {
             type: 'string',
             maxLength: 300,
-            nullable: true
-        },
-        createdAt: {
-            type: 'string',
-            format: 'date'
-        },
-        deletedAt: {
-            type: 'string',
-            format: 'date',
             nullable: true
         }
     }
