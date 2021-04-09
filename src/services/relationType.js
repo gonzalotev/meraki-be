@@ -1,88 +1,60 @@
 const { relationType } = include('models');
-const { dateToString } = include('util');
+const { relationTypesKeyNames } = include('constants/keyNames');
+const { dateToString, stringToDate, convertKeysNames } = include('util');
+const invert = require('lodash/invert');
 
 class RelationTypeService {
     static async fetch() {
         const relations = await relationType.find();
-        return relations.map(relation => ({
-            id: relation.ID_TIPO_RELACION,
-            description: relation.DESCRIPCION,
-            observation: relation.OBSERVACION,
-            domain: relation.DOMINIO,
-            approved: !!relation.SUPERVISADO,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relation.FECHA_BAJA)
-        }));
+        return relations.map(relation => convertKeysNames({
+            ...relation,
+            SUPERVISADO: !!relation.SUPERVISADO,
+            FECHA_ALTA: dateToString(relation.FECHA_ALTA),
+            FECHA_BAJA: dateToString(relation.FECHA_BAJA)
+        }, invert(relationTypesKeyNames)));
     }
 
     static async create(params, userCreator) {
-        const formattedRelation = {
-            ID_TIPO_RELACION: null,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
-            SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
-        };
+        const formattedRelation = convertKeysNames({
+            ...params,
+            userCreator,
+            createdAt: new Date()
+        }, relationTypesKeyNames);
         const relation = await relationType.insertOne(formattedRelation);
 
-        return {
-            id: relation.ID_TIPO_RELACION,
-            description: relation.DESCRIPCION,
-            observation: relation.OBSERVACION,
-            domain: relation.DOMINIO,
-            approved: !!relation.SUPERVISADO,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relation.FECHA_BAJA)
-        };
+        return convertKeysNames({
+            ...relation,
+            SUPERVISADO: !!relation.SUPERVISADO,
+            FECHA_ALTA: dateToString(relation.FECHA_ALTA),
+            FECHA_BAJA: dateToString(relation.FECHA_BAJA)
+        }, invert(relationTypesKeyNames));
     }
 
     static async findOne(filters){
         const relation = await relationType.findById({ID_TIPO_RELACION: filters.id});
-        return {
-            id: relation.ID_TIPO_RELACION,
-            description: relation.DESCRIPCION,
-            observation: relation.OBSERVACION,
-            domain: relation.DOMINIO,
-            approved: !!relation.SUPERVISADO,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relation.FECHA_BAJA)
-        };
+        return convertKeysNames({
+            ...relation,
+            SUPERVISADO: !!relation.SUPERVISADO,
+            FECHA_ALTA: dateToString(relation.FECHA_ALTA),
+            FECHA_BAJA: dateToString(relation.FECHA_BAJA)
+        }, invert(relationTypesKeyNames));
     }
 
     static async update(filters, params){
-        const formattedRelation = {
-            ID_TIPO_RELACION: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
-            SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt,
-            FECHA_ALTA: new Date()
-        };
+        const formattedRelation = convertKeysNames({
+            ...params,
+            deletedAt: stringToDate(params.deletedAt),
+            createdAt: stringToDate(params.createdAt)
+        }, relationTypesKeyNames);
+        console.log('ddd');
+        console.log(formattedRelation);
         const relation = await relationType.updateOne({ID_TIPO_RELACION: filters.id}, formattedRelation);
-        return {
-            id: relation.ID_TIPO_RELACION,
-            description: relation.DESCRIPCION,
-            observation: relation.OBSERVACION,
-            domain: relation.DOMINIO,
-            approved: !!relation.SUPERVISADO,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relation.FECHA_BAJA)
-        };
+        return convertKeysNames({
+            ...relation,
+            SUPERVISADO: !!relation.SUPERVISADO,
+            FECHA_ALTA: dateToString(relation.FECHA_ALTA),
+            FECHA_BAJA: dateToString(relation.FECHA_BAJA)
+        }, invert(relationTypesKeyNames));
     }
 
     static async delete(filters, userDeleted){

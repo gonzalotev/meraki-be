@@ -128,7 +128,10 @@ module.exports = {
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                deletedAt: {
+                                    type: 'string',
+                                    nullable: true
+                                }
                             }
                         }
                     }
