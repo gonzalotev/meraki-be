@@ -307,6 +307,19 @@ const typesSpecialPhrasesAttrib = [
     'FECHA_ALTA'
 ];
 
+const nomenclatorTypesTableName = 'TIPOS_DE_NOMENCLADOR';
+const nomenclatorTypesAttrib = [
+    'ID_TIPO',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -342,5 +355,9 @@ module.exports = {
     nomenclatorSubtypeTableName,
     nomenclatorSubtypeAttrib,
     editorsTableName,
-    editorsAttrib
+    editorsAttrib,
+    nomenclatorTypesTableName,
+    nomenclatorTypesAttrib,
+    typesSpecialPhrasesTableName,
+    typesSpecialPhrasesAttrib
 };
