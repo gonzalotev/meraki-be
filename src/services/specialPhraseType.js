@@ -71,7 +71,8 @@ class SpecialPhraseTypeService {
             FECHA_BAJA: params.deletedAt,
             FECHA_ALTA: new Date()
         };
-        const specialPhraseType = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id}, formattedSpecialPhraseType);
+        const specialPhraseType = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
+            formattedSpecialPhraseType);
         return {
             id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
             description: specialPhraseType.DESCRIPCION,
