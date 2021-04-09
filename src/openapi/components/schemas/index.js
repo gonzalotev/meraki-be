@@ -11,6 +11,7 @@ const StatisticalVariable = require('./statisticalVariable');
 const Success = require('./success');
 const User = require('./user');
 const ValidateToken = require('./validateToken');
+const NomenclatorTypes = require('./nomenclatorTypes');
 
 module.exports = {
     ArrayString: {
@@ -57,5 +58,6 @@ module.exports = {
     StatisticalVariable,
     Success,
     User,
-    ValidateToken
+    ValidateToken,
+    NomenclatorTypes
 };
