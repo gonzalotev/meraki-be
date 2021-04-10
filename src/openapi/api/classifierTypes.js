@@ -17,6 +17,7 @@ module.exports = {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
@@ -51,6 +52,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -77,6 +79,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -121,6 +124,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -147,6 +151,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -215,6 +220,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},

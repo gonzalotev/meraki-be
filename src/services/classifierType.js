@@ -6,6 +6,7 @@ class ClassifierTypeService {
         const classifierTypes = await classifierTypeModel.find();
         return classifierTypes.map(classifierType => ({
             id: classifierType.ID_TIPO_CLASIFICADOR,
+            abbreviation: classifierType.ABREVIATURA,
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
@@ -20,6 +21,7 @@ class ClassifierTypeService {
     static async create(params, userCreator) {
         const formattedClassifierType = {
             ID_TIPO_CLASIFICADOR: null,
+            ABREVIATURA: params.abbreviation,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
@@ -33,6 +35,7 @@ class ClassifierTypeService {
 
         return {
             id: classifierType.ID_TIPO_CLASIFICADOR,
+            abbreviation: classifierType.ABREVIATURA,
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
@@ -48,6 +51,7 @@ class ClassifierTypeService {
         const classifierType = await classifierTypeModel.findById({ID_TIPO_CLASIFICADOR: filters.id});
         return {
             id: classifierType.ID_TIPO_CLASIFICADOR,
+            abbreviation: classifierType.ABREVIATURA,
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
@@ -62,6 +66,7 @@ class ClassifierTypeService {
     static async update(filters, params){
         const formattedClassifierType = {
             ID_TIPO_CLASIFICADOR: params.id,
+            ABREVIATURA: params.abbreviation,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
@@ -75,6 +80,7 @@ class ClassifierTypeService {
             formattedClassifierType);
         return {
             id: classifierType.ID_TIPO_CLASIFICADOR,
+            abbreviation: classifierType.ABREVIATURA,
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
