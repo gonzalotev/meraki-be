@@ -6,6 +6,7 @@ const operatives = require('./operatives');
 const statisticalVariable = require('./statisticalVariable');
 const roles = require('./roles');
 const chatTypes = require('./chatTypes');
+const classifierTypes = require('./classifierTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const netTypes = require('./netTypes');
 const relationTypes = require('./relationTypes');
@@ -28,5 +29,6 @@ module.exports = {
     ...dictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
-    ...editors
+    ...editors,
+    ...classifierTypes
 };

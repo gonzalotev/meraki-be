@@ -223,6 +223,20 @@ const specialPhraseTypeAttrib = [
     'FECHA_BAJA',
     'ID_USUARIO_BAJA'
 ];
+
+const classifierTypeTableName = 'TIPOS_DE_CLASIFICADOR';
+const classifierTypeAttrib = [
+    'ID_TIPO_CLASIFICADOR',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 const netTypeTableName = 'TIPOS_DE_RED';
 const netTypeAttrib = [
     'ID_TIPO_RED',
@@ -343,5 +357,7 @@ module.exports = {
     nomenclatorSubtypeTableName,
     nomenclatorSubtypeAttrib,
     editorsTableName,
-    editorsAttrib
+    editorsAttrib,
+    classifierTypeTableName,
+    classifierTypeAttrib
 };
