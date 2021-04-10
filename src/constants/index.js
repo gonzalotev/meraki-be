@@ -227,6 +227,7 @@ const specialPhraseTypeAttrib = [
 const classifierTypeTableName = 'TIPOS_DE_CLASIFICADOR';
 const classifierTypeAttrib = [
     'ID_TIPO_CLASIFICADOR',
+    'ABREVIATURA',
     'DESCRIPCION',
     'SUPERVISADO',
     'OBSERVACION',
