@@ -1,11 +1,12 @@
-const { relationType } = include('models');
+const { relationshipType } = include('models');
 const { relationTypesKeyNames } = include('constants/keyNames');
 const { dateToString, stringToDate, convertKeysNames } = include('util');
 const invert = require('lodash/invert');
 
-class RelationTypeService {
+class RelationshipTypeService {
     static async fetch() {
-        const relations = await relationType.find();
+        const relations = await relationshipType.find();
+
         return relations.map(relation => convertKeysNames({
             ...relation,
             SUPERVISADO: !!relation.SUPERVISADO,
@@ -20,7 +21,8 @@ class RelationTypeService {
             userCreator,
             createdAt: new Date()
         }, relationTypesKeyNames);
-        const relation = await relationType.insertOne(formattedRelation);
+
+        const relation = await relationshipType.insertOne(formattedRelation);
 
         return convertKeysNames({
             ...relation,
@@ -31,7 +33,7 @@ class RelationTypeService {
     }
 
     static async findOne(filters){
-        const relation = await relationType.findById({ID_TIPO_RELACION: filters.id});
+        const relation = await relationshipType.findById({ID_TIPO_RELACION: filters.id});
         return convertKeysNames({
             ...relation,
             SUPERVISADO: !!relation.SUPERVISADO,
@@ -46,9 +48,7 @@ class RelationTypeService {
             deletedAt: stringToDate(params.deletedAt),
             createdAt: stringToDate(params.createdAt)
         }, relationTypesKeyNames);
-        console.log('ddd');
-        console.log(formattedRelation);
-        const relation = await relationType.updateOne({ID_TIPO_RELACION: filters.id}, formattedRelation);
+        const relation = await relationshipType.updateOne({ID_TIPO_RELACION: filters.id}, formattedRelation);
         return convertKeysNames({
             ...relation,
             SUPERVISADO: !!relation.SUPERVISADO,
@@ -58,7 +58,7 @@ class RelationTypeService {
     }
 
     static async delete(filters, userDeleted){
-        const success = await relationType.deleteOne({ID_TIPO_RELACION: filters.id}, {
+        const success = await relationshipType.deleteOne({ID_TIPO_RELACION: filters.id}, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
@@ -66,4 +66,4 @@ class RelationTypeService {
     }
 }
 
-module.exports = RelationTypeService;
+module.exports = RelationshipTypeService;

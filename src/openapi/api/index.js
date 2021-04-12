@@ -7,7 +7,7 @@ const statisticalVariable = require('./statisticalVariable');
 const roles = require('./roles');
 const chatTypes = require('./chatTypes');
 const netTypes = require('./netTypes');
-const relationTypes = require('./relationTypes');
+const relationshipTypes = require('./relationshipTypes');
 const dictionaryTypes = require('./dictionaryType');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
@@ -22,7 +22,7 @@ module.exports = {
     ...roles,
     ...chatTypes,
     ...netTypes,
-    ...relationTypes,
+    ...relationshipTypes,
     ...dictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
