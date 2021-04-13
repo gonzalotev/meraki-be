@@ -211,6 +211,33 @@ const chatTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
+const specialPhraseTypeAttrib = [
+    'ID_TIPO_FRASE_ESPECIAL',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
+const classifierTypeTableName = 'TIPOS_DE_CLASIFICADOR';
+const classifierTypeAttrib = [
+    'ID_TIPO_CLASIFICADOR',
+    'ABREVIATURA',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 const netTypeTableName = 'TIPOS_DE_RED';
 const netTypeAttrib = [
     'ID_TIPO_RED',
@@ -318,6 +345,8 @@ module.exports = {
     nomenclatorsTableName,
     chatTypeAttrib,
     chatTypeTableName,
+    specialPhraseTypeTableName,
+    specialPhraseTypeAttrib,
     netTypeTableName,
     netTypeAttrib,
     relationTypeTableName,
@@ -329,5 +358,7 @@ module.exports = {
     nomenclatorSubtypeTableName,
     nomenclatorSubtypeAttrib,
     editorsTableName,
-    editorsAttrib
+    editorsAttrib,
+    classifierTypeTableName,
+    classifierTypeAttrib
 };
