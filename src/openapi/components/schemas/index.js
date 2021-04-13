@@ -12,6 +12,7 @@ const Success = require('./success');
 const User = require('./user');
 const ValidateToken = require('./validateToken');
 const NomenclatorTypes = require('./nomenclatorTypes');
+const RelationshipTypes = require('./relationshipTypes');
 
 module.exports = {
     ArrayString: {
@@ -59,5 +60,9 @@ module.exports = {
     Success,
     User,
     ValidateToken,
-    NomenclatorTypes
+    NomenclatorTypes,
+    UserRole,
+    ValidateToken,
+    RelationshipTypes,
+    ValidateToken
 };

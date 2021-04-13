@@ -1,8 +1,8 @@
 const ModelCreate = include('helpers/modelCreate');
 const {relationTypeTableName, relationTypeAttrib} = include('constants');
-const name = 'relationType';
+const name = 'relationshipType';
 
-class RelationType extends ModelCreate{
+class RelationshipType extends ModelCreate{
     constructor(props){
         super({
             ...props,
@@ -13,4 +13,4 @@ class RelationType extends ModelCreate{
     }
 }
 
-module.exports = knex => new RelationType({knex});
+module.exports = knex => new RelationshipType({knex});

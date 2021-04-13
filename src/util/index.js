@@ -11,6 +11,7 @@ const isDate = require('lodash/isDate');
 const includes = require('lodash/includes');
 const keys = require('lodash/keys');
 const clone = require('lodash/clone');
+const isString = require('lodash/isString');
 const { getOffset, getPageSize } = require('./getOffset');
 
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
@@ -46,6 +47,12 @@ const dateTimeToString = dateTime => {
     }
     return null;
 };
+const stringToDate = date => {
+    if(date && isString(date)){
+        return moment(date).toDate();
+    }
+    return null;
+};
 
 const setDate = obj => {
     assign(obj, { createdAt: dateToString(obj.createdAt), deletedAt: dateToString(obj.deletedAt)});
@@ -59,7 +66,16 @@ const rename = (obj, key, newKey) => {
     }
     return obj;
 };
-
+const convertKeysNames = (props, columns) => {
+    const convertedObject = {};
+    // eslint-disable-next-line lodash/collection-return, lodash/collection-method-value
+    map(props, (value, index) => {
+        if (includes(keys(columns), index)) {
+            assign(convertedObject, {[columns[index]]: value});
+        }
+    });
+    return convertedObject;
+};
 module.exports = {
     buildArchQuery,
     reducedList,
@@ -68,5 +84,7 @@ module.exports = {
     getOffset,
     getPageSize,
     setDate,
-    rename
+    rename,
+    stringToDate,
+    convertKeysNames
 };

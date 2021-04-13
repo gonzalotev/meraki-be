@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/relationTypes': {
+    '/api/specialPhrasesTypes': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relations: {
+                                    specialPhrasesTypes: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
@@ -43,7 +43,7 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Types'],
             requestBody: {
-                description: 'The new  type of relation to create',
+                description: 'The new  type of special phrase to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -73,7 +73,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    relation: {
+                                    specialPhraseType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -99,7 +99,7 @@ module.exports = {
             }
         }
     },
-    '/api/relationTypes/{id}': {
+    '/api/specialPhrasesTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -109,11 +109,11 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'integer'},
-                    description: 'Relation type id to update'
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new  type of relation to create',
+                description: 'The new  type of special phrase to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -143,7 +143,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    relation: {
+                                    specialPhraseType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -177,7 +177,7 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'integer'},
-                    description: 'Relation type id to delete'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -200,7 +200,7 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'integer'},
-                    description: 'Relation type id to get'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -211,7 +211,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relation: {
+                                    specialPhraseType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
