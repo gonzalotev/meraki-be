@@ -11,6 +11,7 @@ const StatisticalVariable = require('./statisticalVariable');
 const Success = require('./success');
 const User = require('./user');
 const ValidateToken = require('./validateToken');
+const RelationshipTypes = require('./relationshipTypes');
 
 module.exports = {
     ArrayString: {
@@ -57,5 +58,8 @@ module.exports = {
     StatisticalVariable,
     Success,
     User,
+    UserRole,
+    ValidateToken,
+    RelationshipTypes
     ValidateToken
 };

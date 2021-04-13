@@ -9,7 +9,7 @@ const chatTypes = require('./chatTypes');
 const classifierTypes = require('./classifierTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const netTypes = require('./netTypes');
-const relationTypes = require('./relationTypes');
+const relationshipTypes = require('./relationshipTypes');
 const dictionaryTypes = require('./dictionaryType');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
@@ -25,7 +25,7 @@ module.exports = {
     ...chatTypes,
     ...specialPhrasesTypes,
     ...netTypes,
-    ...relationTypes,
+    ...relationshipTypes,
     ...dictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
