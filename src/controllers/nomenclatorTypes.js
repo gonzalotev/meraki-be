@@ -39,7 +39,7 @@ class NomenclatorTypesController {
 
     static async delete(req, res, next){
         try{
-            const result = await NomenclatorTypesService.deleteOne(req.body);
+            const result = await NomenclatorTypesService.deleteOne(req.params, req.user.id);
             res.send({ success: result});
         } catch(error) {
             next(error);

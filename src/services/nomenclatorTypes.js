@@ -78,7 +78,7 @@ class NomenclatorTypesService {
 
     static async deleteOne(filters, userDeleted){
         const{
-            typeId: ID_TIPO
+            id: ID_TIPO
         } = filters;
         const id = {ID_TIPO};
         const success = await nomenclatorTypes.deleteOne(id, {
