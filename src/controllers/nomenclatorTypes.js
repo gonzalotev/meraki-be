@@ -30,7 +30,7 @@ class NomenclatorTypesController {
 
     static async update(req, res, next){
         try{
-            const nomenclatorType = await NomenclatorTypesService.update(req.body);
+            const nomenclatorType = await NomenclatorTypesService.update(req.params, req.body);
             res.send({ success: true, nomenclatorType });
         } catch(error) {
             next(error);
