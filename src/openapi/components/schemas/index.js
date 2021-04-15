@@ -61,8 +61,5 @@ module.exports = {
     User,
     ValidateToken,
     NomenclatorTypes,
-    UserRole,
-    ValidateToken,
-    RelationshipTypes,
-    ValidateToken
+    RelationshipTypes
 };

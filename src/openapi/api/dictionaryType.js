@@ -107,6 +107,37 @@ module.exports = {
                         }
                     }
                 },
+                201: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionary: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'string'},
+                                            description: {type: 'string'},
+                                            isOriginAWord: {type: 'boolean'},
+                                            haveDesnityDescription: {type: 'boolean'},
+                                            isDestinyAWord: {type: 'boolean'},
+                                            haveRegex: {type: 'boolean'},
+                                            validation: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            domain: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -206,10 +237,7 @@ module.exports = {
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
