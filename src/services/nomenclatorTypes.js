@@ -28,7 +28,7 @@ class NomenclatorTypesService {
 
     static async create(params, userCreator){
         const formattedNomenclatorType = {
-            ID_TIPO: params.typeId,
+            ID_TIPO: params.id,
             DESCRIPCION: params.description,
             SUPERVISADO: params.supervised,
             OBSERVACION: params.observation,
@@ -40,7 +40,7 @@ class NomenclatorTypesService {
         };
         const nomenclatorType = await nomenclatorTypes.insertOne(formattedNomenclatorType);
         return {
-            typeId: nomenclatorType.ID_TIPO,
+            id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,
             supervised: !!nomenclatorType.SUPERVISADO,
             observation: nomenclatorType.OBSERVACION,
