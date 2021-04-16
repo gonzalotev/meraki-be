@@ -30,7 +30,7 @@ class NomenclatorTypesController {
 
     static async update(req, res, next){
         try{
-            const nomenclatorType = await NomenclatorTypesService.update(req.body);
+            const nomenclatorType = await NomenclatorTypesService.update(req.params, req.body);
             res.send({ success: true, nomenclatorType });
         } catch(error) {
             next(error);
@@ -39,7 +39,7 @@ class NomenclatorTypesController {
 
     static async delete(req, res, next){
         try{
-            const result = await NomenclatorTypesService.deleteOne(req.body);
+            const result = await NomenclatorTypesService.deleteOne(req.params, req.user.id);
             res.send({ success: result});
         } catch(error) {
             next(error);

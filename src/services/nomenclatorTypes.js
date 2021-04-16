@@ -28,7 +28,7 @@ class NomenclatorTypesService {
 
     static async create(params, userCreator){
         const formattedNomenclatorType = {
-            ID_TIPO: params.typeId,
+            ID_TIPO: params.id,
             DESCRIPCION: params.description,
             SUPERVISADO: params.supervised,
             OBSERVACION: params.observation,
@@ -40,7 +40,7 @@ class NomenclatorTypesService {
         };
         const nomenclatorType = await nomenclatorTypes.insertOne(formattedNomenclatorType);
         return {
-            typeId: nomenclatorType.ID_TIPO,
+            id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,
             supervised: !!nomenclatorType.SUPERVISADO,
             observation: nomenclatorType.OBSERVACION,
@@ -53,15 +53,15 @@ class NomenclatorTypesService {
 
     }
 
-    static async update(body){
+    static async update(filters, params){
         const formattedNomenclatorType = {
-            ID_TIPO: body.typeId,
-            DESCRIPCION: body.description,
-            SUPERVISADO: body.supervised,
-            OBSERVACION: body.observation,
-            DOMINIO: body.domain
+            ID_TIPO: params.typeId,
+            DESCRIPCION: params.description,
+            SUPERVISADO: params.supervised,
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain
         };
-        const formattedFilters = {ID_TIPO: body.typeId};
+        const formattedFilters = {ID_TIPO: filters.id};
         const nomenclatorType = await nomenclatorTypes.updateOne(formattedFilters, formattedNomenclatorType);
         return {
             typeId: nomenclatorType.ID_TIPO,
@@ -76,14 +76,14 @@ class NomenclatorTypesService {
         };
     }
 
-    static async deleteOne(props, userDeleted){
+    static async deleteOne(filters, userDeleted){
         const{
-            typeId: ID_TIPO
-        } = props;
+            id: ID_TIPO
+        } = filters;
         const id = {ID_TIPO};
         const success = await nomenclatorTypes.deleteOne(id, {
             FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted || 1
+            ID_USUARIO_BAJA: userDeleted
         });
         return success;
     }
