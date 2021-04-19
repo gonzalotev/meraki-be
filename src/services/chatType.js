@@ -1,9 +1,9 @@
 const { chatType: chatTypeModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 
 class ChatTypeService {
     static async fetch() {
-        const chatsTypes = await chatTypeModel.find();
+        const chatsTypes = await chatTypeModel.find({FECHA_BAJA: null});
         return chatsTypes.map(chatType => ({
             id: chatType.ID_TIPO_CHAT,
             description: chatType.DESCRIPCION,
@@ -68,8 +68,8 @@ class ChatTypeService {
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt,
-            FECHA_ALTA: new Date()
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const chatType = await chatTypeModel.updateOne({ID_TIPO_CHAT: filters.id}, formattedChatType);
         return {

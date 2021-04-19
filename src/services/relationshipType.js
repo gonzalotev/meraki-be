@@ -5,7 +5,7 @@ const invert = require('lodash/invert');
 
 class RelationshipTypeService {
     static async fetch() {
-        const relations = await relationshipType.find();
+        const relations = await relationshipType.find({FECHA_BAJA: null});
 
         return relations.map(relation => convertKeysNames({
             ...relation,
