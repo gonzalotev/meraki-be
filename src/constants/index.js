@@ -327,6 +327,32 @@ const editorsAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const typesSpecialPhrasesTableName = 'TIPOS_DE_FRASES_ESPECIALES';
+
+const typesSpecialPhrasesAttrib = [
+    'ID_TIPO_FRASE_ESPECIAL',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'FECHA_ALTA'
+];
+
+const nomenclatorTypesTableName = 'TIPOS_DE_NOMENCLADOR';
+const nomenclatorTypesAttrib = [
+    'ID_TIPO',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
@@ -365,6 +391,10 @@ module.exports = {
     nomenclatorSubtypeAttrib,
     editorsTableName,
     editorsAttrib,
+    nomenclatorTypesTableName,
+    nomenclatorTypesAttrib,
+    typesSpecialPhrasesTableName,
+    typesSpecialPhrasesAttrib,
     classifierTypeTableName,
     classifierTypeAttrib,
     questionTypeTableName,

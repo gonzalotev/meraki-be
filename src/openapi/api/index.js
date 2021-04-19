@@ -10,11 +10,12 @@ const questionTypes = require('./questionTypes');
 const classifierTypes = require('./classifierTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const netTypes = require('./netTypes');
-const relationTypes = require('./relationTypes');
+const relationshipTypes = require('./relationshipTypes');
 const dictionaryTypes = require('./dictionaryType');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
 const editors = require('./editors');
+const nomenclatorTypes = require('./nomenclatorTypes');
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -26,11 +27,12 @@ module.exports = {
     ...chatTypes,
     ...specialPhrasesTypes,
     ...netTypes,
-    ...relationTypes,
+    ...relationshipTypes,
     ...dictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
     ...editors,
     ...classifierTypes,
-    ...questionTypes
+    ...questionTypes,
+    ...nomenclatorTypes
 };

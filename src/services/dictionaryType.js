@@ -1,119 +1,74 @@
 const { dictionaryType } = include('models');
-const { dateToString } = include('util');
+const { dictionaryTypesKeyNames } = include('constants/keyNames');
+const { dateToString, stringToDate, convertKeysNames } = include('util');
+const invert = require('lodash/invert');
 
 class DictionaryTypeService {
     static async fetch() {
         const dictionaries = await dictionaryType.find();
-        return dictionaries.map(dictionary => ({
-            id: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionary.DESCRIPCION,
-            isOriginAWord: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            haveDesnityDescription: !!dictionary.SI_DESCRIPCION_DESTINO,
-            isDestinyAWord: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            haveRegex: !!dictionary.EXPRESION_REGULAR,
-            validation: dictionary.VALIDACION,
-            approved: !!dictionary.SUPERVISADO,
-            domain: dictionary.DOMINIO,
-            observation: dictionary.OBSERVACION,
-            createdAt: dateToString(dictionary.FECHA_ALTA),
-            userCreator: dictionary.ID_USUARIO_ALTA,
-            userDeleted: dictionary.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionary.FECHA_BAJA)
-        }));
+        return dictionaries.map(dictionary => convertKeysNames({
+            ...dictionary,
+            SUPERVISADO: !!dictionary.SUPERVISADO,
+            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
+            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
+            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
+            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
+            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
+            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
+        }, invert(dictionaryTypesKeyNames)));
     }
 
     static async create(params, userCreator) {
-        const formattedDictionary = {
-            ID_TIPOLOGIA_DE_DICCIONARIO: params.id,
-            DESCRIPCION: params.description,
-            SI_PALABRA_NO_FRASE_ORIGEN: params.isOriginAWord,
-            SI_DESCRIPCION_DESTINO: params.haveDesnityDescription,
-            SI_PALABRA_NO_FRASE_DESTINO: params.isDestinyAWord,
-            EXPRESION_REGULAR: params.haveRegex,
-            VALIDACION: params.validation,
-            SUPERVISADO: params.approved,
-            DOMINIO: params.domain,
-            OBSERVACION: params.observation,
-            ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
-        };
+        const formattedDictionary = convertKeysNames({
+            ...params,
+            userCreator,
+            createdAt: new Date()
+        }, dictionaryTypesKeyNames);
         const dictionary = await dictionaryType.insertOne(formattedDictionary);
-
-        return {
-            id: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionary.DESCRIPCION,
-            isOriginAWord: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            haveDesnityDescription: !!dictionary.SI_DESCRIPCION_DESTINO,
-            isDestinyAWord: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            haveRegex: !!dictionary.EXPRESION_REGULAR,
-            validation: dictionary.VALIDACION,
-            approved: !!dictionary.SUPERVISADO,
-            domain: dictionary.DOMINIO,
-            observation: dictionary.OBSERVACION,
-            createdAt: dateToString(dictionary.FECHA_ALTA),
-            userCreator: dictionary.ID_USUARIO_ALTA,
-            userDeleted: dictionary.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionary.FECHA_BAJA)
-        };
+        return convertKeysNames({
+            ...dictionary,
+            SUPERVISADO: !!dictionary.SUPERVISADO,
+            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
+            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
+            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
+            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
+            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
+            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
+        }, invert(dictionaryTypesKeyNames));
     }
 
     static async findOne(filters){
         const dictionary = await dictionaryType.findById({ID_TIPOLOGIA_DE_DICCIONARIO: filters.id});
-        return {
-            id: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionary.DESCRIPCION,
-            isOriginAWord: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            haveDesnityDescription: !!dictionary.SI_DESCRIPCION_DESTINO,
-            isDestinyAWord: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            haveRegex: !!dictionary.EXPRESION_REGULAR,
-            validation: dictionary.VALIDACION,
-            approved: !!dictionary.SUPERVISADO,
-            domain: dictionary.DOMINIO,
-            observation: dictionary.OBSERVACION,
-            createdAt: dateToString(dictionary.FECHA_ALTA),
-            userCreator: dictionary.ID_USUARIO_ALTA,
-            userDeleted: dictionary.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionary.FECHA_BAJA)
-        };
+        return convertKeysNames({
+            ...dictionary,
+            SUPERVISADO: !!dictionary.SUPERVISADO,
+            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
+            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
+            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
+            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
+            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
+            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
+        }, invert(dictionaryTypesKeyNames));
     }
 
     static async update(filters, params){
-        const formattedDictionary = {
-            ID_TIPOLOGIA_DE_DICCIONARIO: params.id,
-            DESCRIPCION: params.description,
-            SI_PALABRA_NO_FRASE_ORIGEN: params.isOriginAWord,
-            SI_DESCRIPCION_DESTINO: params.haveDesnityDescription,
-            SI_PALABRA_NO_FRASE_DESTINO: params.isDestinyAWord,
-            EXPRESION_REGULAR: params.haveRegex,
-            VALIDACION: params.validation,
-            SUPERVISADO: params.approved,
-            DOMINIO: params.domain,
-            OBSERVACION: params.observation,
-            ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt,
-            FECHA_ALTA: params.createdAt
-        };
+        const formattedDictionary = convertKeysNames({
+            ...params,
+            deletedAt: stringToDate(params.deletedAt),
+            createdAt: stringToDate(params.createdAt)
+        }, dictionaryTypesKeyNames);
         const formattedFilters = {ID_TIPOLOGIA_DE_DICCIONARIO: filters.id};
         const dictionary = await dictionaryType.updateOne(formattedFilters, formattedDictionary);
-        return {
-            id: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionary.DESCRIPCION,
-            isOriginAWord: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            haveDesnityDescription: !!dictionary.SI_DESCRIPCION_DESTINO,
-            isDestinyAWord: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            haveRegex: !!dictionary.EXPRESION_REGULAR,
-            validation: dictionary.VALIDACION,
-            approved: !!dictionary.SUPERVISADO,
-            domain: dictionary.DOMINIO,
-            observation: dictionary.OBSERVACION,
-            createdAt: dateToString(dictionary.FECHA_ALTA),
-            userCreator: dictionary.ID_USUARIO_ALTA,
-            userDeleted: dictionary.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionary.FECHA_BAJA)
-        };
+        return convertKeysNames({
+            ...dictionary,
+            SUPERVISADO: !!dictionary.SUPERVISADO,
+            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
+            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
+            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
+            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
+            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
+            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
+        }, invert(dictionaryTypesKeyNames));
     }
 
     static async delete(filters, userDeleted){

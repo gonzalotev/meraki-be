@@ -1,24 +1,15 @@
 module.exports = {
     type: 'object',
     properties: {
-        original_description: {
-            type: 'string',
-            maxLength: 50
+        id: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 999
         },
-        id_tipology_dictionary: {
-            type: 'string',
-            maxLength: 50,
-            nullable: false
-        },
-        id_variable: {
+        description: {
             type: 'string',
             maxLength: 120,
             nullable: false
-        },
-        destination_description: {
-            type: 'string',
-            maxLength: 120,
-            nullable: true
         },
         observation: {
             type: 'string',
@@ -33,7 +24,17 @@ module.exports = {
         approved: {type: 'boolean'},
         createdAt: {
             type: 'string',
-            format: 'date'
+            format: 'date',
+            nullable: true
+        },
+        userCreator: {
+            type: 'string',
+            maxLength: 50
+        },
+        userDeleted: {
+            type: 'string',
+            maxLength: 50,
+            nullable: true
         },
         deletedAt: {
             type: 'string',

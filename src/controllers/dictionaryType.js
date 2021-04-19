@@ -22,7 +22,8 @@ class DictionaryTypeController {
     static async create(req, res, next){
         try {
             const dictionary = await DictionaryTypeService.create(req.body, req.user.id);
-            res.send({ success: true, dictionary });
+            res.status(201);
+            res.send({ dictionary });
         } catch(err) {
             next(err);
         }
@@ -31,7 +32,7 @@ class DictionaryTypeController {
     static async update(req, res, next){
         try{
             const dictionary = await DictionaryTypeService.update(req.params, req.body);
-            res.send({success: true, dictionary});
+            res.send({ dictionary });
         } catch(err){
             next(err);
         }
@@ -40,7 +41,11 @@ class DictionaryTypeController {
     static async delete(req, res, next){
         try {
             const success = await DictionaryTypeService.delete(req.params, req.user.id);
-            res.send({success});
+            if (success) {
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
         } catch(err) {
             next(err);
         }
