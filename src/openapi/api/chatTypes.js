@@ -50,30 +50,24 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    chat: {
+                                    chatType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -142,8 +136,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    chat: {
+                                    chatType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -181,10 +174,7 @@ module.exports = {
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -211,7 +201,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chat: {
+                                    chatType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
