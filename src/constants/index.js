@@ -211,6 +211,12 @@ const chatTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const questionTypeTableName = 'TIPOS_DE_PREGUNTA';
+const questionTypeAttrib = [
+    'ID_ABIERTA_CERRADA',
+    'DESCRIPCION'
+];
+
 const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
 const specialPhraseTypeAttrib = [
     'ID_TIPO_FRASE_ESPECIAL',
@@ -360,5 +366,7 @@ module.exports = {
     editorsTableName,
     editorsAttrib,
     classifierTypeTableName,
-    classifierTypeAttrib
+    classifierTypeAttrib,
+    questionTypeTableName,
+    questionTypeAttrib
 };

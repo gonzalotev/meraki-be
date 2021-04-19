@@ -8,7 +8,11 @@ module.exports = {
             type: 'string',
             maxLength: 120
         },
-        abbreviature: {
+        digits: {
+            type: 'integer',
+            maxLength: 1
+        },
+        abbreviation: {
             type: 'string',
             maxLength: 30
         },

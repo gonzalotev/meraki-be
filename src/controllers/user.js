@@ -1,6 +1,6 @@
 const head = require('lodash/head');
 const pick = require('lodash/pick');
-const {ArqService} = include('services');
+const {ArqService, UserRoleService} = include('services');
 const {buildArchQuery} = include('util');
 
 class UserController {
@@ -97,6 +97,8 @@ class UserController {
     static async validateSession(req, res, next) {
         try {
             const {user, success} = await ArqService.validateToken(req.body.token);
+            const {role} = await UserRoleService.findOne(user.id);
+            user.role = role;
             res.send({success, user});
         } catch (err) {
             next(err);
