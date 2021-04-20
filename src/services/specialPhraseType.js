@@ -1,10 +1,10 @@
 const { specialPhraseType: specialPhraseTypeModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 
 class SpecialPhraseTypeService {
     static async fetch() {
-        const specialPhrasesTypes = await specialPhraseTypeModel.find();
-        return specialPhrasesTypes.map(specialPhraseType => ({
+        const specialsPhrasesTypes = await specialPhraseTypeModel.find({FECHA_BAJA: null});
+        return specialsPhrasesTypes.map(specialPhraseType => ({
             id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
@@ -36,7 +36,7 @@ class SpecialPhraseTypeService {
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
             domain: specialPhraseType.DOMINIO,
-            approved: specialPhraseType.SUPERVISADO,
+            approved: !!specialPhraseType.SUPERVISADO,
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
             userCreator: specialPhraseType.ID_USUARIO_ALTA,
             userDeleted: specialPhraseType.ID_USUARIO_BAJA,
@@ -68,8 +68,8 @@ class SpecialPhraseTypeService {
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt,
-            FECHA_ALTA: new Date()
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const specialPhraseType = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
             formattedSpecialPhraseType);
@@ -78,7 +78,7 @@ class SpecialPhraseTypeService {
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
             domain: specialPhraseType.DOMINIO,
-            approved: specialPhraseType.SUPERVISADO,
+            approved: !!specialPhraseType.SUPERVISADO,
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
             userCreator: specialPhraseType.ID_USUARIO_ALTA,
             userDeleted: specialPhraseType.ID_USUARIO_BAJA,

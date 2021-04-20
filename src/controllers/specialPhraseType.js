@@ -3,8 +3,8 @@ const { SpecialPhraseTypeService } = include('services');
 class SpecialPhraseTypeController {
     static async fetch(req, res, next) {
         try {
-            const specialPhrasesTypes = await SpecialPhraseTypeService.fetch();
-            res.send({ specialPhrasesTypes });
+            const specialsPhrasesTypes = await SpecialPhraseTypeService.fetch();
+            res.send({ specialsPhrasesTypes });
         } catch(error) {
             next(error);
         }
@@ -22,16 +22,17 @@ class SpecialPhraseTypeController {
     static async create(req, res, next){
         try {
             const specialPhraseType = await SpecialPhraseTypeService.create(req.body, req.user.id);
-            res.send({ success: true, specialPhraseType });
+            res.status(201);
+            res.send({ specialPhraseType });
         } catch(err) {
             next(err);
         }
     }
 
     static async update(req, res, next){
-        try{
+        try {
             const specialPhraseType = await SpecialPhraseTypeService.update(req.params, req.body);
-            res.send({success: true, specialPhraseType});
+            res.send({specialPhraseType});
         } catch(err){
             next(err);
         }
@@ -40,7 +41,11 @@ class SpecialPhraseTypeController {
     static async delete(req, res, next){
         try {
             const success = await SpecialPhraseTypeService.delete(req.params, req.user.id);
-            res.send({success});
+            if(success){
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
         } catch(err) {
             next(err);
         }

@@ -3,8 +3,8 @@ const { ClassifierTypeService } = include('services');
 class ClassifierTypeController {
     static async fetch(req, res, next) {
         try {
-            const classifierTypes = await ClassifierTypeService.fetch();
-            res.send({ classifierTypes });
+            const classifiersTypes = await ClassifierTypeService.fetch();
+            res.send({ classifiersTypes });
         } catch(error) {
             next(error);
         }
@@ -22,16 +22,17 @@ class ClassifierTypeController {
     static async create(req, res, next){
         try {
             const classifierType = await ClassifierTypeService.create(req.body, req.user.id);
-            res.send({ success: true, classifierType });
+            res.status(201);
+            res.send({ classifierType });
         } catch(err) {
             next(err);
         }
     }
 
     static async update(req, res, next){
-        try{
+        try {
             const classifierType = await ClassifierTypeService.update(req.params, req.body);
-            res.send({success: true, classifierType});
+            res.send({classifierType});
         } catch(err){
             next(err);
         }
@@ -40,7 +41,11 @@ class ClassifierTypeController {
     static async delete(req, res, next){
         try {
             const success = await ClassifierTypeService.delete(req.params, req.user.id);
-            res.send({success});
+            if(success){
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
         } catch(err) {
             next(err);
         }

@@ -1,10 +1,10 @@
 const { classifierType: classifierTypeModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 
 class ClassifierTypeService {
     static async fetch() {
-        const classifierTypes = await classifierTypeModel.find();
-        return classifierTypes.map(classifierType => ({
+        const classifiersTypes = await classifierTypeModel.find({FECHA_BAJA: null});
+        return classifiersTypes.map(classifierType => ({
             id: classifierType.ID_TIPO_CLASIFICADOR,
             abbreviation: classifierType.ABREVIATURA,
             description: classifierType.DESCRIPCION,
@@ -39,7 +39,7 @@ class ClassifierTypeService {
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
-            approved: classifierType.SUPERVISADO,
+            approved: !!classifierType.SUPERVISADO,
             createdAt: dateToString(classifierType.FECHA_ALTA),
             userCreator: classifierType.ID_USUARIO_ALTA,
             userDeleted: classifierType.ID_USUARIO_BAJA,
@@ -73,8 +73,8 @@ class ClassifierTypeService {
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt,
-            FECHA_ALTA: new Date()
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const classifierType = await classifierTypeModel.updateOne({ID_TIPO_CLASIFICADOR: filters.id},
             formattedClassifierType);
@@ -84,7 +84,7 @@ class ClassifierTypeService {
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
-            approved: classifierType.SUPERVISADO,
+            approved: !!classifierType.SUPERVISADO,
             createdAt: dateToString(classifierType.FECHA_ALTA),
             userCreator: classifierType.ID_USUARIO_ALTA,
             userDeleted: classifierType.ID_USUARIO_BAJA,
