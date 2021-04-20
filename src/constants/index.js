@@ -14,6 +14,25 @@ const dictionaryLinguisticAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const dictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
+
+const dictionaryTypeAttrib = [
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'DESCRIPCION',
+    'SI_PALABRA_NO_FRASE_ORIGEN',
+    'SI_DESCRIPCION_DESTINO',
+    'SI_PALABRA_NO_FRASE_DESTINO',
+    'EXPRESION_REGULAR',
+    'VALIDACION',
+    'SUPERVISADO',
+    'DOMINIO',
+    'OBSERVACION',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 const operativesTableName = 'OPERATIVOS';
 
 const operativesAttrib = [
@@ -50,6 +69,20 @@ const staticalVariableAttrib = [
     'ID_PADRE',
     'ID_USUARIO',
     'FECHA_ALTA'
+];
+
+const networkTypesTableName = 'TIPOS_DE_RED';
+
+const networkTypesAttrib = [
+    'ID_TIPO_RED',
+    'DESCRIPCION',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
 ];
 
 const assignmentRolesTableName = 'ROLES_SICI';
@@ -244,19 +277,6 @@ const classifierTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const netTypeTableName = 'TIPOS_DE_RED';
-const netTypeAttrib = [
-    'ID_TIPO_RED',
-    'DESCRIPCION',
-    'SUPERVISADO',
-    'OBSERVACION',
-    'DOMINIO',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
-];
-
 const relationTypeTableName = 'TIPOS_DE_RELACION';
 const relationTypeAttrib = [
     'ID_TIPO_RELACION',
@@ -270,23 +290,6 @@ const relationTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const dictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
-const dictionaryTypeAttrib = [
-    'ID_TIPOLOGIA_DE_DICCIONARIO',
-    'DESCRIPCION',
-    'SI_PALABRA_NO_FRASE_ORIGEN',
-    'SI_DESCRIPCION_DESTINO',
-    'SI_PALABRA_NO_FRASE_DESTINO',
-    'EXPRESION_REGULAR',
-    'VALIDACION',
-    'SUPERVISADO',
-    'DOMINIO',
-    'OBSERVACION',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
-];
 const documentTypeTableName = 'TIPOS_DE_DOCUMENTOS';
 const documentTypeAttrib = [
     'ID_TIPO_DOCUMENTO',
@@ -379,12 +382,8 @@ module.exports = {
     chatTypeTableName,
     specialPhraseTypeTableName,
     specialPhraseTypeAttrib,
-    netTypeTableName,
-    netTypeAttrib,
     relationTypeTableName,
     relationTypeAttrib,
-    dictionaryTypeTableName,
-    dictionaryTypeAttrib,
     documentTypeTableName,
     documentTypeAttrib,
     nomenclatorSubtypeTableName,
@@ -398,5 +397,9 @@ module.exports = {
     classifierTypeTableName,
     classifierTypeAttrib,
     questionTypeTableName,
-    questionTypeAttrib
+    questionTypeAttrib,
+    networkTypesTableName,
+    networkTypesAttrib,
+    dictionaryTypeTableName,
+    dictionaryTypeAttrib
 };

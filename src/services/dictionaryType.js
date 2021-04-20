@@ -1,78 +1,94 @@
-const { dictionaryType } = include('models');
-const { dictionaryTypesKeyNames } = include('constants/keyNames');
-const { dateToString, stringToDate, convertKeysNames } = include('util');
-const invert = require('lodash/invert');
+const { dictionaryType: dictionaryTypeModel } = include('models');
+const { dateToString, stringToDate } = include('util');
 
 class DictionaryTypeService {
     static async fetch() {
-        const dictionaries = await dictionaryType.find();
-        return dictionaries.map(dictionary => convertKeysNames({
-            ...dictionary,
-            SUPERVISADO: !!dictionary.SUPERVISADO,
-            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
-            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
-            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
-            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
-        }, invert(dictionaryTypesKeyNames)));
+        const dictionarysTypes = await dictionaryTypeModel.find({FECHA_BAJA: null});
+        return dictionarysTypes.map(dictionaryType => ({
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION,
+            observation: dictionaryType.OBSERVACION,
+            domain: dictionaryType.DOMINIO,
+            approved: dictionaryType.SUPERVISADO,
+            createdAt: dateToString(dictionaryType.FECHA_ALTA),
+            userCreator: dictionaryType.ID_USUARIO_ALTA,
+            userDeleted: dictionaryType.ID_USUARIO_BAJA,
+            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
+        }));
     }
 
     static async create(params, userCreator) {
-        const formattedDictionary = convertKeysNames({
-            ...params,
-            userCreator,
-            createdAt: new Date()
-        }, dictionaryTypesKeyNames);
-        const dictionary = await dictionaryType.insertOne(formattedDictionary);
-        return convertKeysNames({
-            ...dictionary,
-            SUPERVISADO: !!dictionary.SUPERVISADO,
-            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
-            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
-            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
-            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
-        }, invert(dictionaryTypesKeyNames));
+        const formattedDictionaryType = {
+            ID_TIPOLOGIA_DE_DICCIONARIO: null,
+            DESCRIPCION: params.description,
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
+            SUPERVISADO: params.approved,
+            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null,
+            FECHA_ALTA: new Date()
+        };
+        const dictionaryType = await dictionaryTypeModel.insertOne(formattedDictionaryType);
+
+        return {
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION,
+            observation: dictionaryType.OBSERVACION,
+            domain: dictionaryType.DOMINIO,
+            approved: !!dictionaryType.SUPERVISADO,
+            createdAt: dateToString(dictionaryType.FECHA_ALTA),
+            userCreator: dictionaryType.ID_USUARIO_ALTA,
+            userDeleted: dictionaryType.ID_USUARIO_BAJA,
+            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
+        };
     }
 
     static async findOne(filters){
-        const dictionary = await dictionaryType.findById({ID_TIPOLOGIA_DE_DICCIONARIO: filters.id});
-        return convertKeysNames({
-            ...dictionary,
-            SUPERVISADO: !!dictionary.SUPERVISADO,
-            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
-            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
-            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
-            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
-        }, invert(dictionaryTypesKeyNames));
+        const dictionaryType = await dictionaryTypeModel.findById({ID_TIPOLOGIA_DE_DICCIONARIO: filters.id});
+        return {
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION,
+            observation: dictionaryType.OBSERVACION,
+            domain: dictionaryType.DOMINIO,
+            approved: dictionaryType.SUPERVISADO,
+            createdAt: dateToString(dictionaryType.FECHA_ALTA),
+            userCreator: dictionaryType.ID_USUARIO_ALTA,
+            userDeleted: dictionaryType.ID_USUARIO_BAJA,
+            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
+        };
     }
 
     static async update(filters, params){
-        const formattedDictionary = convertKeysNames({
-            ...params,
-            deletedAt: stringToDate(params.deletedAt),
-            createdAt: stringToDate(params.createdAt)
-        }, dictionaryTypesKeyNames);
-        const formattedFilters = {ID_TIPOLOGIA_DE_DICCIONARIO: filters.id};
-        const dictionary = await dictionaryType.updateOne(formattedFilters, formattedDictionary);
-        return convertKeysNames({
-            ...dictionary,
-            SUPERVISADO: !!dictionary.SUPERVISADO,
-            SI_PALABRA_NO_FRASE_ORIGEN: !!dictionary.SI_PALABRA_NO_FRASE_ORIGEN,
-            SI_DESCRIPCION_DESTINO: !!dictionary.SI_DESCRIPCION_DESTINO,
-            SI_PALABRA_NO_FRASE_DESTINO: !!dictionary.SI_PALABRA_NO_FRASE_DESTINO,
-            EXPRESION_REGULAR: !!dictionary.EXPRESION_REGULAR,
-            FECHA_ALTA: dateToString(dictionary.FECHA_ALTA),
-            FECHA_BAJA: dateToString(dictionary.FECHA_BAJA)
-        }, invert(dictionaryTypesKeyNames));
+        const formattedDictionaryType = {
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.id,
+            DESCRIPCION: params.description,
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
+            SUPERVISADO: params.approved,
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userDeleted,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
+        };
+        const dictionaryType = await dictionaryTypeModel.updateOne({ID_TIPOLOGIA_DE_DICCIONARIO: filters.id},
+            formattedDictionaryType);
+        return {
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION,
+            observation: dictionaryType.OBSERVACION,
+            domain: dictionaryType.DOMINIO,
+            approved: !!dictionaryType.SUPERVISADO,
+            createdAt: dateToString(dictionaryType.FECHA_ALTA),
+            userCreator: dictionaryType.ID_USUARIO_ALTA,
+            userDeleted: dictionaryType.ID_USUARIO_BAJA,
+            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
+        };
     }
 
     static async delete(filters, userDeleted){
-        const success = await dictionaryType.deleteOne({ID_TIPOLOGIA_DE_DICCIONARIO: filters.id}, {
+        const formattedFilters = {ID_TIPOLOGIA_DE_DICCIONARIO: filters.id};
+        const success = await dictionaryTypeModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });

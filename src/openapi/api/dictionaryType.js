@@ -1,8 +1,8 @@
 module.exports = {
     '/api/dictionaryTypes': {
         get: {
-            tags: ['Types'],
             security: [{bearerAuth: []}],
+            tags: ['Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,21 +11,16 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionaries: {
+                                    dictionarys: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'string'},
                                                 description: {type: 'string'},
-                                                isOriginAWord: {type: 'boolean'},
-                                                haveDesnityDescription: {type: 'boolean'},
-                                                isDestinyAWord: {type: 'boolean'},
-                                                haveRegex: {type: 'boolean'},
-                                                validation: {type: 'string'},
-                                                approved: {type: 'boolean'},
-                                                domain: {type: 'string'},
                                                 observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
@@ -55,58 +50,16 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
                                 description: {type: 'string'},
-                                isOriginAWord: {type: 'boolean'},
-                                haveDesnityDescription: {type: 'boolean'},
-                                isDestinyAWord: {type: 'boolean'},
-                                haveRegex: {type: 'boolean'},
-                                validation: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                domain: {type: 'string'},
                                 observation: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
                 }
             },
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    success: {type: 'boolean'},
-                                    dictionary: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 201: {
                     description: 'ok',
                     content: {
@@ -114,19 +67,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionary: {
+                                    dictionaryType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -147,19 +95,19 @@ module.exports = {
     },
     '/api/dictionaryTypes/{id}': {
         put: {
-            security: [{ bearerAuth: []}],
+            security: [{bearerAuth: []}],
             tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'Dictionary type id to update'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'Changes to save',
+                description: 'The new  type of dictionary to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -168,14 +116,9 @@ module.exports = {
                             properties: {
                                 id: {type: 'string'},
                                 description: {type: 'string'},
-                                isOriginAWord: {type: 'boolean'},
-                                haveDesnityDescription: {type: 'boolean'},
-                                isDestinyAWord: {type: 'boolean'},
-                                haveRegex: {type: 'boolean'},
-                                validation: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -193,20 +136,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    dictionary: {
+                                    dictionaryType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -232,8 +169,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'Dictionary type id to delete'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -252,8 +189,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'Dictionary type id to get'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -264,19 +201,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionary: {
+                                    dictionaryType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
-                                            isOriginAWord: {type: 'boolean'},
-                                            haveDesnityDescription: {type: 'boolean'},
-                                            isDestinyAWord: {type: 'boolean'},
-                                            haveRegex: {type: 'boolean'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},

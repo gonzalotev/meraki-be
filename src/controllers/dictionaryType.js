@@ -3,8 +3,8 @@ const { DictionaryTypeService } = include('services');
 class DictionaryTypeController {
     static async fetch(req, res, next) {
         try {
-            const dictionaries = await DictionaryTypeService.fetch();
-            res.send({ dictionaries });
+            const dictionarysTypes = await DictionaryTypeService.fetch();
+            res.send({ dictionarysTypes });
         } catch(error) {
             next(error);
         }
@@ -12,8 +12,8 @@ class DictionaryTypeController {
 
     static async find(req, res, next) {
         try {
-            const dictionary = await DictionaryTypeService.findOne(req.params);
-            res.send({ dictionary });
+            const dictionaryType = await DictionaryTypeService.findOne(req.params);
+            res.send({ dictionaryType });
         } catch(error) {
             next(error);
         }
@@ -21,18 +21,18 @@ class DictionaryTypeController {
 
     static async create(req, res, next){
         try {
-            const dictionary = await DictionaryTypeService.create(req.body, req.user.id);
+            const dictionaryType = await DictionaryTypeService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ dictionary });
+            res.send({ dictionaryType });
         } catch(err) {
             next(err);
         }
     }
 
     static async update(req, res, next){
-        try{
-            const dictionary = await DictionaryTypeService.update(req.params, req.body);
-            res.send({ dictionary });
+        try {
+            const dictionaryType = await DictionaryTypeService.update(req.params, req.body);
+            res.send({dictionaryType});
         } catch(err){
             next(err);
         }
@@ -41,7 +41,7 @@ class DictionaryTypeController {
     static async delete(req, res, next){
         try {
             const success = await DictionaryTypeService.delete(req.params, req.user.id);
-            if (success) {
+            if(success){
                 res.sendStatus(204);
             } else {
                 res.sendStatus(400);
