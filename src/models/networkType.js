@@ -1,5 +1,5 @@
 const ModelCreate = include('helpers/modelCreate');
-const {networkTypesAttrib, networkTypesTableName} = include('constants');
+const {networkTypeAttrib, networkTypeTableName} = include('constants');
 const name = 'networkType';
 
 class NetworkType extends ModelCreate {
@@ -7,8 +7,8 @@ class NetworkType extends ModelCreate {
         super({
             ...props,
             name,
-            selectableProps: networkTypesAttrib,
-            tableName: networkTypesTableName
+            selectableProps: networkTypeAttrib,
+            tableName: networkTypeTableName
         });
     }
 }

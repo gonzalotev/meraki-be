@@ -71,9 +71,9 @@ const staticalVariableAttrib = [
     'FECHA_ALTA'
 ];
 
-const networkTypesTableName = 'TIPOS_DE_RED';
+const networkTypeTableName = 'TIPOS_DE_RED';
 
-const networkTypesAttrib = [
+const networkTypeAttrib = [
     'ID_TIPO_RED',
     'DESCRIPCION',
     'SUPERVISADO',
@@ -398,8 +398,8 @@ module.exports = {
     classifierTypeAttrib,
     questionTypeTableName,
     questionTypeAttrib,
-    networkTypesTableName,
-    networkTypesAttrib,
+    networkTypeTableName,
+    networkTypeAttrib,
     dictionaryTypeTableName,
     dictionaryTypeAttrib
 };
