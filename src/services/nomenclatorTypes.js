@@ -28,7 +28,7 @@ class NomenclatorTypesService {
 
     static async create(params, userCreator){
         const formattedNomenclatorType = {
-            ID_TIPO: params.id,
+            ID_TIPO: params.typeId,
             DESCRIPCION: params.description,
             SUPERVISADO: params.supervised,
             OBSERVACION: params.observation,
