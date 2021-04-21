@@ -102,9 +102,9 @@ const assignmentRolesAttrib = [
     'FECHA_ALTA'
 ];
 
-const rolesTableName = 'TIPOS_DE_ROLES';
+const rolesTypeTableName = 'TIPOS_DE_ROLES';
 
-const rolesAttrib = [
+const rolesTypeAttrib = [
     'ID_ROL_USUARIO',
     'DESCRIPCION',
     'OBSERVACION',
@@ -363,8 +363,8 @@ module.exports = {
     operativesTableName,
     staticalVariableAttrib,
     staticalVariableTableName,
-    rolesTableName,
-    rolesAttrib,
+    rolesTypeTableName,
+    rolesTypeAttrib,
     assignmentRolesTableName,
     assignmentRolesAttrib,
     datesAttrib,

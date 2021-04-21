@@ -4,6 +4,8 @@ dist/
 coverage
 *.log
 .env
+.env-prod
+.env-uat
 .nyc_output
 .vscode
 package-lock.json

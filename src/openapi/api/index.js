@@ -4,7 +4,7 @@ const staticData = require('./staticData');
 const dictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
 const statisticalVariable = require('./statisticalVariable');
-const roles = require('./roles');
+const rolesTypes = require('./rolesTypes');
 const chatTypes = require('./chatTypes');
 const questionTypes = require('./questionTypes');
 const classifierTypes = require('./classifierTypes');
@@ -23,7 +23,7 @@ module.exports = {
     ...statisticalVariable,
     ...users,
     ...staticData,
-    ...roles,
+    ...rolesTypes,
     ...chatTypes,
     ...specialPhrasesTypes,
     ...relationshipTypes,
