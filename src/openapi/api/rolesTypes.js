@@ -189,7 +189,7 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
