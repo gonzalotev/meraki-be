@@ -4,7 +4,7 @@ const { dateToString, stringToDate } = include('util');
 
 class NomenclatorTypesService {
     static async fetchStaticNomenclatorTypes() {
-        const nomenclatorTypeGet = await nomenclatorTypes.findAll(nomenclatorTypesAttrib);
+        const nomenclatorTypeGet = await nomenclatorTypes.findAll(nomenclatorTypesAttrib, {FECHA_BAJA: null});
         return nomenclatorTypeGet.map(nomenclatorType => ({
             id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,
