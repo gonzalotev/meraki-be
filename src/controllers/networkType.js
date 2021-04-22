@@ -1,11 +1,13 @@
 const { NetworkTypeService } = include('services');
 const { networkType: networkTypeModel } = include('models');
+const knex = include('helpers/database');
 
 class NetworkTypeController {
-    static fetch(req, res, next) {
+    static async fetch(req, res, next) {
         try {
+            const networks = await knex.select().table('TIPOS_DE_RED');
             //const networksTypes = await NetworkTypeService.fetch();
-            res.send({ networksTypes: [], table: networkTypeModel.tableName });
+            res.send({ networks, table: networkTypeModel.tableName });
         } catch(error) {
             next(error);
         }
