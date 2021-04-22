@@ -1,6 +1,6 @@
 const { nomenclatorTypes } = include('models');
 const { nomenclatorTypesAttrib } = include('constants');
-const { dateTimeToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 
 class NomenclatorTypesService {
     static async fetchStaticNomenclatorTypes() {
@@ -10,7 +10,11 @@ class NomenclatorTypesService {
             description: nomenclatorType.DESCRIPCION,
             supervised: nomenclatorType.SUPERVISADO,
             observation: nomenclatorType.OBSERVACION,
-            domain: nomenclatorType.DOMINIO
+            domain: nomenclatorType.DOMINIO,
+            createdAt: dateToString(nomenclatorType.FECHA_ALTA),
+            userCreator: nomenclatorType.ID_USUARIO_ALTA,
+            userDeleted: nomenclatorType.ID_USUARIO_BAJA,
+            deletedAt: dateToString(nomenclatorType.FECHA_BAJA)
         }));
     }
 
@@ -22,7 +26,11 @@ class NomenclatorTypesService {
             description: nomenclatorType.DESCRIPCION,
             supervised: nomenclatorType.SUPERVISADO,
             observation: nomenclatorType.OBSERVACION,
-            domain: nomenclatorType.DOMINIO
+            domain: nomenclatorType.DOMINIO,
+            createdAt: dateToString(nomenclatorType.FECHA_ALTA),
+            userCreator: nomenclatorType.ID_USUARIO_ALTA,
+            userDeleted: nomenclatorType.ID_USUARIO_BAJA,
+            deletedAt: dateToString(nomenclatorType.FECHA_BAJA)
         };
     }
 
@@ -46,9 +54,9 @@ class NomenclatorTypesService {
             observation: nomenclatorType.OBSERVACION,
             domain: nomenclatorType.DOMINIO,
             userId: nomenclatorType.ID_USUARIO_ALTA,
-            deletedAt: dateTimeToString(nomenclatorType.FECHA_BAJA),
+            deletedAt: dateToString(nomenclatorType.FECHA_BAJA),
             deletedBy: nomenclatorType.ID_USUARIO_BAJA,
-            createdAt: dateTimeToString(nomenclatorType.FECHA_ALTA)
+            createdAt: dateToString(nomenclatorType.FECHA_ALTA)
         };
 
     }
@@ -59,7 +67,11 @@ class NomenclatorTypesService {
             DESCRIPCION: params.description,
             SUPERVISADO: params.supervised,
             OBSERVACION: params.observation,
-            DOMINIO: params.domain
+            DOMINIO: params.domain,
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userDeleted,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const formattedFilters = {ID_TIPO: filters.id};
         const nomenclatorType = await nomenclatorTypes.updateOne(formattedFilters, formattedNomenclatorType);
@@ -70,9 +82,9 @@ class NomenclatorTypesService {
             observation: nomenclatorType.OBSERVACION,
             domain: nomenclatorType.DOMINIO,
             userId: nomenclatorType.ID_USUARIO_ALTA,
-            deletedAt: dateTimeToString(nomenclatorType.FECHA_BAJA),
+            deletedAt: dateToString(nomenclatorType.FECHA_BAJA),
             deletedBy: nomenclatorType.ID_USUARIO_BAJA,
-            createdAt: dateTimeToString(nomenclatorType.FECHA_ALTA)
+            createdAt: dateToString(nomenclatorType.FECHA_ALTA)
         };
     }
 
