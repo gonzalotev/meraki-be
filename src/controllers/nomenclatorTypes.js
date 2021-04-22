@@ -21,7 +21,7 @@ class NomenclatorTypesController {
 
     static async create(req, res, next) {
         try{
-            const nomenclatorType = await NomenclatorTypesService.create(req.body);
+            const nomenclatorType = await NomenclatorTypesService.create(req.body, req.user.id);
             res.send({ success: true, nomenclatorType });
         } catch(error) {
             next(error);
