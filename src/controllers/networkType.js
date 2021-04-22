@@ -1,10 +1,11 @@
 const { NetworkTypeService } = include('services');
+const { networkType: networkTypeModel } = include('models');
 
 class NetworkTypeController {
-    static async fetch(req, res, next) {
+    static fetch(req, res, next) {
         try {
-            const networksTypes = await NetworkTypeService.fetch();
-            res.send({ networksTypes });
+            //const networksTypes = await NetworkTypeService.fetch();
+            res.send({ networksTypes: [], table: networkTypeModel.tableName });
         } catch(error) {
             next(error);
         }
