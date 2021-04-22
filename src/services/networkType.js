@@ -6,6 +6,7 @@ class NetworkTypeService {
         const networksTypes = await networkTypeModel.find({FECHA_BAJA: null});
         return networksTypes.map(networkType => ({
             id: networkType.ID_TIPO_RED,
+            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -20,6 +21,7 @@ class NetworkTypeService {
     static async create(params, userCreator) {
         const formattedNetworkType = {
             ID_TIPO_RED: null,
+            ABREVIATURA: params.abbreviation,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
@@ -33,6 +35,7 @@ class NetworkTypeService {
 
         return {
             id: networkType.ID_TIPO_RED,
+            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -48,6 +51,7 @@ class NetworkTypeService {
         const networkType = await networkTypeModel.findById({ID_TIPO_RED: filters.id});
         return {
             id: networkType.ID_TIPO_RED,
+            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -62,6 +66,7 @@ class NetworkTypeService {
     static async update(filters, params){
         const formattedNetworkType = {
             ID_TIPO_RED: params.id,
+            ABREVIATURA: params.abbreviation,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
@@ -71,9 +76,11 @@ class NetworkTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const networkType = await networkTypeModel.updateOne({ID_TIPO_RED: filters.id}, formattedNetworkType);
+        const networkType = await networkTypeModel.updateOne({ID_TIPO_RED: filters.id},
+            formattedNetworkType);
         return {
             id: networkType.ID_TIPO_RED,
+            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,

@@ -17,6 +17,7 @@ module.exports = {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
@@ -50,10 +51,15 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                approved: {type: 'boolean'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -67,10 +73,12 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    networkType: {
+                                    success: {type: 'boolean'},
+                                    network: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -115,6 +123,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -136,10 +145,12 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    networkType: {
+                                    success: {type: 'boolean'},
+                                    network: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -174,7 +185,10 @@ module.exports = {
                 }
             ],
             responses: {
-                204: {description: 'The resource was deleted successfully.'},
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -201,10 +215,11 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    networkType: {
+                                    network: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
