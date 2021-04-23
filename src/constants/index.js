@@ -319,8 +319,8 @@ const nomenclatorSubtypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const editorsTableName = 'EDITORES';
-const editorsAttrib = [
+const editorTableName = 'EDITORES';
+const editorAttrib = [
     'ID_EDITOR',
     'DESCRIPCION',
     'OBSERVACION',
@@ -390,8 +390,8 @@ module.exports = {
     documentTypeAttrib,
     nomenclatorSubtypeTableName,
     nomenclatorSubtypeAttrib,
-    editorsTableName,
-    editorsAttrib,
+    editorTableName,
+    editorAttrib,
     nomenclatorTypesTableName,
     nomenclatorTypesAttrib,
     typesSpecialPhrasesTableName,

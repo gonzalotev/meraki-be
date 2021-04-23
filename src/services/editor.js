@@ -1,10 +1,10 @@
-const { editors } = include('models');
-const { dateToString } = include('util');
+const { editor: editorModel } = include('models');
+const { dateToString, stringToDate } = include('util');
 
-class EditorsService {
+class EditorService {
     static async fetch() {
-        const editorList = await editors.find();
-        return editorList.map(editor => ({
+        const editorsss = await editorModel.find({FECHA_BAJA: null});
+        return editorsss.map(editor => ({
             id: editor.ID_EDITOR,
             description: editor.DESCRIPCION,
             observation: editor.OBSERVACION,
@@ -19,7 +19,7 @@ class EditorsService {
 
     static async create(params, userCreator) {
         const formattedEditor = {
-            ID_EDITOR: params.id,
+            ID_EDITOR: null,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
@@ -29,7 +29,7 @@ class EditorsService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const editor = await editors.insertOne(formattedEditor);
+        const editor = await editorModel.insertOne(formattedEditor);
 
         return {
             id: editor.ID_EDITOR,
@@ -45,7 +45,33 @@ class EditorsService {
     }
 
     static async findOne(filters){
-        const editor = await editors.findById({ID_EDITOR: filters.id});
+        const editor = await editorModel.findById({ID_EDITOR: filters.id});
+        return {
+            id: editor.ID_EDITOR,
+            description: editor.DESCRIPCION,
+            observation: editor.OBSERVACION,
+            domain: editor.DOMINIO,
+            approved: editor.SUPERVISADO,
+            createdAt: dateToString(editor.FECHA_ALTA),
+            userCreator: editor.ID_USUARIO_ALTA,
+            userDeleted: editor.ID_USUARIO_BAJA,
+            deletedAt: dateToString(editor.FECHA_BAJA)
+        };
+    }
+
+    static async update(filters, params){
+        const formattedEditor = {
+            ID_EDITOR: params.id,
+            DESCRIPCION: params.description,
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
+            SUPERVISADO: params.approved,
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userDeleted,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
+        };
+        const editor = await editorModel.updateOne({ID_EDITOR: filters.id}, formattedEditor);
         return {
             id: editor.ID_EDITOR,
             description: editor.DESCRIPCION,
@@ -59,33 +85,9 @@ class EditorsService {
         };
     }
 
-    static async update(filters, params){
-        const formattedEditor = {
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
-            SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt,
-            FECHA_ALTA: new Date()
-        };
-        const editor = await editors.updateOne({ID_EDITOR: filters.id}, formattedEditor);
-        return {
-            id: editor.ID_TIPO_DOCUMENTO,
-            description: editor.DESCRIPCION,
-            observation: editor.OBSERVACION,
-            domain: editor.DOMINIO,
-            approved: !!editor.SUPERVISADO,
-            createdAt: dateToString(editor.FECHA_ALTA),
-            userCreator: editor.ID_USUARIO_ALTA,
-            userDeleted: editor.ID_USUARIO_BAJA,
-            deletedAt: dateToString(editor.FECHA_BAJA)
-        };
-    }
-
     static async delete(filters, userDeleted){
-        const success = await editors.deleteOne({ID_EDITOR: filters.id}, {
+        const formattedFilters = {ID_EDITOR: filters.id};
+        const success = await editorModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
@@ -93,4 +95,4 @@ class EditorsService {
     }
 }
 
-module.exports = EditorsService;
+module.exports = EditorService;

@@ -2,7 +2,7 @@ module.exports = {
     '/api/editors': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Editors'],
+            tags: ['Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,9 +11,22 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    editors: {
+                                    editorss: {
                                         type: 'array',
-                                        items: {}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'integer'},
+                                                description: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -28,42 +41,36 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Editors'],
+            tags: ['Types'],
             requestBody: {
-                description: 'The new  type of document to create',
+                description: 'The new  editor to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
                                     editor: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            id: {type: 'integer'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -89,25 +96,25 @@ module.exports = {
     '/api/editors/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Editors'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'Editor id to update'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'Changes to save',
+                description: 'The new editor to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                id: {type: 'integer'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -129,11 +136,10 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
                                     editor: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            id: {type: 'integer'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -157,21 +163,18 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Editors'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'Editor id to delete'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -180,14 +183,14 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Editors'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'Editor id to find'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -201,7 +204,7 @@ module.exports = {
                                     editor: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            id: {type: 'integer'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},

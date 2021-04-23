@@ -55,7 +55,7 @@ class ClassifierTypeService {
             description: classifierType.DESCRIPCION,
             observation: classifierType.OBSERVACION,
             domain: classifierType.DOMINIO,
-            approved: classifierType.SUPERVISADO,
+            approved: !!classifierType.SUPERVISADO,
             createdAt: dateToString(classifierType.FECHA_ALTA),
             userCreator: classifierType.ID_USUARIO_ALTA,
             userDeleted: classifierType.ID_USUARIO_BAJA,

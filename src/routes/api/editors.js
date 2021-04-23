@@ -1,12 +1,12 @@
-const { EditorsController } = include('controllers');
+const {EditorController} = include('controllers');
 
 module.exports = router => {
     router.route('/')
-        .get(EditorsController.fetch)
-        .post(EditorsController.create);
+        .get(EditorController.fetch)
+        .post(EditorController.create);
     router.route('/:id')
-        .put(EditorsController.update)
-        .get(EditorsController.find)
-        .delete(EditorsController.delete);
+        .get(EditorController.find)
+        .put(EditorController.update)
+        .delete(EditorController.delete);
     return router;
 };
