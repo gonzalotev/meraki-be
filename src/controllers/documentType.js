@@ -3,8 +3,8 @@ const { DocumentTypeService } = include('services');
 class DocumentTypeController {
     static async fetch(req, res, next) {
         try {
-            const documents = await DocumentTypeService.fetch();
-            res.send({ documents });
+            const documentsTypes = await DocumentTypeService.fetch();
+            res.send({ documentsTypes });
         } catch(error) {
             next(error);
         }
@@ -12,8 +12,8 @@ class DocumentTypeController {
 
     static async find(req, res, next) {
         try {
-            const document = await DocumentTypeService.findOne(req.params);
-            res.send({ document });
+            const documentType = await DocumentTypeService.findOne(req.params);
+            res.send({ documentType });
         } catch(error) {
             next(error);
         }
@@ -21,17 +21,18 @@ class DocumentTypeController {
 
     static async create(req, res, next){
         try {
-            const document = await DocumentTypeService.create(req.body, req.user.id);
-            res.send({ success: true, document });
+            const documentType = await DocumentTypeService.create(req.body, req.user.id);
+            res.status(201);
+            res.send({ documentType });
         } catch(err) {
             next(err);
         }
     }
 
     static async update(req, res, next){
-        try{
-            const document = await DocumentTypeService.update(req.params, req.body);
-            res.send({success: true, document});
+        try {
+            const documentType = await DocumentTypeService.update(req.params, req.body);
+            res.send({documentType});
         } catch(err){
             next(err);
         }
@@ -40,7 +41,11 @@ class DocumentTypeController {
     static async delete(req, res, next){
         try {
             const success = await DocumentTypeService.delete(req.params, req.user.id);
-            res.send({success});
+            if(success){
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
         } catch(err) {
             next(err);
         }

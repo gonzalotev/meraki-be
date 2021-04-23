@@ -50,30 +50,24 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    document: {
+                                    documentType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -109,11 +103,11 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Documents type id to update'
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'Changes to save',
+                description: 'The new  type of document to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -142,8 +136,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    document: {
+                                    documentType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -177,14 +170,11 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Document type id to delete'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -200,7 +190,7 @@ module.exports = {
                     name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Document type id to get'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -211,7 +201,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    document: {
+                                    documentType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
