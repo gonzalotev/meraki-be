@@ -14,9 +14,9 @@ const linguisticDictionaryAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const linguisticDictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
+const dictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
 
-const linguisticDictionaryTypeAttrib = [
+const dictionaryTypeAttrib = [
     'ID_TIPOLOGIA_DE_DICCIONARIO',
     'DESCRIPCION',
     'SI_PALABRA_NO_FRASE_ORIGEN',
@@ -402,6 +402,6 @@ module.exports = {
     questionTypeAttrib,
     networkTypeTableName,
     networkTypeAttrib,
-    linguisticDictionaryTypeTableName,
-    linguisticDictionaryTypeAttrib
+    dictionaryTypeTableName,
+    dictionaryTypeAttrib
 };

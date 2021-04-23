@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/linguisticDictionaryTypes': {
+    '/api/dictionaryTypes': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    linguisticDictionarys: {
+                                    dictionarys: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
@@ -43,7 +43,7 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Types'],
             requestBody: {
-                description: 'The new  type of linguisticDictionary to create',
+                description: 'The new  type of dictionary to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -53,11 +53,7 @@ module.exports = {
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
@@ -71,8 +67,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    linguisticDictionary: {
+                                    dictionaryType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -98,7 +93,7 @@ module.exports = {
             }
         }
     },
-    '/api/linguisticDictionaryTypes/{id}': {
+    '/api/dictionaryTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -112,7 +107,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of linguisticDictionary to create',
+                description: 'The new  type of dictionary to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -141,8 +136,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    linguisticDictionary: {
+                                    dictionaryType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -180,10 +174,7 @@ module.exports = {
                 }
             ],
             responses: {
-                204: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -210,7 +201,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    linguisticDictionary: {
+                                    dictionaryType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
