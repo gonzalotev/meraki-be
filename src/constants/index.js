@@ -1,6 +1,6 @@
-const dictionaryLinguisticTableName = 'DICCIONARIO_LINGUISTICO';
+const linguisticDictionaryTableName = 'DICCIONARIO_LINGUISTICO';
 
-const dictionaryLinguisticAttrib = [
+const linguisticDictionaryAttrib = [
     'DESCRIPCION_ORIGINAL',
     'ID_TIPOLOGIA_DE_DICCIONARIO',
     'ID_VARIABLE',
@@ -14,9 +14,9 @@ const dictionaryLinguisticAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const dictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
+const linguisticDictionaryTypeTableName = 'TIPOS_DE_DICCIONARIO_LINGUISTICO';
 
-const dictionaryTypeAttrib = [
+const linguisticDictionaryTypeAttrib = [
     'ID_TIPOLOGIA_DE_DICCIONARIO',
     'DESCRIPCION',
     'SI_PALABRA_NO_FRASE_ORIGEN',
@@ -67,8 +67,10 @@ const staticalVariableAttrib = [
     'DOMINIO',
     'OBSERVACION',
     'ID_PADRE',
-    'ID_USUARIO',
-    'FECHA_ALTA'
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
 ];
 
 const networkTypeTableName = 'TIPOS_DE_RED';
@@ -357,8 +359,8 @@ const nomenclatorTypesAttrib = [
 ];
 
 module.exports = {
-    dictionaryLinguisticTableName,
-    dictionaryLinguisticAttrib,
+    linguisticDictionaryTableName,
+    linguisticDictionaryAttrib,
     operativesAttrib,
     operativesTableName,
     staticalVariableAttrib,
@@ -400,6 +402,6 @@ module.exports = {
     questionTypeAttrib,
     networkTypeTableName,
     networkTypeAttrib,
-    dictionaryTypeTableName,
-    dictionaryTypeAttrib
+    linguisticDictionaryTypeTableName,
+    linguisticDictionaryTypeAttrib
 };

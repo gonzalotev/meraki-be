@@ -1,6 +1,6 @@
 const {
     StaticDataController,
-    StatisticalVariableController,
+    StaticalVariableController,
     NomenclatorsController,
     LotsController,
     RolesController
@@ -8,7 +8,7 @@ const {
 
 module.exports = router => {
     router.route('/').get(StaticDataController.fetch);
-    router.route('/statisticalVariable').get(StatisticalVariableController.fetchStaticVariables);
+    router.route('/staticalVariable').get(StaticalVariableController.fetch);
     router.route('/shortDescription').get(NomenclatorsController.fetchStaticNomenclators);
     router.route('/lots').get(LotsController.fetchStaticLots);
     router.route('/roles').get(RolesController.fetch);

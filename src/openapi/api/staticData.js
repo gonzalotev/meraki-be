@@ -150,7 +150,7 @@ module.exports = {
             }
         }
     },
-    '/api/staticData/statisticalVariable': {
+    '/api/staticData/staticalVariables': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Static Data'],

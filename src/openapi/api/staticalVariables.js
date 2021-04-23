@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/nomenclatorTypes': {
+    '/api/staticalVariables': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -11,13 +11,15 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    nomenclators: {
+                                    variables: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'string'},
-                                                description: {type: 'string'},
+                                                name: {type: 'string'},
+                                                abbreviation: {type: 'string'},
+                                                digits: {type: 'integer'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
                                                 approved: {type: 'boolean'},
@@ -43,7 +45,7 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Types'],
             requestBody: {
-                description: 'The new  type of nomenclator to create',
+                description: 'The new  statical variable to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -51,14 +53,12 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'string'},
-                                description: {type: 'string'},
+                                name: {type: 'string'},
+                                abbreviation: {type: 'string'},
+                                digits: {type: 'integer'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
@@ -72,12 +72,13 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    nomenclator: {
+                                    staticalVariable: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
-                                            description: {type: 'string'},
+                                            name: {type: 'string'},
+                                            abbreviation: {type: 'string'},
+                                            digits: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
@@ -99,7 +100,7 @@ module.exports = {
             }
         }
     },
-    '/api/nomenclatorTypes/{id}': {
+    '/api/staticalVariables/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -113,7 +114,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of nomenclator to create',
+                description: 'The new statical variable to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -121,7 +122,9 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'string'},
-                                description: {type: 'string'},
+                                name: {type: 'string'},
+                                abbreviation: {type: 'string'},
+                                digits: {type: 'integer'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 approved: {type: 'boolean'},
@@ -142,12 +145,13 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    nomenclator: {
+                                    staticalVariable: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
-                                            description: {type: 'string'},
+                                            name: {type: 'string'},
+                                            abbreviation: {type: 'string'},
+                                            digits: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
@@ -181,10 +185,7 @@ module.exports = {
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -211,11 +212,13 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    nomenclator: {
+                                    staticalVariable: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
-                                            description: {type: 'string'},
+                                            name: {type: 'string'},
+                                            abbreviation: {type: 'string'},
+                                            digits: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},

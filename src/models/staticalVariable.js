@@ -1,9 +1,9 @@
-const ModelCreate = include('/helpers/modelCreate');
+const ModelCreate = include('helpers/modelCreate');
 const {staticalVariableAttrib, staticalVariableTableName} = include('constants');
-const name = 'statisticalVariable';
+const name = 'staticalVariable';
 
-class StatisticalVariable extends ModelCreate{
-    constructor(props){
+class StaticalVariable extends ModelCreate {
+    constructor(props) {
         super({
             ...props,
             name,
@@ -13,4 +13,4 @@ class StatisticalVariable extends ModelCreate{
     }
 }
 
-module.exports = knex => new StatisticalVariable({knex});
+module.exports = knex => new StaticalVariable({ knex });

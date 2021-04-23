@@ -3,14 +3,14 @@ const assignments = require('./assignments');
 const staticData = require('./staticData');
 const dictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
-const statisticalVariable = require('./statisticalVariable');
+const staticalVariables = require('./staticalVariables');
 const rolesTypes = require('./rolesTypes');
 const chatTypes = require('./chatTypes');
 const questionTypes = require('./questionTypes');
 const classifierTypes = require('./classifierTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const relationshipTypes = require('./relationshipTypes');
-const dictionaryTypes = require('./dictionaryType');
+const linguisticDictionaryTypes = require('./linguisticDictionaryTypes');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
 const editors = require('./editors');
@@ -20,14 +20,14 @@ module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
     ...operatives,
-    ...statisticalVariable,
+    ...staticalVariables,
     ...users,
     ...staticData,
     ...rolesTypes,
     ...chatTypes,
     ...specialPhrasesTypes,
     ...relationshipTypes,
-    ...dictionaryTypes,
+    ...linguisticDictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
     ...editors,
