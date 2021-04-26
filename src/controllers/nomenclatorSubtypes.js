@@ -40,7 +40,11 @@ class NomenclatorSubtypeController {
     static async delete(req, res, next){
         try {
             const success = await NomenclatorSubtypesService.delete(req.params, req.user.id);
-            res.send({success});
+            if (success){
+                res.sendStatus(204);
+            }else{
+                res.sendStatus(400);
+            }
         } catch(err) {
             next(err);
         }

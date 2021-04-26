@@ -1,10 +1,9 @@
 const { nomenclatorTypes } = include('models');
-const { nomenclatorTypesAttrib } = include('constants');
 const { dateToString, stringToDate } = include('util');
 
 class NomenclatorTypesService {
     static async fetchStaticNomenclatorTypes() {
-        const nomenclatorTypeGet = await nomenclatorTypes.findAll(nomenclatorTypesAttrib, {FECHA_BAJA: null});
+        const nomenclatorTypeGet = await nomenclatorTypes.find({FECHA_BAJA: null});
         return nomenclatorTypeGet.map(nomenclatorType => ({
             id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,

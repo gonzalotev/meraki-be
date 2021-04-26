@@ -3,7 +3,7 @@ const { dateToString } = include('util');
 
 class NomenclatorSubtypeService {
     static async fetch() {
-        const nomenclators = await nomenclatorSubtypes.find();
+        const nomenclators = await nomenclatorSubtypes.find({FECHA_BAJA: null});
         return nomenclators.map(nomenclator => ({
             id: nomenclator.ID_SUBTIPO,
             typeId: nomenclator.ID_TIPO,
