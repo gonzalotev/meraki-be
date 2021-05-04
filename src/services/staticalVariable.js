@@ -1,5 +1,6 @@
 const { staticalVariable: staticalVariableModel } = include('models');
 const { dateToString } = include('util');
+const trim = require('lodash/trim');
 
 class StaticalVariableService {
     static async fetch() {
@@ -22,14 +23,14 @@ class StaticalVariableService {
 
     static async create(params, userCreator) {
         const formattedStaticalVariable = {
-            ID_VARIABLE: params.id,
-            NOMBRE: params.name,
-            ABREVIATURA: params.abbreviation,
+            ID_VARIABLE: trim(params.id),
+            NOMBRE: trim(params.name),
+            ABREVIATURA: trim(params.abbreviation),
             DIGITOS: params.digits,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
-            ID_PADRE: params.id_father,
+            ID_PADRE: trim(params.id_father),
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
@@ -73,14 +74,14 @@ class StaticalVariableService {
 
     static async update(filters, params, userCreator){
         const formattedStaticalVariable = {
-            ID_VARIABLE: params.id,
-            NOMBRE: params.name,
-            ABREVIATURA: params.abbreviation,
+            ID_VARIABLE: trim(params.id),
+            NOMBRE: trim(params.name),
+            ABREVIATURA: trim(params.abbreviation),
             DIGITOS: params.digits,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
-            ID_PADRE: params.id_father,
+            ID_PADRE: trim(params.id_father),
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,

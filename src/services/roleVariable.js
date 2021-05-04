@@ -1,5 +1,6 @@
 const { roleVariable } = include('models');
 const { dateToString } = include('util');
+const trim = require('lodash/trim');
 
 class RoleVariable {
     static async findOne(userId) {
@@ -22,8 +23,8 @@ class RoleVariable {
             ID_VARIABLE: variable.id,
             ID_OPERATIVO: variable.operativeId,
             ID_LOTE: variable.lotId,
-            DOMINIO: variable.domain,
-            OBSERVACION: variable.observation,
+            DOMINIO: trim(variable.domain),
+            OBSERVACION: trim(variable.observation),
             SI_NO: variable.approved,
             FECHA_ALTA: new Date(),
             FECHA_BAJA: null
@@ -37,8 +38,8 @@ class RoleVariable {
             ID_VARIABLE: variable.id,
             ID_OPERATIVO: variable.operativeId,
             ID_LOTE: variable.lotId,
-            DOMINIO: variable.domain,
-            OBSERVACION: variable.observation,
+            DOMINIO: trim(variable.domain),
+            OBSERVACION: trim(variable.observation),
             SI_NO: variable.approved
         };
         return await roleVariable.updateOne({ID_USUARIO: userId}, updateVariable);

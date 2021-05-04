@@ -1,5 +1,6 @@
 const { nomenclatorSubtypes } = include('models');
 const { dateToString } = include('util');
+const trim = require('lodash/trim');
 
 class NomenclatorSubtypeService {
     static async fetch() {
@@ -20,11 +21,11 @@ class NomenclatorSubtypeService {
 
     static async create(params, userCreator) {
         const formattedNomenclator = {
-            ID_SUBTIPO: params.id,
-            ID_TIPO: params.typeId,
-            DESCRIPCION: params.description,
-            SUPERVISADO: params.approved,
-            DOMINIO: params.domain,
+            ID_SUBTIPO: trim(params.id),
+            ID_TIPO: trim(params.typeId),
+            DESCRIPCION: trim(params.description),
+            SUPERVISADO: trim(params.approved),
+            DOMINIO: trim(params.domain),
             OBSERVACION: params.observation,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -65,10 +66,10 @@ class NomenclatorSubtypeService {
 
     static async update(filters, params){
         const formattedNomenclator = {
-            DESCRIPCION: params.description,
+            DESCRIPCION: trim(params.description),
             SUPERVISADO: params.approved,
-            DOMINIO: params.domain,
-            OBSERVACION: params.observation
+            DOMINIO: trim(params.domain),
+            OBSERVACION: trim(params.observation)
         };
         const formattedFilters = {ID_SUBTIPO: filters.id, ID_TIPO: filters.typeId};
         const nomenclator = await nomenclatorSubtypes.updateOne(formattedFilters, formattedNomenclator);

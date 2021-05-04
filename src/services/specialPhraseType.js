@@ -1,5 +1,6 @@
 const { specialPhraseType: specialPhraseTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class SpecialPhraseTypeService {
     static async fetch() {
@@ -20,9 +21,9 @@ class SpecialPhraseTypeService {
     static async create(params, userCreator) {
         const formattedSpecialPhraseType = {
             ID_TIPO_FRASE_ESPECIAL: null,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -62,9 +63,9 @@ class SpecialPhraseTypeService {
     static async update(filters, params){
         const formattedSpecialPhraseType = {
             ID_TIPO_FRASE_ESPECIAL: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,

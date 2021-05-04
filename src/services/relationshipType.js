@@ -2,6 +2,7 @@ const { relationshipType } = include('models');
 const { relationTypesKeyNames } = include('constants/keyNames');
 const { dateToString, stringToDate, convertKeysNames } = include('util');
 const invert = require('lodash/invert');
+const trim = require('lodash/trim');
 
 class RelationshipTypeService {
     static async fetch() {
@@ -19,7 +20,10 @@ class RelationshipTypeService {
         const formattedRelation = convertKeysNames({
             ...params,
             userCreator,
-            createdAt: new Date()
+            createdAt: new Date(),
+            description: trim(params.description),
+            observation: trim(params.observation),
+            domain: trim(params.domain)
         }, relationTypesKeyNames);
 
         const relation = await relationshipType.insertOne(formattedRelation);
@@ -46,7 +50,10 @@ class RelationshipTypeService {
         const formattedRelation = convertKeysNames({
             ...params,
             deletedAt: stringToDate(params.deletedAt),
-            createdAt: stringToDate(params.createdAt)
+            createdAt: stringToDate(params.createdAt),
+            description: trim(params.description),
+            observation: trim(params.observation),
+            domain: trim(params.domain)
         }, relationTypesKeyNames);
         const relation = await relationshipType.updateOne({ID_TIPO_RELACION: filters.id}, formattedRelation);
         return convertKeysNames({
