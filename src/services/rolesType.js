@@ -1,5 +1,6 @@
 const { rolesType: rolesTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class RolesTypeService {
     static async fetch() {
@@ -19,10 +20,10 @@ class RolesTypeService {
 
     static async create(params, userCreator) {
         const formattedRolesType = {
-            ID_ROL_USUARIO: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            ID_ROL_USUARIO: trim(params.id),
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -61,10 +62,10 @@ class RolesTypeService {
 
     static async update(filters, params){
         const formattedRolesType = {
-            ID_ROL_USUARIO: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            ID_ROL_USUARIO: trim(params.id),
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,

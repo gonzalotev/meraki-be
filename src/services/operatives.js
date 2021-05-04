@@ -1,5 +1,6 @@
 const { operatives: operativesModel } = include('models');
 const { dateTimeToString } = include('util');
+const trim = require('lodash/trim');
 
 class OperativeService {
     static async find() {
@@ -29,9 +30,9 @@ class OperativeService {
     static async create(params, userCreator){
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
-            DESCRIPCION: params.description,
-            DOMINIO: params.domain,
-            OBSERVACION: params.observation,
+            DESCRIPCION: trim(params.description),
+            DOMINIO: trim(params.domain),
+            OBSERVACION: trim(params.observation),
             FECHA_LLEGADA_OPERATIVO: null,
             FECHA_INICIO_CODIFICACION: null,
             FECHA_FIN_CODIFICACION: null,
@@ -39,8 +40,8 @@ class OperativeService {
             FECHA_INICIO_BORRADO: null,
             FECHA_FIN_BORRADO: null,
             TOTAL_REGISTROS_OPERATIVO: params.totalRecords,
-            CONTACTO_OPERATIVO: params.contact,
-            MAIL_CONTACTO: params.contactEmail,
+            CONTACTO_OPERATIVO: trim(params.contact),
+            MAIL_CONTACTO: trim(params.contactEmail),
             CALIDAD_TOTAL_OPERATIVO: params.totalQuality,
             NIVEL_ERROR_OPERATIVO: params.errorLevel,
             ID_USUARIO: userCreator,
@@ -71,9 +72,9 @@ class OperativeService {
     static async update(filters, params){
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
-            DESCRIPCION: params.description,
-            DOMINIO: params.domain,
-            OBSERVACION: params.observation,
+            DESCRIPCION: trim(params.description),
+            DOMINIO: trim(params.domain),
+            OBSERVACION: trim(params.observation),
             FECHA_LLEGADA_OPERATIVO: params.dateArrival,
             FECHA_INICIO_CODIFICACION: params.encodingStartDate,
             FECHA_FIN_CODIFICACION: params.encodingEndDate,
@@ -81,8 +82,8 @@ class OperativeService {
             FECHA_INICIO_BORRADO: params.eraseStartDate,
             FECHA_FIN_BORRADO: params.eraseEndDate,
             TOTAL_REGISTROS_OPERATIVO: params.totalRecords,
-            CONTACTO_OPERATIVO: params.contact,
-            MAIL_CONTACTO: params.contactEmail,
+            CONTACTO_OPERATIVO: trim(params.contact),
+            MAIL_CONTACTO: trim(params.contactEmail),
             CALIDAD_TOTAL_OPERATIVO: params.totalQuality,
             NIVEL_ERROR_OPERATIVO: params.errorLevel
         };

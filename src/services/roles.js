@@ -1,5 +1,6 @@
 const { roles: rolesModel } = include('models');
 const { dateToString } = include('util');
+const trim = require('lodash/trim');
 
 class RoleService {
     static async fetch() {
@@ -20,9 +21,9 @@ class RoleService {
     static async create(params, userCreator) {
         const formattedRole = {
             ID_ROL_USUARIO: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
@@ -60,9 +61,9 @@ class RoleService {
     static async update(filters, params){
         const formattedOperative = {
             ID_ROL_USUARIO: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,

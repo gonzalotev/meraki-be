@@ -1,12 +1,12 @@
 const { networkType: networkTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class NetworkTypeService {
     static async fetch() {
         const networksTypes = await networkTypeModel.find({FECHA_BAJA: null});
         return networksTypes.map(networkType => ({
             id: networkType.ID_TIPO_RED,
-            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -20,11 +20,10 @@ class NetworkTypeService {
 
     static async create(params, userCreator) {
         const formattedNetworkType = {
-            ID_TIPO_RED: null,
-            ABREVIATURA: params.abbreviation,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            ID_TIPO_RED: trim(params.id),
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -35,7 +34,6 @@ class NetworkTypeService {
 
         return {
             id: networkType.ID_TIPO_RED,
-            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -51,7 +49,6 @@ class NetworkTypeService {
         const networkType = await networkTypeModel.findById({ID_TIPO_RED: filters.id});
         return {
             id: networkType.ID_TIPO_RED,
-            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -65,11 +62,10 @@ class NetworkTypeService {
 
     static async update(filters, params){
         const formattedNetworkType = {
-            ID_TIPO_RED: params.id,
-            ABREVIATURA: params.abbreviation,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            ID_TIPO_RED: trim(params.id),
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,
@@ -80,7 +76,6 @@ class NetworkTypeService {
             formattedNetworkType);
         return {
             id: networkType.ID_TIPO_RED,
-            abbreviation: networkType.ABREVIATURA,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,

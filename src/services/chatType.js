@@ -1,5 +1,6 @@
 const { chatType: chatTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class ChatTypeService {
     static async fetch() {
@@ -20,9 +21,9 @@ class ChatTypeService {
     static async create(params, userCreator) {
         const formattedChatType = {
             ID_TIPO_CHAT: null,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -62,9 +63,9 @@ class ChatTypeService {
     static async update(filters, params){
         const formattedChatType = {
             ID_TIPO_CHAT: params.id,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,

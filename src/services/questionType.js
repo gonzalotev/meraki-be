@@ -1,4 +1,5 @@
 const { questionType: questionTypeModel } = include('models');
+const trim = require('lodash/trim');
 
 class QuestionTypeService {
     static async fetch() {
@@ -12,7 +13,7 @@ class QuestionTypeService {
     static async create(params) {
         const formattedQuestionType = {
             ID_ABIERTA_CERRADA: null,
-            DESCRIPCION: params.description
+            DESCRIPCION: trim(params.description)
         };
         const questionType = await questionTypeModel.insertOne(formattedQuestionType);
 
@@ -33,7 +34,7 @@ class QuestionTypeService {
     static async update(filters, params){
         const formattedQuestionType = {
             ID_ABIERTA_CERRADA: params.id,
-            DESCRIPCION: params.description
+            DESCRIPCION: trim(params.description)
         };
         const questionType = await questionTypeModel.updateOne({ID_ABIERTA_CERRADA: filters.id}, formattedQuestionType);
         return {

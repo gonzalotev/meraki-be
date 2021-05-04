@@ -1,5 +1,6 @@
 const { classifierType: classifierTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class ClassifierTypeService {
     static async fetch() {
@@ -21,10 +22,10 @@ class ClassifierTypeService {
     static async create(params, userCreator) {
         const formattedClassifierType = {
             ID_TIPO_CLASIFICADOR: null,
-            ABREVIATURA: params.abbreviation,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            ABREVIATURA: trim(params.abbreviation),
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -66,10 +67,10 @@ class ClassifierTypeService {
     static async update(filters, params){
         const formattedClassifierType = {
             ID_TIPO_CLASIFICADOR: params.id,
-            ABREVIATURA: params.abbreviation,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            ABREVIATURA: trim(params.abbreviation),
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,

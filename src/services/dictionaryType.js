@@ -1,5 +1,6 @@
 const { dictionaryType: dictionaryTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class DictionaryTypeService {
     static async fetch() {
@@ -24,15 +25,15 @@ class DictionaryTypeService {
 
     static async create(params, userCreator) {
         const formattedDictionaryType = {
-            ID_TIPOLOGIA_DE_DICCIONARIO: params.id,
-            DESCRIPCION: params.description,
+            ID_TIPOLOGIA_DE_DICCIONARIO: trim(params.id),
+            DESCRIPCION: trim(params.description),
             SI_PALABRA_NO_FRASE_ORIGEN: params.isOriginAWord,
             SI_DESCRIPCION_DESTINO: params.haveDesnityDescription,
             SI_PALABRA_NO_FRASE_DESTINO: params.isDestinyAWord,
             EXPRESION_REGULAR: params.haveRegex,
-            VALIDACION: params.validation,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            VALIDACION: trim(params.validation),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -81,15 +82,15 @@ class DictionaryTypeService {
 
     static async update(filters, params){
         const formattedDictionaryType = {
-            ID_TIPOLOGIA_DE_DICCIONARIO: params.id,
-            DESCRIPCION: params.description,
+            ID_TIPOLOGIA_DE_DICCIONARIO: trim(params.id),
+            DESCRIPCION: trim(params.description),
             SI_PALABRA_NO_FRASE_ORIGEN: params.isOriginAWord,
             SI_DESCRIPCION_DESTINO: params.haveDesnityDescription,
             SI_PALABRA_NO_FRASE_DESTINO: params.isDestinyAWord,
             EXPRESION_REGULAR: params.haveRegex,
-            VALIDACION: params.validation,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            VALIDACION: trim(params.validation),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,

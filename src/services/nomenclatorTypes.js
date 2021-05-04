@@ -1,5 +1,6 @@
 const { nomenclatorTypes } = include('models');
 const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 
 class NomenclatorTypesService {
     static async fetchStaticNomenclatorTypes() {
@@ -35,11 +36,11 @@ class NomenclatorTypesService {
 
     static async create(params, userCreator){
         const formattedNomenclatorType = {
-            ID_TIPO: params.id,
-            DESCRIPCION: params.description,
+            ID_TIPO: trim(params.id),
+            DESCRIPCION: trim(params.description),
             SUPERVISADO: params.supervised,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: userCreator,
             FECHA_BAJA: null,
             ID_USUARIO_BAJA: null,
@@ -62,11 +63,11 @@ class NomenclatorTypesService {
 
     static async update(filters, params){
         const formattedNomenclatorType = {
-            ID_TIPO: params.id,
-            DESCRIPCION: params.description,
+            ID_TIPO: trim(params.id),
+            DESCRIPCION: trim(params.description),
             SUPERVISADO: params.supervised,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: stringToDate(params.deletedAt),
