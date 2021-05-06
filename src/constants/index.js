@@ -358,6 +358,21 @@ const nomenclatorTypesAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const dictionaryLinguisticTableName = 'DICCIONARIO_LINGUISTICO';
+const dictionaryLinguisticAttrib = [
+    'DESCRIPCION_ORIGINAL',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'ID_VARIABLE',
+    'DESCRIPCION_DESTINO',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -403,5 +418,7 @@ module.exports = {
     networkTypeTableName,
     networkTypeAttrib,
     dictionaryTypeTableName,
-    dictionaryTypeAttrib
+    dictionaryTypeAttrib,
+    dictionaryLinguisticTableName,
+    dictionaryLinguisticAttrib
 };
