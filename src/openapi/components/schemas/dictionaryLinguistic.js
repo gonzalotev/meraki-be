@@ -1,39 +1,47 @@
 module.exports = {
     type: 'object',
     properties: {
-        original_description: {
+        originalDescription: {
             type: 'string',
-            maxLength: 50
-        },
-        id_tipology_dictionary: {
-            type: 'string',
-            maxLength: 50,
+            maxLength: 300,
             nullable: false
         },
-        id_variable: {
+        dictionaryTypeId: {
             type: 'string',
-            maxLength: 120,
+            maxLength: 3,
             nullable: false
         },
-        destination_description: {
+        variableId: {
             type: 'string',
-            maxLength: 120,
-            nullable: true
+            maxLength: 5,
+            nullable: false
+        },
+        destinationDescription: {
+            type: 'string',
+            maxLength: 300
         },
         observation: {
             type: 'string',
-            maxLength: 120,
-            nullable: true
+            maxLength: 120
         },
         domain: {
             type: 'string',
-            maxLength: 300,
-            nullable: true
+            maxLength: 300
         },
         approved: {type: 'boolean'},
         createdAt: {
             type: 'string',
-            format: 'date'
+            format: 'date',
+            nullable: true
+        },
+        userCreator: {
+            type: 'string',
+            maxLength: 50
+        },
+        userDeleted: {
+            type: 'string',
+            maxLength: 50,
+            nullable: true
         },
         deletedAt: {
             type: 'string',

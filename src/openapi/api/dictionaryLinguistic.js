@@ -1,20 +1,8 @@
 module.exports = {
-    '/api/DictionaryLinguistic': {
+    '/api/dictionaryLinguistic': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Dictionary Linguistic'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: false,
-                    schema: {
-                        type: 'integer',
-                        default: 1,
-                        minimum: 1
-                    }
-                }
-            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -23,30 +11,191 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionary: {
+                                    dictionaryLinguistics: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
-                                },
-                                example: {
-                                    dictionaryLinguistic: [
-                                        {
-                                            originalDescription: 'FAKE',
-                                            typologyDictionaryId: 'XXX',
-                                            variableId: '00000',
-                                            destinationDescription: 'fake description',
-                                            observation: 'fake observation',
-                                            domain: 'fake domain',
-                                            approved: false,
-                                            createdAt: '2021-02-08',
-                                            deletedAt: null
-                                        }
-                                    ]
                                 }
                             }
                         }
                     }
                 },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        post: {
+            security: [{bearerAuth: []}],
+            tags: ['Dictionary Linguistic'],
+            requestBody: {
+                description: 'The new  dictionary linguistic to create',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                originalDescription: {type: 'string'},
+                                dictionaryTypeId: {type: 'string'},
+                                variableId: {type: 'string'},
+                                destinationDescription: {type: 'string'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'}
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                201: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {dictionaryLinguistic: {$ref: '#/components/schemas/DictionaryLinguistic'}}
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/dictionaryLinguistic/{originalDescription}/{dictionaryTypeId}/{variableId}': {
+        put: {
+            security: [{bearerAuth: []}],
+            tags: ['Dictionary Linguistic'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'originalDescription',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'dictionaryTypeId',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'variableId',
+                    required: true,
+                    schema: {type: 'string'}
+                }
+            ],
+            requestBody: {
+                description: 'The new  dictionary linguistic to create',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                originalDescription: {type: 'string'},
+                                dictionaryTypeId: {type: 'string'},
+                                variableId: {type: 'string'},
+                                destinationDescription: {type: 'string'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'}
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {dictionaryLinguistic: {$ref: '#/components/schemas/DictionaryLinguistic'}}
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Dictionary Linguistic'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'originalDescription',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'dictionaryTypeId',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'variableId',
+                    required: true,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {dictionaryLinguistic: {$ref: '#/components/schemas/DictionaryLinguistic'}}
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        delete: {
+            security: [{bearerAuth: []}],
+            tags: ['Dictionary Linguistic'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'originalDescription',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'dictionaryTypeId',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'variableId',
+                    required: true,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}

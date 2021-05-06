@@ -3,35 +3,49 @@ const { DictionaryLinguisticService } = include('services');
 class DictionaryLinguisticController {
     static async fetch(req, res, next) {
         try {
-            const dictionaryLinguistic = await DictionaryLinguisticService.find(req.query.page);
-            res.send({ dictionaryLinguistic });
+            const dictionaryLinguistics = await DictionaryLinguisticService.fetch();
+            res.send({ dictionaryLinguistics });
         } catch(error) {
             next(error);
         }
     }
 
-    static create(req, res, next){
+    static async find(req, res, next) {
+        try{
+            const dictionaryLinguistic = await DictionaryLinguisticService.findOne(req.params);
+            res.send({dictionaryLinguistic});
+        } catch(error) {
+            next(error);
+        }
+    }
+
+    static async create(req, res, next){
         try {
-            const dictionary = DictionaryLinguisticService.create(req.body, req.user.id);
-            res.send({ success: true, dictionary });
+            const dictionaryLinguistic = await DictionaryLinguisticService.create(req.body, req.user.id);
+            res.status(201);
+            res.send({ dictionaryLinguistic });
         } catch(err) {
             next(err);
         }
     }
 
-    static update(req, res, next){
+    static async update(req, res, next){
         try{
-            const dictionary = DictionaryLinguisticService.update(req.body);
-            res.send({success: true, dictionary});
+            const dictionaryLinguistic = await DictionaryLinguisticService.update(req.params, req.body);
+            res.send({dictionaryLinguistic});
         } catch(err){
             next(err);
         }
     }
 
-    static delete(req, res, next){
+    static async delete(req, res, next){
         try {
-            const success = DictionaryLinguisticService.delete(req.body, req.user.id);
-            res.send({success});
+            const success = await DictionaryLinguisticService.delete(req.params, req.user.id);
+            if(success){
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
         } catch(err) {
             next(err);
         }

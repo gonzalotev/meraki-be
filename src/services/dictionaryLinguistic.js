@@ -1,68 +1,118 @@
 const { dictionaryLinguistic } = include('models');
-const { dateToString } = include('util');
-
+const { dateToString, stringToDate } = include('util');
+const trim = require('lodash/trim');
 class DictionaryLinguisticService {
-    static async find(page) {
-        const dictionaries = await dictionaryLinguistic.findByPage(page);
+    static async fetch() {
+        const dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
         return dictionaries.map(dictionary => ({
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
-            typologyDictionaryId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
+            dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
             variableId: dictionary.ID_VARIABLE,
             destinationDescription: dictionary.DESCRIPCION_DESTINO,
             observation: dictionary.OBSERVACION,
             domain: dictionary.DOMINIO,
-            approved: dictionary.SUPERVISADO,
+            approved: !!dictionary.SUPERVISADO,
+            userCreator: dictionary.ID_USUARIO_ALTA,
+            userDeleted: dictionary.ID_USUARIO_BAJA,
             createdAt: dateToString(dictionary.FECHA_ALTA),
             deletedAt: dateToString(dictionary.FECHA_BAJA)
         }));
     }
-    static create(props, userCreator){
-        const dictionary = dictionaryLinguistic.insertOne({ ...props, ID_USUARIO_ALTA: userCreator });
+    static async findOne(filters){
+        const ids = {
+            DESCRIPCION_ORIGINAL: filters.originalDescription,
+            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypeId,
+            ID_VARIABLE: filters.variableId
+        };
+        const dictionary = await dictionaryLinguistic.findById(ids);
         return {
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
-            typologyDictionaryId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
+            dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
             variableId: dictionary.ID_VARIABLE,
             destinationDescription: dictionary.DESCRIPCION_DESTINO,
             observation: dictionary.OBSERVACION,
             domain: dictionary.DOMINIO,
-            approved: dictionary.SUPERVISADO,
+            approved: !!dictionary.SUPERVISADO,
+            userCreator: dictionary.ID_USUARIO_ALTA,
+            userDeleted: dictionary.ID_USUARIO_BAJA,
             createdAt: dateToString(dictionary.FECHA_ALTA),
             deletedAt: dateToString(dictionary.FECHA_BAJA)
         };
     }
-    static update(props){
-        const {
-            originalDescription: DESCRIPCION_ORIGINAL,
-            typologyDictionaryId: ID_TIPOLOGIA_DE_DICCIONARIO,
-            variableId: ID_VARIABLE,
-            ...propsToSave
-        } = props;
-        const id = {DESCRIPCION_ORIGINAL, ID_TIPOLOGIA_DE_DICCIONARIO, ID_VARIABLE};
-        const dictionary = dictionaryLinguistic.updateOne(id, propsToSave);
+    static async create(params, userCreator){
+        const formattedDictionaryLinguistic = {
+            DESCRIPCION_ORIGINAL: trim(params.originalDescription),
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypeId,
+            ID_VARIABLE: params.variableId,
+            DESCRIPCION_DESTINO: trim(params.destinationDescription),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
+            SUPERVISADO: params.approved,
+            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_BAJA: null,
+            FECHA_ALTA: new Date(),
+            FECHA_BAJA: null
+        };
+        const dictionary = await dictionaryLinguistic.insertOne(formattedDictionaryLinguistic);
         return {
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
-            typologyDictionaryId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
+            dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
             variableId: dictionary.ID_VARIABLE,
             destinationDescription: dictionary.DESCRIPCION_DESTINO,
             observation: dictionary.OBSERVACION,
             domain: dictionary.DOMINIO,
-            approved: dictionary.SUPERVISADO,
+            approved: !!dictionary.SUPERVISADO,
+            userCreator: dictionary.ID_USUARIO_ALTA,
+            userDeleted: dictionary.ID_USUARIO_BAJA,
             createdAt: dateToString(dictionary.FECHA_ALTA),
             deletedAt: dateToString(dictionary.FECHA_BAJA)
         };
     }
-    static async delete(props, userDeleted){
-        const {
-            originalDescription: DESCRIPCION_ORIGINAL,
-            typologyDictionaryId: ID_TIPOLOGIA_DE_DICCIONARIO,
-            variableId: ID_VARIABLE
-        } = props;
-        const id = {DESCRIPCION_ORIGINAL, ID_TIPOLOGIA_DE_DICCIONARIO, ID_VARIABLE};
-        const success = await dictionaryLinguistic.deleteOne(id, {
+    static async update(filters, params){
+        const formattedDictionaryLinguistic = {
+            DESCRIPCION_ORIGINAL: trim(params.originalDescription),
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypeId,
+            ID_VARIABLE: params.variableId,
+            DESCRIPCION_DESTINO: trim(params.destinationDescription),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
+            SUPERVISADO: params.approved,
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userDeleted,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
+        };
+        const ids = {
+            DESCRIPCION_ORIGINAL: filters.originalDescription,
+            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypeId,
+            ID_VARIABLE: filters.variableId
+        };
+        const dictionary = await dictionaryLinguistic.updateOne(ids, formattedDictionaryLinguistic);
+        return {
+            originalDescription: dictionary.DESCRIPCION_ORIGINAL,
+            dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
+            variableId: dictionary.ID_VARIABLE,
+            destinationDescription: dictionary.DESCRIPCION_DESTINO,
+            observation: dictionary.OBSERVACION,
+            domain: dictionary.DOMINIO,
+            approved: !!dictionary.SUPERVISADO,
+            userCreator: dictionary.ID_USUARIO_ALTA,
+            userDeleted: dictionary.ID_USUARIO_BAJA,
+            createdAt: dateToString(dictionary.FECHA_ALTA),
+            deletedAt: dateToString(dictionary.FECHA_BAJA)
+        };
+    }
+    static async delete(filters, userDeleted){
+        const ids = {
+            DESCRIPCION_ORIGINAL: filters.originalDescription,
+            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypeId,
+            ID_VARIABLE: filters.variableId
+        };
+        const success = await dictionaryLinguistic.deleteOne(ids, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
-        return success;
+        return !!success;
     }
 }
 
