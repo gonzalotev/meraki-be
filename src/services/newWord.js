@@ -40,7 +40,8 @@ class NewWordService {
     }
 
     static async findOne(filters){
-        const newWord = await newWordModel.findById({ID_OPERATIVO: filters.id_operative , ID_VARIABLE: filters.id_variable});
+        // eslint-disable-next-line max-len
+        const newWord = await newWordModel.findById({ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable});
         return {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
@@ -62,6 +63,7 @@ class NewWordService {
             CORREGIDA: params.corrected,
             FECHA_ALTA_PALABRA: new Date()
         };
+        // eslint-disable-next-line max-len
         const newWord = await newWordModel.updateOne({ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable}, formattedNewWord);
         return {
             id_operative: newWord.ID_OPERATIVO,
