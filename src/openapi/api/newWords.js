@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/dictionaryTypes': {
+    '/api/newWords': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -11,21 +11,18 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionarys: {
+                                    words: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'string'},
-                                                description: {type: 'string'},
-                                                observation: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                validation: {type: 'string'},
-                                                approved: {type: 'boolean'},
-                                                createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
+                                                id_operative: {type: 'integer'},
+                                                id_variable: {type: 'string'},
+                                                news_words: {type: 'string'},
+                                                frequencies: {type: 'integer'},
+                                                abc: {type: 'string'},
+                                                corrected: {type: 'boolean'},
+                                                high_date_word: {type: 'string'}
                                             }
                                         }
                                     }
@@ -44,18 +41,20 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Types'],
             requestBody: {
-                description: 'The new  type of dictionary to create',
+                description: 'The new  word to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                description: {type: 'string'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                validation: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                id_operative: {type: 'integer'},
+                                id_variable: {type: 'string'},
+                                news_words: {type: 'string'},
+                                frequencies: {type: 'integer'},
+                                abc: {type: 'string'},
+                                corrected: {type: 'boolean'},
+                                high_date_word: {type: 'string'}
                             }
                         }
                     }
@@ -69,19 +68,16 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionaryType: {
+                                    newWord: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
-                                            description: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            id_operative: {type: 'integer'},
+                                            id_variable: {type: 'string'},
+                                            news_words: {type: 'string'},
+                                            frequencies: {type: 'integer'},
+                                            abc: {type: 'string'},
+                                            corrected: {type: 'boolean'},
+                                            high_date_word: {type: 'string'}
                                         }
                                     }
                                 }
@@ -96,7 +92,7 @@ module.exports = {
             }
         }
     },
-    '/api/dictionaryTypes/{id}': {
+    '/api/newWords/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -105,28 +101,25 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new  type of dictionary to create',
+                description: 'The new  word to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
-                                description: {type: 'string'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                validation: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                id_operative: {type: 'integer'},
+                                id_variable: {type: 'string'},
+                                news_words: {type: 'string'},
+                                frequencies: {type: 'integer'},
+                                abc: {type: 'string'},
+                                corrected: {type: 'boolean'},
+                                high_date_word: {type: 'string'}
                             }
                         }
                     }
@@ -140,19 +133,16 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionaryType: {
+                                    newWord: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
-                                            description: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            id_operative: {type: 'integer'},
+                                            id_variable: {type: 'string'},
+                                            news_words: {type: 'string'},
+                                            frequencies: {type: 'integer'},
+                                            abc: {type: 'string'},
+                                            corrected: {type: 'boolean'},
+                                            high_date_word: {type: 'string'}
                                         }
                                     }
                                 }
@@ -174,7 +164,7 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
@@ -194,7 +184,7 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
@@ -206,19 +196,16 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionaryType: {
+                                    newWord: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
-                                            description: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            validation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            id_operative: {type: 'integer'},
+                                            id_variable: {type: 'string'},
+                                            news_words: {type: 'string'},
+                                            frequencies: {type: 'integer'},
+                                            abc: {type: 'string'},
+                                            corrected: {type: 'boolean'},
+                                            high_date_word: {type: 'string'}
                                         }
                                     }
                                 }

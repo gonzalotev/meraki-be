@@ -305,6 +305,17 @@ const documentTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const newWordTableName = 'NUEVAS_FRASES';
+const newWordAttrib = [
+    'ID_OPERATIVO',
+    'ID_VARIABLE',
+    'NUEVAS_PALABRAS',
+    'FRECUENCIAS',
+    'ABC',
+    'CORREGIDA',
+    'FECHA_ALTA_PALABRA'
+];
+
 const nomenclatorSubtypeTableName = 'SUBTIPO_DE_NOMENCLADOR';
 const nomenclatorSubtypeAttrib = [
     'ID_TIPO',
@@ -420,5 +431,7 @@ module.exports = {
     dictionaryTypeTableName,
     dictionaryTypeAttrib,
     dictionaryLinguisticTableName,
-    dictionaryLinguisticAttrib
+    dictionaryLinguisticAttrib,
+    newWordAttrib,
+    newWordTableName
 };
