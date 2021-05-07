@@ -305,7 +305,7 @@ const documentTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const newWordTableName = 'NUEVAS_FRASES';
+const newWordTableName = 'NUEVAS_PALABRAS';
 const newWordAttrib = [
     'ID_OPERATIVO',
     'ID_VARIABLE',
@@ -313,7 +313,7 @@ const newWordAttrib = [
     'FRECUENCIAS',
     'ABC',
     'CORREGIDA',
-    'FECHA_ALTA_PALABRA'
+    'FECHA_ALTA'
 ];
 
 const nomenclatorSubtypeTableName = 'SUBTIPO_DE_NOMENCLADOR';

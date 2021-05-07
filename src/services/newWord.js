@@ -12,7 +12,7 @@ class NewWordService {
             frequencies: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            high_date_word: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
         }));
     }
 
@@ -35,12 +35,13 @@ class NewWordService {
             frequencies: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            high_date_word: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
         };
     }
 
     static async findOne(filters){
-        const newWord = await newWordModel.findById({ID_OPERATIVO: filters.id_operative , ID_VARIABLE: filters.id_variable});
+        const newWord = await newWordModel.findById(
+            {ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable});
         return {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
@@ -48,7 +49,7 @@ class NewWordService {
             frequencies: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            high_date_word: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
         };
     }
 
@@ -62,7 +63,9 @@ class NewWordService {
             CORREGIDA: params.corrected,
             FECHA_ALTA_PALABRA: new Date()
         };
-        const newWord = await newWordModel.updateOne({ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable}, formattedNewWord);
+        const newWord = await newWordModel.updateOne(
+            {ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable},
+            formattedNewWord);
         return {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
@@ -70,7 +73,7 @@ class NewWordService {
             frequencies: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            high_date_word: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
         };
     }
 

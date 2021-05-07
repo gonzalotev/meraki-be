@@ -2,7 +2,7 @@ module.exports = {
     '/api/newWords': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['News Words'],
             responses: {
                 200: {
                     description: 'Success',
@@ -19,10 +19,10 @@ module.exports = {
                                                 id_operative: {type: 'integer'},
                                                 id_variable: {type: 'string'},
                                                 news_words: {type: 'string'},
-                                                frequencies: {type: 'integer'},
+                                                frequence: {type: 'integer'},
                                                 abc: {type: 'string'},
                                                 corrected: {type: 'boolean'},
-                                                high_date_word: {type: 'string'}
+                                                createdAt: {type: 'string'}
                                             }
                                         }
                                     }
@@ -39,7 +39,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['News Words'],
             requestBody: {
                 description: 'The new  word to create',
                 required: true,
@@ -51,10 +51,9 @@ module.exports = {
                                 id_operative: {type: 'integer'},
                                 id_variable: {type: 'string'},
                                 news_words: {type: 'string'},
-                                frequencies: {type: 'integer'},
+                                frequence: {type: 'integer'},
                                 abc: {type: 'string'},
-                                corrected: {type: 'boolean'},
-                                high_date_word: {type: 'string'}
+                                corrected: {type: 'boolean'}
                             }
                         }
                     }
@@ -74,10 +73,10 @@ module.exports = {
                                             id_operative: {type: 'integer'},
                                             id_variable: {type: 'string'},
                                             news_words: {type: 'string'},
-                                            frequencies: {type: 'integer'},
+                                            frequence: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
-                                            high_date_word: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -95,7 +94,7 @@ module.exports = {
     '/api/newWords/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['News Words'],
             parameters: [
                 {
                     in: 'path',
@@ -106,20 +105,22 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  word to create',
+                description: 'The new word to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
-                                frequencies: {type: 'integer'},
-                                abc: {type: 'string'},
-                                corrected: {type: 'boolean'},
-                                high_date_word: {type: 'string'}
+                                id: {type: 'integer'},
+                                description: {type: 'string'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -139,10 +140,10 @@ module.exports = {
                                             id_operative: {type: 'integer'},
                                             id_variable: {type: 'string'},
                                             news_words: {type: 'string'},
-                                            frequencies: {type: 'integer'},
+                                            frequence: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
-                                            high_date_word: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -158,7 +159,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['News Words'],
             parameters: [
                 {
                     in: 'path',
@@ -178,7 +179,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['News Words'],
             parameters: [
                 {
                     in: 'path',
@@ -202,10 +203,10 @@ module.exports = {
                                             id_operative: {type: 'integer'},
                                             id_variable: {type: 'string'},
                                             news_words: {type: 'string'},
-                                            frequencies: {type: 'integer'},
+                                            frequence: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
-                                            high_date_word: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
