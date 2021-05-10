@@ -16,6 +16,8 @@ const nomenclatorSubtypes = require('./nomenclatorSubtypes');
 const editors = require('./editors');
 const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
+const autoPhrases = require('./autoPhrases');
+
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -34,5 +36,6 @@ module.exports = {
     ...classifierTypes,
     ...questionTypes,
     ...nomenclatorTypes,
-    ...networkTypes
+    ...networkTypes,
+    ...autoPhrases
 };
