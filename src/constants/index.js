@@ -305,6 +305,17 @@ const documentTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const newWordTableName = 'NUEVAS_FRASES';
+const newWordAttrib = [
+    'ID_OPERATIVO',
+    'ID_VARIABLE',
+    'NUEVAS_PALABRAS',
+    'FRECUENCIAS',
+    'ABC',
+    'CORREGIDA',
+    'FECHA_ALTA_PALABRA'
+];
+
 const nomenclatorSubtypeTableName = 'SUBTIPO_DE_NOMENCLADOR';
 const nomenclatorSubtypeAttrib = [
     'ID_TIPO',
@@ -372,7 +383,6 @@ const dictionaryLinguisticAttrib = [
     'FECHA_BAJA',
     'ID_USUARIO_BAJA'
 ];
-
 const autoPhrasesTableName = 'AUTOFRASES';
 const autoPhrasesAttrib = [
     'ID_AUTOFRASE',
@@ -388,6 +398,32 @@ const autoPhrasesAttrib = [
     'FECHA_ALTA',
     'FECHA_BAJA',
     'ID_USUARIO_BAJA'
+];
+const wordsDictionaryTableName = 'DICCIONARIO_DE_PALABRAS';
+const wordsDictionaryAttrib = [
+    'PALABRA',
+    'TRUNCADO',
+    'ACRONIMO',
+    'VERBO',
+    'SUSTANTIVO',
+    'ADJETIVO',
+    'ADVERBIO',
+    'PRONOMBRE',
+    'ARTICULO',
+    'PREPOSICION',
+    'PALABRA_DUDOSA',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'FUNCION_DE_HASH',
+    'HASH',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_GENERO_NUMERO',
+    'ID_NUMERO',
+    'FRECUENCIA',
+    'ABC',
+    'FAMILIA'
 ];
 
 module.exports = {
@@ -439,5 +475,9 @@ module.exports = {
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
     autoPhrasesTableName,
-    autoPhrasesAttrib
+    autoPhrasesAttrib,
+    newWordAttrib,
+    newWordTableName,
+    wordsDictionaryTableName,
+    wordsDictionaryAttrib
 };

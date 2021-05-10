@@ -17,6 +17,8 @@ const editors = require('./editors');
 const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
+const newWords = require('./newWords');
+const wordsDictionary = require('./wordsDictionary');
 
 module.exports = {
     ...assignments,
@@ -37,5 +39,7 @@ module.exports = {
     ...questionTypes,
     ...nomenclatorTypes,
     ...networkTypes,
-    ...autoPhrases
+    ...autoPhrases,
+    ...newWords,
+    ...wordsDictionary
 };
