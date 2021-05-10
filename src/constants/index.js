@@ -383,7 +383,22 @@ const dictionaryLinguisticAttrib = [
     'FECHA_BAJA',
     'ID_USUARIO_BAJA'
 ];
-
+const autoPhrasesTableName = 'AUTOFRASES';
+const autoPhrasesAttrib = [
+    'ID_AUTOFRASE',
+    'ID_VARIABLE',
+    'FRASE_FINAL',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'FRASE_RETROALIMENTADA_SI_NO',
+    'FECHA_RETROALIMENTACION',
+    'ID_DEPENDE_ID_AUTOFRASE',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
 const wordsDictionaryTableName = 'DICCIONARIO_DE_PALABRAS';
 const wordsDictionaryAttrib = [
     'PALABRA',
@@ -459,6 +474,8 @@ module.exports = {
     dictionaryTypeAttrib,
     dictionaryLinguisticTableName,
     dictionaryLinguisticAttrib,
+    autoPhrasesTableName,
+    autoPhrasesAttrib,
     newWordAttrib,
     newWordTableName,
     wordsDictionaryTableName,

@@ -1,6 +1,7 @@
 const { dictionaryLinguistic } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+
 class DictionaryLinguisticService {
     static async fetch() {
         const dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
