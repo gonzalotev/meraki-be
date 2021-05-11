@@ -20,6 +20,7 @@ const autoPhrases = require('./autoPhrases');
 const newWords = require('./newWords');
 const wordsDictionary = require('./wordsDictionary');
 const autoPhraseClosedQuestion = require('./autoPhraseClosedQuestion');
+const autoPhraseNomenclatureRelation = require('./autoPhraseNomenclatureRelation');
 
 module.exports = {
     ...assignments,
@@ -43,5 +44,6 @@ module.exports = {
     ...autoPhrases,
     ...newWords,
     ...wordsDictionary,
-    ...autoPhraseClosedQuestion
+    ...autoPhraseClosedQuestion,
+    ...autoPhraseNomenclatureRelation
 };
