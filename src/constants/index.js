@@ -425,6 +425,22 @@ const wordsDictionaryAttrib = [
     'ABC',
     'FAMILIA'
 ];
+const autoPhraseClosedQuestionTableName = 'AUTOFRASES_PREGUNTA_CERRADA';
+const autoPhraseClosedQuestionAttrib = [
+    'ID_AUTOFRASE',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ABREVIATURA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
 
 module.exports = {
     linguisticDictionaryTableName,
@@ -479,5 +495,7 @@ module.exports = {
     newWordAttrib,
     newWordTableName,
     wordsDictionaryTableName,
-    wordsDictionaryAttrib
+    wordsDictionaryAttrib,
+    autoPhraseClosedQuestionTableName,
+    autoPhraseClosedQuestionAttrib
 };

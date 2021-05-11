@@ -19,6 +19,7 @@ const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
 const newWords = require('./newWords');
 const wordsDictionary = require('./wordsDictionary');
+const autoPhraseClosedQuestion = require('./autoPhraseClosedQuestion');
 
 module.exports = {
     ...assignments,
@@ -41,5 +42,6 @@ module.exports = {
     ...networkTypes,
     ...autoPhrases,
     ...newWords,
-    ...wordsDictionary
+    ...wordsDictionary,
+    ...autoPhraseClosedQuestion
 };

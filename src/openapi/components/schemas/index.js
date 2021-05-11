@@ -14,6 +14,7 @@ const ValidateToken = require('./validateToken');
 const NomenclatorTypes = require('./nomenclatorTypes');
 const RelationshipTypes = require('./relationshipTypes');
 const AutoPhrase = require('./autoPhrase');
+const AutoPhraseClosedQuestion = require('./autoPhraseClosedQuestion');
 
 module.exports = {
     ArrayString: {
@@ -63,5 +64,6 @@ module.exports = {
     ValidateToken,
     NomenclatorTypes,
     RelationshipTypes,
-    AutoPhrase
+    AutoPhrase,
+    AutoPhraseClosedQuestion
 };
