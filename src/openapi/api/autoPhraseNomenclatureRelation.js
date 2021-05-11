@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/autoPhraseClosedQuestion': {
+    '/api/autoPhraseNomenclatureRelation': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases - Closed Questions'],
+            tags: ['Auto Phrases - Nomenclatures'],
             parameters: [
                 {
                     in: 'query',
@@ -24,7 +24,7 @@ module.exports = {
                                 properties: {
                                     relations: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/AutoPhraseClosedQuestion'}
+                                        items: {$ref: '#/components/schemas/AutoPhraseNomenclatureRelation'}
                                     }
                                 }
                             }
@@ -39,23 +39,20 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases - Closed Questions'],
+            tags: ['Auto Phrases - Nomenclatures'],
             requestBody: {
-                description: 'The new auto phrase and question relation to create',
+                description: 'The new auto phrase and nomenclature relation to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                autoPhraseId: {type: 'number'},
-                                sourceId: {type: 'number'},
-                                questionId: {type: 'number'},
-                                abbreviation: {type: 'string'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'},
                                 nomenclatorId: {type: 'number'},
                                 nomenclatureId: {type: 'string'},
+                                autoPhraseId: {type: 'number'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
                                 approved: {type: 'boolean'}
                             }
                         }
@@ -69,7 +66,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relation: {$ref: '#/components/schemas/AutoPhraseClosedQuestion'}}
+                                properties: {relation: {$ref: '#/components/schemas/AutoPhraseNomenclatureRelation'}}
                             }
                         }
                     }
@@ -81,46 +78,43 @@ module.exports = {
             }
         }
     },
-    '/api/autoPhraseClosedQuestion/{autoPhraseId}/{sourceId}/{questionId}': {
+    '/api/autoPhraseNomenclatureRelation/{nomenclatorId}/{nomenclatureId}/{autoPhraseId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases - Closed Questions'],
+            tags: ['Auto Phrases - Nomenclatures'],
             parameters: [
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'number'}
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'}
+                },
                 {
                     in: 'path',
                     name: 'autoPhraseId',
                     required: true,
                     schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'number'}
                 }
             ],
             requestBody: {
-                description: 'Auto phrase and question relation to update',
+                description: 'Auto phrase and nomenclature relation to update',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                autoPhraseId: {type: 'number'},
-                                sourceId: {type: 'number'},
-                                questionId: {type: 'number'},
-                                abbreviation: {type: 'string'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'},
                                 nomenclatorId: {type: 'number'},
                                 nomenclatureId: {type: 'string'},
+                                autoPhraseId: {type: 'number'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
                                 approved: {type: 'boolean'}
                             }
                         }
@@ -134,7 +128,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relation: {$ref: '#/components/schemas/AutoPhraseClosedQuestion'}}
+                                properties: {relation: {$ref: '#/components/schemas/AutoPhraseNomenclatureRelation'}}
                             }
                         }
                     }
@@ -147,23 +141,23 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases - Closed Questions'],
+            tags: ['Auto Phrases - Nomenclatures'],
             parameters: [
                 {
                     in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'number'}
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
                     name: 'autoPhraseId',
-                    required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
                     required: true,
                     schema: {type: 'number'}
                 }
@@ -175,7 +169,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relation: {$ref: '#/components/schemas/AutoPhraseClosedQuestion'}}
+                                properties: {relation: {$ref: '#/components/schemas/AutoPhraseNomenclatureRelation'}}
                             }
                         }
                     }
@@ -188,23 +182,23 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases - Closed Questions'],
+            tags: ['Auto Phrases - Nomenclatures'],
             parameters: [
                 {
                     in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'number'}
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
                     name: 'autoPhraseId',
-                    required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
                     required: true,
                     schema: {type: 'number'}
                 }

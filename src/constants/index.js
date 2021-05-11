@@ -442,6 +442,20 @@ const autoPhraseClosedQuestionAttrib = [
     'FECHA_BAJA'
 ];
 
+const autoPhraseNomenclatureRelationTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
+const autoPhraseNomenclatureRelationAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'ID_AUTOFRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -497,5 +511,8 @@ module.exports = {
     wordsDictionaryTableName,
     wordsDictionaryAttrib,
     autoPhraseClosedQuestionTableName,
-    autoPhraseClosedQuestionAttrib
+    autoPhraseClosedQuestionAttrib,
+    autoPhraseNomenclatureRelationTableName,
+    autoPhraseNomenclatureRelationAttrib
+
 };
