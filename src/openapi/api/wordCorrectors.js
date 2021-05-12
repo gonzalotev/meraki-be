@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/newWords': {
+    '/api/wordCorrectors': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['Words Correctors'],
             responses: {
                 200: {
                     description: 'Success',
@@ -16,13 +16,16 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id_operative: {type: 'integer'},
-                                                id_variable: {type: 'string'},
-                                                news_words: {type: 'string'},
+                                                incorrect: {type: 'string'},
+                                                correct: {type: 'string'},
+                                                destination_word: {type: 'boolean'},
+                                                observation: {type: 'string'},
+                                                approved: {type: 'boolean'},
                                                 frequence: {type: 'integer'},
-                                                abc: {type: 'string'},
-                                                corrected: {type: 'boolean'},
-                                                createdAt: {type: 'string'}
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
                                             }
                                         }
                                     }
@@ -39,7 +42,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['Words Correctors'],
             requestBody: {
                 description: 'The new  word to create',
                 required: true,
@@ -48,12 +51,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
-                                frequence: {type: 'integer'},
-                                abc: {type: 'string'},
-                                corrected: {type: 'boolean'}
+                                incorrect: {type: 'string'},
+                                correct: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'}
                             }
                         }
                     }
@@ -67,16 +68,19 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    newWord: {
+                                    wordCorrector: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
+                                            incorrect: {type: 'string'},
+                                            correct: {type: 'string'},
+                                            destination_word: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -91,10 +95,10 @@ module.exports = {
             }
         }
     },
-    '/api/newWords/{id}': {
+    '/api/wordCorrectors/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['Words Correctors'],
             parameters: [
                 {
                     in: 'path',
@@ -105,20 +109,23 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new word to create',
+                description: 'The new  word to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
+                                incorrect: {type: 'string'},
+                                correct: {type: 'string'},
+                                destination_word: {type: 'boolean'},
+                                observation: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 frequence: {type: 'integer'},
-                                abc: {type: 'string'},
-                                corrected: {type: 'boolean'},
-                                createdAt: {type: 'string'}
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -132,16 +139,19 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    newWord: {
+                                    wordCorrector: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
+                                            incorrect: {type: 'string'},
+                                            correct: {type: 'string'},
+                                            destination_word: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -157,7 +167,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['Words Correctors'],
             parameters: [
                 {
                     in: 'path',
@@ -177,7 +187,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['Words Correctors'],
             parameters: [
                 {
                     in: 'path',
@@ -195,16 +205,19 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    newWord: {
+                                    wordCorrector: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
+                                            incorrect: {type: 'string'},
+                                            correct: {type: 'string'},
+                                            destination_word: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
                                         }
                                     }
                                 }

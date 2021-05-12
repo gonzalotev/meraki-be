@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/newWords': {
+    '/api/newPhrases': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['News Phrases'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    words: {
+                                    phrases: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
@@ -19,6 +19,8 @@ module.exports = {
                                                 id_operative: {type: 'integer'},
                                                 id_variable: {type: 'string'},
                                                 news_words: {type: 'string'},
+                                                id_phrase: {type: 'integer'},
+                                                news_phrases: {type: 'string'},
                                                 frequence: {type: 'integer'},
                                                 abc: {type: 'string'},
                                                 corrected: {type: 'boolean'},
@@ -39,7 +41,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['News Phrases'],
             requestBody: {
                 description: 'The new  word to create',
                 required: true,
@@ -51,6 +53,8 @@ module.exports = {
                                 id_operative: {type: 'integer'},
                                 id_variable: {type: 'string'},
                                 news_words: {type: 'string'},
+                                id_phrase: {type: 'integer'},
+                                news_phrases: {type: 'string'},
                                 frequence: {type: 'integer'},
                                 abc: {type: 'string'},
                                 corrected: {type: 'boolean'}
@@ -67,12 +71,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    newWord: {
+                                    newPhrase: {
                                         type: 'object',
                                         properties: {
                                             id_operative: {type: 'integer'},
                                             id_variable: {type: 'string'},
                                             news_words: {type: 'string'},
+                                            id_phrase: {type: 'integer'},
+                                            news_phrases: {type: 'string'},
                                             frequence: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
@@ -91,10 +97,10 @@ module.exports = {
             }
         }
     },
-    '/api/newWords/{id}': {
+    '/api/newPhrases/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['News Phrases'],
             parameters: [
                 {
                     in: 'path',
@@ -115,6 +121,8 @@ module.exports = {
                                 id_operative: {type: 'integer'},
                                 id_variable: {type: 'string'},
                                 news_words: {type: 'string'},
+                                id_phrase: {type: 'integer'},
+                                news_phrases: {type: 'string'},
                                 frequence: {type: 'integer'},
                                 abc: {type: 'string'},
                                 corrected: {type: 'boolean'},
@@ -132,12 +140,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    newWord: {
+                                    newPhrase: {
                                         type: 'object',
                                         properties: {
                                             id_operative: {type: 'integer'},
                                             id_variable: {type: 'string'},
                                             news_words: {type: 'string'},
+                                            id_phrase: {type: 'integer'},
+                                            news_phrases: {type: 'string'},
                                             frequence: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
@@ -157,7 +167,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['News Phrases'],
             parameters: [
                 {
                     in: 'path',
@@ -177,7 +187,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['News Words'],
+            tags: ['News Phrases'],
             parameters: [
                 {
                     in: 'path',
@@ -195,12 +205,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    newWord: {
+                                    newPhrase: {
                                         type: 'object',
                                         properties: {
                                             id_operative: {type: 'integer'},
                                             id_variable: {type: 'string'},
                                             news_words: {type: 'string'},
+                                            id_phrase: {type: 'integer'},
+                                            news_phrases: {type: 'string'},
                                             frequence: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},

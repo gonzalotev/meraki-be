@@ -1,5 +1,5 @@
 const ModelCreate = include('helpers/modelCreate');
-const {rolesTableName, rolesAttrib} = include('constants');
+const {rolesTypeAttrib, rolesTypeTableName} = include('constants');
 const name = 'roles';
 
 class Roles extends ModelCreate {
@@ -7,8 +7,8 @@ class Roles extends ModelCreate {
         super({
             ...props,
             name,
-            tableName: rolesTableName,
-            selectableProps: rolesAttrib
+            tableName: rolesTypeTableName,
+            selectableProps: rolesTypeAttrib
         });
     }
 }

@@ -9,10 +9,10 @@ class NewWordService {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
             news_words: newWord.NUEVAS_PALABRAS,
-            frequencies: newWord.FRECUENCIAS,
+            frequence: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA)
         }));
     }
 
@@ -21,10 +21,10 @@ class NewWordService {
             ID_OPERATIVO: trim(params.id_operative),
             ID_VARIABLE: trim(params.id_variable),
             NUEVAS_PALABRAS: trim(params.news_words),
-            FRECUENCIAS: trim(params.frequencies),
+            FRECUENCIAS: trim(params.frequence),
             ABC: params.abc,
             CORREGIDA: params.corrected,
-            FECHA_ALTA_PALABRA: new Date()
+            FECHA_ALTA: new Date()
         };
         const newWord = await newWordModel.insertOne(formattedNewWord);
 
@@ -32,10 +32,10 @@ class NewWordService {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
             news_words: newWord.NUEVAS_PALABRAS,
-            frequencies: newWord.FRECUENCIAS,
+            frequence: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
 
@@ -46,10 +46,10 @@ class NewWordService {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
             news_words: newWord.NUEVAS_PALABRAS,
-            frequencies: newWord.FRECUENCIAS,
+            frequence: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
 
@@ -58,10 +58,10 @@ class NewWordService {
             ID_OPERATIVO: trim(params.id_operative),
             ID_VARIABLE: trim(params.id_variable),
             NUEVAS_PALABRAS: trim(params.news_words),
-            FRECUENCIAS: trim(params.frequencies),
+            FRECUENCIAS: trim(params.frequence),
             ABC: params.abc,
             CORREGIDA: params.corrected,
-            FECHA_ALTA_PALABRA: new Date()
+            FECHA_ALTA: new Date()
         };
         const newWord = await newWordModel.updateOne(
             {ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable},
@@ -70,10 +70,10 @@ class NewWordService {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
             news_words: newWord.NUEVAS_PALABRAS,
-            frequencies: newWord.FRECUENCIAS,
+            frequence: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
-            createdAt: dateToString(newWord.FECHA_ALTA_PALABRA)
+            createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
 

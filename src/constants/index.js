@@ -86,6 +86,17 @@ const networkTypeAttrib = [
     'FECHA_BAJA',
     'ID_USUARIO_BAJA'
 ];
+const rolesTableName = 'ROLES_SICI';
+
+const rolesAttrib = [
+    'ID_USUARIO',
+    'ID_ROL_USUARIO',
+    'DESCRIPCION',
+    'DOMINIO',
+    'OBSERVACION',
+    'FECHA_BAJA',
+    'FECHA_ALTA'
+];
 
 const assignmentRolesTableName = 'ROLES_SICI';
 
@@ -316,6 +327,33 @@ const newWordAttrib = [
     'FECHA_ALTA'
 ];
 
+const newPhraseTableName = 'NUEVAS_FRASES';
+const newPhraseAttrib = [
+    'ID_OPERATIVO',
+    'ID_VARIABLE',
+    'NUEVAS_PALABRAS',
+    'ID_FRASE',
+    'NUEVAS_FRASES',
+    'FRECUENCIAS',
+    'ABC',
+    'CORREGIDA',
+    'FECHA_ALTA'
+];
+
+const wordCorrectorTableName = 'CORRECTOR_DE_PALABRAS';
+const wordCorrectorAttrib = [
+    'INCORRECTA',
+    'CORRECTA',
+    'DESTINO_PALABRA_FRASE_SI_NO',
+    'OBSERVACION',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'FRECUENCIA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 const nomenclatorSubtypeTableName = 'SUBTIPO_DE_NOMENCLADOR';
 const nomenclatorSubtypeAttrib = [
     'ID_TIPO',
@@ -426,6 +464,8 @@ module.exports = {
     datesWithUserAttrib,
     lotsAttrib,
     lotsTableName,
+    rolesTableName,
+    rolesAttrib,
     variablesAttrib,
     assignmentRoleNomenclatorsTableName,
     assignmentRoleNomenclatorsAttrib,
@@ -462,5 +502,9 @@ module.exports = {
     newWordAttrib,
     newWordTableName,
     wordsDictionaryTableName,
-    wordsDictionaryAttrib
+    wordsDictionaryAttrib,
+    wordCorrectorTableName,
+    wordCorrectorAttrib,
+    newPhraseTableName,
+    newPhraseAttrib
 };

@@ -27,7 +27,7 @@ class ModelCreate {
         this.name = name || 'name',
         this.tableName = tableName || 'tablename',
         this.selectableProps = selectableProps || [],
-        this.timeout = timeout || 10000;
+        this.timeout = timeout || 20000;
     }
 
     async startTransaction () {
