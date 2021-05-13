@@ -1,14 +1,18 @@
-const assign = require('lodash/assign');
-const { RolesService } = include('services');
+const { RolesService, DictionaryTypeService, StaticalVariableService } = include('services');
 
 class StaticDataController {
     static async fetch(req, res, next) {
         try {
             const data = {};
-            const {roles} = req.query;
+            const {roles, dictionaryTypes, variables} = req.query;
             if(roles) {
-                const roles = await RolesService.fetch();
-                assign(data, {roles});
+                await RolesService.shortFetch(data);
+            }
+            if (dictionaryTypes) {
+                await DictionaryTypeService.shortFetch(data);
+            }
+            if(variables){
+                await StaticalVariableService.shortFetch(data);
             }
             res.send(data);
         } catch(error) {

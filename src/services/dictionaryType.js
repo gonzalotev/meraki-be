@@ -22,7 +22,17 @@ class DictionaryTypeService {
             deletedAt: dateToString(dictionaryType.FECHA_BAJA)
         }));
     }
-
+    static async shortFetch(data) {
+        const dictionarysTypes = await dictionaryTypeModel.find(
+            {SUPERVISADO: true, FECHA_BAJA: null},
+            ['ID_TIPOLOGIA_DE_DICCIONARIO', 'DESCRIPCION']
+        );
+        const dictionaries = dictionarysTypes.map(dictionaryType => ({
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION
+        }));
+        return data.dictionaries = dictionaries;
+    }
     static async create(params, userCreator) {
         const formattedDictionaryType = {
             ID_TIPOLOGIA_DE_DICCIONARIO: trim(params.id),

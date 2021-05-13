@@ -13,6 +13,18 @@ module.exports = {
                     name: 'roles',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'dictionaryTypes',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'variables',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {
@@ -26,6 +38,10 @@ module.exports = {
                                     roles: {
                                         type: 'array',
                                         items: { $ref: '#/components/schemas/Roles'}
+                                    },
+                                    dictionaries: {
+                                        type: 'array',
+                                        items: {}
                                     }
                                 },
                                 example: {
