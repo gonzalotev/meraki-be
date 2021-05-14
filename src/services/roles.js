@@ -17,7 +17,21 @@ class RoleService {
             deletedAt: dateToString(role.FECHA_BAJA)
         }));
     }
+    static async shortFetch(data) {
+        const rolesSici = await rolesModel.find();
 
+        const roles = rolesSici.map(role => ({
+            id: role.ID_ROL_USUARIO,
+            description: role.DESCRIPCION,
+            observation: role.OBSERVACION,
+            domain: role.DOMINIO,
+            createdAt: dateToString(role.FECHA_ALTA),
+            userCreator: role.ID_USUARIO_ALTA,
+            userDeleted: role.ID_USUARIO_BAJA,
+            deletedAt: dateToString(role.FECHA_BAJA)
+        }));
+        return data.roles = roles;
+    }
     static async create(params, userCreator) {
         const formattedRole = {
             ID_ROL_USUARIO: params.id,

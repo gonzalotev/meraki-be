@@ -20,7 +20,18 @@ class StaticalVariableService {
             deletedAt: dateToString(staticalVariable.FECHA_BAJA)
         }));
     }
-
+    static async shortFetch(data) {
+        const staticalVariables = await staticalVariableModel.find(
+            {SUPERVISADO: true, FECHA_BAJA: null},
+            ['ID_VARIABLE', 'NOMBRE', 'ABREVIATURA']
+        );
+        const variables = staticalVariables.map(staticalVariable => ({
+            id: staticalVariable.ID_VARIABLE,
+            name: staticalVariable.NOMBRE,
+            abbreviation: staticalVariable.ABREVIATURA
+        }));
+        return data.variables = variables;
+    }
     static async create(params, userCreator) {
         const formattedStaticalVariable = {
             ID_VARIABLE: trim(params.id),
