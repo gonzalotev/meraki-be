@@ -21,7 +21,7 @@ class ClassifierTypeService {
 
     static async create(params, userCreator) {
         const formattedClassifierType = {
-            ID_TIPO_CLASIFICADOR: null,
+            ID_TIPO_CLASIFICADOR: trim(params.id),
             ABREVIATURA: trim(params.abbreviation),
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),

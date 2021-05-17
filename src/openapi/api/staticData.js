@@ -22,6 +22,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'words',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'variables',
                     required: false,
                     schema: {type: 'boolean'}

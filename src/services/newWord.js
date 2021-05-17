@@ -15,7 +15,35 @@ class NewWordService {
             createdAt: dateToString(newWord.FECHA_ALTA)
         }));
     }
-
+    static async shortFetch(data) {
+        const newsWords = await newWordModel.find(
+            {ID_OPERATIVO: true},
+            ['ID_VARIABLE', 'ID_OPERATIVO', 'NUEVAS_PALABRAS', 'FRECUENCIAS', 'ABC']
+        );
+        const words = newsWords.map(newWord => ({
+            id_operative: newWord.ID_OPERATIVO,
+            id_variable: newWord.ID_VARIABLE,
+            news_words: newWord.NUEVAS_PALABRAS,
+            frequence: newWord.FRECUENCIAS,
+            abc: newWord.ABC
+        }));
+        return data.words = words;
+    }
+    static async find(filters){
+        const newWord = await newWordModel.findById({
+            ID_OPERATIVO: filters.id_operative,
+            ID_VARIABLE: filters.id_variable
+        });
+        return {
+            id_operative: newWord.ID_OPERATIVO,
+            id_variable: newWord.ID_VARIABLE,
+            news_words: newWord.NUEVAS_PALABRAS,
+            frequence: newWord.FRECUENCIAS,
+            abc: newWord.ABC,
+            corrected: newWord.CORREGIDA,
+            createdAt: dateToString(newWord.FECHA_ALTA)
+        };
+    }
     static async create(params) {
         const formattedNewWord = {
             ID_OPERATIVO: trim(params.id_operative),
@@ -28,20 +56,6 @@ class NewWordService {
         };
         const newWord = await newWordModel.insertOne(formattedNewWord);
 
-        return {
-            id_operative: newWord.ID_OPERATIVO,
-            id_variable: newWord.ID_VARIABLE,
-            news_words: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
-            abc: newWord.ABC,
-            corrected: newWord.CORREGIDA,
-            createdAt: dateToString(newWord.FECHA_ALTA)
-        };
-    }
-
-    static async findOne(filters){
-        const newWord = await newWordModel.findById(
-            {ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable});
         return {
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,

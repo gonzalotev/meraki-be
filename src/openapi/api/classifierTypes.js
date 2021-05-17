@@ -16,7 +16,7 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
+                                                id: {type: 'string'},
                                                 abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
                                                 observation: {type: 'string'},
@@ -77,7 +77,7 @@ module.exports = {
                                     classifier: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
@@ -110,7 +110,7 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -122,7 +122,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
@@ -149,7 +149,7 @@ module.exports = {
                                     classifier: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
@@ -180,7 +180,7 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -203,7 +203,7 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -218,7 +218,7 @@ module.exports = {
                                     classifier: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
