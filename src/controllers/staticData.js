@@ -1,10 +1,23 @@
-const { RolesService, NewWordService, DictionaryTypeService, StaticalVariableService } = include('services');
+const {
+    RolesService,
+    NewWordService,
+    DictionaryTypeService,
+    StaticalVariableService,
+    StaticDataService
+} = include('services');
 
 class StaticDataController {
     static async fetch(req, res, next) {
         try {
             const data = {};
-            const {roles, dictionaryTypes, variables, words} = req.query;
+            const {
+                roles,
+                dictionaryTypes,
+                variables,
+                words,
+                genders,
+                operatives
+            } = req.query;
             if(roles) {
                 await RolesService.shortFetch(data);
             }
@@ -16,6 +29,12 @@ class StaticDataController {
             }
             if(variables){
                 await StaticalVariableService.shortFetch(data);
+            }
+            if(genders){
+                await StaticDataService.getGenders(data);
+            }
+            if(operatives){
+                await StaticDataService.getOperatives(data);
             }
             res.send(data);
         } catch(error) {

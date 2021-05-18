@@ -31,6 +31,18 @@ module.exports = {
                     name: 'variables',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'genders',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'operatives',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {
