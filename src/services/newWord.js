@@ -16,8 +16,7 @@ class NewWordService {
         }));
     }
     static async shortFetch(data) {
-        const newsWords = await newWordModel.find(
-            {ID_OPERATIVO: true},
+        const newsWords = await newWordModel.find({},
             ['ID_VARIABLE', 'ID_OPERATIVO', 'NUEVAS_PALABRAS', 'FRECUENCIAS', 'ABC']
         );
         const words = newsWords.map(newWord => ({

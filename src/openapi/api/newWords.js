@@ -51,7 +51,7 @@ module.exports = {
                                 id_operative: {type: 'integer'},
                                 id_variable: {type: 'string'},
                                 news_words: {type: 'string'},
-                                frequence: {type: 'integer'},
+                                frequence: {type: 'string'},
                                 abc: {type: 'string'},
                                 corrected: {type: 'boolean'}
                             }
