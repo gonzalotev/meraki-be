@@ -12,8 +12,8 @@ class WordsDictionaryController {
 
     static async find(req, res, next) {
         try {
-            const word = await WordsDictionaryService.findOne(req.params);
-            res.send({ word });
+            const wordDictionary = await WordsDictionaryService.findOne(req.params);
+            res.send({ wordDictionary });
         } catch(error) {
             next(error);
         }
