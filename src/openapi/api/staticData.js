@@ -212,5 +212,34 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/staticData/newWords': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Static Data'],
+            summary: 'Get operatives with their variables',
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    operatives: {
+                                        type: 'array',
+                                        items: {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
     }
 };
