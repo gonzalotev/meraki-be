@@ -1,6 +1,7 @@
 const { newWord: newWordModel } = include('models');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class NewWordService {
     static async fetch() {
@@ -14,6 +15,14 @@ class NewWordService {
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
         }));
+    }
+    static async fetchOperativeVariables(){
+        const operatives = await newWordModel.getOperatives();
+        const operativeVariables = await Promise.all(map(operatives, async operative => {
+            const variables = await newWordModel.getVariables(operative.id);
+            return {...operative, variables};
+        }));
+        return operativeVariables;
     }
     static async shortFetch(data) {
         const newsWords = await newWordModel.find(

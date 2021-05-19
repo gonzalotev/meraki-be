@@ -27,6 +27,17 @@ class OperativeService {
             createdAt: dateTimeToString(operative.FECHA_ALTA)
         }));
     }
+    static async shortFetch(data) {
+        const operatives = await operativesModel.find(
+            {FECHA_BAJA: null},
+            ['ID_OPERATIVO', 'DESCRIPCION']
+        );
+        const formattedOperatives = operatives.map(operative => ({
+            id: operative.ID_OPERATIVO,
+            description: operative.DESCRIPCION
+        }));
+        return data.operatives = formattedOperatives;
+    }
     static async create(params, userCreator){
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
