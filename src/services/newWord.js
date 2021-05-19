@@ -16,14 +16,16 @@ class NewWordService {
         }));
     }
     static async shortFetch(data) {
-        const newsWords = await newWordModel.find({},
-            ['ID_VARIABLE', 'ID_OPERATIVO', 'NUEVAS_PALABRAS', 'FRECUENCIAS', 'ABC']
+        const newsWords = await newWordModel.find(
+            {},
+            ['ID_VARIABLE', 'ID_OPERATIVO', 'NUEVAS_PALABRAS', 'CORREGIDA', 'FRECUENCIAS', 'ABC']
         );
         const words = newsWords.map(newWord => ({
             id_operative: newWord.ID_OPERATIVO,
             id_variable: newWord.ID_VARIABLE,
             news_words: newWord.NUEVAS_PALABRAS,
             frequence: newWord.FRECUENCIAS,
+            corrected: newWord.CORREGIDA,
             abc: newWord.ABC
         }));
         return data.words = words;
