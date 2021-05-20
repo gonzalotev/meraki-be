@@ -54,6 +54,22 @@ class NewWordService {
             createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
+    static async findFirst(filters){
+        const newWord = await newWordModel.findOne({
+            ID_OPERATIVO: filters.operative,
+            ID_VARIABLE: filters.variable,
+            CORREGIDA: null
+        });
+        return {
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frequence: newWord.FRECUENCIAS,
+            abc: newWord.ABC,
+            corrected: newWord.CORREGIDA,
+            createdAt: dateToString(newWord.FECHA_ALTA)
+        };
+    }
     static async create(params) {
         const formattedNewWord = {
             ID_OPERATIVO: trim(params.id_operative),
