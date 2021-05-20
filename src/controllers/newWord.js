@@ -60,6 +60,14 @@ class NewWordController {
             next(error);
         }
     }
+    static async findFirst(req, res, next){
+        try{
+            const newWord = await NewWordService.findFirst(req.params);
+            res.send({newWord});
+        }catch(error){
+            next(error);
+        }
+    }
 }
 
 module.exports = NewWordController;

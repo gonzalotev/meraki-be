@@ -91,6 +91,59 @@ module.exports = {
             }
         }
     },
+    '/api/newWords/{operative}/{variable}': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['News Words'],
+            description: 'Get the firts new word with operative and variable',
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'operative',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'Operative id of new word'
+                },
+                {
+                    in: 'path',
+                    name: 'variable',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'Variable id of new word'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    newWord: {
+                                        type: 'object',
+                                        properties: {
+                                            id_operative: {type: 'integer'},
+                                            id_variable: {type: 'string'},
+                                            news_words: {type: 'string'},
+                                            frequence: {type: 'integer'},
+                                            abc: {type: 'string'},
+                                            corrected: {type: 'boolean'},
+                                            createdAt: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
     '/api/newWords/{id}': {
         put: {
             security: [{bearerAuth: []}],
