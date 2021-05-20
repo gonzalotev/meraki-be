@@ -49,6 +49,12 @@ module.exports = {
                     name: 'variablesNewsWords',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'newWoord',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {
@@ -206,6 +212,35 @@ module.exports = {
                                     nomenclators: {
                                         type: 'array',
                                         items: { $ref: '#/components/schemas/StatisticalVariable'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/staticData/newWords': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Static Data'],
+            summary: 'Get operatives with their variables',
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    operatives: {
+                                        type: 'array',
+                                        items: {}
                                     }
                                 }
                             }

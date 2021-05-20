@@ -8,27 +8,16 @@ class StaticDataService {
         }).from('GENERO_Y_NUMERO');
         return data.genders = genders;
     }
-    static async getOperatives(data){
-        const operatives = await knex.select({
-            id: 'ID_OPERATIVO',
-            description: 'DESCRIPCION'
-        })
-            .from('OPERATIVOS')
-            .whereExists(function() {
-                this.select('*').from('NUEVAS_PALABRAS').whereRaw('operativos.id_operativo = nuevas_palabras.id_operativo');
-            });
-        return data.operatives = operatives;
-    }
-    static async getVariablesNewsWords(data){
-        const variablesNewsWords = await knex.select({
-            id: 'ID_VARIABLE',
-            name: 'NOMBRE'
-        })
-            .from('VARIABLES_ESTADISTICAS')
-            .whereExists(function() {
-                this.select('*').from('NUEVAS_PALABRAS').whereRaw('variables_estadisticas.id_variable = nuevas_palabras.id_variable');
-            });
-        return data.variablesNewsWords = variablesNewsWords;
+    static async getNewWord(data){
+        const newWoord = await knex.select({
+            id_operative: 'ID_OPERATIVO',
+            id_variable: 'ID_VARIABLE',
+            news_words: 'NUEVAS_PALABRAS',
+            frequence: 'FRECUENCIAS',
+            abc: 'ABC',
+            corrected: 'CORREGIDA'
+        }).from('NUEVAS_PALABRAS');
+        return data.newWoord = newWoord;
     }
 }
 

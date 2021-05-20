@@ -3,7 +3,8 @@ const {
     StaticalVariableController,
     NomenclatorsController,
     LotsController,
-    RolesController
+    RolesController,
+    NewWordController
 } = include('controllers');
 
 module.exports = router => {
@@ -12,6 +13,6 @@ module.exports = router => {
     router.route('/shortDescription').get(NomenclatorsController.fetchStaticNomenclators);
     router.route('/lots').get(LotsController.fetchStaticLots);
     router.route('/roles').get(RolesController.fetch);
-
+    router.route('/newWords').get(NewWordController.fetchStaticData);
     return router;
 };

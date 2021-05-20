@@ -4,7 +4,8 @@ class NewWordController {
     static async fetch(req, res, next) {
         try {
             const newsWords = await NewWordService.fetch();
-            res.send({ newsWords });
+            const uniqueOperativeVariable = await NewWordService.fetchOperativeVariables();
+            res.send({ newsWords, uniqueOperativeVariable });
         } catch(error) {
             next(error);
         }
@@ -48,6 +49,15 @@ class NewWordController {
             }
         } catch(err) {
             next(err);
+        }
+    }
+
+    static async fetchStaticData(req, res, next){
+        try{
+            const operatives = await NewWordService.fetchOperativeVariables();
+            res.send({operatives});
+        } catch(error){
+            next(error);
         }
     }
 }
