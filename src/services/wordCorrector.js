@@ -8,7 +8,7 @@ class WordCorrectorService {
         return WordsCorrectors.map(wordCorrector => ({
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,
-            destination_word: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
             approved: wordCorrector.SUPERVISADO,
             frequence: wordCorrector.FRECUENCIA,
@@ -23,7 +23,7 @@ class WordCorrectorService {
         const formattedWordCorrector = {
             INCORRECTA: trim(params.incorrect),
             CORRECTA: trim(params.description),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.destination_word),
+            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
             OBSERVACION: trim(params.observation),
             FRECUENCIA: trim(params.frequence),
             SUPERVISADO: params.approved,
@@ -37,7 +37,7 @@ class WordCorrectorService {
         return {
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,
-            destination_word: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
             approved: !!wordCorrector.SUPERVISADO,
             frequence: wordCorrector.FRECUENCIA,
@@ -53,7 +53,7 @@ class WordCorrectorService {
         return {
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,
-            destination_word: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
             approved: wordCorrector.SUPERVISADO,
             frequence: wordCorrector.FRECUENCIA,
@@ -68,7 +68,7 @@ class WordCorrectorService {
         const formattedWordCorrector = {
             INCORRECTA: trim(params.incorrect),
             CORRECTA: trim(params.description),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.destination_word),
+            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
             OBSERVACION: trim(params.observation),
             FRECUENCIA: trim(params.frequence),
             SUPERVISADO: params.approved,
@@ -81,7 +81,7 @@ class WordCorrectorService {
         return {
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,
-            destination_word: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
             approved: wordCorrector.SUPERVISADO,
             frequence: wordCorrector.FRECUENCIA,
