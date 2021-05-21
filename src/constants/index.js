@@ -510,7 +510,7 @@ const operativeSourcesAttrib = [
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',
-    'FECHA_ALTA'
+    'FECHA_BAJA'
 ];
 
 module.exports = {
