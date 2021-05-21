@@ -22,6 +22,7 @@ class NewWordController {
 
     static async create(req, res, next){
         try {
+            console.log(req.body);
             const newWord = await NewWordService.create(req.body, req.user.id);
             res.status(201);
             res.send({ newWord });
