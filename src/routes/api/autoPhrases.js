@@ -1,12 +1,12 @@
-const {AutoPhrasesController} = include('controllers');
+const {AutoPhraseController} = include('controllers');
 
 module.exports = router => {
     router.route('/')
-        .get(AutoPhrasesController.fetch)
-        .post(AutoPhrasesController.create);
+        .get(AutoPhraseController.fetch)
+        .post(AutoPhraseController.create);
     router.route('/:id')
-        .get(AutoPhrasesController.find)
-        .put(AutoPhrasesController.update)
-        .delete(AutoPhrasesController.delete);
+        .get(AutoPhraseController.find)
+        .put(AutoPhraseController.update)
+        .delete(AutoPhraseController.delete);
     return router;
 };
