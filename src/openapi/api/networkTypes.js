@@ -51,6 +51,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
+                                id: {type: 'integer'},
                                 abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
