@@ -2,7 +2,7 @@ module.exports = {
     '/api/networkTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Network Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -16,7 +16,7 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
+                                                id: {type: 'string'},
                                                 abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
                                                 observation: {type: 'string'},
@@ -42,7 +42,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Network Types'],
             requestBody: {
                 description: 'The new  type of network to create',
                 required: true,
@@ -51,7 +51,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
@@ -78,7 +78,7 @@ module.exports = {
                                     network: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
@@ -105,13 +105,13 @@ module.exports = {
     '/api/networkTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Network Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -123,7 +123,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
@@ -150,7 +150,7 @@ module.exports = {
                                     network: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
@@ -175,13 +175,13 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Network Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -198,13 +198,13 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Network Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -219,7 +219,7 @@ module.exports = {
                                     network: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},

@@ -20,7 +20,7 @@ class EditorService {
 
     static async create(params, userCreator) {
         const formattedEditor = {
-            ID_EDITOR: null,
+            ID_EDITOR: trim(params.id),
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),

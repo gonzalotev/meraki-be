@@ -5,9 +5,9 @@ const dictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
 const staticalVariables = require('./staticalVariables');
 const rolesTypes = require('./rolesTypes');
-const chatTypes = require('./chatTypes');
+const ticketTypes = require('./ticketTypes');
 const questionTypes = require('./questionTypes');
-const classifierTypes = require('./classifierTypes');
+const organizationTypes = require('./organizationTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const relationshipTypes = require('./relationshipTypes');
 const dictionaryTypes = require('./dictionaryTypes');
@@ -29,14 +29,14 @@ module.exports = {
     ...users,
     ...staticData,
     ...rolesTypes,
-    ...chatTypes,
+    ...ticketTypes,
     ...specialPhrasesTypes,
     ...relationshipTypes,
     ...dictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
     ...editors,
-    ...classifierTypes,
+    ...organizationTypes,
     ...questionTypes,
     ...nomenclatorTypes,
     ...networkTypes,

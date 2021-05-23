@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/chatTypes': {
+    '/api/ticketTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Tickets Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chats: {
+                                    tickets: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
@@ -41,9 +41,9 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Tickets Types'],
             requestBody: {
-                description: 'The new  type of chat to create',
+                description: 'The new  type of ticket to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -67,7 +67,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chatType: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -93,10 +93,10 @@ module.exports = {
             }
         }
     },
-    '/api/chatTypes/{id}': {
+    '/api/ticketTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Tickets Types'],
             parameters: [
                 {
                     in: 'path',
@@ -107,7 +107,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of chat to create',
+                description: 'The new  type of ticket to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -136,7 +136,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chatType: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
@@ -163,7 +163,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Tickets Types'],
             parameters: [
                 {
                     in: 'path',
@@ -183,7 +183,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Tickets Types'],
             parameters: [
                 {
                     in: 'path',
@@ -201,7 +201,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chatType: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},

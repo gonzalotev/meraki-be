@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/relationship-types': {
+    '/api/relationshipTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,9 +11,23 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relations: {
+                                    relationships: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/RelationshipTypes'}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
+                                                description: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -28,19 +42,25 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Types'],
             requestBody: {
-                description: 'The new  type of relation to create',
+                description: 'The new  type of relationship to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
+                                id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                approved: {type: 'boolean'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -53,7 +73,24 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relation: {$ref: '#/components/schemas/RelationshipTypes'}}
+                                properties: {
+                                    success: {type: 'boolean'},
+                                    relationship: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -65,23 +102,41 @@ module.exports = {
             }
         }
     },
-    '/api/relationship-types/{id}': {
+    '/api/relationshipTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'integer'},
-                    description: 'Relation type id to update'
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new  type of relation to create',
+                description: 'The new  type of relationship to create',
                 required: true,
-                content: {'application/json': {schema: {$ref: '#/components/schemas/RelationshipTypes'}}}
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
+                                description: {type: 'string'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
+                            }
+                        }
+                    }
+                }
             },
             responses: {
                 200: {
@@ -90,7 +145,24 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relation: {$ref: '#/components/schemas/RelationshipTypes'}}
+                                properties: {
+                                    success: {type: 'boolean'},
+                                    relationship: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -103,18 +175,21 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'integer'},
-                    description: 'Relation type id to delete'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
-                204: {description: 'The resource was deleted successfully.'},
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -123,14 +198,14 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
                     schema: {type: 'integer'},
-                    description: 'Relation type id to get'
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -140,7 +215,23 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relation: {$ref: '#/components/schemas/RelationshipTypes'}}
+                                properties: {
+                                    relationship: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

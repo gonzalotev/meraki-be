@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/classifierTypes': {
+    '/api/organizationTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Organization Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    classifiers: {
+                                    organizations: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
@@ -42,9 +42,9 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Organization Types'],
             requestBody: {
-                description: 'The new  type of classifier to create',
+                description: 'The new  type of organization to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -74,7 +74,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    classifier: {
+                                    organization: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -101,10 +101,10 @@ module.exports = {
             }
         }
     },
-    '/api/classifierTypes/{id}': {
+    '/api/organizationTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Organization Types'],
             parameters: [
                 {
                     in: 'path',
@@ -115,7 +115,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of classifier to create',
+                description: 'The new  type of organization to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -146,7 +146,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    classifier: {
+                                    organization: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
@@ -174,7 +174,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Organization Types'],
             parameters: [
                 {
                     in: 'path',
@@ -197,7 +197,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Organization Types'],
             parameters: [
                 {
                     in: 'path',
@@ -215,7 +215,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    classifier: {
+                                    organization: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},

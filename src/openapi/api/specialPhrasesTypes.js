@@ -11,12 +11,13 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    specialPhrasesTypes: {
+                                    phrases: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
@@ -43,13 +44,15 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Types'],
             requestBody: {
-                description: 'The new  type of special phrase to create',
+                description: 'The new  type of specialPhrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
+                                id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -72,10 +75,11 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    specialPhraseType: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -112,7 +116,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of special phrase to create',
+                description: 'The new  type of specialPhrase to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -120,6 +124,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -142,10 +147,11 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    specialPhraseType: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -180,8 +186,9 @@ module.exports = {
                 }
             ],
             responses: {
-                204: {
-                    description: 'ok'
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
                 },
                 default: {
                     description: 'Error',
@@ -209,10 +216,11 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    specialPhraseType: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},

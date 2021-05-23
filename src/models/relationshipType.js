@@ -1,16 +1,16 @@
 const ModelCreate = include('helpers/modelCreate');
-const {relationTypeTableName, relationTypeAttrib} = include('constants');
+const {relationTypeAttrib, relationTypeTableName} = include('constants');
 const name = 'relationshipType';
 
-class RelationshipType extends ModelCreate{
-    constructor(props){
+class SpecialPhraseType extends ModelCreate {
+    constructor(props) {
         super({
             ...props,
             name,
-            tableName: relationTypeTableName,
-            selectableProps: relationTypeAttrib
+            selectableProps: relationTypeAttrib,
+            tableName: relationTypeTableName
         });
     }
 }
 
-module.exports = knex => new RelationshipType({knex});
+module.exports = knex => new SpecialPhraseType({ knex });

@@ -1,10 +1,10 @@
-const { ClassifierTypeService } = include('services');
+const { TicketTypeService } = include('services');
 
-class ClassifierTypeController {
+class TicketTypeController {
     static async fetch(req, res, next) {
         try {
-            const classifiersTypes = await ClassifierTypeService.fetch();
-            res.send({ classifiersTypes });
+            const ticketsTypes = await TicketTypeService.fetch();
+            res.send({ ticketsTypes });
         } catch(error) {
             next(error);
         }
@@ -12,8 +12,8 @@ class ClassifierTypeController {
 
     static async find(req, res, next) {
         try {
-            const classifierType = await ClassifierTypeService.findOne(req.params);
-            res.send({ classifierType });
+            const ticketType = await TicketTypeService.findOne(req.params);
+            res.send({ ticketType });
         } catch(error) {
             next(error);
         }
@@ -21,9 +21,9 @@ class ClassifierTypeController {
 
     static async create(req, res, next){
         try {
-            const classifierType = await ClassifierTypeService.create(req.body, req.user.id);
+            const ticketType = await TicketTypeService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ classifierType });
+            res.send({ ticketType });
         } catch(err) {
             next(err);
         }
@@ -31,8 +31,8 @@ class ClassifierTypeController {
 
     static async update(req, res, next){
         try {
-            const classifierType = await ClassifierTypeService.update(req.params, req.body);
-            res.send({classifierType});
+            const ticketType = await TicketTypeService.update(req.params, req.body);
+            res.send({ticketType});
         } catch(err){
             next(err);
         }
@@ -40,7 +40,7 @@ class ClassifierTypeController {
 
     static async delete(req, res, next){
         try {
-            const success = await ClassifierTypeService.delete(req.params, req.user.id);
+            const success = await TicketTypeService.delete(req.params, req.user.id);
             if(success){
                 res.sendStatus(204);
             } else {
@@ -52,4 +52,4 @@ class ClassifierTypeController {
     }
 }
 
-module.exports = ClassifierTypeController;
+module.exports = TicketTypeController;
