@@ -3,7 +3,7 @@ const { WordCorrectorService } = include('services');
 class WordCorrectorController {
     static async fetch(req, res, next) {
         try {
-            const wordsCorrectors = await WordCorrectorService.fetch();
+            const wordsCorrectors = await WordCorrectorService.fetch(req.query);
             res.send({ wordsCorrectors });
         } catch(error) {
             next(error);

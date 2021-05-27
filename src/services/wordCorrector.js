@@ -3,8 +3,8 @@ const { dateToString } = include('util');
 const trim = require('lodash/trim');
 
 class WordCorrectorService {
-    static async fetch() {
-        const WordsCorrectors = await wordCorrectorModel.find({FECHA_BAJA: null});
+    static async fetch(query) {
+        const WordsCorrectors = await wordCorrectorModel.findByPage(query.page, {FECHA_BAJA: null});
         return WordsCorrectors.map(wordCorrector => ({
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,
@@ -21,11 +21,11 @@ class WordCorrectorService {
 
     static async create(params, userCreator) {
         const formattedWordCorrector = {
-            INCORRECTA: trim(params.incorrect),
-            CORRECTA: trim(params.description),
+            INCORRECTA: trim(params.wrong),
+            CORRECTA: trim(params.right),
             DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
             OBSERVACION: trim(params.observation),
-            FRECUENCIA: trim(params.frequence),
+            FRECUENCIA: trim(params.frequency),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,

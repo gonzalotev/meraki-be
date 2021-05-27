@@ -3,7 +3,7 @@ const { DictionaryLinguisticService } = include('services');
 class DictionaryLinguisticController {
     static async fetch(req, res, next) {
         try {
-            const dictionaryLinguistics = await DictionaryLinguisticService.fetch();
+            const dictionaryLinguistics = await DictionaryLinguisticService.fetch(req.query);
             res.send({ dictionaryLinguistics });
         } catch(error) {
             next(error);
