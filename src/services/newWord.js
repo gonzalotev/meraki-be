@@ -93,10 +93,6 @@ class NewWordService {
         };
     }
 
-    static async createFromNewWords(newWord, dictionary, userCreator){
-        
-    }  
-
     static async update(filters, params){
         const formattedNewWord = {
             ID_OPERATIVO: trim(params.operativeId),

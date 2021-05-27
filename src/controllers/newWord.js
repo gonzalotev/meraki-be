@@ -25,9 +25,12 @@ class NewWordController {
             const {newWord, dictionary, corrector} = req.body;
             const response = {};
             if(dictionary.save){
-                const createdDictionary = await WordsDictionaryService.createFromNewWords(newWord, dictionary, req.user.id);
+                const createdDictionary = await WordsDictionaryService.createFromNewWords(
+                    newWord,
+                    dictionary,
+                    req.user.id
+                );
                 response.dictionary = createdDictionary;
-                response.newWord = updatedNewWord;
                 res.status(201);
             } else if(corrector.save){
                 const createdCorrector = await WordCorrectorService.create({
