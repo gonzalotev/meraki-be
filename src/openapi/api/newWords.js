@@ -16,10 +16,10 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id_operative: {type: 'integer'},
-                                                id_variable: {type: 'string'},
-                                                news_words: {type: 'string'},
-                                                frequence: {type: 'integer'},
+                                                operativeId: {type: 'integer'},
+                                                variableId: {type: 'string'},
+                                                word: {type: 'string'},
+                                                frequency: {type: 'integer'},
                                                 abc: {type: 'string'},
                                                 corrected: {type: 'boolean'},
                                                 createdAt: {type: 'string'}
@@ -48,10 +48,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
-                                frequence: {type: 'integer'},
+                                operativeId: {type: 'integer'},
+                                variableId: {type: 'string'},
+                                word: {type: 'string'},
+                                frequency: {type: 'integer'},
                                 abc: {type: 'string'},
                                 corrected: {type: 'boolean'}
                             }
@@ -70,10 +70,10 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
+                                            operativeId: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            word: {type: 'string'},
+                                            frequency: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
                                             createdAt: {type: 'string'}
@@ -123,10 +123,10 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
+                                            operativeId: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            word: {type: 'string'},
+                                            frequency: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
                                             createdAt: {type: 'string'}
@@ -165,10 +165,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
-                                frequence: {type: 'integer'},
+                                operativeId: {type: 'integer'},
+                                variableId: {type: 'string'},
+                                word: {type: 'string'},
+                                frequency: {type: 'integer'},
                                 abc: {type: 'string'},
                                 corrected: {type: 'boolean'},
                                 createdAt: {type: 'string'}
@@ -188,10 +188,10 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
+                                            operativeId: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            word: {type: 'string'},
+                                            frequency: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
                                             createdAt: {type: 'string'}
@@ -251,10 +251,10 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
+                                            operativeId: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            word: {type: 'string'},
+                                            frequency: {type: 'integer'},
                                             abc: {type: 'string'},
                                             corrected: {type: 'boolean'},
                                             createdAt: {type: 'string'}

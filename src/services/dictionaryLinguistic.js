@@ -3,8 +3,13 @@ const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class DictionaryLinguisticService {
-    static async fetch() {
-        const dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
+    static async fetch(query) {
+        const dictionaries = await dictionaryLinguistic.findByPage(
+            query.page,
+            {FECHA_BAJA: null},
+            dictionaryLinguistic.selectableProps,
+            [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}]
+        );
         return dictionaries.map(dictionary => ({
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
             dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
