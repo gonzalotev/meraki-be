@@ -17,6 +17,7 @@ const editors = require('./editors');
 const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
+const relationshipAutophraseNomenclatures = require('./relationshipAutophraseNomenclatures');
 const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
@@ -44,5 +45,6 @@ module.exports = {
     ...newWords,
     ...wordsDictionary,
     ...wordCorrector,
-    ...newPhrases
+    ...newPhrases,
+    ...relationshipAutophraseNomenclatures
 };

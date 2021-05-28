@@ -77,6 +77,7 @@
     "querystring": "^0.2.1",
     "require-dir": "^1.2.0",
     "saslprep": "^1.0.3",
+    "sequelize": "^6.6.2",
     "swagger-ui-express": "^4.1.4",
     "uuidv4": "^6.0.7",
     "winston": "^3.2.1"
@@ -87,6 +88,7 @@
     "cross-env": "^7.0.2",
     "del": "^5.1.0",
     "eslint": "^7.21.0",
+    "eslint-plugin-autofix": "^1.0.5",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-lodash": "^7.1.0",
     "eslint-plugin-promise": "^4.2.1",

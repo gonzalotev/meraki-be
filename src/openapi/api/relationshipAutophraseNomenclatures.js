@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/autoPhrases': {
+    '/api/relationshipNomenclatures': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Auto Phrases'],
@@ -27,15 +27,12 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
-                                                variableId: {type: 'string'},
-                                                finalPhrase: {type: 'string'},
+                                                nomenclatorId: {type: 'integer'},
+                                                nomenclatureId: {type: 'string'},
+                                                autophraseId: {type: 'integer'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
                                                 approved: {type: 'boolean'},
-                                                idFather: {type: 'boolean'},
-                                                prhaseRetro: {type: 'boolean'},
-                                                dateRetro: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
@@ -65,14 +62,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                variableId: {type: 'string'},
-                                finalPhrase: {type: 'string'},
+                                nomenclatorId: {type: 'integer'},
+                                nomenclatureId: {type: 'string'},
+                                autophraseId: {type: 'integer'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 approved: {type: 'boolean'},
-                                idFather: {type: 'boolean'},
-                                prhaseRetro: {type: 'boolean'},
-                                dateRetro: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -94,15 +89,12 @@ module.exports = {
                                     prhase: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
-                                            variableId: {type: 'string'},
-                                            finalPhrase: {type: 'string'},
+                                            nomenclatorId: {type: 'integer'},
+                                            nomenclatureId: {type: 'string'},
+                                            autophraseId: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
-                                            idFather: {type: 'boolean'},
-                                            prhaseRetro: {type: 'boolean'},
-                                            dateRetro: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -121,7 +113,7 @@ module.exports = {
             }
         }
     },
-    '/api/autoPhrases/{id}': {
+    '/api/relationshipNomenclatures/{id}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Types'],
@@ -142,15 +134,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
-                                variableId: {type: 'string'},
-                                finalPhrase: {type: 'string'},
+                                nomenclatorId: {type: 'integer'},
+                                nomenclatureId: {type: 'string'},
+                                autophraseId: {type: 'integer'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 approved: {type: 'boolean'},
-                                idFather: {type: 'boolean'},
-                                prhaseRetro: {type: 'boolean'},
-                                dateRetro: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -172,15 +161,12 @@ module.exports = {
                                     prhase: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
-                                            variableId: {type: 'string'},
-                                            finalPhrase: {type: 'string'},
+                                            nomenclatorId: {type: 'integer'},
+                                            nomenclatureId: {type: 'string'},
+                                            autophraseId: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
-                                            idFather: {type: 'boolean'},
-                                            prhaseRetro: {type: 'boolean'},
-                                            dateRetro: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -244,15 +230,12 @@ module.exports = {
                                     phrase: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
-                                            variableId: {type: 'string'},
-                                            finalPhrase: {type: 'string'},
+                                            nomenclatorId: {type: 'integer'},
+                                            nomenclatureId: {type: 'string'},
+                                            autophraseId: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
-                                            idFather: {type: 'boolean'},
-                                            prhaseRetro: {type: 'boolean'},
-                                            dateRetro: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},

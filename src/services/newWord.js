@@ -112,7 +112,7 @@ class NewWordService {
             news_words: newWord.NUEVAS_PALABRAS,
             frequence: newWord.FRECUENCIAS,
             abc: newWord.ABC,
-            corrected: newWord.CORREGIDA,
+            corrected: !!newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }

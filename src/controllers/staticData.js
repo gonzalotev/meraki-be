@@ -17,31 +17,39 @@ class StaticDataController {
                 genders,
                 operatives,
                 variablesNewsWords,
-                newWoord
+                newWoord,
+                autoPhrase,
+                newPhrases
             } = req.query;
-            if(roles) {
+            if (roles) {
                 await RolesService.shortFetch(data);
             }
             if (dictionaryTypes) {
                 await DictionaryTypeService.shortFetch(data);
             }
-            if(variables){
+            if (variables) {
                 await StaticalVariableService.shortFetch(data);
             }
-            if(genders){
+            if (genders) {
                 await StaticDataService.getGenders(data);
             }
-            if(operatives){
+            if (operatives) {
                 await OperativesService.shortFetch(data);
             }
-            if(variablesNewsWords){
+            if (variablesNewsWords) {
                 await StaticDataService.getVariablesNewsWords(data);
             }
-            if(newWoord){
+            if (newWoord) {
                 await StaticDataService.getNewWord(data);
             }
+            if (autoPhrase) {
+                await StaticDataService.getAutoPhrase(data);
+            }
+            if (newPhrases) {
+                await StaticDataService.getNewPhrase(data);
+            }
             res.send(data);
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }

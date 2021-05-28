@@ -55,6 +55,18 @@ module.exports = {
                     name: 'newWoord',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'autoPhrase',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'newPhrases',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {

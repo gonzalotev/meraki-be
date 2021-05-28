@@ -3,8 +3,9 @@ const { TicketTypeService } = include('services');
 class TicketTypeController {
     static async fetch(req, res, next) {
         try {
-            const ticketsTypes = await TicketTypeService.fetch();
-            res.send({ ticketsTypes });
+            const ticketsTypes = await TicketTypeService.fetch(req.query);
+            const total = await TicketTypeService.getTotal({});
+            res.send({ ticketsTypes, total });
         } catch(error) {
             next(error);
         }

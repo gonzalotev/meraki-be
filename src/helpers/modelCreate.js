@@ -244,7 +244,7 @@ class ModelCreate {
 
     async countDocuments (filters = {}) {
         return head(await this.knex(this.tableName)
-            .count('id')
+            .count('*')
             .where(filters)
             .timeout(this.timeout));
     }

@@ -3,8 +3,13 @@ const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class TicketTypeService {
-    static async fetch() {
-        const ticketsTypes = await ticketTypeModel.find({FECHA_BAJA: null});
+    static async fetch(query) {
+        const ticketsTypes = await ticketTypeModel.findByPage(
+            query.page,
+            { FECHA_BAJA: null },
+            ticketTypeModel.selectableProps,
+            [{ column: 'ID_TIPO_CHAT', order: 'asc' }]
+        );
         return ticketsTypes.map(ticketType => ({
             id: ticketType.ID_TIPO_CHAT,
             description: ticketType.DESCRIPCION,
@@ -16,6 +21,10 @@ class TicketTypeService {
             userDeleted: ticketType.ID_USUARIO_BAJA,
             deletedAt: dateToString(ticketType.FECHA_BAJA)
         }));
+    }
+    static async getTotal(filters) {
+        const total = await ticketTypeModel.countDocuments(filters);
+        return total['COUNT(*)'];
     }
 
     static async create(params, userCreator) {
@@ -45,8 +54,10 @@ class TicketTypeService {
         };
     }
 
-    static async findOne(filters){
-        const ticketType = await ticketTypeModel.findById({ID_TIPO_CHAT: filters.id});
+    static async findOne(filters) {
+        const ticketType = await ticketTypeModel.findById({
+            ID_TIPO_CHAT: filters.id
+        });
         return {
             id: ticketType.ID_TIPO_CHAT,
             description: ticketType.DESCRIPCION,
@@ -60,7 +71,7 @@ class TicketTypeService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedTicketType = {
             ID_TIPO_CHAT: params.id,
             DESCRIPCION: trim(params.description),
@@ -72,7 +83,10 @@ class TicketTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const ticketType = await ticketTypeModel.updateOne({ID_TIPO_CHAT: filters.id}, formattedTicketType);
+        const ticketType = await ticketTypeModel.updateOne(
+            { ID_TIPO_CHAT: filters.id },
+            formattedTicketType
+        );
         return {
             id: ticketType.ID_TIPO_CHAT,
             description: ticketType.DESCRIPCION,
@@ -86,8 +100,8 @@ class TicketTypeService {
         };
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_TIPO_CHAT: filters.id};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_TIPO_CHAT: filters.id };
         const success = await ticketTypeModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted

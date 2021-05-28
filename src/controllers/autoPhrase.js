@@ -3,8 +3,9 @@ const { AutoPhraseService } = include('services');
 class AutoPhraseController {
     static async fetch(req, res, next) {
         try {
-            const autosPhrases = await AutoPhraseService.fetch();
-            res.send({ autosPhrases });
+            const autosPhrases = await AutoPhraseService.fetch(req.query);
+            const total = await AutoPhraseService.getTotal({});
+            res.send({ autosPhrases, total });
         } catch(error) {
             next(error);
         }

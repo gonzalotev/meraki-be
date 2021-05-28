@@ -1,7 +1,8 @@
 {
   "plugins": [
     "promise",
-    "lodash"
+    "lodash",
+    "autofix"
   ],
   "globals": {
     "root_path": "readonly",
@@ -20,6 +21,7 @@
     "node": true
   },
   "rules": {
+    "autofix/no-debugger": "error",
     "promise/always-return": "error",
     "promise/no-return-wrap": "error",
     "promise/param-names": "error",

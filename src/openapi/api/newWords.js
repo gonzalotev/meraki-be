@@ -1,7 +1,7 @@
 module.exports = {
     '/api/newWords': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['News Words'],
             responses: {
                 200: {
@@ -16,13 +16,13 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id_operative: {type: 'integer'},
-                                                id_variable: {type: 'string'},
-                                                news_words: {type: 'string'},
-                                                frequence: {type: 'integer'},
-                                                abc: {type: 'string'},
-                                                corrected: {type: 'boolean'},
-                                                createdAt: {type: 'string'}
+                                                id_operative: { type: 'integer' },
+                                                id_variable: { type: 'string' },
+                                                news_words: { type: 'string' },
+                                                frequence: { type: 'integer' },
+                                                abc: { type: 'string' },
+                                                corrected: { type: 'boolean' },
+                                                createdAt: { type: 'string' }
                                             }
                                         }
                                     }
@@ -33,12 +33,16 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
                 }
             }
         },
         post: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['News Words'],
             requestBody: {
                 description: 'The new  word to create',
@@ -48,12 +52,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
-                                frequence: {type: 'integer'},
-                                abc: {type: 'string'},
-                                corrected: {type: 'boolean'}
+                                id_operative: { type: 'integer' },
+                                id_variable: { type: 'string' },
+                                news_words: { type: 'string' },
+                                frequence: { type: 'integer' },
+                                abc: { type: 'string' },
+                                corrected: { type: 'boolean' }
                             }
                         }
                     }
@@ -70,13 +74,13 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            id_operative: { type: 'integer' },
+                                            id_variable: { type: 'string' },
+                                            news_words: { type: 'string' },
+                                            frequence: { type: 'integer' },
+                                            abc: { type: 'string' },
+                                            corrected: { type: 'boolean' },
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
@@ -86,14 +90,18 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
                 }
             }
         }
     },
     '/api/newWords/{operative}/{variable}': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['News Words'],
             description: 'Get the firts new word with operative and variable',
             parameters: [
@@ -101,14 +109,14 @@ module.exports = {
                     in: 'path',
                     name: 'operative',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: { type: 'integer' },
                     description: 'Operative id of new word'
                 },
                 {
                     in: 'path',
                     name: 'variable',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: { type: 'string' },
                     description: 'Variable id of new word'
                 }
             ],
@@ -123,13 +131,13 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            id_operative: { type: 'integer' },
+                                            id_variable: { type: 'string' },
+                                            news_words: { type: 'string' },
+                                            frequence: { type: 'integer' },
+                                            abc: { type: 'string' },
+                                            corrected: { type: 'boolean' },
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
@@ -139,21 +147,83 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
+                }
+            }
+        },
+        post: {
+            security: [{ bearerAuth: [] }],
+            tags: ['News Words'],
+            requestBody: {
+                description: 'The new  word to create',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                id_operative: { type: 'integer' },
+                                id_variable: { type: 'string' },
+                                news_words: { type: 'string' },
+                                frequence: { type: 'integer' },
+                                abc: { type: 'string' },
+                                corrected: { type: 'boolean' },
+                                createdAt: { type: 'string' }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                201: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    newWord: {
+                                        type: 'object',
+                                        properties: {
+                                            id_operative: { type: 'integer' },
+                                            id_variable: { type: 'string' },
+                                            news_words: { type: 'string' },
+                                            frequence: { type: 'integer' },
+                                            abc: { type: 'string' },
+                                            corrected: { type: 'boolean' },
+                                            createdAt: { type: 'string' }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
                 }
             }
         }
     },
     '/api/newWords/{id}': {
         put: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['News Words'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: { type: 'integer' },
                     description: 'User id of assignment'
                 }
             ],
@@ -165,13 +235,13 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id_operative: {type: 'integer'},
-                                id_variable: {type: 'string'},
-                                news_words: {type: 'string'},
-                                frequence: {type: 'integer'},
-                                abc: {type: 'string'},
-                                corrected: {type: 'boolean'},
-                                createdAt: {type: 'string'}
+                                id_operative: { type: 'integer' },
+                                id_variable: { type: 'string' },
+                                news_words: { type: 'string' },
+                                frequence: { type: 'integer' },
+                                abc: { type: 'string' },
+                                corrected: { type: 'boolean' },
+                                createdAt: { type: 'string' }
                             }
                         }
                     }
@@ -188,13 +258,13 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            id_operative: { type: 'integer' },
+                                            id_variable: { type: 'string' },
+                                            news_words: { type: 'string' },
+                                            frequence: { type: 'integer' },
+                                            abc: { type: 'string' },
+                                            corrected: { type: 'boolean' },
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
@@ -204,39 +274,47 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
                 }
             }
         },
         delete: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['News Words'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: { type: 'integer' },
                     description: 'User id of assignment'
                 }
             ],
             responses: {
-                204: {description: 'The resource was deleted successfully.'},
+                204: { description: 'The resource was deleted successfully.' },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
                 }
             }
         },
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['News Words'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: { type: 'integer' },
                     description: 'User id of assignment'
                 }
             ],
@@ -251,13 +329,13 @@ module.exports = {
                                     newWord: {
                                         type: 'object',
                                         properties: {
-                                            id_operative: {type: 'integer'},
-                                            id_variable: {type: 'string'},
-                                            news_words: {type: 'string'},
-                                            frequence: {type: 'integer'},
-                                            abc: {type: 'string'},
-                                            corrected: {type: 'boolean'},
-                                            createdAt: {type: 'string'}
+                                            id_operative: { type: 'integer' },
+                                            id_variable: { type: 'string' },
+                                            news_words: { type: 'string' },
+                                            frequence: { type: 'integer' },
+                                            abc: { type: 'string' },
+                                            corrected: { type: 'boolean' },
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
@@ -267,7 +345,11 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: {
+                        'application/json': {
+                            schema: { $ref: '#/components/schemas/Error' }
+                        }
+                    }
                 }
             }
         }

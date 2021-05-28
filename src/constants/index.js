@@ -467,8 +467,8 @@ const autoPhraseClosedQuestionAttrib = [
     'FECHA_BAJA'
 ];
 
-const autoPhraseNomenclatureRelationTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
-const autoPhraseNomenclatureRelationAttrib = [
+const relationshipAutoPhraseNomenclatureTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
+const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_NOMENCLADOR',
     'ID_NOMENCLATURA',
     'ID_AUTOFRASE',
@@ -541,7 +541,7 @@ module.exports = {
     newPhraseAttrib,
     autoPhraseClosedQuestionTableName,
     autoPhraseClosedQuestionAttrib,
-    autoPhraseNomenclatureRelationTableName,
-    autoPhraseNomenclatureRelationAttrib
+    relationshipAutoPhraseNomenclatureTableName,
+    relationshipAutoPhraseNomenclatureAttrib
 
 };
