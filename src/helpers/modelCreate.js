@@ -120,6 +120,14 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
+    findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+        return this.knex.select(columns)
+            .from(this.tableName)
+            .where(filters, 'like', `%${filters.name}%`)
+            .orderBy(orderBy)
+            .timeout(this.timeout);
+    }
+
     async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
