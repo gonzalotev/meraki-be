@@ -1,4 +1,4 @@
-const { NewWordService, NewPhraseService } = include('services');
+const { NewWordService, NewPhraseService, WordsDictionaryService, WordCorrectorService } = include('services');
 
 class NewWordController {
     static async fetch(req, res, next) {
@@ -23,11 +23,34 @@ class NewWordController {
 
     static async create(req, res, next) {
         try {
-            console.log(req.body);
-            const newWord = await NewWordService.create(req.body, req.user.id);
-            res.status(201);
-            res.send({ newWord });
-        } catch (err) {
+            const {newWord, dictionary, corrector} = req.body;
+            const response = {};
+            if(dictionary.save){
+                const createdDictionary = await WordsDictionaryService.createFromNewWords(
+                    newWord,
+                    dictionary,
+                    req.user.id
+                );
+                response.dictionary = createdDictionary;
+                res.status(201);
+            } else if(corrector.save){
+                const createdCorrector = await WordCorrectorService.create({
+                    ...corrector,
+                    wrong: newWord.word,
+                    frequency: newWord.frequency
+                }, req.user.id);
+                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: true});
+                response.corrector = createdCorrector;
+                response.newWord = updatedNewWord;
+                res.status(201);
+            } else {
+                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: false});
+                response.newWord = updatedNewWord;
+                res.status(200);
+            }
+            console.log(response);
+            res.send(response);
+        } catch(err) {
             next(err);
         }
     }

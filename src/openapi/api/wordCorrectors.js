@@ -3,6 +3,17 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Words Correctors'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
