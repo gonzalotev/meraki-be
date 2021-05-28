@@ -14,6 +14,18 @@ class UserRoleService {
             deletedAt: dateToString(userRole.FECHA_BAJA)
         }));
     }
+    static async fetch(userId) {
+        const userRoles = await roleUser.find({ID_USUARIO: userId, FECHA_BAJA: null});
+        return userRoles.map(userRole => ({
+            userId: userRole.ID_USUARIO,
+            roleId: userRole.ID_ROL_USUARIO,
+            description: userRole.DESCRIPCION,
+            domain: userRole.DOMINIO,
+            observation: userRole.OBSERVACION,
+            createdAt: dateToString(userRole.FECHA_ALTA),
+            deletedAt: dateToString(userRole.FECHA_BAJA)
+        }));
+    }
 
     static async findOne(userId) {
         const userRole = await roleUser.findOne({ID_USUARIO: userId});
