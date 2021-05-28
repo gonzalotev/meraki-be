@@ -23,7 +23,8 @@ class StaticalVariableService {
     static async shortFetch(data) {
         const staticalVariables = await staticalVariableModel.find(
             {SUPERVISADO: true, FECHA_BAJA: null},
-            ['ID_VARIABLE', 'NOMBRE', 'ABREVIATURA']
+            ['ID_VARIABLE', 'NOMBRE', 'ABREVIATURA'],
+            [{column: 'NOMBRE', order: 'asc'}]
         );
         const variables = staticalVariables.map(staticalVariable => ({
             id: staticalVariable.ID_VARIABLE,
