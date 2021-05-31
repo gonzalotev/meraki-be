@@ -124,6 +124,38 @@ class WordsDictionaryService {
         };
     }
 
+    static async findMatching(filters){
+        const formattedFilters = {PALABRA: filters.word};
+        const word = await wordsDictionary.findByMatch(formattedFilters);
+        return {
+            word: word.PALABRA,
+            truncate: word.TRUNCADO,
+            acronim: word.ACRONIMO,
+            verb: !!word.VERBO,
+            noun: !!word.SUSTANTIVO,
+            adjective: !!word.ADJETIVO,
+            adverb: !!word.ADVERBIO,
+            pronoun: !!word.PRONOMBRE,
+            article: !!word.ARTICULO,
+            preposition: !!word.PREPOSICION,
+            doubtWord: !!word.PALABRA_DUDOSA,
+            observation: word.OBSERVACION,
+            domain: word.DOMINIO,
+            supervised: !!word.SUPERVISADO,
+            hashFunction: word.FUNCION_DE_HASH,
+            hash: word.HASH,
+            createdAt: dateToString(word.FECHA_ALTA),
+            userCreator: word.ID_USUARIO_ALTA,
+            userDeleted: word.ID_USUARIO_BAJA,
+            deletedAt: dateToString(word.FECHA_BAJA),
+            genderId: word.ID_GENERO_NUMERO,
+            numberId: word.ID_NUMERO,
+            frequency: word.FRECUENCIA,
+            abc: word.ABC,
+            family: word.FAMILIA
+        };
+    }
+
     static async update(filters, params){
         const formattedWord = {
             PALABRA: params.word,
