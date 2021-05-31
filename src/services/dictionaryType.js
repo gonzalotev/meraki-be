@@ -25,7 +25,8 @@ class DictionaryTypeService {
     static async shortFetch(data) {
         const dictionarysTypes = await dictionaryTypeModel.find(
             {SUPERVISADO: true, FECHA_BAJA: null},
-            ['ID_TIPOLOGIA_DE_DICCIONARIO', 'DESCRIPCION']
+            ['ID_TIPOLOGIA_DE_DICCIONARIO', 'DESCRIPCION'],
+            [{column: 'DESCRIPCION', order: 'asc'}]
         );
         const dictionaries = dictionarysTypes.map(dictionaryType => ({
             id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
