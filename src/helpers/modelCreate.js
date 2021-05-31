@@ -7,6 +7,7 @@ const head = require('lodash/head');
 const includes = require('lodash/includes');
 const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
+const object = require('lodash/object');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
 const isDate = require('lodash/isDate');
@@ -121,10 +122,12 @@ class ModelCreate {
     }
 
     findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
-        const filterValue = Object._values(filters);
+        const filterValue = object.values(filters);
+        const filterKey = object.keys(filters);
+        console.log(filterKey, filterValue);
         return this.knex.select(columns)
             .from(this.tableName)
-            .where(filters, 'like', `%${filterValue}%`)
+            .where(`${filterKey}`, 'like', `%${filterValue}%`)
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
