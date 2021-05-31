@@ -127,7 +127,6 @@ class WordsDictionaryService {
     static async findMatching(filters){
         const formattedFilters = {PALABRA: filters.word};
         const words = await wordsDictionary.findByMatch(formattedFilters);
-        console.log(words);
         return words.map(words => ({
             word: words.PALABRA,
             truncate: words.TRUNCADO,

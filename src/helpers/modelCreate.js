@@ -124,7 +124,6 @@ class ModelCreate {
     findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
         const filterValue = object.values(filters);
         const filterKey = object.keys(filters);
-        console.log(filterKey, filterValue);
         return this.knex.select(columns)
             .from(this.tableName)
             .where(`${filterKey}`, 'like', `%${filterValue}%`)
