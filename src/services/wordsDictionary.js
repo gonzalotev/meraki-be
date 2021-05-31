@@ -126,34 +126,34 @@ class WordsDictionaryService {
 
     static async findMatching(filters){
         const formattedFilters = {PALABRA: filters.word};
-        const word = await wordsDictionary.findByMatch(formattedFilters);
-        return {
-            word: word.PALABRA,
-            truncate: word.TRUNCADO,
-            acronim: word.ACRONIMO,
-            verb: !!word.VERBO,
-            noun: !!word.SUSTANTIVO,
-            adjective: !!word.ADJETIVO,
-            adverb: !!word.ADVERBIO,
-            pronoun: !!word.PRONOMBRE,
-            article: !!word.ARTICULO,
-            preposition: !!word.PREPOSICION,
-            doubtWord: !!word.PALABRA_DUDOSA,
-            observation: word.OBSERVACION,
-            domain: word.DOMINIO,
-            supervised: !!word.SUPERVISADO,
-            hashFunction: word.FUNCION_DE_HASH,
-            hash: word.HASH,
-            createdAt: dateToString(word.FECHA_ALTA),
-            userCreator: word.ID_USUARIO_ALTA,
-            userDeleted: word.ID_USUARIO_BAJA,
-            deletedAt: dateToString(word.FECHA_BAJA),
-            genderId: word.ID_GENERO_NUMERO,
-            numberId: word.ID_NUMERO,
-            frequency: word.FRECUENCIA,
-            abc: word.ABC,
-            family: word.FAMILIA
-        };
+        const words = await wordsDictionary.findByMatch(formattedFilters);
+        return words.map(words => ({
+            word: words.PALABRA,
+            truncate: words.TRUNCADO,
+            acronim: words.ACRONIMO,
+            verb: !!words.VERBO,
+            noun: !!words.SUSTANTIVO,
+            adjective: !!words.ADJETIVO,
+            adverb: !!words.ADVERBIO,
+            pronoun: !!words.PRONOMBRE,
+            article: !!words.ARTICULO,
+            preposition: !!words.PREPOSICION,
+            doubtWord: !!words.PALABRA_DUDOSA,
+            observation: words.OBSERVACION,
+            domain: words.DOMINIO,
+            supervised: !!words.SUPERVISADO,
+            hashFunction: words.FUNCION_DE_HASH,
+            hash: words.HASH,
+            createdAt: dateToString(words.FECHA_ALTA),
+            userCreator: words.ID_USUARIO_ALTA,
+            userDeleted: words.ID_USUARIO_BAJA,
+            deletedAt: dateToString(words.FECHA_BAJA),
+            genderId: words.ID_GENERO_NUMERO,
+            numberId: words.ID_NUMERO,
+            frequency: words.FRECUENCIA,
+            abc: words.ABC,
+            family: words.FAMILIA
+        }));
     }
 
     static async update(filters, params){
