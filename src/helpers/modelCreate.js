@@ -121,9 +121,10 @@ class ModelCreate {
     }
 
     findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+        const filterValue = Object._values(filters);
         return this.knex.select(columns)
             .from(this.tableName)
-            .where(filters, 'like', `%${filters.name}%`)
+            .where(filters, 'like', `%${filterValue}%`)
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
