@@ -106,14 +106,14 @@ module.exports = {
             }
         }
     },
-    '/api/wordCorrectors/{id}': {
+    '/api/wordCorrectors/{incorrect}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Words Correctors'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'incorrect',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -182,7 +182,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'incorrect',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -202,10 +202,10 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'incorrect',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: '"incorrect" field id'
                 }
             ],
             responses: {

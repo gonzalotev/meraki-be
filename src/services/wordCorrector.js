@@ -49,7 +49,8 @@ class WordCorrectorService {
     }
 
     static async findOne(filters){
-        const wordCorrector = await wordCorrectorModel.findById({CORRECTA: filters.correct});
+        console.log(filters);
+        const wordCorrector = await wordCorrectorModel.findOne({INCORRECTA: filters.incorrect});
         return {
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,
