@@ -11,6 +11,13 @@ class WordsDictionary extends ModelCreate{
             selectableProps: wordsDictionaryAttrib
         });
     }
+    async findWords(words) {
+        return await this.knex.select(['PALABRA'])
+            .from(this.tableName)
+            .whereIn('PALABRA', words)
+            .pluck('PALABRA')
+            .timeout(this.timeout);
+    }
 }
 
 module.exports = knex => new WordsDictionary({knex});

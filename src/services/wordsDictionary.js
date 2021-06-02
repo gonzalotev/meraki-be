@@ -33,7 +33,7 @@ class WordsDictionaryService {
         }));
     }
 
-    static async create(params, userCreator) {
+    static async create(params, userCreator, transaction) {
         const formattedWord = {
             PALABRA: params.word,
             TRUNCADO: params.truncate,
@@ -61,7 +61,7 @@ class WordsDictionaryService {
             ABC: params.abc,
             FAMILIA: params.family
         };
-        const word = await wordsDictionary.insertOne(formattedWord);
+        const word = await wordsDictionary.insertOne(formattedWord, transaction);
 
         return {
             word: word.PALABRA,
@@ -217,6 +217,11 @@ class WordsDictionaryService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async checkIfAllWordsExist(words){
+        const wordsFound = await wordsDictionary.findWords(words);
+        return { wordsFound };
     }
 }
 
