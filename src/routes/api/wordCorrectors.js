@@ -4,7 +4,7 @@ module.exports = router => {
     router.route('/')
         .get(WordCorrectorController.fetch)
         .post(WordCorrectorController.create);
-    router.route('/:id')
+    router.route('/:incorrect')
         .get(WordCorrectorController.find)
         .put(WordCorrectorController.update)
         .delete(WordCorrectorController.delete);
