@@ -12,27 +12,32 @@ class NewWord extends ModelCreate {
         });
     }
     async getOperatives(){
+        const availableOperatives = await this.knex('NUEVAS_PALABRAS')
+            .distinct('ID_OPERATIVO')
+            .where({CORREGIDA: null})
+            .orWhere({CORREGIDA: false})
+            .pluck('ID_OPERATIVO');
+
         return await this.knex.select({
             id: 'ID_OPERATIVO',
             description: 'DESCRIPCION'
         })
             .from('OPERATIVOS')
-            .whereExists(function() {
-                this.select('*').from('NUEVAS_PALABRAS')
-                    .whereRaw('operativos.id_operativo = nuevas_palabras.id_operativo');
-            });
+            .whereIn('ID_OPERATIVO', availableOperatives);
     }
     async getVariables(operative){
+        const availableVariables = await this.knex('NUEVAS_PALABRAS')
+            .distinct('ID_VARIABLE')
+            .where({CORREGIDA: null, ID_OPERATIVO: operative})
+            .orWhere({CORREGIDA: false, ID_OPERATIVO: operative})
+            .pluck('ID_VARIABLE');
+
         return await this.knex.select({
             id: 'ID_VARIABLE',
             name: 'NOMBRE'
         })
             .from('VARIABLES_ESTADISTICAS')
-            .whereExists(function() {
-                this.select('*').from('NUEVAS_PALABRAS')
-                    .whereRaw('NUEVAS_PALABRAS.ID_VARIABLE = VARIABLES_ESTADISTICAS.ID_VARIABLE')
-                    .andWhere('ID_OPERATIVO', operative);
-            });
+            .whereIn('ID_VARIABLE', availableVariables);
     }
 }
 

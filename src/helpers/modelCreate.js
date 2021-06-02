@@ -63,11 +63,11 @@ class ModelCreate {
         return objectToSave;
     }
 
-    async insertOne (props) {
+    async insertOne (props, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
         objectToSave.FECHA_ALTA = new Date();
-        if (this.transaction) {
-            const objectCreated = await this.transaction(this.tableName)
+        if (transaction) {
+            const objectCreated = await transaction(this.tableName)
                 .insert(objectToSave)
                 .returning(this.selectableProps)
                 .timeout(this.timeout);
@@ -174,10 +174,10 @@ class ModelCreate {
         }
     }
 
-    async updateOne(filters, props) {
+    async updateOne(filters, props, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
-        if (this.transaction) {
-            const modifiedObject = await this.transaction(this.tableName)
+        if (transaction) {
+            const modifiedObject = await transaction(this.tableName)
                 .update(objectToSave)
                 .from(this.tableName)
                 .where(filters)
