@@ -126,7 +126,8 @@ class ModelCreate {
         const filterKey = object.keys(filters);
         return this.knex.select(columns)
             .from(this.tableName)
-            .where(`${filterKey}`, 'like', `%${filterValue}%`)
+            .where(`${filterKey[0]}`, 'like', `%${filterValue[0]}%`)
+            .whereNull(filterKey[1])
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
