@@ -19,11 +19,11 @@ class WordCorrectorService {
         }));
     }
 
-    static async create(params, userCreator) {
+    static async create(params, userCreator, transaction) {
         const formattedWordCorrector = {
             INCORRECTA: trim(params.wrong),
-            CORRECTA: trim(params.right),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
+            CORRECTA: params.right,
+            DESTINO_PALABRA_FRASE_SI_NO: params.isAWord,
             OBSERVACION: trim(params.observation),
             FRECUENCIA: trim(params.frequency),
             SUPERVISADO: params.approved,
@@ -32,7 +32,7 @@ class WordCorrectorService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector);
+        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, transaction);
 
         return {
             incorrect: wordCorrector.INCORRECTA,
@@ -49,7 +49,8 @@ class WordCorrectorService {
     }
 
     static async findOne(filters){
-        const wordCorrector = await wordCorrectorModel.findById({CORRECTA: filters.correct});
+        console.log(filters);
+        const wordCorrector = await wordCorrectorModel.findOne({INCORRECTA: filters.incorrect});
         return {
             incorrect: wordCorrector.INCORRECTA,
             correct: wordCorrector.CORRECTA,

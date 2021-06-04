@@ -60,6 +60,30 @@ module.exports = {
                 }
             },
             responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    newWord: {
+                                        type: 'object',
+                                        properties: {
+                                            operativeId: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            word: {type: 'string'},
+                                            frequency: {type: 'integer'},
+                                            abc: {type: 'string'},
+                                            corrected: {type: 'boolean'},
+                                            createdAt: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 201: {
                     description: 'ok',
                     content: {
@@ -78,6 +102,22 @@ module.exports = {
                                             corrected: {type: 'boolean'},
                                             createdAt: {type: 'string'}
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                409: {
+                    description: 'Not found words',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    wordsNotFound: {
+                                        type: 'array',
+                                        items: {type: 'string'}
                                     }
                                 }
                             }

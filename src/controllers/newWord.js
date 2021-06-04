@@ -1,4 +1,6 @@
 const { NewWordService, NewPhraseService, WordsDictionaryService, WordCorrectorService } = include('services');
+const knex = include('helpers/database');
+const isEmpty = require('lodash/isEmpty');
 
 class NewWordController {
     static async fetch(req, res, next) {
@@ -25,30 +27,35 @@ class NewWordController {
         try {
             const {newWord, dictionary, corrector} = req.body;
             const response = {};
-            if(dictionary.save){
-                const createdDictionary = await WordsDictionaryService.createFromNewWords(
-                    newWord,
-                    dictionary,
-                    req.user.id
+            const {frequency, abc, word} = newWord;
+            const transaction = await knex.transaction();
+            if(dictionary){
+                const createdDictionary = await WordsDictionaryService.create(
+                    {...dictionary, frequency, abc, word},
+                    req.user.id,
+                    transaction
                 );
+                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: true}, transaction);
                 response.dictionary = createdDictionary;
+                response.newWord = updatedNewWord;
                 res.status(201);
-            } else if(corrector.save){
-                const createdCorrector = await WordCorrectorService.create({
-                    ...corrector,
-                    wrong: newWord.word,
-                    frequency: newWord.frequency
-                }, req.user.id);
-                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: true});
+            } else if(corrector){
+                console.log(corrector);
+                const createdCorrector = await WordCorrectorService.create(
+                    {...corrector, frequency, wrong: word},
+                    req.user.id,
+                    transaction
+                );
+                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: true}, transaction);
                 response.corrector = createdCorrector;
                 response.newWord = updatedNewWord;
                 res.status(201);
             } else {
-                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: false});
+                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: false}, transaction);
                 response.newWord = updatedNewWord;
                 res.status(200);
             }
-            console.log(response);
+            await transaction.commit();
             res.send(response);
         } catch(err) {
             next(err);
@@ -87,8 +94,11 @@ class NewWordController {
     }
     static async findFirst(req, res, next) {
         try {
+            let phrases = [];
             const newWord = await NewWordService.findFirst(req.params);
-            const phrases = await NewPhraseService.fetch({ word: newWord.word });
+            if(!isEmpty(newWord)){
+                phrases = await NewPhraseService.fetch({ word: newWord.word });
+            }
             res.send({ newWord, phrases });
         } catch (error) {
             next(error);

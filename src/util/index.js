@@ -13,6 +13,7 @@ const keys = require('lodash/keys');
 const clone = require('lodash/clone');
 const isString = require('lodash/isString');
 const { getOffset, getPageSize } = require('./getOffset');
+const standarText = require('./standarText');
 
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
@@ -86,5 +87,6 @@ module.exports = {
     setDate,
     rename,
     stringToDate,
-    convertKeysNames
+    convertKeysNames,
+    standarText
 };

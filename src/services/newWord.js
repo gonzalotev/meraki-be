@@ -60,7 +60,8 @@ class NewWordService {
             ID_VARIABLE: filters.variable,
             CORREGIDA: null
         });
-        return {
+
+        return newWord ? {
             operativeId: newWord.ID_OPERATIVO,
             variableId: newWord.ID_VARIABLE,
             word: newWord.NUEVAS_PALABRAS,
@@ -68,7 +69,7 @@ class NewWordService {
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
-        };
+        } : {};
     }
     static async create(params) {
         const formattedNewWord = {
@@ -118,9 +119,6 @@ class NewWordService {
     }
     static async updateOne(params){
         const formattedNewWord = {
-            ID_OPERATIVO: trim(params.operativeId),
-            ID_VARIABLE: trim(params.variableId),
-            NUEVAS_PALABRAS: trim(params.word),
             FRECUENCIAS: trim(params.frecuency),
             ABC: params.abc,
             CORREGIDA: params.corrected,
