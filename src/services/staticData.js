@@ -44,6 +44,43 @@ class StaticDataService {
             .from('NUEVAS_FRASES');
         return (data.newPhrases = newPhrases);
     }
+    static async getNomenclators(data) {
+        const nomenclators = await knex
+            .select({
+                id: 'ID_NOMENCLADOR',
+                description: 'DESCRIPCION_COMPLETA'
+            })
+            .from('NOMENCLADORES');
+        return (data.nomenclators = nomenclators);
+    }
+    static async getLots(data) {
+        const lots = await knex
+            .select({
+                id: 'ID_LOTE',
+                description: 'DESCRIPCION'
+            })
+            .from('LOTES');
+        return (data.lots = lots);
+    }
+    static async getFont(data) {
+        const fonts = await knex
+            .select({
+                id: 'ID_FUENTE',
+                openClosedId: 'ID_ABIERTA_CERRADA',
+                variableId: 'ID_VARIABLE'
+            })
+            .from('RELACION_FUENTE_PREGUNTAS');
+        return (data.fonts = fonts);
+    }
+    static async getNomenclatures(data) {
+        const nomenclatures = await knex
+            .select({
+                id: 'ID_NOMENCLATURA',
+                description: 'DESCRIPCION'
+            })
+            .from('NOMENCLATURAS');
+        return (data.nomenclatures = nomenclatures);
+    }
 }
 
 module.exports = StaticDataService;

@@ -95,7 +95,8 @@ const rolesAttrib = [
     'DOMINIO',
     'OBSERVACION',
     'FECHA_BAJA',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'NOMBRE_USUARIO'
 ];
 
 const assignmentRolesTableName = 'ROLES_SICI';
@@ -190,6 +191,24 @@ const assignmentRoleNomenclatorsAttrib = [
     'OBSERVACION',
     'SI_NO',
     'FECHA_ALTA',
+    'FECHA_BAJA'
+];
+
+const relationshipAutophrasesQuestionClosedsTableName = 'AUTOFRASES_PREGUNTA_CERRADA';
+
+const relationshipAutophrasesQuestionClosedsAttrib = [
+    'ID_AUTOFRASE',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ABREVIATURA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
     'FECHA_BAJA'
 ];
 
@@ -481,6 +500,18 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const relationshipAutophrasesQuestionClosedTableName = 'REL_AUTOFRASES_PREGUNTA_CERRADA_DOCU';
+const relationshipAutophrasesQuestionClosedAttrib = [
+    'ID_AUTOFRASE',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ID_DOCUMENTO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -542,6 +573,10 @@ module.exports = {
     autoPhraseClosedQuestionTableName,
     autoPhraseClosedQuestionAttrib,
     relationshipAutoPhraseNomenclatureTableName,
-    relationshipAutoPhraseNomenclatureAttrib
+    relationshipAutoPhraseNomenclatureAttrib,
+    relationshipAutophrasesQuestionClosedTableName,
+    relationshipAutophrasesQuestionClosedAttrib,
+    relationshipAutophrasesQuestionClosedsTableName,
+    relationshipAutophrasesQuestionClosedsAttrib
 
 };

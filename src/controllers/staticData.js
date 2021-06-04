@@ -19,7 +19,11 @@ class StaticDataController {
                 variablesNewsWords,
                 newWoord,
                 autoPhrase,
-                newPhrases
+                newPhrases,
+                nomenclators,
+                lots,
+                fonts,
+                nomenclatures
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -47,6 +51,18 @@ class StaticDataController {
             }
             if (newPhrases) {
                 await StaticDataService.getNewPhrase(data);
+            }
+            if (nomenclators) {
+                await StaticDataService.getNomenclators(data);
+            }
+            if (lots) {
+                await StaticDataService.getLots(data);
+            }
+            if (fonts) {
+                await StaticDataService.getFont(data);
+            }
+            if (nomenclatures) {
+                await StaticDataService.getNomenclatures(data);
             }
             res.send(data);
         } catch (error) {

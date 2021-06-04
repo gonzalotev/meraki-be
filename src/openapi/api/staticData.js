@@ -67,6 +67,31 @@ module.exports = {
                     name: 'newPhrases',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'nomenclators',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'lots',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'fonts',
+                    required: false,
+                    schema: {type: 'boolean'}
+                }
+                ,
+                {
+                    in: 'query',
+                    name: 'nomenclatures',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {

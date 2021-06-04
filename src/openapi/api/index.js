@@ -10,10 +10,12 @@ const questionTypes = require('./questionTypes');
 const organizationTypes = require('./organizationTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const relationshipTypes = require('./relationshipTypes');
+const relationshipAutophrasesQuestionCloseds = require('./relationshipAutophrasesQuestionCloseds');
 const dictionaryTypes = require('./dictionaryTypes');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
 const editors = require('./editors');
+const assignmentRoles = require('./assignmentRoles');
 const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
@@ -22,6 +24,9 @@ const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
 const wordCorrector = require('./wordCorrectors');
+const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
+const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
+
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -46,5 +51,9 @@ module.exports = {
     ...wordsDictionary,
     ...wordCorrector,
     ...newPhrases,
-    ...relationshipAutophraseNomenclatures
+    ...relationshipAutophraseNomenclatures,
+    ...assignmentRoles,
+    ...assignmentRolesNomenclators,
+    ...assignmentRolesOperativeVariables,
+    ...relationshipAutophrasesQuestionCloseds
 };
