@@ -29,7 +29,7 @@ class NewWordController {
             const response = {};
             const {frequency, abc, word} = newWord;
             const transaction = await knex.transaction();
-            if(dictionary.save){
+            if(dictionary){
                 const createdDictionary = await WordsDictionaryService.create(
                     {...dictionary, frequency, abc, word},
                     req.user.id,
@@ -39,7 +39,8 @@ class NewWordController {
                 response.dictionary = createdDictionary;
                 response.newWord = updatedNewWord;
                 res.status(201);
-            } else if(corrector.save){
+            } else if(corrector){
+                console.log(corrector);
                 const createdCorrector = await WordCorrectorService.create(
                     {...corrector, frequency, wrong: word},
                     req.user.id,
