@@ -22,8 +22,8 @@ class WordCorrectorService {
     static async create(params, userCreator, transaction) {
         const formattedWordCorrector = {
             INCORRECTA: trim(params.wrong),
-            CORRECTA: trim(params.right),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
+            CORRECTA: params.right,
+            DESTINO_PALABRA_FRASE_SI_NO: params.isAWord,
             OBSERVACION: trim(params.observation),
             FRECUENCIA: trim(params.frequency),
             SUPERVISADO: params.approved,

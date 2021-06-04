@@ -67,7 +67,6 @@ class NewWordService {
             word: newWord.NUEVAS_PALABRAS,
             frecuency: newWord.FRECUENCIAS,
             abc: newWord.ABC,
-            cc: typeof newWord.DDD,
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
         } : {};

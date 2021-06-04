@@ -15,7 +15,6 @@ class NewWord extends ModelCreate {
         const availableOperatives = await this.knex('NUEVAS_PALABRAS')
             .distinct('ID_OPERATIVO')
             .where({CORREGIDA: null})
-            .orWhere({CORREGIDA: false})
             .pluck('ID_OPERATIVO');
 
         return await this.knex.select({
@@ -29,7 +28,6 @@ class NewWord extends ModelCreate {
         const availableVariables = await this.knex('NUEVAS_PALABRAS')
             .distinct('ID_VARIABLE')
             .where({CORREGIDA: null, ID_OPERATIVO: operative})
-            .orWhere({CORREGIDA: false, ID_OPERATIVO: operative})
             .pluck('ID_VARIABLE');
 
         return await this.knex.select({
