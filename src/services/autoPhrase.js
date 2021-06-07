@@ -1,15 +1,27 @@
 const { autoPhrase: autoPhraseModel } = include('models');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
+const knex = include('helpers/database');
 
 class AutoPhraseService {
     static async fetch(query) {
-        const autosPhrases = await autoPhraseModel.findByPage(
-            query.page,
-            { FECHA_BAJA: null },
-            autoPhraseModel.selectableProps,
-            [{ column: 'ID_AUTOFRASE', order: 'asc' }]
-        );
+        let autosPhrases;
+        if (query.search) {
+            autosPhrases = await knex.select(autoPhraseModel.selectableProps)
+                .from(autoPhraseModel.tableName)
+                .where('FRASE_FINAL', 'like', `${query.search}%`)
+                .orderBy([{ column: 'FRASE_FINAL', order: 'asc' }])
+                .timeout(autoPhraseModel.timeout);
+        } else if
+        (query.page) {
+            autosPhrases = await autoPhraseModel.findByPage(
+                query.page,
+                { FECHA_BAJA: null },
+                autoPhraseModel.selectableProps,
+                [{ column: 'ID_AUTOFRASE', order: 'asc' }]
+            );
+
+        }
         return autosPhrases.map(autoPhrase => ({
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
