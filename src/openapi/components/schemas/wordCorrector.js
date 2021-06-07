@@ -1,23 +1,50 @@
 module.exports = {
     type: 'object',
     properties: {
-        incorrect: {
-            type: 'string'
+        wrong: {
+            type: 'string',
+            nullable: false,
+            maxLength: 120
         },
-        correct: {
-            type: 'string'
+        right: {
+            type: 'string',
+            nullable: false,
+            maxLength: 120
         },
         isAWord: {
-            type: 'string'
+            type: 'boolean',
+            nullable: true
         },
         observation: {
-            type: 'boolean'
+            type: 'string',
+            maxLength: 120
         },
         approved: {
-            type: 'boolean'
+            type: 'boolean',
+            nullable: true
         },
-        frequence: {
-            type: 'boolean'
+        frequency: {
+            type: 'integer',
+            nullable: true
+        },
+        createdAt: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        userCreator: {
+            type: 'string',
+            maxLength: 50
+        },
+        userDeleted: {
+            type: 'string',
+            maxLength: 50,
+            nullable: true
+        },
+        deletedAt: {
+            type: 'string',
+            format: 'date',
+            nullable: true
         }
     }
 };

@@ -21,7 +21,7 @@ class WordCorrectorController {
 
     static async create(req, res, next){
         try {
-            const wordCorrector = await WordCorrectorService.create(req.body, req.user.id);
+            const wordCorrector = await WordCorrectorService.create(req.body.corrector, req.user.id);
             res.status(201);
             res.send({ wordCorrector });
         } catch(err) {
@@ -31,7 +31,7 @@ class WordCorrectorController {
 
     static async update(req, res, next){
         try {
-            const wordCorrector = await WordCorrectorService.update(req.params, req.body);
+            const wordCorrector = await WordCorrectorService.update(req.params, req.body.corrector);
             res.send({wordCorrector});
         } catch(err){
             next(err);

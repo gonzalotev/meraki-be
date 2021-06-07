@@ -22,23 +22,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    words: {
+                                    wordsCorrectors: {
                                         type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                incorrect: {type: 'string'},
-                                                correct: {type: 'string'},
-                                                destination_word: {type: 'boolean'},
-                                                observation: {type: 'string'},
-                                                approved: {type: 'boolean'},
-                                                frequence: {type: 'integer'},
-                                                createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
-                                            }
-                                        }
+                                        items: {$ref: '#/components/schemas/WordCorrector'}
                                     }
                                 }
                             }
@@ -62,10 +48,17 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                incorrect: {type: 'string'},
-                                correct: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'}
+                                corrector: {
+                                    type: 'object',
+                                    properties: {
+                                        wrong: {type: 'string'},
+                                        right: {type: 'string'},
+                                        isAWord: {type: 'boolean'},
+                                        observation: {type: 'string'},
+                                        approved: {type: 'boolean'},
+                                        frequency: {type: 'integer'}
+                                    }
+                                }
                             }
                         }
                     }
@@ -78,23 +71,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {
-                                    wordCorrector: {
-                                        type: 'object',
-                                        properties: {
-                                            incorrect: {type: 'string'},
-                                            correct: {type: 'string'},
-                                            destination_word: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            frequence: {type: 'integer'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
+                                properties: {wordCorrector: {$ref: '#/components/schemas/WordCorrector'}}
                             }
                         }
                     }
@@ -106,17 +83,22 @@ module.exports = {
             }
         }
     },
-    '/api/wordCorrectors/{incorrect}': {
+    '/api/wordCorrectors/{wrong}/{right}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Words Correctors'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'incorrect',
+                    name: 'wrong',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'right',
+                    required: true,
+                    schema: {type: 'string'}
                 }
             ],
             requestBody: {
@@ -127,16 +109,17 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                incorrect: {type: 'string'},
-                                correct: {type: 'string'},
-                                destination_word: {type: 'boolean'},
-                                observation: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                frequence: {type: 'integer'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                corrector: {
+                                    type: 'object',
+                                    properties: {
+                                        wrong: {type: 'string'},
+                                        right: {type: 'string'},
+                                        isAWord: {type: 'boolean'},
+                                        observation: {type: 'string'},
+                                        approved: {type: 'boolean'},
+                                        frequency: {type: 'integer'}
+                                    }
+                                }
                             }
                         }
                     }
@@ -149,21 +132,21 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
+                                properties: {wordCorrector: {$ref: '#/components/schemas/WordCorrector'}}
+                            }
+                        }
+                    }
+                },
+                409: {
+                    description: 'Not found words',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
                                 properties: {
-                                    wordCorrector: {
-                                        type: 'object',
-                                        properties: {
-                                            incorrect: {type: 'string'},
-                                            correct: {type: 'string'},
-                                            destination_word: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            frequence: {type: 'integer'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
+                                    wordsNotFound: {
+                                        type: 'array',
+                                        items: {type: 'string'}
                                     }
                                 }
                             }
@@ -182,10 +165,15 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'incorrect',
+                    name: 'wrong',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'right',
+                    required: true,
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -202,10 +190,15 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'incorrect',
+                    name: 'wrong',
                     required: true,
-                    schema: {type: 'string'},
-                    description: '"incorrect" field id'
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'path',
+                    name: 'right',
+                    required: true,
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -215,23 +208,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {
-                                    wordCorrector: {
-                                        type: 'object',
-                                        properties: {
-                                            incorrect: {type: 'string'},
-                                            correct: {type: 'string'},
-                                            destination_word: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            frequence: {type: 'integer'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
+                                properties: {wordCorrector: {$ref: '#/components/schemas/WordCorrector'}}
                             }
                         }
                     }

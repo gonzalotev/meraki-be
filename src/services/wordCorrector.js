@@ -1,17 +1,17 @@
 const { wordCorrector: wordCorrectorModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class WordCorrectorService {
     static async fetch(query) {
-        const WordsCorrectors = await wordCorrectorModel.findByPage(query.page, {FECHA_BAJA: null});
-        return WordsCorrectors.map(wordCorrector => ({
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
-            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+        const words = await wordCorrectorModel.findByPage(query.page, {FECHA_BAJA: null});
+        return words.map(wordCorrector => ({
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
-            approved: wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            approved: !!wordCorrector.SUPERVISADO,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -25,7 +25,7 @@ class WordCorrectorService {
             CORRECTA: params.right,
             DESTINO_PALABRA_FRASE_SI_NO: params.isAWord,
             OBSERVACION: trim(params.observation),
-            FRECUENCIA: trim(params.frequency),
+            FRECUENCIA: params.frequency,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -35,12 +35,12 @@ class WordCorrectorService {
         const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, transaction);
 
         return {
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
             isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
             approved: !!wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -49,15 +49,14 @@ class WordCorrectorService {
     }
 
     static async findOne(filters){
-        console.log(filters);
-        const wordCorrector = await wordCorrectorModel.findOne({INCORRECTA: filters.incorrect});
+        const wordCorrector = await wordCorrectorModel.findOne({INCORRECTA: filters.wrong, CORRECTA: filters.right});
         return {
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
-            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
-            approved: wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            approved: !!wordCorrector.SUPERVISADO,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -65,27 +64,30 @@ class WordCorrectorService {
         };
     }
 
-    static async update(filters, params, userCreator){
+    static async update(filters, params){
         const formattedWordCorrector = {
-            INCORRECTA: trim(params.incorrect),
-            CORRECTA: trim(params.description),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
+            INCORRECTA: trim(params.wrong),
+            CORRECTA: trim(params.right),
+            DESTINO_PALABRA_FRASE_SI_NO: params.isAWord,
             OBSERVACION: trim(params.observation),
-            FRECUENCIA: trim(params.frequence),
+            FRECUENCIA: params.frequency,
             SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userCreator,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const wordCorrector = await wordCorrectorModel.updateOne({CORRECTA: filters.correct}, formattedWordCorrector);
+        const wordCorrector = await wordCorrectorModel.updateOne(
+            {INCORRECTA: filters.wrong, CORRECTA: filters.right},
+            formattedWordCorrector
+        );
         return {
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
-            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
-            approved: wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            approved: !!wordCorrector.SUPERVISADO,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -94,7 +96,7 @@ class WordCorrectorService {
     }
 
     static async delete(filters, userDeleted){
-        const formattedFilters = {CORRECTA: filters.correct};
+        const formattedFilters = {INCORRECTA: filters.wrong, CORRECTA: filters.right};
         const success = await wordCorrectorModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
