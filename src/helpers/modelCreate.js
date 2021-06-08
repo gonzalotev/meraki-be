@@ -260,7 +260,12 @@ class ModelCreate {
             .where(filters)
             .timeout(this.timeout));
     }
-
+    async countTotal (filters = {}) {
+        return head(await this.knex(this.tableName)
+            .count({ total: '*' })
+            .where(filters)
+            .timeout(this.timeout));
+    }
     async findAndUpdate (filters, props) {
         try {
             const user = await this.findOne(filters);
