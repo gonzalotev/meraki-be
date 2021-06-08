@@ -1,10 +1,14 @@
 const { WordCorrectorService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class WordCorrectorController {
     static async fetch(req, res, next) {
         try {
-            const wordsCorrectors = await WordCorrectorService.fetch(req.query);
-            res.send({ wordsCorrectors });
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const wordsCorrectors = await WordCorrectorService.fetch({page, search: searchValue});
+            const total = await WordCorrectorService.getTotal({search: searchValue});
+            res.send({ wordsCorrectors, total });
         } catch(error) {
             next(error);
         }

@@ -12,6 +12,12 @@ module.exports = {
                         type: 'number',
                         default: 1
                     }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
                 }
             ],
             responses: {

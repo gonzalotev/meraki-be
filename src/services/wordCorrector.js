@@ -3,8 +3,16 @@ const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class WordCorrectorService {
-    static async fetch(query) {
-        const words = await wordCorrectorModel.findByPage(query.page, {FECHA_BAJA: null});
+    static async fetch({page, search}) {
+        let words=[];
+        if(page && search) {
+            words = await wordCorrectorModel.fetchByPageAndTerm(page, search, {FECHA_BAJA: null});
+        } else if(page){
+            words = await wordCorrectorModel.findByPage(page, {FECHA_BAJA: null});
+        } else {
+            words = await wordCorrectorModel.find({FECHA_BAJA: null});
+        }
+
         return words.map(wordCorrector => ({
             wrong: wordCorrector.INCORRECTA,
             right: wordCorrector.CORRECTA,
@@ -102,6 +110,11 @@ class WordCorrectorService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getTotal({search}){
+        const result = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search);
+        return result.total;
     }
 }
 
