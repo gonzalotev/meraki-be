@@ -20,7 +20,7 @@ class DocumentTypeService {
 
     static async create(params, userCreator) {
         const formattedDocumentType = {
-            ID_TIPO_DOCUMENTO: trim(params.id),
+            ID_TIPO_DOCUMENTO: null,
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),

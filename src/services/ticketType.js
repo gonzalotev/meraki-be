@@ -29,7 +29,7 @@ class TicketTypeService {
 
     static async create(params, userCreator) {
         const formattedTicketType = {
-            ID_TIPO_CHAT: trim(params.id),
+            ID_TIPO_CHAT: null,
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),

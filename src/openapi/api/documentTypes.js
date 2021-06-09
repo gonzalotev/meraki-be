@@ -2,7 +2,7 @@ module.exports = {
     '/api/documentTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Document Types'],
             responses: {
                 200: {
                     description: 'Success',
@@ -41,7 +41,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Document Types'],
             requestBody: {
                 description: 'The new  type of document to create',
                 required: true,
@@ -96,7 +96,7 @@ module.exports = {
     '/api/documentTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Document Types'],
             parameters: [
                 {
                     in: 'path',
@@ -114,7 +114,6 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -163,7 +162,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Document Types'],
             parameters: [
                 {
                     in: 'path',
@@ -183,7 +182,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Document Types'],
             parameters: [
                 {
                     in: 'path',

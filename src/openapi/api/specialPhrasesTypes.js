@@ -2,7 +2,7 @@ module.exports = {
     '/api/specialPhrasesTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             responses: {
                 200: {
                     description: 'Success',
@@ -42,7 +42,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             requestBody: {
                 description: 'The new  type of specialPhrase to create',
                 required: true,
@@ -51,7 +51,6 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
                                 abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
@@ -105,7 +104,7 @@ module.exports = {
     '/api/specialPhrasesTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             parameters: [
                 {
                     in: 'path',
@@ -175,7 +174,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             parameters: [
                 {
                     in: 'path',
@@ -198,7 +197,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             parameters: [
                 {
                     in: 'path',

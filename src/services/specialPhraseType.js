@@ -20,7 +20,7 @@ class SpecialPhraseTypeService {
 
     static async create(params, userCreator) {
         const formattedSpecialPhraseType = {
-            ID_TIPO_FRASE_ESPECIAL: trim(params.id),
+            ID_TIPO_FRASE_ESPECIAL: null,
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),

@@ -20,7 +20,7 @@ class RelationshipTypeService {
 
     static async create(params, userCreator) {
         const formattedRelationshipType = {
-            ID_TIPO_RELACION: (params.id),
+            ID_TIPO_RELACION: null,
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),

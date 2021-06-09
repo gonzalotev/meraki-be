@@ -500,18 +500,6 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const relationshipAutophrasesQuestionClosedTableName = 'REL_AUTOFRASES_PREGUNTA_CERRADA_DOCU';
-const relationshipAutophrasesQuestionClosedAttrib = [
-    'ID_AUTOFRASE',
-    'ID_FUENTE',
-    'ID_PREGUNTA',
-    'ID_DOCUMENTO',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
-];
-
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -574,8 +562,6 @@ module.exports = {
     autoPhraseClosedQuestionAttrib,
     relationshipAutoPhraseNomenclatureTableName,
     relationshipAutoPhraseNomenclatureAttrib,
-    relationshipAutophrasesQuestionClosedTableName,
-    relationshipAutophrasesQuestionClosedAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib
 
