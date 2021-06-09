@@ -12,7 +12,6 @@ class WordsDictionaryController {
 
     static async findMatch(req, res, next) {
         try {
-            console.log(req.params);
             const matchWords = await WordsDictionaryService.findMatching(req.params);
             res.send({ matchWords });
         } catch(error) {
@@ -22,7 +21,6 @@ class WordsDictionaryController {
 
     static async find(req, res, next) {
         try {
-            console.log(req.params);
             const word = await WordsDictionaryService.findOne(req.params);
             res.send({ word });
         } catch(error) {

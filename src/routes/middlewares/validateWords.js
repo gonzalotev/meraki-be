@@ -2,7 +2,7 @@ const {WordsDictionaryService} = include('services');
 const trim = require('lodash/trim');
 const split = require('lodash/split');
 const replace = require('lodash/replace');
-const upperCase = require('lodash/upperCase');
+const toUpper = require('lodash/toUpper');
 const difference = require('lodash/difference');
 const isEmpty = require('lodash/isEmpty');
 const {standarText} = include('util');
@@ -11,7 +11,8 @@ module.exports = async (req, res, next) => {
     try {
         const {corrector, dictionary} = req.body;
         if(corrector){
-            corrector.right = upperCase(trim(corrector.right));
+            corrector.right = trim(corrector.right);
+            corrector.right = toUpper(corrector.right);
             const right = replace(corrector.right, /\s+/g, ' ');
             const rightWords = split(right, ' ');
             const {wordsFound} = await WordsDictionaryService.checkIfAllWordsExist(rightWords);

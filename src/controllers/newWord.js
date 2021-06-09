@@ -40,7 +40,6 @@ class NewWordController {
                 response.newWord = updatedNewWord;
                 res.status(201);
             } else if(corrector){
-                console.log(corrector);
                 const createdCorrector = await WordCorrectorService.create(
                     {...corrector, frequency, wrong: word},
                     req.user.id,
