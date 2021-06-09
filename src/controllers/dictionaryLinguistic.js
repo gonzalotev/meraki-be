@@ -1,10 +1,14 @@
 const { DictionaryLinguisticService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class DictionaryLinguisticController {
     static async fetch(req, res, next) {
         try {
-            const dictionaryLinguistics = await DictionaryLinguisticService.fetch(req.query);
-            res.send({ dictionaryLinguistics });
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const dictionaryLinguistics = await DictionaryLinguisticService.fetch({page, search: searchValue});
+            const total = await DictionaryLinguisticService.getTotal({search: searchValue});
+            res.send({ dictionaryLinguistics, total });
         } catch(error) {
             next(error);
         }

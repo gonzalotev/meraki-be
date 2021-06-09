@@ -3,13 +3,19 @@ const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class DictionaryLinguisticService {
-    static async fetch(query) {
-        const dictionaries = await dictionaryLinguistic.findByPage(
-            query.page,
-            {FECHA_BAJA: null},
-            dictionaryLinguistic.selectableProps,
-            [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}]
-        );
+    static async fetch({page, search}) {
+        let dictionaries=[];
+        if(page && search) {
+            dictionaries = await dictionaryLinguistic.fetchByPageAndTerm(page, search, {FECHA_BAJA: null});
+        } else if(page){
+            dictionaries = await dictionaryLinguistic.findByPage(page,
+                {FECHA_BAJA: null},
+                dictionaryLinguistic.selectableProps,
+                [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}]);
+        } else {
+            dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
+        }
+
         return dictionaries.map(dictionary => ({
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
             dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
@@ -119,6 +125,11 @@ class DictionaryLinguisticService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getTotal({search}){
+        const result = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search);
+        return result.total;
     }
 }
 
