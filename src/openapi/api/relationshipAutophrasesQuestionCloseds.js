@@ -16,10 +16,10 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
+                                                autophraseId: {type: 'integer'},
                                                 fontId: {type: 'integer'},
                                                 questionId: {type: 'integer'},
-                                                documentId: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
@@ -49,10 +49,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                autophraseId: {type: 'integer'},
                                 fontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
-                                documentId: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -74,10 +74,10 @@ module.exports = {
                                     relationship: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            autophraseId: {type: 'integer'},
                                             fontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
-                                            documentId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -96,14 +96,14 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesQuestionCloseds/{id}': {
+    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Relationship Autophrases Questions Closeds'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -117,10 +117,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                autophraseId: {type: 'integer'},
                                 fontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
-                                documentId: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -142,10 +142,10 @@ module.exports = {
                                     relationship: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            autophraseId: {type: 'integer'},
                                             fontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
-                                            documentId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -169,7 +169,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -192,7 +192,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -209,10 +209,10 @@ module.exports = {
                                     relationship: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            autophraseId: {type: 'integer'},
                                             fontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
-                                            documentId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},

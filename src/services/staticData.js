@@ -66,7 +66,9 @@ class StaticDataService {
         const fonts = await knex
             .select({
                 id: 'ID_FUENTE',
+                questionId: 'ID_PREGUNTA',
                 openClosedId: 'ID_ABIERTA_CERRADA',
+                codWord: 'CODIGO_PREGUNTA',
                 variableId: 'ID_VARIABLE'
             })
             .from('RELACION_FUENTE_PREGUNTAS');
@@ -76,6 +78,7 @@ class StaticDataService {
         const nomenclatures = await knex
             .select({
                 id: 'ID_NOMENCLATURA',
+                nomenclatorId: 'ID_NOMENCLADOR',
                 description: 'DESCRIPCION'
             })
             .from('NOMENCLATURAS');

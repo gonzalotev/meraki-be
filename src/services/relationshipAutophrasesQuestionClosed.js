@@ -6,7 +6,7 @@ class RelationshipAutophrasesQuestionClosedService {
     static async fetch() {
         const relationshipsTypes = await relationshipAutophrasesQuestionClosedModel.find({FECHA_BAJA: null});
         return relationshipsTypes.map(relationshipAutophrasesQuestionClosed => ({
-            id: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
+            autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
             fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
@@ -24,7 +24,7 @@ class RelationshipAutophrasesQuestionClosedService {
 
     static async create(params, userCreator) {
         const formattedRelationshipAutophrasesQuestionClosed = {
-            ID_AUTOFRASE: trim(params.id),
+            ID_AUTOFRASE: trim(params.autophraseId),
             ID_FUENTE: trim(params.fontId),
             ID_PREGUNTA: trim(params.questionId),
             ABREVIATURA: trim(params.abreviation),
@@ -42,7 +42,7 @@ class RelationshipAutophrasesQuestionClosedService {
             insertOne(formattedRelationshipAutophrasesQuestionClosed);
 
         return {
-            id: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
+            autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
             fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
@@ -62,7 +62,7 @@ class RelationshipAutophrasesQuestionClosedService {
         const relationshipAutophrasesQuestionClosed = await relationshipAutophrasesQuestionClosedModel.findById(
             {ID_AUTOFRASE: filters.id});
         return {
-            id: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
+            autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
             fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
@@ -80,7 +80,7 @@ class RelationshipAutophrasesQuestionClosedService {
 
     static async update(filters, params, userCreator){
         const formattedRelationshipAutophrasesQuestionClosed = {
-            ID_AUTOFRASE: trim(params.id),
+            ID_AUTOFRASE: trim(params.autophraseId),
             ID_FUENTE: trim(params.fontId),
             ID_PREGUNTA: trim(params.questionId),
             ABREVIATURA: trim(params.abreviation),
@@ -98,7 +98,7 @@ class RelationshipAutophrasesQuestionClosedService {
             {ID_AUTOFRASE: filters.id},
             formattedRelationshipAutophrasesQuestionClosed);
         return {
-            id: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
+            autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
             fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
@@ -115,6 +115,7 @@ class RelationshipAutophrasesQuestionClosedService {
     }
 
     static async delete(filters, userDeleted){
+        console.log(filters);
         const formattedFilters = {ID_AUTOFRASE: filters.id};
         const success = await relationshipAutophrasesQuestionClosedModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
