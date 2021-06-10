@@ -1,4 +1,4 @@
-const { DictionaryLinguisticService } = include('services');
+const { DictionaryLinguisticService, StaticalVariableService, DictionaryTypeService } = include('services');
 const toUpper = require('lodash/toUpper');
 
 class DictionaryLinguisticController {
@@ -6,9 +6,11 @@ class DictionaryLinguisticController {
         try {
             const {page, search} = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const dictionaryLinguistics = await DictionaryLinguisticService.fetch({page, search: searchValue});
+            let dictionaries = await DictionaryLinguisticService.fetch({page, search: searchValue});
+            dictionaries = await DictionaryTypeService.includeDictionariesTypes(dictionaries);
+            dictionaries = await StaticalVariableService.includeVariables(dictionaries);
             const total = await DictionaryLinguisticService.getTotal({search: searchValue});
-            res.send({ dictionaryLinguistics, total });
+            res.send({ dictionaryLinguistics: dictionaries, total });
         } catch(error) {
             next(error);
         }
@@ -50,6 +52,14 @@ class DictionaryLinguisticController {
             } else {
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    static downloadCsv(req, res, next){
+        try {
+            res.send({});
         } catch(err) {
             next(err);
         }

@@ -1,6 +1,9 @@
 const { dictionaryType: dictionaryTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const uniq = require('lodash/uniq');
+const map = require('lodash/map');
+const find = require('lodash/find');
 
 class DictionaryTypeService {
     static async fetch() {
@@ -135,6 +138,16 @@ class DictionaryTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+    static async includeDictionariesTypes(resourceArray){
+        const dictionariesTypesIds = uniq(map(resourceArray, resource => resource.dictionaryTypeId));
+        const dictionariesTypes = await dictionaryTypeModel.getDictionariesTypes(dictionariesTypesIds);
+        const resourceArrayWithDictionaryType = map(resourceArray, value => {
+            const dictionaryType = find(dictionariesTypes, dictionary => dictionary.id === value.dictionaryTypeId);
+            value.dictionaryType = dictionaryType;
+            return value;
+        });
+        return resourceArrayWithDictionaryType;
     }
 }
 

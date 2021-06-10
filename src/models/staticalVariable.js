@@ -11,6 +11,16 @@ class StaticalVariable extends ModelCreate {
             tableName: staticalVariableTableName
         });
     }
+    getVariables(ids){
+        return this.knex.select({
+            id: 'ID_VARIABLE',
+            name: 'NOMBRE',
+            abbreviation: 'ABREVIATURA'
+        })
+            .from(this.tableName)
+            .whereIn('ID_VARIABLE', ids)
+            .timeout(this.timeout);
+    }
 }
 
 module.exports = knex => new StaticalVariable({ knex });
