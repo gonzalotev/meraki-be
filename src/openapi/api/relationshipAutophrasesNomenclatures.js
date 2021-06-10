@@ -1,19 +1,8 @@
 module.exports = {
-    '/api/relationshipNomenclatures': {
+    '/api/relationshipAutophrasesNomenclatures': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: false,
-                    schema: {
-                        type: 'number',
-                        default: 1
-                    }
-                }
-            ],
+            tags: ['Relationship Autophrases Nomenclatures'],
             responses: {
                 200: {
                     description: 'Success',
@@ -22,17 +11,14 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    prhases: {
+                                    relationships: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
+                                                autophraseId: {type: 'integer'},
                                                 nomenclatorId: {type: 'integer'},
                                                 nomenclatureId: {type: 'string'},
-                                                autophraseId: {type: 'integer'},
-                                                observation: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                approved: {type: 'boolean'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
@@ -53,21 +39,20 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
+            tags: ['Relationship Autophrases Nomenclatures'],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new  type of relationship to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
+                                autophraseId: {type: 'integer'},
                                 nomenclatorId: {type: 'integer'},
                                 nomenclatureId: {type: 'string'},
-                                autophraseId: {type: 'integer'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -86,15 +71,14 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    prhase: {
+                                    relationship: {
                                         type: 'object',
                                         properties: {
+                                            autophraseId: {type: 'integer'},
                                             nomenclatorId: {type: 'integer'},
                                             nomenclatureId: {type: 'string'},
-                                            autophraseId: {type: 'integer'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -113,33 +97,30 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipNomenclatures/{id}': {
+    '/api/relationshipAutophrasesNomenclatures/{autophraseId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Autophrases Nomenclatures'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new  type of relationship to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
+                                autophraseId: {type: 'integer'},
                                 nomenclatorId: {type: 'integer'},
                                 nomenclatureId: {type: 'string'},
-                                autophraseId: {type: 'integer'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -158,15 +139,13 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    prhase: {
+                                    relationship: {
                                         type: 'object',
                                         properties: {
-                                            nomenclatorId: {type: 'integer'},
-                                            nomenclatureId: {type: 'string'},
                                             autophraseId: {type: 'integer'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            fontId: {type: 'integer'},
+                                            questionId: {type: 'integer'},
+                                            abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -186,11 +165,11 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Types'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -209,11 +188,11 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Relationship Autophrases Nomenclatures'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -227,15 +206,13 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    phrase: {
+                                    relationship: {
                                         type: 'object',
                                         properties: {
-                                            nomenclatorId: {type: 'integer'},
-                                            nomenclatureId: {type: 'string'},
                                             autophraseId: {type: 'integer'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            fontId: {type: 'integer'},
+                                            questionId: {type: 'integer'},
+                                            abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},

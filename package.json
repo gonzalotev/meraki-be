@@ -1,6 +1,6 @@
 {
   "name": "sici-be",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "0.0.2-SNAPSHOT",
   "description": "SICI BE",
   "main": "index.js",
   "nodemonConfig": {
@@ -12,7 +12,8 @@
     "restartable": "rs",
     "delay": "3500",
     "env": {
-      "NODE_ENV": "development"
+      "NODE_ENV": "development",
+      "PAGE_SIZE":"20"
     }
   },
   "scripts": {
