@@ -11,6 +11,15 @@ class DictionaryType extends ModelCreate {
             tableName: dictionaryTypeTableName
         });
     }
+    getDictionariesTypes(ids){
+        return this.knex.select({
+            id: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+            description: 'DESCRIPCION'
+        })
+            .from(this.tableName)
+            .whereIn('ID_TIPOLOGIA_DE_DICCIONARIO', ids)
+            .timeout(this.timeout);
+    }
 }
 
 module.exports = knex => new DictionaryType({ knex });
