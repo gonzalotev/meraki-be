@@ -53,7 +53,7 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles'],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new role to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -121,7 +121,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new role to create',
                 required: true,
                 content: {
                     'application/json': {

@@ -32,6 +32,7 @@ module.exports = {
                                                 domain: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 userId: {type: 'string'},
+                                                userName: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 deletedAt: {type: 'string'}
                                             }
@@ -64,6 +65,7 @@ module.exports = {
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
                                 userId: {type: 'string'},
+                                userName: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -88,6 +90,7 @@ module.exports = {
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
                                             userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -130,6 +133,7 @@ module.exports = {
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
                                 userId: {type: 'string'},
+                                userName: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -154,6 +158,7 @@ module.exports = {
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
                                             userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -212,6 +217,7 @@ module.exports = {
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
                                             userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }

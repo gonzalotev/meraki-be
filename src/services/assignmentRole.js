@@ -1,12 +1,12 @@
 const { assignmentRole: assignmentRoleModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class AssignmentRoleService {
     static async fetch(query) {
         const assignmentsRoles = await assignmentRoleModel.findByPage(
             query.page,
-            { FECHA_BAJA: null },
+            [],
             assignmentRoleModel.selectableProps,
             [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
         );
@@ -29,6 +29,7 @@ class AssignmentRoleService {
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             ID_USUARIO: trim(params.idUser),
+            NOMBRE_USUARIO: trim(params.userName),
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
@@ -40,6 +41,7 @@ class AssignmentRoleService {
             domain: assignmentRole.DOMINIO,
             observation: assignmentRole.OBSERVACION,
             idUser: assignmentRole.ID_USUARIO,
+            userName: assignmentRole.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRole.FECHA_ALTA),
             deletedAt: dateToString(assignmentRole.FECHA_BAJA)
         };
@@ -73,11 +75,12 @@ class AssignmentRoleService {
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             ID_USUARIO: trim(params.idUser),
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            NOMBRE_USUARIO: trim(params.userName),
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const assignmentRole = await assignmentRoleModel.updateOne(
-            { ID_ROL_USUARIO: filters.id },
+            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.idUser},
             formattedAssignmentRole
         );
         return {
@@ -86,6 +89,7 @@ class AssignmentRoleService {
             domain: assignmentRole.DOMINIO,
             observation: assignmentRole.OBSERVACION,
             idUser: assignmentRole.ID_USUARIO,
+            userName: assignmentRole.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRole.FECHA_ALTA),
             deletedAt: dateToString(assignmentRole.FECHA_BAJA)
         };

@@ -35,6 +35,7 @@ module.exports = {
                                                 domain: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 yes_no: {type: 'boolean'},
+                                                userName: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 deletedAt: {type: 'string'}
                                             }
@@ -69,6 +70,7 @@ module.exports = {
                                 variableId: {type: 'string'},
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                userName: {type: 'string'},
                                 yes_no: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 deletedAt: {type: 'string'}
@@ -96,6 +98,7 @@ module.exports = {
                                             variableId: {type: 'string'},
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            userName: {type: 'string'},
                                             yes_no: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
@@ -141,6 +144,7 @@ module.exports = {
                                 variableId: {type: 'string'},
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                userName: {type: 'string'},
                                 yes_no: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 deletedAt: {type: 'string'}
@@ -168,6 +172,7 @@ module.exports = {
                                             variableId: {type: 'string'},
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            userName: {type: 'string'},
                                             yes_no: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
@@ -229,6 +234,7 @@ module.exports = {
                                             variableId: {type: 'string'},
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
+                                            userName: {type: 'string'},
                                             yes_no: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
