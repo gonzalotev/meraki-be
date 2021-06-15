@@ -1,6 +1,9 @@
 const { wordCorrector: wordCorrectorModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const knex = include('helpers/database');
+const {arrayToCsvFormat} = include('util');
+const {wordCorrectorHeaders} = include('constants/csvHeaders');
 
 class WordCorrectorService {
     static async fetch({page, search}) {
@@ -115,6 +118,23 @@ class WordCorrectorService {
     static async getTotal({search}){
         const result = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search);
         return result.total;
+    }
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const headers = arrayToCsvFormat(wordCorrectorHeaders);
+            csvString += headers;
+            const stream = knex.select(wordCorrectorHeaders).from(wordCorrectorModel.tableName).stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 
