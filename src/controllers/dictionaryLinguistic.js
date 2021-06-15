@@ -57,9 +57,11 @@ class DictionaryLinguisticController {
         }
     }
 
-    static downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next){
         try {
-            res.send({});
+            const stream = await DictionaryLinguisticService.getCsv();
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
         } catch(err) {
             next(err);
         }
