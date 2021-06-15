@@ -89,6 +89,42 @@ module.exports = {
             }
         }
     },
+    '/api/wordCorrectors/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Words Correctors'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/WordCorrector'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
     '/api/wordCorrectors/{wrong}/{right}': {
         put: {
             security: [{bearerAuth: []}],

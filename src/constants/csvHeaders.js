@@ -7,7 +7,16 @@ const linguisticDictionaryHeaders = [
     'DOMINIO',
     'SUPERVISADO'
 ];
+const wordCorrectorHeaders = [
+    'INCORRECTA',
+    'CORRECTA',
+    'DESTINO_PALABRA_FRASE_SI_NO',
+    'OBSERVACION',
+    'SUPERVISADO',
+    'FRECUENCIA'
+];
 
 module.exports = {
-    linguisticDictionaryHeaders
+    linguisticDictionaryHeaders,
+    wordCorrectorHeaders
 };
