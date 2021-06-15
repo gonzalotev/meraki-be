@@ -191,7 +191,9 @@ const assignmentRoleNomenclatorsAttrib = [
     'OBSERVACION',
     'SI_NO',
     'FECHA_ALTA',
-    'FECHA_BAJA'
+    'FECHA_BAJA',
+    'NOMBRE_USUARIO',
+    'CLASIFICADOR'
 ];
 
 const relationshipAutophrasesQuestionClosedsTableName = 'AUTOFRASES_PREGUNTA_CERRADA';
@@ -224,7 +226,11 @@ const assignmentRoleOperativeVariableAttrib = [
     'DOMINIO',
     'SI_NO',
     'FECHA_ALTA',
-    'FECHA_BAJA'
+    'FECHA_BAJA',
+    'NOMBRE_USUARIO',
+    'VARIABLE',
+    'OPERATIVO',
+    'LOTE'
 ];
 
 const nomenclatorsTableName = 'NOMENCLADORES';

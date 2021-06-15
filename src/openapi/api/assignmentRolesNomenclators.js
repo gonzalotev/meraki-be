@@ -177,7 +177,15 @@ module.exports = {
         delete: {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles Nomenclators'],
-
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                }
+            ],
             responses: {
                 200: {
                     description: 'ok',

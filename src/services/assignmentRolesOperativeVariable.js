@@ -1,14 +1,14 @@
 const { assignmentRolesOperativeVariable: AssignmentRolesOperativeVariableModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class AssignmentRolesOperativeVariableService {
     static async fetch(query) {
         const assignmentsRolesOperativeVariables = await AssignmentRolesOperativeVariableModel.findByPage(
             query.page,
-            { FECHA_BAJA: null },
+            [],
             AssignmentRolesOperativeVariableModel.selectableProps,
-            [{ column: 'ID_ROL_USUARIO', order: 'asc' }]
+            [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
         );
         return assignmentsRolesOperativeVariables.map(AssignmentRolesOperativeVariable => ({
             idUser: AssignmentRolesOperativeVariable.ID_USUARIO,
@@ -19,6 +19,10 @@ class AssignmentRolesOperativeVariableService {
             observation: AssignmentRolesOperativeVariable.OBSERVACION,
             domain: AssignmentRolesOperativeVariable.DOMINIO,
             yes_no: !!AssignmentRolesOperativeVariable.SI_NO,
+            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
+            variable: AssignmentRolesOperativeVariable.VARIABLE,
+            operative: AssignmentRolesOperativeVariable.OPERATIVO,
+            lot: AssignmentRolesOperativeVariable.LOTE,
             createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
             deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
         }));
@@ -34,6 +38,10 @@ class AssignmentRolesOperativeVariableService {
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             SI_NO: params.yes_no,
+            NOMBRE_USUARIO: trim(params.userName),
+            VARIABLE: trim(params.variable),
+            OPERATIVO: trim(params.operative),
+            LOTE: trim(params.lot),
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
@@ -49,6 +57,10 @@ class AssignmentRolesOperativeVariableService {
             observation: AssignmentRolesOperativeVariable.OBSERVACION,
             domain: AssignmentRolesOperativeVariable.DOMINIO,
             yes_no: !!AssignmentRolesOperativeVariable.SI_NO,
+            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
+            variable: AssignmentRolesOperativeVariable.VARIABLE,
+            operative: AssignmentRolesOperativeVariable.OPERATIVO,
+            lot: AssignmentRolesOperativeVariable.LOTE,
             createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
             deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
         };
@@ -67,6 +79,10 @@ class AssignmentRolesOperativeVariableService {
             observation: AssignmentRolesOperativeVariable.OBSERVACION,
             domain: AssignmentRolesOperativeVariable.DOMINIO,
             yes_no: !!AssignmentRolesOperativeVariable.SI_NO,
+            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
+            variable: AssignmentRolesOperativeVariable.VARIABLE,
+            operative: AssignmentRolesOperativeVariable.OPERATIVO,
+            lot: AssignmentRolesOperativeVariable.LOTE,
             createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
             deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
         };
@@ -87,11 +103,15 @@ class AssignmentRolesOperativeVariableService {
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             SI_NO: params.yes_no,
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            NOMBRE_USUARIO: trim(params.userName),
+            VARIABLE: trim(params.variable),
+            OPERATIVO: trim(params.operative),
+            LOTE: trim(params.lot),
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const AssignmentRolesOperativeVariable = await AssignmentRolesOperativeVariableModel.updateOne(
-            { ID_ROL_USUARIO: filters.id },
+            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.idUser},
             formattedAssignmentRolesOperativeVariable
         );
         return {
@@ -103,6 +123,10 @@ class AssignmentRolesOperativeVariableService {
             observation: AssignmentRolesOperativeVariable.OBSERVACION,
             domain: AssignmentRolesOperativeVariable.DOMINIO,
             yes_no: !!AssignmentRolesOperativeVariable.SI_NO,
+            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
+            variable: AssignmentRolesOperativeVariable.VARIABLE,
+            operative: AssignmentRolesOperativeVariable.OPERATIVO,
+            lot: AssignmentRolesOperativeVariable.LOTE,
             createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
             deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
         };
