@@ -21,6 +21,7 @@ const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
 const wordCorrector = require('./wordCorrectors');
+const operativeSources = require('./operativeSources');
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -44,5 +45,6 @@ module.exports = {
     ...newWords,
     ...wordsDictionary,
     ...wordCorrector,
-    ...newPhrases
+    ...newPhrases,
+    ...operativeSources
 };
