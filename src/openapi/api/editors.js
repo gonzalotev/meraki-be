@@ -2,7 +2,7 @@ module.exports = {
     '/api/editors': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Editors'],
             responses: {
                 200: {
                     description: 'Success',
@@ -41,7 +41,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Editors'],
             requestBody: {
                 description: 'The new  editor to create',
                 required: true,
@@ -96,7 +96,7 @@ module.exports = {
     '/api/editors/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Editors'],
             parameters: [
                 {
                     in: 'path',
@@ -163,7 +163,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Editors'],
             parameters: [
                 {
                     in: 'path',
@@ -183,7 +183,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Editors'],
             parameters: [
                 {
                     in: 'path',

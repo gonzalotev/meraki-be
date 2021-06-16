@@ -1,5 +1,26 @@
 module.exports = {
     '/api/assignments': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Assignments'],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: { userRole: { $ref: '#/components/schemas/Assigment'}}
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
         post: {
             security: [
                 {bearerAuth: []}

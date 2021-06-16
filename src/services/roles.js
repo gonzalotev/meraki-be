@@ -18,7 +18,11 @@ class RoleService {
         }));
     }
     static async shortFetch(data) {
-        const rolesSici = await rolesModel.find();
+        const rolesSici = await rolesModel.find(
+            {FECHA_BAJA: null},
+            rolesModel.selectableProps,
+            [{column: 'DESCRIPCION', order: 'asc'}]
+        );
 
         const roles = rolesSici.map(role => ({
             id: role.ID_ROL_USUARIO,

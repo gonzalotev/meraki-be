@@ -1,8 +1,19 @@
 module.exports = {
-    '/api/classifierTypes': {
+    '/api/assignmentRoles': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                        default: 1
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,20 +22,18 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    classifiers: {
+                                    roles: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'string'},
-                                                abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
-                                                observation: {type: 'string'},
                                                 domain: {type: 'string'},
-                                                approved: {type: 'boolean'},
+                                                observation: {type: 'string'},
+                                                userId: {type: 'string'},
+                                                userName: {type: 'string'},
                                                 createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
                                                 deletedAt: {type: 'string'}
                                             }
                                         }
@@ -42,23 +51,22 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles'],
             requestBody: {
-                description: 'The new  type of classifier to create',
+                description: 'The new role to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                abbreviation: {type: 'string'},
+                                id: {type: 'string'},
                                 description: {type: 'string'},
-                                observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
+                                observation: {type: 'string'},
+                                userId: {type: 'string'},
+                                userName: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
                         }
@@ -74,18 +82,16 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    classifier: {
+                                    role: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
-                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
-                                            observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
                                     }
@@ -101,10 +107,10 @@ module.exports = {
             }
         }
     },
-    '/api/classifierTypes/{id}': {
+    '/api/assignmentRoles/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles'],
             parameters: [
                 {
                     in: 'path',
@@ -115,7 +121,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of classifier to create',
+                description: 'The new role to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -123,14 +129,12 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'string'},
-                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
-                                observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
+                                observation: {type: 'string'},
+                                userId: {type: 'string'},
+                                userName: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
                         }
@@ -146,18 +150,16 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    classifier: {
+                                    role: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
-                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
-                                            observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
                                     }
@@ -174,7 +176,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles'],
             parameters: [
                 {
                     in: 'path',
@@ -197,7 +199,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles'],
             parameters: [
                 {
                     in: 'path',
@@ -215,18 +217,16 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    classifier: {
+                                    role: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'string'},
-                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
-                                            observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
                                     }

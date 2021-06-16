@@ -1,6 +1,9 @@
 const { staticalVariable: staticalVariableModel } = include('models');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
+const uniq = require('lodash/uniq');
+const map = require('lodash/map');
+const find = require('lodash/find');
 
 class StaticalVariableService {
     static async fetch() {
@@ -23,7 +26,8 @@ class StaticalVariableService {
     static async shortFetch(data) {
         const staticalVariables = await staticalVariableModel.find(
             {SUPERVISADO: true, FECHA_BAJA: null},
-            ['ID_VARIABLE', 'NOMBRE', 'ABREVIATURA']
+            ['ID_VARIABLE', 'NOMBRE', 'ABREVIATURA'],
+            [{column: 'NOMBRE', order: 'asc'}]
         );
         const variables = staticalVariables.map(staticalVariable => ({
             id: staticalVariable.ID_VARIABLE,
@@ -123,6 +127,17 @@ class StaticalVariableService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async includeVariables(resourceArray){
+        const variablesIds = uniq(map(resourceArray, resource => resource.variableId));
+        const variables = await staticalVariableModel.getVariables(variablesIds);
+        const resourceArrayWithVariables = map(resourceArray, value => {
+            const variable = find(variables, variable => variable.id === value.variableId);
+            value.variable = variable;
+            return value;
+        });
+        return resourceArrayWithVariables;
     }
 }
 

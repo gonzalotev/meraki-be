@@ -12,6 +12,14 @@ module.exports = {
                         type: 'number',
                         default: 1
                     }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
                 }
             ],
             responses: {
@@ -22,9 +30,26 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    autoPhrases: {
+                                    prhases: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/AutoPhrase'}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'integer'},
+                                                variableId: {type: 'string'},
+                                                finalPhrase: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
+                                                idFather: {type: 'boolean'},
+                                                prhaseRetro: {type: 'boolean'},
+                                                dateRetro: {type: 'string'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -41,20 +66,25 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Auto Phrases'],
             requestBody: {
-                description: 'The new self phrase to create',
+                description: 'The new autophrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                finalPhrase: {type: 'string'},
                                 variableId: {type: 'string'},
-                                canRefeed: {type: 'boolean'},
-                                parentId: {type: 'number'},
+                                finalPhrase: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                approved: {type: 'boolean'},
+                                idFather: {type: 'boolean'},
+                                prhaseRetro: {type: 'boolean'},
+                                dateRetro: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -62,12 +92,32 @@ module.exports = {
             },
             responses: {
                 201: {
-                    description: 'Success',
+                    description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {autoPhrase: {$ref: '#/components/schemas/AutoPhrase'}}
+                                properties: {
+                                    success: {type: 'boolean'},
+                                    prhase: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            finalPhrase: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            idFather: {type: 'boolean'},
+                                            prhaseRetro: {type: 'boolean'},
+                                            dateRetro: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -82,30 +132,37 @@ module.exports = {
     '/api/autoPhrases/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The self phrase to update',
+                description: 'The new autophrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                finalPhrase: {type: 'string'},
+                                id: {type: 'integer'},
                                 variableId: {type: 'string'},
-                                canRefeed: {type: 'boolean'},
-                                parentId: {type: 'number'},
+                                finalPhrase: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                approved: {type: 'boolean'},
+                                idFather: {type: 'boolean'},
+                                prhaseRetro: {type: 'boolean'},
+                                dateRetro: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -113,41 +170,32 @@ module.exports = {
             },
             responses: {
                 200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {autoPhrase: {$ref: '#/components/schemas/AutoPhrase'}}
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'id',
-                    required: true,
-                    schema: {type: 'number'}
-                }
-            ],
-            responses: {
-                200: {
                     description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {autoPhrase: {$ref: '#/components/schemas/AutoPhrase'}}
+                                properties: {
+                                    success: {type: 'boolean'},
+                                    prhase: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            finalPhrase: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            idFather: {type: 'boolean'},
+                                            prhaseRetro: {type: 'boolean'},
+                                            dateRetro: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -160,17 +208,70 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
+            tags: ['Types'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
-                204: {description: 'The resource was deleted successfully.'},
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Types'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    phrase: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            variableId: {type: 'string'},
+                                            finalPhrase: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            idFather: {type: 'boolean'},
+                                            prhaseRetro: {type: 'boolean'},
+                                            dateRetro: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}

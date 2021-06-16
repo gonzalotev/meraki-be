@@ -7,6 +7,7 @@ const head = require('lodash/head');
 const includes = require('lodash/includes');
 const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
+const object = require('lodash/object');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
 const isDate = require('lodash/isDate');
@@ -62,11 +63,11 @@ class ModelCreate {
         return objectToSave;
     }
 
-    async insertOne (props) {
+    async insertOne (props, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
         objectToSave.FECHA_ALTA = new Date();
-        if (this.transaction) {
-            const objectCreated = await this.transaction(this.tableName)
+        if (transaction) {
+            const objectCreated = await transaction(this.tableName)
                 .insert(objectToSave)
                 .returning(this.selectableProps)
                 .timeout(this.timeout);
@@ -120,6 +121,17 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
+    findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+        const filterValue = object.values(filters);
+        const filterKey = object.keys(filters);
+        return this.knex.select(columns)
+            .from(this.tableName)
+            .where(`${filterKey[0]}`, 'like', `%${filterValue[0]}%`)
+            .whereNull(filterKey[1])
+            .orderBy(orderBy)
+            .timeout(this.timeout);
+    }
+
     async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
@@ -163,10 +175,10 @@ class ModelCreate {
         }
     }
 
-    async updateOne(filters, props) {
+    async updateOne(filters, props, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
-        if (this.transaction) {
-            const modifiedObject = await this.transaction(this.tableName)
+        if (transaction) {
+            const modifiedObject = await transaction(this.tableName)
                 .update(objectToSave)
                 .from(this.tableName)
                 .where(filters)
@@ -244,11 +256,16 @@ class ModelCreate {
 
     async countDocuments (filters = {}) {
         return head(await this.knex(this.tableName)
-            .count('id')
+            .count('*')
             .where(filters)
             .timeout(this.timeout));
     }
-
+    async countTotal (filters = {}) {
+        return head(await this.knex(this.tableName)
+            .count({ total: '*' })
+            .where(filters)
+            .timeout(this.timeout));
+    }
     async findAndUpdate (filters, props) {
         try {
             const user = await this.findOne(filters);

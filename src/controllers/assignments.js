@@ -14,6 +14,15 @@ class AssigmentController {
             next(error);
         }
     }
+    static async fetchSessionAssigment(req, res, next) {
+        try {
+            const { id } = req.user;
+            const roles = await UserRoleService.fetch(id);
+            res.send({roles});
+        } catch(error) {
+            next(error);
+        }
+    }
 
     static async create(req, res, next){
         try {

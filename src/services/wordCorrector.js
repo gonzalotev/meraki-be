@@ -1,17 +1,28 @@
 const { wordCorrector: wordCorrectorModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const knex = include('helpers/database');
+const {arrayToCsvFormat} = include('util');
+const {wordCorrectorHeaders} = include('constants/csvHeaders');
 
 class WordCorrectorService {
-    static async fetch() {
-        const WordsCorrectors = await wordCorrectorModel.find({FECHA_BAJA: null});
-        return WordsCorrectors.map(wordCorrector => ({
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
-            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+    static async fetch({page, search}) {
+        let words=[];
+        if(page && search) {
+            words = await wordCorrectorModel.fetchByPageAndTerm(page, search, {FECHA_BAJA: null});
+        } else if(page){
+            words = await wordCorrectorModel.findByPage(page, {FECHA_BAJA: null});
+        } else {
+            words = await wordCorrectorModel.find({FECHA_BAJA: null});
+        }
+
+        return words.map(wordCorrector => ({
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
-            approved: wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            approved: !!wordCorrector.SUPERVISADO,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -19,28 +30,28 @@ class WordCorrectorService {
         }));
     }
 
-    static async create(params, userCreator) {
+    static async create(params, userCreator, transaction) {
         const formattedWordCorrector = {
-            INCORRECTA: trim(params.incorrect),
-            CORRECTA: trim(params.description),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
+            INCORRECTA: trim(params.wrong),
+            CORRECTA: params.right,
+            DESTINO_PALABRA_FRASE_SI_NO: params.isAWord,
             OBSERVACION: trim(params.observation),
-            FRECUENCIA: trim(params.frequence),
+            FRECUENCIA: params.frequency,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector);
+        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, transaction);
 
         return {
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
             isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
             approved: !!wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -49,14 +60,14 @@ class WordCorrectorService {
     }
 
     static async findOne(filters){
-        const wordCorrector = await wordCorrectorModel.findById({CORRECTA: filters.correct});
+        const wordCorrector = await wordCorrectorModel.findOne({INCORRECTA: filters.wrong, CORRECTA: filters.right});
         return {
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
-            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
-            approved: wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            approved: !!wordCorrector.SUPERVISADO,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -64,27 +75,30 @@ class WordCorrectorService {
         };
     }
 
-    static async update(filters, params, userCreator){
+    static async update(filters, params){
         const formattedWordCorrector = {
-            INCORRECTA: trim(params.incorrect),
-            CORRECTA: trim(params.description),
-            DESTINO_PALABRA_FRASE_SI_NO: trim(params.isAWord),
+            INCORRECTA: trim(params.wrong),
+            CORRECTA: trim(params.right),
+            DESTINO_PALABRA_FRASE_SI_NO: params.isAWord,
             OBSERVACION: trim(params.observation),
-            FRECUENCIA: trim(params.frequence),
+            FRECUENCIA: params.frequency,
             SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userCreator,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const wordCorrector = await wordCorrectorModel.updateOne({CORRECTA: filters.correct}, formattedWordCorrector);
+        const wordCorrector = await wordCorrectorModel.updateOne(
+            {INCORRECTA: filters.wrong, CORRECTA: filters.right},
+            formattedWordCorrector
+        );
         return {
-            incorrect: wordCorrector.INCORRECTA,
-            correct: wordCorrector.CORRECTA,
-            isAWord: wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
+            wrong: wordCorrector.INCORRECTA,
+            right: wordCorrector.CORRECTA,
+            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
             observation: wordCorrector.OBSERVACION,
-            approved: wordCorrector.SUPERVISADO,
-            frequence: wordCorrector.FRECUENCIA,
+            approved: !!wordCorrector.SUPERVISADO,
+            frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
             userCreator: wordCorrector.ID_USUARIO_ALTA,
             userDeleted: wordCorrector.ID_USUARIO_BAJA,
@@ -93,12 +107,34 @@ class WordCorrectorService {
     }
 
     static async delete(filters, userDeleted){
-        const formattedFilters = {CORRECTA: filters.correct};
+        const formattedFilters = {INCORRECTA: filters.wrong, CORRECTA: filters.right};
         const success = await wordCorrectorModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getTotal({search}){
+        const result = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search);
+        return result.total;
+    }
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const headers = arrayToCsvFormat(wordCorrectorHeaders);
+            csvString += headers;
+            const stream = knex.select(wordCorrectorHeaders).from(wordCorrectorModel.tableName).stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

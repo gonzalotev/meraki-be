@@ -15,25 +15,57 @@ class StaticDataController {
                 dictionaryTypes,
                 variables,
                 genders,
-                operatives
+                operatives,
+                variablesNewsWords,
+                newWoord,
+                autoPhrase,
+                newPhrases,
+                nomenclators,
+                lots,
+                fonts,
+                nomenclatures
             } = req.query;
-            if(roles) {
+            if (roles) {
                 await RolesService.shortFetch(data);
             }
             if (dictionaryTypes) {
                 await DictionaryTypeService.shortFetch(data);
             }
-            if(variables){
+            if (variables) {
                 await StaticalVariableService.shortFetch(data);
             }
-            if(genders){
+            if (genders) {
                 await StaticDataService.getGenders(data);
             }
-            if(operatives){
+            if (operatives) {
                 await OperativesService.shortFetch(data);
             }
+            if (variablesNewsWords) {
+                await StaticDataService.getVariablesNewsWords(data);
+            }
+            if (newWoord) {
+                await StaticDataService.getNewWord(data);
+            }
+            if (autoPhrase) {
+                await StaticDataService.getAutoPhrase(data);
+            }
+            if (newPhrases) {
+                await StaticDataService.getNewPhrase(data);
+            }
+            if (nomenclators) {
+                await StaticDataService.getNomenclators(data);
+            }
+            if (lots) {
+                await StaticDataService.getLots(data);
+            }
+            if (fonts) {
+                await StaticDataService.getFont(data);
+            }
+            if (nomenclatures) {
+                await StaticDataService.getNomenclatures(data);
+            }
             res.send(data);
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }

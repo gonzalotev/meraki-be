@@ -4,8 +4,8 @@ const trim = require('lodash/trim');
 
 class SpecialPhraseTypeService {
     static async fetch() {
-        const specialsPhrasesTypes = await specialPhraseTypeModel.find({FECHA_BAJA: null});
-        return specialsPhrasesTypes.map(specialPhraseType => ({
+        const specialPhrasesTypes = await specialPhraseTypeModel.find({FECHA_BAJA: null});
+        return specialPhrasesTypes.map(specialPhraseType => ({
             id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
@@ -62,7 +62,7 @@ class SpecialPhraseTypeService {
 
     static async update(filters, params){
         const formattedSpecialPhraseType = {
-            ID_TIPO_FRASE_ESPECIAL: params.id,
+            ID_TIPO_FRASE_ESPECIAL: trim(params.id),
             DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),

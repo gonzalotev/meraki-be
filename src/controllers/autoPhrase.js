@@ -1,10 +1,11 @@
-const { ClassifierTypeService } = include('services');
+const { AutoPhraseService } = include('services');
 
-class ClassifierTypeController {
+class AutoPhraseController {
     static async fetch(req, res, next) {
         try {
-            const classifiersTypes = await ClassifierTypeService.fetch();
-            res.send({ classifiersTypes });
+            const autosPhrases = await AutoPhraseService.fetch(req.query);
+            const total = await AutoPhraseService.getTotal({});
+            res.send({ autosPhrases, total });
         } catch(error) {
             next(error);
         }
@@ -12,8 +13,8 @@ class ClassifierTypeController {
 
     static async find(req, res, next) {
         try {
-            const classifierType = await ClassifierTypeService.findOne(req.params);
-            res.send({ classifierType });
+            const autoPhrase = await AutoPhraseService.findOne(req.params);
+            res.send({ autoPhrase });
         } catch(error) {
             next(error);
         }
@@ -21,9 +22,9 @@ class ClassifierTypeController {
 
     static async create(req, res, next){
         try {
-            const classifierType = await ClassifierTypeService.create(req.body, req.user.id);
+            const autoPhrase = await AutoPhraseService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ classifierType });
+            res.send({ autoPhrase });
         } catch(err) {
             next(err);
         }
@@ -31,8 +32,8 @@ class ClassifierTypeController {
 
     static async update(req, res, next){
         try {
-            const classifierType = await ClassifierTypeService.update(req.params, req.body);
-            res.send({classifierType});
+            const autoPhrase = await AutoPhraseService.update(req.params, req.body);
+            res.send({autoPhrase});
         } catch(err){
             next(err);
         }
@@ -40,7 +41,7 @@ class ClassifierTypeController {
 
     static async delete(req, res, next){
         try {
-            const success = await ClassifierTypeService.delete(req.params, req.user.id);
+            const success = await AutoPhraseService.delete(req.params, req.user.id);
             if(success){
                 res.sendStatus(204);
             } else {
@@ -52,4 +53,4 @@ class ClassifierTypeController {
     }
 }
 
-module.exports = ClassifierTypeController;
+module.exports = AutoPhraseController;

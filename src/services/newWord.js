@@ -1,5 +1,5 @@
 const { newWord: newWordModel } = include('models');
-const { dateToString } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 
@@ -7,10 +7,10 @@ class NewWordService {
     static async fetch() {
         const newsWords = await newWordModel.find();
         return newsWords.map(newWord => ({
-            id_operative: newWord.ID_OPERATIVO,
-            id_variable: newWord.ID_VARIABLE,
-            news_words: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frecuency: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
@@ -30,10 +30,10 @@ class NewWordService {
             ['ID_VARIABLE', 'ID_OPERATIVO', 'NUEVAS_PALABRAS', 'CORREGIDA', 'FRECUENCIAS', 'ABC']
         );
         const words = newsWords.map(newWord => ({
-            id_operative: newWord.ID_OPERATIVO,
-            id_variable: newWord.ID_VARIABLE,
-            news_words: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frecuency: newWord.FRECUENCIAS,
             corrected: newWord.CORREGIDA,
             abc: newWord.ABC
         }));
@@ -41,14 +41,14 @@ class NewWordService {
     }
     static async find(filters){
         const newWord = await newWordModel.findById({
-            ID_OPERATIVO: filters.id_operative,
-            ID_VARIABLE: filters.id_variable
+            ID_OPERATIVO: filters.operativeId,
+            ID_VARIABLE: filters.variableId
         });
         return {
-            id_operative: newWord.ID_OPERATIVO,
-            id_variable: newWord.ID_VARIABLE,
-            news_words: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frecuency: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
@@ -60,22 +60,23 @@ class NewWordService {
             ID_VARIABLE: filters.variable,
             CORREGIDA: null
         });
-        return {
+
+        return newWord ? {
             operativeId: newWord.ID_OPERATIVO,
             variableId: newWord.ID_VARIABLE,
             word: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
+            frecuency: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
-        };
+        } : {};
     }
     static async create(params) {
         const formattedNewWord = {
-            ID_OPERATIVO: trim(params.id_operative),
-            ID_VARIABLE: trim(params.id_variable),
-            NUEVAS_PALABRAS: trim(params.news_words),
-            FRECUENCIAS: trim(params.frequence),
+            ID_OPERATIVO: trim(params.operativeId),
+            ID_VARIABLE: trim(params.variableId),
+            NUEVAS_PALABRAS: trim(params.word),
+            FRECUENCIAS: trim(params.frecuency),
             ABC: params.abc,
             CORREGIDA: params.corrected,
             FECHA_ALTA: new Date()
@@ -83,10 +84,10 @@ class NewWordService {
         const newWord = await newWordModel.insertOne(formattedNewWord);
 
         return {
-            id_operative: newWord.ID_OPERATIVO,
-            id_variable: newWord.ID_VARIABLE,
-            news_words: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frecuency: newWord.FRECUENCIAS,
             abc: newWord.ABC,
             corrected: newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
@@ -95,30 +96,51 @@ class NewWordService {
 
     static async update(filters, params){
         const formattedNewWord = {
-            ID_OPERATIVO: trim(params.id_operative),
-            ID_VARIABLE: trim(params.id_variable),
-            NUEVAS_PALABRAS: trim(params.news_words),
-            FRECUENCIAS: trim(params.frequence),
+            ID_OPERATIVO: trim(params.operativeId),
+            ID_VARIABLE: trim(params.variableId),
+            NUEVAS_PALABRAS: trim(params.word),
+            FRECUENCIAS: trim(params.frecuency),
             ABC: params.abc,
             CORREGIDA: params.corrected,
             FECHA_ALTA: new Date()
         };
         const newWord = await newWordModel.updateOne(
-            {ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable},
+            {ID_OPERATIVO: filters.operativeId, ID_VARIABLE: filters.variableId},
             formattedNewWord);
         return {
-            id_operative: newWord.ID_OPERATIVO,
-            id_variable: newWord.ID_VARIABLE,
-            news_words: newWord.NUEVAS_PALABRAS,
-            frequence: newWord.FRECUENCIAS,
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frecuency: newWord.FRECUENCIAS,
             abc: newWord.ABC,
-            corrected: newWord.CORREGIDA,
+            corrected: !!newWord.CORREGIDA,
             createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
-
+    static async updateOne(params){
+        const formattedNewWord = {
+            FRECUENCIAS: trim(params.frecuency),
+            ABC: params.abc,
+            CORREGIDA: params.corrected,
+            FECHA_ALTA: stringToDate(params.createdAt)
+        };
+        const newWord = await newWordModel.updateOne({
+            ID_OPERATIVO: params.operativeId,
+            ID_VARIABLE: params.variableId,
+            NUEVAS_PALABRAS: params.word
+        }, formattedNewWord);
+        return {
+            operativeId: newWord.ID_OPERATIVO,
+            variableId: newWord.ID_VARIABLE,
+            word: newWord.NUEVAS_PALABRAS,
+            frecuency: newWord.FRECUENCIAS,
+            abc: newWord.ABC,
+            corrected: !!newWord.CORREGIDA,
+            createdAt: dateToString(newWord.FECHA_ALTA)
+        };
+    }
     static async delete(filters, userDeleted){
-        const formattedFilters = {ID_OPERATIVO: filters.id_operative, ID_VARIABLE: filters.id_variable};
+        const formattedFilters = {ID_OPERATIVO: filters.operativeId, ID_VARIABLE: filters.variableId};
         const success = await newWordModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted

@@ -1,8 +1,19 @@
 module.exports = {
-    '/api/chatTypes': {
+    '/api/assignmentRolesNomenclators': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles Nomenclators'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                        default: 1
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,19 +22,18 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chats: {
+                                    roles: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
+                                                id: {type: 'string'},
                                                 description: {type: 'string'},
-                                                observation: {type: 'string'},
                                                 domain: {type: 'string'},
-                                                approved: {type: 'boolean'},
+                                                observation: {type: 'string'},
+                                                userId: {type: 'string'},
+                                                userName: {type: 'string'},
                                                 createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
                                                 deletedAt: {type: 'string'}
                                             }
                                         }
@@ -41,19 +51,23 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles Nomenclators'],
             requestBody: {
-                description: 'The new  type of chat to create',
+                description: 'The new autophrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
+                                id: {type: 'string'},
                                 description: {type: 'string'},
-                                observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                observation: {type: 'string'},
+                                userId: {type: 'string'},
+                                userName: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -67,17 +81,17 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chatType: {
+                                    success: {type: 'boolean'},
+                                    role: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             description: {type: 'string'},
-                                            observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
                                     }
@@ -93,35 +107,34 @@ module.exports = {
             }
         }
     },
-    '/api/chatTypes/{id}': {
+    '/api/assignmentRolesNomenclators/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles Nomenclators'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new  type of chat to create',
+                description: 'The new autophrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 description: {type: 'string'},
-                                observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
+                                observation: {type: 'string'},
+                                userId: {type: 'string'},
+                                userName: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
                         }
@@ -136,17 +149,17 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chatType: {
+                                    success: {type: 'boolean'},
+                                    role: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             description: {type: 'string'},
-                                            observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
                                     }
@@ -163,18 +176,21 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles Nomenclators'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
             responses: {
-                204: {description: 'The resource was deleted successfully.'},
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -183,13 +199,13 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Assignment Roles Nomenclators'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -201,17 +217,16 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    chatType: {
+                                    role: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             description: {type: 'string'},
-                                            observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
+                                            observation: {type: 'string'},
+                                            userId: {type: 'string'},
+                                            userName: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
                                     }

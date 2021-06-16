@@ -1,10 +1,11 @@
-const { ChatTypeService } = include('services');
+const { TicketTypeService } = include('services');
 
-class ChatTypeController {
+class TicketTypeController {
     static async fetch(req, res, next) {
         try {
-            const chatsTypes = await ChatTypeService.fetch();
-            res.send({ chatsTypes });
+            const ticketsTypes = await TicketTypeService.fetch(req.query);
+            const total = await TicketTypeService.getTotal({});
+            res.send({ ticketsTypes, total });
         } catch(error) {
             next(error);
         }
@@ -12,8 +13,8 @@ class ChatTypeController {
 
     static async find(req, res, next) {
         try {
-            const chatType = await ChatTypeService.findOne(req.params);
-            res.send({ chatType });
+            const ticketType = await TicketTypeService.findOne(req.params);
+            res.send({ ticketType });
         } catch(error) {
             next(error);
         }
@@ -21,9 +22,9 @@ class ChatTypeController {
 
     static async create(req, res, next){
         try {
-            const chatType = await ChatTypeService.create(req.body, req.user.id);
+            const ticketType = await TicketTypeService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ chatType });
+            res.send({ ticketType });
         } catch(err) {
             next(err);
         }
@@ -31,8 +32,8 @@ class ChatTypeController {
 
     static async update(req, res, next){
         try {
-            const chatType = await ChatTypeService.update(req.params, req.body);
-            res.send({chatType});
+            const ticketType = await TicketTypeService.update(req.params, req.body);
+            res.send({ticketType});
         } catch(err){
             next(err);
         }
@@ -40,7 +41,7 @@ class ChatTypeController {
 
     static async delete(req, res, next){
         try {
-            const success = await ChatTypeService.delete(req.params, req.user.id);
+            const success = await TicketTypeService.delete(req.params, req.user.id);
             if(success){
                 res.sendStatus(204);
             } else {
@@ -52,4 +53,4 @@ class ChatTypeController {
     }
 }
 
-module.exports = ChatTypeController;
+module.exports = TicketTypeController;

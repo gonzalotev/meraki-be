@@ -1,6 +1,9 @@
 const { dictionaryType: dictionaryTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const uniq = require('lodash/uniq');
+const map = require('lodash/map');
+const find = require('lodash/find');
 
 class DictionaryTypeService {
     static async fetch() {
@@ -25,7 +28,8 @@ class DictionaryTypeService {
     static async shortFetch(data) {
         const dictionarysTypes = await dictionaryTypeModel.find(
             {SUPERVISADO: true, FECHA_BAJA: null},
-            ['ID_TIPOLOGIA_DE_DICCIONARIO', 'DESCRIPCION']
+            ['ID_TIPOLOGIA_DE_DICCIONARIO', 'DESCRIPCION'],
+            [{column: 'DESCRIPCION', order: 'asc'}]
         );
         const dictionaries = dictionarysTypes.map(dictionaryType => ({
             id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
@@ -134,6 +138,16 @@ class DictionaryTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+    static async includeDictionariesTypes(resourceArray){
+        const dictionariesTypesIds = uniq(map(resourceArray, resource => resource.dictionaryTypeId));
+        const dictionariesTypes = await dictionaryTypeModel.getDictionariesTypes(dictionariesTypesIds);
+        const resourceArrayWithDictionaryType = map(resourceArray, value => {
+            const dictionaryType = find(dictionariesTypes, dictionary => dictionary.id === value.dictionaryTypeId);
+            value.dictionaryType = dictionaryType;
+            return value;
+        });
+        return resourceArrayWithDictionaryType;
     }
 }
 

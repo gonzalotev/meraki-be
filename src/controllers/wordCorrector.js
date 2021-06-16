@@ -1,10 +1,14 @@
 const { WordCorrectorService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class WordCorrectorController {
     static async fetch(req, res, next) {
         try {
-            const wordsCorrectors = await WordCorrectorService.fetch();
-            res.send({ wordsCorrectors });
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const wordsCorrectors = await WordCorrectorService.fetch({page, search: searchValue});
+            const total = await WordCorrectorService.getTotal({search: searchValue});
+            res.send({ wordsCorrectors, total });
         } catch(error) {
             next(error);
         }
@@ -21,7 +25,7 @@ class WordCorrectorController {
 
     static async create(req, res, next){
         try {
-            const wordCorrector = await WordCorrectorService.create(req.body, req.user.id);
+            const wordCorrector = await WordCorrectorService.create(req.body.corrector, req.user.id);
             res.status(201);
             res.send({ wordCorrector });
         } catch(err) {
@@ -31,7 +35,7 @@ class WordCorrectorController {
 
     static async update(req, res, next){
         try {
-            const wordCorrector = await WordCorrectorService.update(req.params, req.body);
+            const wordCorrector = await WordCorrectorService.update(req.params, req.body.corrector);
             res.send({wordCorrector});
         } catch(err){
             next(err);
@@ -46,6 +50,16 @@ class WordCorrectorController {
             } else {
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    static async downloadCsv(req, res, next){
+        try {
+            const stream = await WordCorrectorService.getCsv();
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
         } catch(err) {
             next(err);
         }

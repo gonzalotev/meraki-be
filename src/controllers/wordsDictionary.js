@@ -10,10 +10,19 @@ class WordsDictionaryController {
         }
     }
 
+    static async findMatch(req, res, next) {
+        try {
+            const matchWords = await WordsDictionaryService.findMatching(req.params);
+            res.send({ matchWords });
+        } catch(error) {
+            next(error);
+        }
+    }
+
     static async find(req, res, next) {
         try {
-            const wordDictionary = await WordsDictionaryService.findOne(req.params);
-            res.send({ wordDictionary });
+            const word = await WordsDictionaryService.findOne(req.params);
+            res.send({ word });
         } catch(error) {
             next(error);
         }

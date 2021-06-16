@@ -3,8 +3,8 @@ const { dateToString } = include('util');
 const trim = require('lodash/trim');
 
 class NewPhraseService {
-    static async fetch() {
-        const newsPhrases = await newPhraseModel.find();
+    static async fetch(query) {
+        const newsPhrases = await newPhraseModel.find({NUEVAS_PALABRAS: query.word});
         return newsPhrases.map(newPhrase => ({
             id_operative: newPhrase.ID_OPERATIVO,
             id_variable: newPhrase.ID_VARIABLE,

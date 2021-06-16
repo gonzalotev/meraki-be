@@ -5,23 +5,29 @@ const dictionaryLinguistic = require('./dictionaryLinguistic');
 const operatives = require('./operatives');
 const staticalVariables = require('./staticalVariables');
 const rolesTypes = require('./rolesTypes');
-const chatTypes = require('./chatTypes');
+const ticketTypes = require('./ticketTypes');
 const questionTypes = require('./questionTypes');
-const classifierTypes = require('./classifierTypes');
+const organizationTypes = require('./organizationTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
 const relationshipTypes = require('./relationshipTypes');
+const relationshipAutophrasesQuestionCloseds = require('./relationshipAutophrasesQuestionCloseds');
 const dictionaryTypes = require('./dictionaryTypes');
 const documentTypes = require('./documentTypes');
 const nomenclatorSubtypes = require('./nomenclatorSubtypes');
 const editors = require('./editors');
+const assignmentRoles = require('./assignmentRoles');
 const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
+const relationshipAutophrasesNomenclatures = require('./relationshipAutophrasesNomenclatures');
 const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
 const wordCorrector = require('./wordCorrectors');
 const operativeSources = require('./operativeSources');
+const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
+const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
+
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
@@ -30,14 +36,14 @@ module.exports = {
     ...users,
     ...staticData,
     ...rolesTypes,
-    ...chatTypes,
+    ...ticketTypes,
     ...specialPhrasesTypes,
     ...relationshipTypes,
     ...dictionaryTypes,
     ...documentTypes,
     ...nomenclatorSubtypes,
     ...editors,
-    ...classifierTypes,
+    ...organizationTypes,
     ...questionTypes,
     ...nomenclatorTypes,
     ...networkTypes,
@@ -46,5 +52,10 @@ module.exports = {
     ...wordsDictionary,
     ...wordCorrector,
     ...newPhrases,
-    ...operativeSources
+    ...operativeSources,
+    ...relationshipAutophrasesNomenclatures,
+    ...assignmentRoles,
+    ...assignmentRolesNomenclators,
+    ...assignmentRolesOperativeVariables,
+    ...relationshipAutophrasesQuestionCloseds
 };

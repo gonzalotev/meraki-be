@@ -2,7 +2,7 @@ module.exports = {
     '/api/specialPhrasesTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,12 +11,13 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    specialPhrasesTypes: {
+                                    phrases: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
                                                 id: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
                                                 description: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
@@ -41,15 +42,16 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             requestBody: {
-                description: 'The new  type of special phrase to create',
+                description: 'The new  type of specialPhrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -72,10 +74,11 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    specialPhraseType: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -101,7 +104,7 @@ module.exports = {
     '/api/specialPhrasesTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             parameters: [
                 {
                     in: 'path',
@@ -112,7 +115,7 @@ module.exports = {
                 }
             ],
             requestBody: {
-                description: 'The new  type of special phrase to create',
+                description: 'The new  type of specialPhrase to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -120,6 +123,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
@@ -142,10 +146,11 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    specialPhraseType: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
@@ -169,7 +174,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             parameters: [
                 {
                     in: 'path',
@@ -180,8 +185,9 @@ module.exports = {
                 }
             ],
             responses: {
-                204: {
-                    description: 'ok'
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
                 },
                 default: {
                     description: 'Error',
@@ -191,7 +197,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Types Phrases Specials'],
             parameters: [
                 {
                     in: 'path',
@@ -209,10 +215,11 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    specialPhraseType: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
                                             id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
                                             description: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},

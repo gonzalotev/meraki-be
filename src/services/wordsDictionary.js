@@ -33,7 +33,7 @@ class WordsDictionaryService {
         }));
     }
 
-    static async create(params, userCreator) {
+    static async create(params, userCreator, transaction) {
         const formattedWord = {
             PALABRA: params.word,
             TRUNCADO: params.truncate,
@@ -61,7 +61,7 @@ class WordsDictionaryService {
             ABC: params.abc,
             FAMILIA: params.family
         };
-        const word = await wordsDictionary.insertOne(formattedWord);
+        const word = await wordsDictionary.insertOne(formattedWord, transaction);
 
         return {
             word: word.PALABRA,
@@ -122,6 +122,38 @@ class WordsDictionaryService {
             abc: word.ABC,
             family: word.FAMILIA
         };
+    }
+
+    static async findMatching(filters){
+        const formattedFilters = {PALABRA: filters.word, FECHA_BAJA: null};
+        const matchWords = await wordsDictionary.findByMatch(formattedFilters);
+        return matchWords.map(words => ({
+            word: words.PALABRA,
+            truncate: words.TRUNCADO,
+            acronim: words.ACRONIMO,
+            verb: !!words.VERBO,
+            noun: !!words.SUSTANTIVO,
+            adjective: !!words.ADJETIVO,
+            adverb: !!words.ADVERBIO,
+            pronoun: !!words.PRONOMBRE,
+            article: !!words.ARTICULO,
+            preposition: !!words.PREPOSICION,
+            doubtWord: !!words.PALABRA_DUDOSA,
+            observation: words.OBSERVACION,
+            domain: words.DOMINIO,
+            supervised: !!words.SUPERVISADO,
+            hashFunction: words.FUNCION_DE_HASH,
+            hash: words.HASH,
+            createdAt: dateToString(words.FECHA_ALTA),
+            userCreator: words.ID_USUARIO_ALTA,
+            userDeleted: words.ID_USUARIO_BAJA,
+            deletedAt: dateToString(words.FECHA_BAJA),
+            genderId: words.ID_GENERO_NUMERO,
+            numberId: words.ID_NUMERO,
+            frequency: words.FRECUENCIA,
+            abc: words.ABC,
+            family: words.FAMILIA
+        }));
     }
 
     static async update(filters, params){
@@ -185,6 +217,11 @@ class WordsDictionaryService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async checkIfAllWordsExist(words){
+        const wordsFound = await wordsDictionary.findWords(words);
+        return { wordsFound };
     }
 }
 

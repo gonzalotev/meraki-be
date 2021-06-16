@@ -95,7 +95,8 @@ const rolesAttrib = [
     'DOMINIO',
     'OBSERVACION',
     'FECHA_BAJA',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'NOMBRE_USUARIO'
 ];
 
 const assignmentRolesTableName = 'ROLES_SICI';
@@ -190,6 +191,26 @@ const assignmentRoleNomenclatorsAttrib = [
     'OBSERVACION',
     'SI_NO',
     'FECHA_ALTA',
+    'FECHA_BAJA',
+    'NOMBRE_USUARIO',
+    'CLASIFICADOR'
+];
+
+const relationshipAutophrasesQuestionClosedsTableName = 'AUTOFRASES_PREGUNTA_CERRADA';
+
+const relationshipAutophrasesQuestionClosedsAttrib = [
+    'ID_AUTOFRASE',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ABREVIATURA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
     'FECHA_BAJA'
 ];
 
@@ -205,7 +226,11 @@ const assignmentRoleOperativeVariableAttrib = [
     'DOMINIO',
     'SI_NO',
     'FECHA_ALTA',
-    'FECHA_BAJA'
+    'FECHA_BAJA',
+    'NOMBRE_USUARIO',
+    'VARIABLE',
+    'OPERATIVO',
+    'LOTE'
 ];
 
 const nomenclatorsTableName = 'NOMENCLADORES';
@@ -244,8 +269,8 @@ const nomenclatorsAttrib = [
     'FECHA_ALTA'
 ];
 
-const chatTypeTableName = 'TIPOS_DE_CHAT';
-const chatTypeAttrib = [
+const ticketTypeTableName = 'TIPOS_DE_CHAT';
+const ticketTypeAttrib = [
     'ID_TIPO_CHAT',
     'DESCRIPCION',
     'SUPERVISADO',
@@ -276,9 +301,9 @@ const specialPhraseTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const classifierTypeTableName = 'TIPOS_DE_CLASIFICADOR';
-const classifierTypeAttrib = [
-    'ID_TIPO_CLASIFICADOR',
+const organizationTypeTableName = 'TIPOS_DE_ORGANIZACION';
+const organizationTypeAttrib = [
+    'ID_TIPO_ORGANIZACION',
     'ABREVIATURA',
     'DESCRIPCION',
     'SUPERVISADO',
@@ -381,19 +406,6 @@ const editorAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const typesSpecialPhrasesTableName = 'TIPOS_DE_FRASES_ESPECIALES';
-
-const typesSpecialPhrasesAttrib = [
-    'ID_TIPO_FRASE_ESPECIAL',
-    'DESCRIPCION',
-    'OBSERVACION',
-    'DOMINIO',
-    'ID_USUARIO_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
-    'FECHA_ALTA'
-];
-
 const nomenclatorTypesTableName = 'TIPOS_DE_NOMENCLADOR';
 const nomenclatorTypesAttrib = [
     'ID_TIPO',
@@ -463,25 +475,9 @@ const wordsDictionaryAttrib = [
     'ABC',
     'FAMILIA'
 ];
-const autoPhraseClosedQuestionTableName = 'AUTOFRASES_PREGUNTA_CERRADA';
-const autoPhraseClosedQuestionAttrib = [
-    'ID_AUTOFRASE',
-    'ID_FUENTE',
-    'ID_PREGUNTA',
-    'ABREVIATURA',
-    'OBSERVACION',
-    'DOMINIO',
-    'ID_NOMENCLADOR',
-    'ID_NOMENCLATURA',
-    'SUPERVISADO',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
-];
 
-const autoPhraseNomenclatureRelationTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
-const autoPhraseNomenclatureRelationAttrib = [
+const relationshipAutoPhraseNomenclatureTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
+const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_NOMENCLADOR',
     'ID_NOMENCLATURA',
     'ID_AUTOFRASE',
@@ -537,8 +533,8 @@ module.exports = {
     assignmentRoleOperativeVariableAttrib,
     nomenclatorsAttrib,
     nomenclatorsTableName,
-    chatTypeAttrib,
-    chatTypeTableName,
+    ticketTypeAttrib,
+    ticketTypeTableName,
     specialPhraseTypeTableName,
     specialPhraseTypeAttrib,
     relationTypeTableName,
@@ -551,10 +547,8 @@ module.exports = {
     editorAttrib,
     nomenclatorTypesTableName,
     nomenclatorTypesAttrib,
-    typesSpecialPhrasesTableName,
-    typesSpecialPhrasesAttrib,
-    classifierTypeTableName,
-    classifierTypeAttrib,
+    organizationTypeTableName,
+    organizationTypeAttrib,
     questionTypeTableName,
     questionTypeAttrib,
     networkTypeTableName,
@@ -578,6 +572,10 @@ module.exports = {
     autoPhraseNomenclatureRelationTableName,
     autoPhraseNomenclatureRelationAttrib,
     operativeSourcesRelationTableName,
-    operativeSourcesAttrib
+    operativeSourcesAttrib,
+    relationshipAutoPhraseNomenclatureTableName,
+    relationshipAutoPhraseNomenclatureAttrib,
+    relationshipAutophrasesQuestionClosedsTableName,
+    relationshipAutophrasesQuestionClosedsAttrib
 
 };

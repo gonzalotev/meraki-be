@@ -1,10 +1,27 @@
 const { dictionaryLinguistic } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const knex = include('helpers/database');
+const {arrayToCsvFormat} = include('util');
+const {linguisticDictionaryHeaders} = include('constants/csvHeaders');
 
 class DictionaryLinguisticService {
-    static async fetch() {
-        const dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
+    static async fetch({page, search, formatted=false}) {
+        let dictionaries=[];
+        if(page && search) {
+            dictionaries = await dictionaryLinguistic.fetchByPageAndTerm(page, search, {FECHA_BAJA: null});
+        } else if(page){
+            dictionaries = await dictionaryLinguistic.findByPage(page,
+                {FECHA_BAJA: null},
+                dictionaryLinguistic.selectableProps,
+                [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}]);
+        } else {
+            dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
+        }
+
+        if(formatted){
+            return dictionaries;
+        }
         return dictionaries.map(dictionary => ({
             originalDescription: dictionary.DESCRIPCION_ORIGINAL,
             dictionaryTypeId: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
@@ -114,6 +131,28 @@ class DictionaryLinguisticService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getTotal({search}){
+        const result = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search);
+        return result.total;
+    }
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const headers = arrayToCsvFormat(linguisticDictionaryHeaders);
+            csvString += headers;
+            const stream = knex.select(linguisticDictionaryHeaders).from(dictionaryLinguistic.tableName).stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

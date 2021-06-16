@@ -3,6 +3,23 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Dictionary Linguistic'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -196,6 +213,42 @@ module.exports = {
             ],
             responses: {
                 204: {description: 'The resource was deleted successfully.'},
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/dictionaryLinguistic/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Dictionary Linguistic'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
