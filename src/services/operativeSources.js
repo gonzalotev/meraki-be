@@ -3,7 +3,6 @@ const { dateToString } = include('util');
 
 class OperativeSourcesService {
     static async fetch() {
-        console.log('entre al fetch de operative ource service');
         const operatives = await operativeSources.find({FECHA_BAJA: null});
         return operatives.map(operative => ({
             sourceId: operative.ID_FUENTE,

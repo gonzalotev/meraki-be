@@ -2,7 +2,6 @@ const { OperativeSourcesService } = include('services');
 class OperativeSourcesController {
     static async fetch(req, res, next) {
         try {
-            console.log('entre al fetch en controller');
             const operativesSources = await OperativeSourcesService.fetch();
             res.send({ operativesSources });
         } catch(error) {
