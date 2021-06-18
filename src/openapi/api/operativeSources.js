@@ -99,7 +99,7 @@ module.exports = {
             }
         }
     },
-    '/api/operativeSources/{operativeSource}': {
+    '/api/operativeSources/{sourceId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Operative Sources'],
