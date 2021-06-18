@@ -1,6 +1,6 @@
 const ModelCreate = include('helpers/modelCreate');
 const {operativeSourcesTableName, operativeSourcesAttrib} = include('constants');
-const name = 'wordsDictionary';
+const name = 'operativeSources';
 
 class OperativeSources extends ModelCreate{
     constructor(props){

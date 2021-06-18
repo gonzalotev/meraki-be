@@ -1,9 +1,10 @@
-const { operativeSources } = include('models');
+const { OperativeSources } = include('models');
 const { dateToString } = include('util');
 
 class OperativeSourcesService {
     static async fetch() {
-        const operatives = await operativeSources.find({FECHA_BAJA: null});
+        console.log('entre al fetch de operative ource service');
+        const operatives = await OperativeSources.find({FECHA_BAJA: null});
         return operatives.map(operative => ({
             sourceId: operative.ID_FUENTE,
             name: operative.NOMBRE,
@@ -41,7 +42,7 @@ class OperativeSourcesService {
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: params.deletedAt
         };
-        const operative = await operativeSources.insertOne(formattedOperativeSource);
+        const operative = await OperativeSources.insertOne(formattedOperativeSource);
 
         return {
             sourceId: operative.ID_FUENTE,
@@ -64,7 +65,7 @@ class OperativeSourcesService {
 
     static async findOne(filters){
         const formattedFilters = {ID_FUENTE: filters.sourceId};
-        const operativeSource = await operativeSources.findById(formattedFilters);
+        const operativeSource = await OperativeSources.findById(formattedFilters);
         return {
             sourceId: operativeSource.ID_FUENTE,
             name: operativeSource.NOMBRE,
@@ -103,7 +104,7 @@ class OperativeSourcesService {
             FECHA_BAJA: params.deletedAt
         };
         const formattedFilters = {ID_FUENTE: filters.sourceId};
-        const operativeSource = await operativeSources.updateOne(formattedFilters, formattedOperativeSource);
+        const operativeSource = await OperativeSources.updateOne(formattedFilters, formattedOperativeSource);
         return {
             sourceId: operativeSource.ID_FUENTE,
             name: operativeSource.NOMBRE,
@@ -124,7 +125,7 @@ class OperativeSourcesService {
     }
 
     static async delete(filters, userDeleted){
-        const success = await operativeSources.deleteOne({ID_FUENTE: filters.sourceId}, {
+        const success = await OperativeSources.deleteOne({ID_FUENTE: filters.sourceId}, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
