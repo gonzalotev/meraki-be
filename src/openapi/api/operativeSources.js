@@ -106,7 +106,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'Operative Source to update'
@@ -209,10 +209,10 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'operative source to update'
+                    description: 'operative source to get'
                 }
             ],
             responses: {
