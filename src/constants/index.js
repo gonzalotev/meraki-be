@@ -490,7 +490,7 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const operativeSourcesRelationTableName = 'FUENTES_OPERATIVO';
+const operativeSourcesTableName = 'FUENTES_OPERATIVO';
 const operativeSourcesAttrib = [
     'ID_FUENTE',
     'NOMBRE',
@@ -567,7 +567,7 @@ module.exports = {
     wordCorrectorAttrib,
     newPhraseTableName,
     newPhraseAttrib,
-    operativeSourcesRelationTableName,
+    operativeSourcesTableName,
     operativeSourcesAttrib,
     relationshipAutoPhraseNomenclatureTableName,
     relationshipAutoPhraseNomenclatureAttrib,
