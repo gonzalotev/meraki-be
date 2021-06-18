@@ -4,7 +4,7 @@ module.exports = router => {
     router.route('/')
         .get(OperativeSourcesController.fetch)
         .post(OperativeSourcesController.create);
-    router.route('/:operativeSource')
+    router.route('/:sourceId')
         .get(OperativeSourcesController.find)
         .delete(OperativeSourcesController.delete)
         .put(OperativeSourcesController.update);
