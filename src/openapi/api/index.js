@@ -24,6 +24,7 @@ const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
 const wordCorrector = require('./wordCorrectors');
+const operativeSources = require('./operativeSources');
 const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
 const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
 
@@ -51,6 +52,7 @@ module.exports = {
     ...wordsDictionary,
     ...wordCorrector,
     ...newPhrases,
+    ...operativeSources,
     ...relationshipAutophrasesNomenclatures,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,

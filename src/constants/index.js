@@ -490,6 +490,25 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const operativeSourcesRelationTableName = 'FUENTES_OPERATIVO';
+const operativeSourcesAttrib = [
+    'ID_FUENTE',
+    'NOMBRE',
+    'SIGLA',
+    'ID_TIPO_OPERATIVO',
+    'ID_FRECUENCIA',
+    'ID_SOPORTE',
+    'FECHA_DESDE',
+    'FECHA_HASTA',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -548,6 +567,12 @@ module.exports = {
     wordCorrectorAttrib,
     newPhraseTableName,
     newPhraseAttrib,
+    autoPhraseClosedQuestionTableName,
+    autoPhraseClosedQuestionAttrib,
+    autoPhraseNomenclatureRelationTableName,
+    autoPhraseNomenclatureRelationAttrib,
+    operativeSourcesRelationTableName,
+    operativeSourcesAttrib,
     relationshipAutoPhraseNomenclatureTableName,
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
