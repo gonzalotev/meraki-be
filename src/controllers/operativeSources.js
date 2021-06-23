@@ -1,10 +1,9 @@
-const {operativeSourcesService } = include('services');
-const {OperativeSources} = include('models');
+const { OperativeSourcesService } = include('services');
 class OperativeSourcesController {
     static async fetch(req, res, next) {
         try {
-            const operativeSources = await OperativeSources.findAll();
-            res.send({ operativeSources });
+            const operativesSources = await OperativeSourcesService.fetch();
+            res.send({ operativesSources });
         } catch(error) {
             next(error);
         }
@@ -12,7 +11,7 @@ class OperativeSourcesController {
 
     static async find(req, res, next){
         try {
-            const operativeSources = await operativeSourcesService.findOne(req.params);
+            const operativeSources = await OperativeSourcesService.findOne(req.params);
             res.send({operativeSources});
         } catch(err) {
             next(err);
@@ -21,7 +20,7 @@ class OperativeSourcesController {
 
     static async create(req, res, next) {
         try{
-            const operativeSources = await operativeSourcesService.create(req.body, req.user.id);
+            const operativeSources = await OperativeSourcesService.create(req.body, req.user.id);
             res.status(201);
             res.send({ operativeSources });
         } catch(err) {
@@ -31,7 +30,7 @@ class OperativeSourcesController {
 
     static async update(req, res, next){
         try{
-            const operativeSources = await operativeSourcesService.update(req.params, req.body);
+            const operativeSources = await OperativeSourcesService.update(req.params, req.body);
             res.send({ success: true, operativeSources });
         } catch(error) {
             next(error);
@@ -40,7 +39,7 @@ class OperativeSourcesController {
 
     static async delete(req, res, next){
         try{
-            const result = await operativeSourcesService.deleteOne(req.params, req.user.id);
+            const result = await OperativeSourcesService.deleteOne(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
@@ -53,7 +52,7 @@ class OperativeSourcesController {
 
     static async fetchOne(req, res, next){
         try{
-            const operativeSource = await operativeSourcesService.findById(req.params);
+            const operativeSource = await OperativeSourcesService.findById(req.params);
             res.send({ operativeSource });
         } catch(error) {
             next(error);

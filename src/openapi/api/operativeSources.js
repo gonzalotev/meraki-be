@@ -99,14 +99,14 @@ module.exports = {
             }
         }
     },
-    '/api/operativeSources/{operativeSource}': {
+    '/api/operativeSources/{sourceId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Operative Sources'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'Operative Source to update'
@@ -182,7 +182,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Source'],
+            tags: ['Operative Sources'],
             parameters: [
                 {
                     in: 'path',
@@ -205,14 +205,14 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Source'],
+            tags: ['Operative Sources'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'operative source to update'
+                    description: 'operative source to get'
                 }
             ],
             responses: {
