@@ -139,6 +139,22 @@ class StaticalVariableService {
         });
         return resourceArrayWithVariables;
     }
+    static async getVariableData(resources){
+        const variablesIds = uniq(map(resources, resource => resource.variableId));
+        let variables = await staticalVariableModel.findByValues('ID_VARIABLE', variablesIds);
+        variables = map(variables, variable => ({
+            id: variable.ID_VARIABLE,
+            name: variable.NOMBRE,
+            abbreviation: variable.ABREVIATURA
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.variable = find(variables, variable => variable.id === resource.variableId);
+            return resource;
+        });
+    }
 }
 
 module.exports = StaticalVariableService;

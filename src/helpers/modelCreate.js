@@ -147,6 +147,14 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
+    findByValues(field, ids, columns = this.selectableProps, orderBy = ORDER_BY ){
+        return this.knex.select(columns)
+            .from(this.tableName)
+            .whereIn(field, ids)
+            .orderBy(orderBy)
+            .timeout(this.timeout);
+    }
+
     async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
         const foundObject = await this.knex.select(columns)
             .from(this.tableName)
