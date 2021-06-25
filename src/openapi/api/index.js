@@ -27,6 +27,7 @@ const wordCorrector = require('./wordCorrectors');
 const operativeSources = require('./operativeSources');
 const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
 const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
+const sourceQuestionRelation = require('./sourceQuestionsRelations');
 
 module.exports = {
     ...assignments,
@@ -57,5 +58,6 @@ module.exports = {
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
-    ...relationshipAutophrasesQuestionCloseds
+    ...relationshipAutophrasesQuestionCloseds,
+    ...sourceQuestionRelation
 };

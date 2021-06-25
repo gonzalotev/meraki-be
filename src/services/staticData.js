@@ -45,13 +45,16 @@ class StaticDataService {
         return (data.newPhrases = newPhrases);
     }
     static async getNomenclators(data) {
-        const nomenclators = await knex
-            .select({
-                id: 'ID_NOMENCLADOR',
-                description: 'DESCRIPCION_COMPLETA'
-            })
-            .from('NOMENCLADORES');
-        return (data.nomenclators = nomenclators);
+        const nomenclators = await knex.select({
+            id: 'ID_NOMENCLADOR',
+            description: 'DESCRIPCION_COMPLETA',
+            initials: 'SIGLA'
+        })
+            .from('NOMENCLADORES')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION_COMPLETA', order: 'asc'}]);
+        data.nomenclators = nomenclators;
+        return data;
     }
     static async getLots(data) {
         const lots = await knex
@@ -83,6 +86,39 @@ class StaticDataService {
             })
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
+    }
+    static async getSources(data) {
+        const sources = await knex.select({
+            id: 'ID_FUENTE',
+            name: 'NOMBRE',
+            initials: 'SIGLA'
+        })
+            .from('FUENTES_OPERATIVO')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'NOMBRE', order: 'asc'}]);
+        data.sources = sources;
+        return data;
+    }
+    static async getQuestions(data) {
+        const questions = await knex.select({
+            id: 'ID_PREGUNTA',
+            question: 'PREGUNTA'
+        })
+            .from('PREGUNTAS')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'PREGUNTA', order: 'asc'}]);
+        data.questions = questions;
+        return data;
+    }
+    static async getQuestionsTypes(data) {
+        const questionsTypes = await knex.select({
+            id: 'ID_ABIERTA_CERRADA',
+            description: 'DESCRIPCION'
+        })
+            .from('TIPOS_DE_PREGUNTA')
+            .orderBy([{column: 'ID_ABIERTA_CERRADA', order: 'asc'}]);
+        data.questionsTypes = questionsTypes;
+        return data;
     }
 }
 

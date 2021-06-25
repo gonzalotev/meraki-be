@@ -23,7 +23,10 @@ class StaticDataController {
                 nomenclators,
                 lots,
                 fonts,
-                nomenclatures
+                nomenclatures,
+                sources,
+                questions,
+                questionsTypes
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -63,6 +66,15 @@ class StaticDataController {
             }
             if (nomenclatures) {
                 await StaticDataService.getNomenclatures(data);
+            }
+            if (sources) {
+                await StaticDataService.getSources(data);
+            }
+            if (questions) {
+                await StaticDataService.getQuestions(data);
+            }
+            if (questionsTypes) {
+                await StaticDataService.getQuestionsTypes(data);
             }
             res.send(data);
         } catch (error) {

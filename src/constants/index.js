@@ -256,7 +256,6 @@ const nomenclatorsAttrib = [
     'CLASIFICADOR_NACIONAL',
     'CLASIFICADOR_INTERNACIONAL',
     'CLASIFICADOR_EXTERNO',
-    'ID_TIPO_CLASIFICADOR',
     'COEFICIENTE',
     'EN_CONSTRUCCION',
     'PRUEBA_PILOTO',
@@ -265,7 +264,6 @@ const nomenclatorsAttrib = [
     'IDIOMA_CASTELLANO',
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
-    'ID_USUARIO',
     'FECHA_ALTA'
 ];
 
@@ -490,7 +488,7 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const operativeSourcesRelationTableName = 'FUENTES_OPERATIVO';
+const operativeSourcesTableName = 'FUENTES_OPERATIVO';
 const operativeSourcesAttrib = [
     'ID_FUENTE',
     'NOMBRE',
@@ -503,6 +501,28 @@ const operativeSourcesAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const sourceQuestionsRelationsTableName = 'RELACION_FUENTE_PREGUNTAS';
+const sourceQuestionsRelationsAttrib = [
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'CODIGO_PREGUNTA',
+    'ID_VARIABLE',
+    'ID_NOMENCLADOR',
+    'ID_ABIERTA_CERRADA',
+    'ES_OBLIGATORIA_SI_NO',
+    'SE_CODIFICA_SI_NO',
+    'ES_AUXILIAR_SI_NO',
+    'PASAR_A_PROCESAMIENTO_SI_NO',
+    'NECESITA_AUXILIARES_SI_NO',
+    'AUTOFRASE_LEER_SI_NO',
+    'OBSERVACION',
+    'DOMINIO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',
@@ -567,11 +587,13 @@ module.exports = {
     wordCorrectorAttrib,
     newPhraseTableName,
     newPhraseAttrib,
-    operativeSourcesRelationTableName,
+    operativeSourcesTableName,
     operativeSourcesAttrib,
     relationshipAutoPhraseNomenclatureTableName,
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
-    relationshipAutophrasesQuestionClosedsAttrib
+    relationshipAutophrasesQuestionClosedsAttrib,
+    sourceQuestionsRelationsTableName,
+    sourceQuestionsRelationsAttrib
 
 };

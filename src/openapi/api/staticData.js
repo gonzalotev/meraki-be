@@ -92,6 +92,24 @@ module.exports = {
                     name: 'nomenclatures',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'sources',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'questions',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'questionsTypes',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {
