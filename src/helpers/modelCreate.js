@@ -18,7 +18,7 @@ const isDate = require('lodash/isDate');
 // "models" will want to have. They can be overriden/modified/extended if
 // needed by composing a new object out of the one returned by this function ;)
 
-const ORDER_BY = [{column: 'FECHA_ALTA', order: 'asc'}];
+const ORDER_BY = [{ column: 'FECHA_ALTA', order: 'asc' }];
 
 class ModelCreate {
     constructor({
@@ -31,7 +31,7 @@ class ModelCreate {
         this.timeout = timeout || 20000;
     }
 
-    async startTransaction () {
+    async startTransaction() {
         this.transaction = await this.knex.transaction();
         return true;
     }
@@ -48,22 +48,22 @@ class ModelCreate {
         return true;
     }
 
-    jsonToString (props) {
+    jsonToString(props) {
         const objectToSave = {};
         //eslint-disable-next-line
         map(props, (value, index) => {
             if (includes(this.selectableProps, index)) {
                 if (isObject(value) && !isDate(value)) {
-                    assign(objectToSave, {[index]: JSON.stringify(value)});
+                    assign(objectToSave, { [index]: JSON.stringify(value) });
                 } else {
-                    assign(objectToSave, {[index]: value});
+                    assign(objectToSave, { [index]: value });
                 }
             }
         });
         return objectToSave;
     }
 
-    async insertOne (props, transaction = this.transaction) {
+    async insertOne(props, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
         objectToSave.FECHA_ALTA = new Date();
         if (transaction) {
@@ -111,7 +111,7 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    findByPage(page, filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+    findByPage(page, filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         return this.knex.select(columns)
             .from(this.tableName)
             .where(filters)
@@ -121,7 +121,7 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY){
+    findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const filterValue = object.values(filters);
         const filterKey = object.keys(filters);
         return this.knex.select(columns)
@@ -140,21 +140,19 @@ class ModelCreate {
         return head(results);
     }
 
-    findAll (columns = this.selectableProps, orderBy = ORDER_BY) {
+    findAll(columns = this.selectableProps, orderBy = ORDER_BY) {
         return this.knex.select(columns)
             .from(this.tableName)
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
-
-    findByValues(field, ids, columns = this.selectableProps, orderBy = ORDER_BY ){
+    findByValues(field, ids, columns = this.selectableProps, orderBy = ORDER_BY) {
         return this.knex.select(columns)
             .from(this.tableName)
             .whereIn(field, ids)
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
-
     async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
         const foundObject = await this.knex.select(columns)
             .from(this.tableName)
@@ -164,9 +162,9 @@ class ModelCreate {
         return head(foundObject);
     }
 
-    findByTerm (termValue, termKeys, filters, columns = this.selectableProps) {
+    findByTerm(termValue, termKeys, filters, columns = this.selectableProps) {
         if (isArray(termKeys)) {
-            const knexQuery = this.knex.select(columns).from(this.tableName).where(function() {
+            const knexQuery = this.knex.select(columns).from(this.tableName).where(function () {
                 forEach(termKeys, (tk, i) => {
                     if (i === 0) {
                         this.whereRaw(`LOWER(${tk}::varchar) like ?`, [`%${toLower(termValue)}%`]);
@@ -204,7 +202,7 @@ class ModelCreate {
         return head(modifiedObject);
     }
 
-    async updateMany (filters, props) {
+    async updateMany(filters, props) {
         if (isArray(props) && Object instanceof head(props)) {
             const updates = await Promise.all(map(props, async prop => {
                 delete prop.id;
@@ -233,7 +231,7 @@ class ModelCreate {
         return Promise.reject('not a valid array of data');
     }
 
-    deleteOne (id, deletionData) {
+    deleteOne(id, deletionData) {
         if (this.transaction) {
             return this.transaction(this.tableName)
                 .update(deletionData)
@@ -246,42 +244,42 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    deleteMany (ids) {
+    deleteMany(ids) {
         if (isArray(ids) && String instanceof head(ids)) {
             if (this.transaction) {
                 return this.transaction(this.tableName)
-                    .update({deleted: true, deletedAt: new Date()})
+                    .update({ deleted: true, deletedAt: new Date() })
                     .whereIn('id', ids)
                     .timeout(this.timeout);
             }
             return this.knex
-                .update({deleted: true, deletedAt: new Date()})
+                .update({ deleted: true, deletedAt: new Date() })
                 .from(this.tableName)
                 .whereIn('id', ids)
                 .timeout(this.timeout);
         }
     }
 
-    async countDocuments (filters = {}) {
+    async countDocuments(filters = {}) {
         return head(await this.knex(this.tableName)
             .count('*')
             .where(filters)
             .timeout(this.timeout));
     }
-    async countTotal (filters = {}) {
+    async countTotal(filters = {}) {
         return head(await this.knex(this.tableName)
             .count({ total: '*' })
             .where(filters)
             .timeout(this.timeout));
     }
-    async findAndUpdate (filters, props) {
+    async findAndUpdate(filters, props) {
         try {
             const user = await this.findOne(filters);
             if (user) {
                 return this.updateOne(filters, props);
             }
             return this.insertOne(props);
-        } catch(err) {
+        } catch (err) {
             // eslint-disable-next-line
             console.error(filters, props);
             return false;

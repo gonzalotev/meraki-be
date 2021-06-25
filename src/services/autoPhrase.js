@@ -2,6 +2,11 @@ const { autoPhrase: autoPhraseModel } = include('models');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const knex = include('helpers/database');
+const uniq = require('lodash/uniq');
+const map = require('lodash/map');
+const find = require('lodash/find');
+const compact = require('lodash/compact');
+const isEmpty = require('lodash/isEmpty');
 
 class AutoPhraseService {
     static async fetch(query) {
@@ -132,6 +137,28 @@ class AutoPhraseService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getAutoPhrase(resources) {
+        const autophraseIds = compact(uniq(map(resources, resource => resource.autophraseId)));
+        if (isEmpty(autophraseIds)) {
+            return resources;
+        }
+        let autoPhrases = await autoPhraseModel.findByValues('ID_AUTOFRASE', autophraseIds, autoPhraseModel.selectableProps, []);
+        autoPhrases = map(autoPhrases, autoPhrase => ({
+            id: autoPhrase.ID_AUTOFRASE,
+            finalPhrase: autoPhrase.FRASE_FINAL
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.autoPhrase = find(
+                autoPhrases,
+                autoPhrase => autoPhrase.id === resource.autophraseId
+            );
+            return resource;
+        });
     }
 }
 

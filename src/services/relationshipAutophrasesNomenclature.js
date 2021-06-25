@@ -1,11 +1,12 @@
 const { relationshipAutophrasesNomenclature: relationshipAutophrasesNomenclatureModel } = include('models');
+const AutoPhraseService = require('./autoPhrase');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
 
 class RelationshipAutophrasesNomenclatureService {
     static async fetch() {
-        const relationshipsTypes = await relationshipAutophrasesNomenclatureModel.find({FECHA_BAJA: null});
-        return relationshipsTypes.map(relationshipAutophrasesNomenclature => ({
+        let relationshipsTypes = await relationshipAutophrasesNomenclatureModel.find({ FECHA_BAJA: null });
+        relationshipsTypes = relationshipsTypes.map(relationshipAutophrasesNomenclature => ({
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
             nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
             nomenclatureId: relationshipAutophrasesNomenclature.ID_NOMENCLATURA,
@@ -17,6 +18,10 @@ class RelationshipAutophrasesNomenclatureService {
             userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
             deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA)
         }));
+        await AutoPhraseService.getAutoPhrase(relationshipsTypes);
+
+        return relationshipsTypes;
+
     }
 
     static async create(params, userCreator) {
@@ -49,9 +54,9 @@ class RelationshipAutophrasesNomenclatureService {
         };
     }
 
-    static async findOne(filters){
+    static async findOne(filters) {
         const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.findById(
-            {ID_AUTOFRASE: filters.id});
+            { ID_AUTOFRASE: filters.id });
         return {
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
             nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
@@ -66,7 +71,7 @@ class RelationshipAutophrasesNomenclatureService {
         };
     }
 
-    static async update(filters, params, userCreator){
+    static async update(filters, params, userCreator) {
         const formattedRelationshipAutophrasesNomenclature = {
             ID_AUTOFRASE: trim(params.autophraseId),
             OBSERVACION: trim(params.observation),
@@ -80,7 +85,7 @@ class RelationshipAutophrasesNomenclatureService {
             FECHA_ALTA: new Date()
         };
         const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.updateOne(
-            {ID_AUTOFRASE: filters.id},
+            { ID_AUTOFRASE: filters.id },
             formattedRelationshipAutophrasesNomenclature);
         return {
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
@@ -96,8 +101,9 @@ class RelationshipAutophrasesNomenclatureService {
         };
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_AUTOFRASE: filters.id};
+
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_AUTOFRASE: filters.id };
         const success = await relationshipAutophrasesNomenclatureModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
