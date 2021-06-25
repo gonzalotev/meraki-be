@@ -123,7 +123,10 @@ module.exports = {
                                 questionId: {type: 'number'},
                                 questionCode: {type: 'string'},
                                 variableId: {type: 'string'},
-                                nomenclatorId: {type: 'number'},
+                                nomenclatorId: {
+                                    type: 'number',
+                                    nullable: true
+                                },
                                 questionTypeId: {type: 'string'},
                                 isRequired: {type: 'boolean'},
                                 isCodable: {type: 'boolean'},

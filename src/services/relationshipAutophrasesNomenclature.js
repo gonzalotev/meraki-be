@@ -105,8 +105,8 @@ class RelationshipAutophrasesNomenclatureService {
         };
     }
 
+
     static async delete(filters, userDeleted) {
-        console.log(filters);
         const formattedFilters = { ID_AUTOFRASE: filters.id };
         const success = await relationshipAutophrasesNomenclatureModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
