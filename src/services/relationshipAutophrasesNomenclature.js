@@ -1,5 +1,7 @@
 const { relationshipAutophrasesNomenclature: relationshipAutophrasesNomenclatureModel } = include('models');
 const AutoPhraseService = require('./autoPhrase');
+const NomenclatorsService = require('./nomenclators');
+const NomenclaturesService = require('./nomenclatures');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
 
@@ -19,6 +21,8 @@ class RelationshipAutophrasesNomenclatureService {
             deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA)
         }));
         await AutoPhraseService.getAutoPhrase(relationshipsTypes);
+        await NomenclatorsService.getNomenclatorData(relationshipsTypes);
+        await NomenclaturesService.getNomenclatureData(relationshipsTypes);
 
         return relationshipsTypes;
 

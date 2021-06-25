@@ -529,6 +529,27 @@ const sourceQuestionsRelationsAttrib = [
     'FECHA_BAJA'
 ];
 
+const nomenclaturesTableName = 'NOMENCLATURAS';
+const nomenclaturesAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'ABREVIATURA',
+    'ORIGINAL',
+    'DESCRIPCION',
+    'FRACCIONADO_DE_PALABRAS',
+    'SUPERVISADO',
+    'COEFICIENTE',
+    'ID_PADRE_NOMENCLADOR',
+    'ID_PADRE_NOMENCLATURA',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ACRONIMO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -594,6 +615,7 @@ module.exports = {
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
     sourceQuestionsRelationsTableName,
-    sourceQuestionsRelationsAttrib
-
+    sourceQuestionsRelationsAttrib,
+    nomenclaturesTableName,
+    nomenclaturesAttrib
 };

@@ -1,5 +1,6 @@
 const { autoPhrase: autoPhraseModel } = include('models');
 const { dateToString } = include('util');
+const StaticalVariableService = require('./staticalVariable');
 const trim = require('lodash/trim');
 const knex = include('helpers/database');
 const uniq = require('lodash/uniq');
@@ -27,7 +28,7 @@ class AutoPhraseService {
             );
 
         }
-        return autosPhrases.map(autoPhrase => ({
+        autosPhrases = autosPhrases.map(autoPhrase => ({
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
             finalPhrase: autoPhrase.FRASE_FINAL,
@@ -41,6 +42,10 @@ class AutoPhraseService {
             userDeleted: autoPhrase.ID_USUARIO_BAJA,
             deletedAt: dateToString(autoPhrase.FECHA_BAJA)
         }));
+
+        await StaticalVariableService.getVariableData(autosPhrases);
+
+        return autosPhrases;
     }
 
     static async create(params, userCreator) {
