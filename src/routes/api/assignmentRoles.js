@@ -4,7 +4,7 @@ module.exports = router => {
     router.route('/')
         .get(AssignmentRoleController.fetch)
         .post(AssignmentRoleController.create);
-    router.route('/:id')
+    router.route('/:id/:idUser')
         .get(AssignmentRoleController.find)
         .put(AssignmentRoleController.update)
         .delete(AssignmentRoleController.delete);

@@ -80,7 +80,7 @@ class AssignmentRoleService {
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const assignmentRole = await assignmentRoleModel.updateOne(
-            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.idUser},
+            { ID_ROL_USUARIO: filters.id, ID_USUARIO: filters.idUser},
             formattedAssignmentRole
         );
         return {
@@ -96,7 +96,7 @@ class AssignmentRoleService {
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_ROL_USUARIO: filters.id };
+        const formattedFilters = { ID_ROL_USUARIO: filters.id, ID_USUARIO: filters.idUser };
         const success = await assignmentRoleModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date()
         });
