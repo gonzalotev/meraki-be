@@ -26,6 +26,7 @@ const wordsDictionary = require('./wordsDictionary');
 const wordCorrector = require('./wordCorrectors');
 const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
 const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
+const questions = require('./questions');
 
 module.exports = {
     ...assignments,
@@ -55,5 +56,6 @@ module.exports = {
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
-    ...relationshipAutophrasesQuestionCloseds
+    ...relationshipAutophrasesQuestionCloseds,
+    ...questions
 };
