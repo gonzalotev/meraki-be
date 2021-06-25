@@ -10,6 +10,7 @@ const find = require('lodash/find');
 const knex = include('helpers/database');
 const {sourceQuestionsRelationsHeaders} = include('constants/csvHeaders');
 const {arrayToCsvFormat} = include('util');
+const toNumber = require('lodash/toNumber');
 
 class SourceQuestionRelationService {
     static async fetch({page, source}) {
@@ -19,19 +20,18 @@ class SourceQuestionRelationService {
                 page,
                 {ID_FUENTE: source, FECHA_BAJA: null},
                 sourceQuestionRelation.selectableProps,
-                [{column: 'ID_FUENTE', order: 'asc'}, {column: 'ID_PREGUNTA', order: 'asc'}]
+                [{column: 'ID_FUENTE', order: 'asc'}, {column: 'CODIGO_PREGUNTA	', order: 'asc'}]
             );
         } else if(page){
             relations = await sourceQuestionRelation.findByPage(
                 page,
                 {FECHA_BAJA: null},
                 sourceQuestionRelation.selectableProps,
-                [{column: 'ID_FUENTE', order: 'asc'}, {column: 'ID_PREGUNTA', order: 'asc'}]
+                [{column: 'ID_FUENTE', order: 'asc'}, {column: 'CODIGO_PREGUNTA', order: 'asc'}]
             );
         } else {
             relations = await sourceQuestionRelation.find({FECHA_BAJA: null});
         }
-        console.log(relations.outBinds);
         relations = relations.map(relation => ({
             sourceId: relation.ID_FUENTE,
             questionId: relation.ID_PREGUNTA,
@@ -102,18 +102,18 @@ class SourceQuestionRelationService {
         };
         let relation = await sourceQuestionRelation.findById(ids);
         relation = relation ? {
-            sourceId: relation.ID_FUENTE,
-            questionId: relation.ID_PREGUNTA,
+            sourceId: toNumber(relation.ID_FUENTE),
+            questionId: toNumber(relation.ID_PREGUNTA),
             questionCode: relation.CODIGO_PREGUNTA,
             variableId: relation.ID_VARIABLE,
             nomenclatorId: relation.ID_NOMENCLADOR,
             questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!relation.ES_OBLIGATORIA_SI_NO,
-            isCodable: !!relation.SE_CODIFICA_SI_NO,
-            isAuxiliary: !!relation.ES_AUXILIAR_SI_NO,
-            shouldBeProcessed: !!relation.PASAR_A_PROCESAMIENTO_SI_NO,
-            souldHaveAuxiliary: !!relation.NECESITA_AUXILIARES_SI_NO,
-            shouldReadAutoPhrase: !!relation.AUTOFRASE_LEER_SI_NO,
+            isRequired: !!toNumber(relation.ES_OBLIGATORIA_SI_NO),
+            isCodable: !!toNumber(relation.SE_CODIFICA_SI_NO),
+            isAuxiliary: !!toNumber(relation.ES_AUXILIAR_SI_NO),
+            shouldBeProcessed: !!toNumber(relation.PASAR_A_PROCESAMIENTO_SI_NO),
+            souldHaveAuxiliary: !!toNumber(relation.NECESITA_AUXILIARES_SI_NO),
+            shouldReadAutoPhrase: !!toNumber(relation.AUTOFRASE_LEER_SI_NO),
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,
@@ -132,7 +132,7 @@ class SourceQuestionRelationService {
             ID_PREGUNTA: params.questionId,
             CODIGO_PREGUNTA: params.questionCode,
             ID_VARIABLE: params.variableId,
-            ID_NOMENCLADOR: params.nomenclatorId,
+            ID_NOMENCLADOR: params.nomenclatorId ? params.nomenclatorId : null,
             ID_ABIERTA_CERRADA: params.questionTypeId,
             ES_OBLIGATORIA_SI_NO: params.isRequired,
             SE_CODIFICA_SI_NO: params.isCodable,
@@ -148,19 +148,20 @@ class SourceQuestionRelationService {
             FECHA_BAJA: null
         };
         const relation = await sourceQuestionRelation.insertOne(formattedSourceQuestionRelation);
+
         return {
-            sourceId: relation.ID_FUENTE,
-            questionId: relation.ID_PREGUNTA,
+            sourceId: toNumber(relation.ID_FUENTE),
+            questionId: toNumber(relation.ID_PREGUNTA),
             questionCode: relation.CODIGO_PREGUNTA,
             variableId: relation.ID_VARIABLE,
             nomenclatorId: relation.ID_NOMENCLADOR,
             questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!relation.ES_OBLIGATORIA_SI_NO,
-            isCodable: !!relation.SE_CODIFICA_SI_NO,
-            isAuxiliary: !!relation.ES_AUXILIAR_SI_NO,
-            shouldBeProcessed: !!relation.PASAR_A_PROCESAMIENTO_SI_NO,
-            souldHaveAuxiliary: !!relation.NECESITA_AUXILIARES_SI_NO,
-            shouldReadAutoPhrase: !!relation.AUTOFRASE_LEER_SI_NO,
+            isRequired: !!toNumber(relation.ES_OBLIGATORIA_SI_NO),
+            isCodable: !!toNumber(relation.SE_CODIFICA_SI_NO),
+            isAuxiliary: !!toNumber(relation.ES_AUXILIAR_SI_NO),
+            shouldBeProcessed: !!toNumber(relation.PASAR_A_PROCESAMIENTO_SI_NO),
+            souldHaveAuxiliary: !!toNumber(relation.NECESITA_AUXILIARES_SI_NO),
+            shouldReadAutoPhrase: !!toNumber(relation.AUTOFRASE_LEER_SI_NO),
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,
@@ -195,18 +196,18 @@ class SourceQuestionRelationService {
         };
         const relation = await sourceQuestionRelation.updateOne(ids, formattedSourceQuestionRelation);
         return {
-            sourceId: relation.ID_FUENTE,
-            questionId: relation.ID_PREGUNTA,
+            sourceId: toNumber(relation.ID_FUENTE),
+            questionId: toNumber(relation.ID_PREGUNTA),
             questionCode: relation.CODIGO_PREGUNTA,
             variableId: relation.ID_VARIABLE,
             nomenclatorId: relation.ID_NOMENCLADOR,
             questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!relation.ES_OBLIGATORIA_SI_NO,
-            isCodable: !!relation.SE_CODIFICA_SI_NO,
-            isAuxiliary: !!relation.ES_AUXILIAR_SI_NO,
-            shouldBeProcessed: !!relation.PASAR_A_PROCESAMIENTO_SI_NO,
-            souldHaveAuxiliary: !!relation.NECESITA_AUXILIARES_SI_NO,
-            shouldReadAutoPhrase: !!relation.AUTOFRASE_LEER_SI_NO,
+            isRequired: !!toNumber(relation.ES_OBLIGATORIA_SI_NO),
+            isCodable: !!toNumber(relation.SE_CODIFICA_SI_NO),
+            isAuxiliary: !!toNumber(relation.ES_AUXILIAR_SI_NO),
+            shouldBeProcessed: !!toNumber(relation.PASAR_A_PROCESAMIENTO_SI_NO),
+            souldHaveAuxiliary: !!toNumber(relation.NECESITA_AUXILIARES_SI_NO),
+            shouldReadAutoPhrase: !!toNumber(relation.AUTOFRASE_LEER_SI_NO),
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,

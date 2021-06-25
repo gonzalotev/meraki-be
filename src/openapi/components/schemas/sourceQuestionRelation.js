@@ -20,7 +20,7 @@ module.exports = {
         },
         nomenclatorId: {
             type: 'number',
-            nullable: false
+            nullable: true
         },
         questionTypeId: {
             type: 'string',
