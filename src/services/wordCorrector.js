@@ -116,9 +116,10 @@ class WordCorrectorService {
     }
 
     static async getTotal({search}){
-        const result = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search);
-        return result.total;
+        const { total } = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search, ['PALABRA']);
+        return total;
     }
+
     static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';

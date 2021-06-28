@@ -1,10 +1,14 @@
 const { WordsDictionaryService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class WordsDictionaryController {
     static async fetch(req, res, next) {
         try {
-            const words = await WordsDictionaryService.fetch();
-            res.send({ words });
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const words = await WordsDictionaryService.fetch({page, search: searchValue});
+            const total = await WordsDictionaryService.getTotal({search: searchValue});
+            res.send({ words, total });
         } catch(error) {
             next(error);
         }

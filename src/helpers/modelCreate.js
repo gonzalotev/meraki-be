@@ -6,8 +6,8 @@ const forEach = require('lodash/forEach');
 const head = require('lodash/head');
 const includes = require('lodash/includes');
 const isArray = require('lodash/isArray');
+const forOwn = require('lodash/forOwn');
 const isObject = require('lodash/isObject');
-const object = require('lodash/object');
 const map = require('lodash/map');
 const toLower = require('lodash/toLower');
 const isDate = require('lodash/isDate');
@@ -121,17 +121,24 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    findByMatch(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
-        const filterValue = object.values(filters);
-        const filterKey = object.keys(filters);
-        return this.knex.select(columns)
+    findByMatch(page, valueToSearch, columnsToSearch, filters={}, orderBy = ORDER_BY) {
+        return this.knex.select(this.selectableProps)
             .from(this.tableName)
-            .where(`${filterKey[0]}`, 'like', `%${filterValue[0]}%`)
-            .whereNull(filterKey[1])
+            .where(query => {
+                forOwn(columnsToSearch, (column, index) => {
+                    if (index === 0) {
+                        query.where(column, 'like', `${valueToSearch}%`);
+                    } else {
+                        query.orWhere(column, 'like', `${valueToSearch}%`);
+                    }
+                });
+            })
+            .andWhere(filters)
+            .limit(getPageSize())
+            .offset(getOffset(page))
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
-
     async findOne(filters = {}, columns = this.selectableProps, orderBy = ORDER_BY) {
         const results = await this.find(filters, columns, orderBy);
         if (!isArray(results)) {
@@ -266,12 +273,22 @@ class ModelCreate {
             .where(filters)
             .timeout(this.timeout));
     }
-    async countTotal(filters = {}) {
+    async countTotal (filters = {}, valueToSearch = '', columnsToSearch=[]) {
         return head(await this.knex(this.tableName)
             .count({ total: '*' })
-            .where(filters)
+            .where(query => {
+                forOwn(columnsToSearch, (column, index) => {
+                    if (index === 0) {
+                        query.where(column, 'like', `${valueToSearch}%`);
+                    } else {
+                        query.orWhere(column, 'like', `${valueToSearch}%`);
+                    }
+                });
+            })
+            .andWhere(filters)
             .timeout(this.timeout));
     }
+
     async findAndUpdate(filters, props) {
         try {
             const user = await this.findOne(filters);
