@@ -7,16 +7,26 @@ const {linguisticDictionaryHeaders} = include('constants/csvHeaders');
 
 class DictionaryLinguisticService {
     static async fetch({page, search, formatted=false}) {
+        const orderBy = [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}];
+        const filterBy = {FECHA_BAJA: null};
+        const columnsToSelect = dictionaryLinguistic.selectableProps;
         let dictionaries=[];
         if(page && search) {
-            dictionaries = await dictionaryLinguistic.fetchByPageAndTerm(page, search, {FECHA_BAJA: null});
+            dictionaries = await dictionaryLinguistic.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION_ORIGINAL'],
+                filterBy,
+                orderBy
+            );
         } else if(page){
-            dictionaries = await dictionaryLinguistic.findByPage(page,
-                {FECHA_BAJA: null},
-                dictionaryLinguistic.selectableProps,
-                [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}]);
+            dictionaries = await dictionaryLinguistic.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
         } else {
-            dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
+            dictionaries = await dictionaryLinguistic.find(filterBy, columnsToSelect, orderBy);
         }
 
         if(formatted){
@@ -134,8 +144,8 @@ class DictionaryLinguisticService {
     }
 
     static async getTotal({search}){
-        const result = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search);
-        return result.total;
+        const { total } = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search, ['DESCRIPCION_ORIGINAL']);
+        return total;
     }
     static getCsv(){
         return new Promise((resolve, reject) => {
