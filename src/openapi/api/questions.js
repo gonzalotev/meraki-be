@@ -50,7 +50,6 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
                                 question: {type: 'string'},
                                 approved: {type: 'boolean'},
                                 observation: {type: 'string'},
