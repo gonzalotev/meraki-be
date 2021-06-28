@@ -4,13 +4,13 @@ module.exports = {
         id: {
             type: 'number',
             nullable: false
-        },        
+        },
         question: {
             type: 'string',
             maxLength: 300,
             nullable: false
         },
-        approved: {type: 'boolean'},        
+        approved: {type: 'boolean'},
         observation: {
             type: 'string',
             maxLength: 120
@@ -18,7 +18,7 @@ module.exports = {
         domain: {
             type: 'string',
             maxLength: 300
-        },        
+        },
         userCreator: {
             type: 'string',
             maxLength: 50
@@ -27,7 +27,7 @@ module.exports = {
             type: 'string',
             format: 'date',
             nullable: true
-        },        
+        },
         userDeleted: {
             type: 'string',
             maxLength: 50,

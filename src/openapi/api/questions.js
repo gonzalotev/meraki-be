@@ -2,7 +2,7 @@ module.exports = {
     '/api/questions': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Questions'],
             responses: {
                 200: {
                     description: 'Success',
@@ -22,7 +22,7 @@ module.exports = {
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
                                                 userCreator: {type: 'string'},
-                                                createdAt: {type: 'string'},                                                
+                                                createdAt: {type: 'string'},
                                                 userDeleted: {type: 'string'},
                                                 deletedAt: {type: 'string'}
                                             }
@@ -41,7 +41,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Questions'],
             requestBody: {
                 description: 'The new  question to create',
                 required: true,
@@ -56,7 +56,7 @@ module.exports = {
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},                                
+                                createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -82,7 +82,7 @@ module.exports = {
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},                                
+                                            createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -102,7 +102,7 @@ module.exports = {
     '/api/questions/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Questions'],
             parameters: [
                 {
                     in: 'path',
@@ -126,7 +126,7 @@ module.exports = {
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},                                
+                                createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -152,7 +152,7 @@ module.exports = {
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},                                
+                                            createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -170,7 +170,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Questions'],
             parameters: [
                 {
                     in: 'path',
@@ -193,7 +193,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Questions'],
             parameters: [
                 {
                     in: 'path',
@@ -220,7 +220,7 @@ module.exports = {
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},                                
+                                            createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }

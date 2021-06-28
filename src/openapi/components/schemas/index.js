@@ -16,7 +16,7 @@ const RelationshipTypes = require('./relationshipTypes');
 const AutoPhrase = require('./autoPhrase');
 const AutoPhraseClosedQuestion = require('./autoPhraseClosedQuestion');
 const AutoPhraseNomenclatureRelation = require('./autoPhraseNomenclatureRelation');
-const WordCorrector = require('./wordCorrector'); 
+const WordCorrector = require('./wordCorrector');
 const Questions = require('./questions');
 
 module.exports = {

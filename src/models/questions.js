@@ -1,6 +1,6 @@
 const ModelCreate = include('helpers/modelCreate');
 const {questionsAttrib, questionsTableName} = include('constants');
-const name = 'question';
+const name = 'questions';
 
 class Question extends ModelCreate {
     constructor(props) {
