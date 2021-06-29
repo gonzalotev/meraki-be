@@ -33,29 +33,6 @@ const dictionaryTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const operativesTableName = 'OPERATIVOS';
-
-const operativesAttrib = [
-    'ID_OPERATIVO',
-    'ID_FUENTE',
-    'DESCRIPCION',
-    'OBSERVACION',
-    'DOMINIO',
-    'FECHA_LLEGADA_OPERATIVO',
-    'TOTAL_REGISTROS_OPERATIVO',
-    'CONTACTO_OPERATIVO',
-    'MAIL_CONTACTO',
-    'FECHA_INICIO_CODIFICACION',
-    'FECHA_FIN_CODIFICACION',
-    'FECHA_INICIO_ENTREGA',
-    'FECHA_INICIO_BORRADO',
-    'FECHA_FIN_BORRADO',
-    'CALIDAD_TOTAL_OPERATIVO',
-    'NIVEL_ERROR_OPERATIVO',
-    'ID_USUARIO',
-    'FECHA_ALTA'
-];
-
 const staticalVariableTableName = 'VARIABLES_ESTADISTICAS';
 
 const staticalVariableAttrib = [
@@ -211,7 +188,16 @@ const relationshipAutophrasesQuestionClosedsAttrib = [
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_BAJA',
+    'VARIABLE_ESTADISTICA',
+    'ABREVIATURA_VARIABLE',
+    'ID_VARIABLE',
+    'AUTOFRASE',
+    'NOMENCLATURA',
+    'ID_VARIABLE_FUENTE',
+    'PREGUNTA',
+    'VARIABLE_FUENTE',
+    'FUENTE'
 ];
 
 const assignmentRoleOperativeVariableTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';
@@ -528,6 +514,30 @@ const sourceQuestionsRelationsAttrib = [
     'AUTOFRASE_LEER_SI_NO',
     'OBSERVACION',
     'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const operativesTableName = 'OPERATIVOS';
+const operativesAttrib = [
+    'ID_OPERATIVO',
+    'ID_FUENTE',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'FECHA_LLEGADA_OPERATIVO',
+    'TOTAL_REGISTROS_OPERATIVO',
+    'CONTACTO_OPERATIVO',
+    'MAIL_CONTACTO',
+    'FECHA_INICIO_CODIFICACION',
+    'FECHA_FIN_CODIFICACION',
+    'FECHA_INICIO_ENTREGA',
+    'FECHA_INICIO_BORRADO',
+    'FECHA_FIN_BORRADO',
+    'CALIDAD_TOTAL_OPERATIVO',
+    'NIVEL_ERROR_OPERATIVO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',

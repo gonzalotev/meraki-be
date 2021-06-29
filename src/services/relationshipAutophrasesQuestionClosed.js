@@ -21,7 +21,16 @@ class RelationshipAutophrasesQuestionClosedService {
             createdAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_ALTA),
             userCreator: relationshipAutophrasesQuestionClosed.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesQuestionClosed.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA),
+            staticalVariable: relationshipAutophrasesQuestionClosed.VARIABLE_ESTADISTICA,
+            id: relationshipAutophrasesQuestionClosed.AUTOFRASE,
+            nomenclature: relationshipAutophrasesQuestionClosed.NOMENCLATURA,
+            variableId: relationshipAutophrasesQuestionClosed.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA_VARIABLE,
+            variableIdFont: relationshipAutophrasesQuestionClosed.ID_VARIABLE_FUENTE,
+            question: relationshipAutophrasesQuestionClosed.PREGUNTA,
+            variableFont: relationshipAutophrasesQuestionClosed.VARIABLE_FUENTE,
+            font: relationshipAutophrasesQuestionClosed.FUENTE
         }));
 
         await AutoPhraseService.getAutoPhrase(relationshipsTypes);
@@ -45,7 +54,16 @@ class RelationshipAutophrasesQuestionClosedService {
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            AUTOFRASE: trim(params.id),
+            NOMENCLATURA: trim(params.nomenclature),
+            ID_VARIABLE: trim(params.variableId),
+            ABREVIATURA_VARIABLE: trim(params.abbreviation),
+            VARIABLE_ESTADISTICA: trim(params.staticalVariable),
+            ID_VARIABLE_FUENTE: trim(params.variableIdFont),
+            PREGUNTA: trim(params.question),
+            VARIABLE_FUENTE: trim(params.variableFont),
+            FUENTE: trim(params.font)
         };
         const relationshipAutophrasesQuestionClosed = await relationshipAutophrasesQuestionClosedModel.
             insertOne(formattedRelationshipAutophrasesQuestionClosed);
@@ -63,13 +81,23 @@ class RelationshipAutophrasesQuestionClosedService {
             createdAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_ALTA),
             userCreator: relationshipAutophrasesQuestionClosed.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesQuestionClosed.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA),
+            staticalVariable: relationshipAutophrasesQuestionClosed.VARIABLE_ESTADISTICA,
+            id: relationshipAutophrasesQuestionClosed.AUTOFRASE,
+            nomenclature: relationshipAutophrasesQuestionClosed.NOMENCLATURA,
+            variableId: relationshipAutophrasesQuestionClosed.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA_VARIABLE,
+            variableIdFont: relationshipAutophrasesQuestionClosed.ID_VARIABLE_FUENTE,
+            question: relationshipAutophrasesQuestionClosed.PREGUNTA,
+            variableFont: relationshipAutophrasesQuestionClosed.VARIABLE_FUENTE,
+            font: relationshipAutophrasesQuestionClosed.FUENTE
         };
     }
 
     static async findOne(filters){
         const relationshipAutophrasesQuestionClosed = await relationshipAutophrasesQuestionClosedModel.findById(
-            {ID_AUTOFRASE: filters.id});
+            { ID_AUTOFRASE: filters.autophraseId, ID_NOMENCLADOR: filters.nomenclatorId,
+                ID_NOMENCLATURA: filters.nomenclatureId });
         return {
             autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
             operativeFontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
@@ -83,7 +111,16 @@ class RelationshipAutophrasesQuestionClosedService {
             createdAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_ALTA),
             userCreator: relationshipAutophrasesQuestionClosed.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesQuestionClosed.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA),
+            staticalVariable: relationshipAutophrasesQuestionClosed.VARIABLE_ESTADISTICA,
+            id: relationshipAutophrasesQuestionClosed.AUTOFRASE,
+            nomenclature: relationshipAutophrasesQuestionClosed.NOMENCLATURA,
+            variableId: relationshipAutophrasesQuestionClosed.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA_VARIABLE,
+            variableIdFont: relationshipAutophrasesQuestionClosed.ID_VARIABLE_FUENTE,
+            question: relationshipAutophrasesQuestionClosed.PREGUNTA,
+            variableFont: relationshipAutophrasesQuestionClosed.VARIABLE_FUENTE,
+            font: relationshipAutophrasesQuestionClosed.FUENTE
         };
     }
 
@@ -101,7 +138,16 @@ class RelationshipAutophrasesQuestionClosedService {
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            AUTOFRASE: trim(params.id),
+            NOMENCLATURA: trim(params.nomenclature),
+            ID_VARIABLE: trim(params.variableId),
+            ABREVIATURA_VARIABLE: trim(params.abbreviation),
+            VARIABLE_ESTADISTICA: trim(params.staticalVariable),
+            ID_VARIABLE_FUENTE: trim(params.variableIdFont),
+            PREGUNTA: trim(params.question),
+            VARIABLE_FUENTE: trim(params.variableFont),
+            FUENTE: trim(params.font)
         };
         const relationshipAutophrasesQuestionClosed = await relationshipAutophrasesQuestionClosedModel.updateOne(
             {ID_AUTOFRASE: filters.id},
@@ -119,12 +165,22 @@ class RelationshipAutophrasesQuestionClosedService {
             createdAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_ALTA),
             userCreator: relationshipAutophrasesQuestionClosed.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesQuestionClosed.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA),
+            staticalVariable: relationshipAutophrasesQuestionClosed.VARIABLE_ESTADISTICA,
+            id: relationshipAutophrasesQuestionClosed.AUTOFRASE,
+            nomenclature: relationshipAutophrasesQuestionClosed.NOMENCLATURA,
+            variableId: relationshipAutophrasesQuestionClosed.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA_VARIABLE,
+            variableIdFont: relationshipAutophrasesQuestionClosed.ID_VARIABLE_FUENTE,
+            question: relationshipAutophrasesQuestionClosed.PREGUNTA,
+            variableFont: relationshipAutophrasesQuestionClosed.VARIABLE_FUENTE,
+            font: relationshipAutophrasesQuestionClosed.FUENTE
         };
     }
 
     static async delete(filters, userDeleted){
-        const formattedFilters = {ID_AUTOFRASE: filters.id};
+        const formattedFilters = {ID_AUTOFRASE: filters.autophraseId,
+            ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId };
         const success = await relationshipAutophrasesQuestionClosedModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted

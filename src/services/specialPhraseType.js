@@ -51,7 +51,7 @@ class SpecialPhraseTypeService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params, transaction){
         const formattedSpecialPhraseType = {
             ID_TIPO_FRASE_ESPECIAL: trim(params.id),
             DESCRIPCION: trim(params.description),
@@ -63,19 +63,10 @@ class SpecialPhraseTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const specialPhraseType = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
-            formattedSpecialPhraseType);
-        return {
-            id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
-            description: specialPhraseType.DESCRIPCION,
-            observation: specialPhraseType.OBSERVACION,
-            domain: specialPhraseType.DOMINIO,
-            approved: !!specialPhraseType.SUPERVISADO,
-            createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
-        };
+        const specialPhraseTypeId = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
+            formattedSpecialPhraseType, ['ID_TIPO_FRASE_ESPECIAL'], transaction);
+        const specialPhraseType = await SpecialPhraseTypeService.findOne({id: specialPhraseTypeId});
+        return specialPhraseType;
     }
 
     static async delete(filters, userDeleted){

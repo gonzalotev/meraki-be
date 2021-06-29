@@ -17,13 +17,24 @@ module.exports = {
                                             type: 'object',
                                             properties: {
                                                 autophraseId: {type: 'integer'},
+                                                nomenclatorId: {type: 'integer'},
+                                                nomenclatureId: {type: 'string'},
                                                 operativeFontId: {type: 'integer'},
                                                 questionId: {type: 'integer'},
                                                 abreviation: {type: 'string'},
+                                                font: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
+                                                deletedAt: {type: 'string'},
+                                                id: {type: 'string'},
+                                                nomenclature: {type: 'string'},
+                                                variableId: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
+                                                staticalVariable: {type: 'string'},
+                                                variableIdFont: {type: 'integer'},
+                                                question: {type: 'string'},
+                                                variableFont: {type: 'string'}
                                             }
                                         }
                                     }
@@ -50,13 +61,24 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 autophraseId: {type: 'integer'},
+                                nomenclatorId: {type: 'integer'},
+                                nomenclatureId: {type: 'string'},
                                 operativeFontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
+                                font: {type: 'string'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                deletedAt: {type: 'string'},
+                                id: {type: 'string'},
+                                nomenclature: {type: 'string'},
+                                variableId: {type: 'integer'},
+                                abbreviation: {type: 'string'},
+                                staticalVariable: {type: 'string'},
+                                variableIdFont: {type: 'integer'},
+                                question: {type: 'string'},
+                                variableFont: {type: 'string'}
                             }
                         }
                     }
@@ -75,13 +97,24 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
+                                            nomenclatorId: {type: 'integer'},
+                                            nomenclatureId: {type: 'string'},
                                             operativeFontId: {type: 'integer'},
+                                            font: {type: 'string'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            deletedAt: {type: 'string'},
+                                            id: {type: 'string'},
+                                            nomenclature: {type: 'string'},
+                                            variableId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            staticalVariable: {type: 'string'},
+                                            variableIdFont: {type: 'integer'},
+                                            question: {type: 'string'},
+                                            variableFont: {type: 'string'}
                                         }
                                     }
                                 }
@@ -96,7 +129,7 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}': {
+    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}/{nomenclatorId}/{nomenclatureId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Relationship Autophrases Questions Closeds'],
@@ -106,6 +139,20 @@ module.exports = {
                     name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -118,13 +165,24 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 autophraseId: {type: 'integer'},
+                                nomenclatorId: {type: 'integer'},
+                                nomenclatureId: {type: 'string'},
                                 operativeFontId: {type: 'integer'},
+                                font: {type: 'string'},
                                 questionId: {type: 'integer'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                deletedAt: {type: 'string'},
+                                id: {type: 'string'},
+                                nomenclature: {type: 'string'},
+                                variableId: {type: 'integer'},
+                                abbreviation: {type: 'string'},
+                                staticalVariable: {type: 'string'},
+                                variableIdFont: {type: 'integer'},
+                                question: {type: 'string'},
+                                variableFont: {type: 'string'}
                             }
                         }
                     }
@@ -143,13 +201,24 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
+                                            nomenclatorId: {type: 'integer'},
+                                            nomenclatureId: {type: 'string'},
                                             operativeFontId: {type: 'integer'},
+                                            font: {type: 'string'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            deletedAt: {type: 'string'},
+                                            id: {type: 'string'},
+                                            nomenclature: {type: 'string'},
+                                            variableId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            staticalVariable: {type: 'string'},
+                                            variableIdFont: {type: 'integer'},
+                                            question: {type: 'string'},
+                                            variableFont: {type: 'string'}
                                         }
                                     }
                                 }
@@ -172,6 +241,20 @@ module.exports = {
                     name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -196,6 +279,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -210,13 +307,24 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
+                                            nomenclatorId: {type: 'integer'},
+                                            nomenclatureId: {type: 'string'},
                                             operativeFontId: {type: 'integer'},
+                                            font: {type: 'string'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            deletedAt: {type: 'string'},
+                                            id: {type: 'string'},
+                                            nomenclature: {type: 'string'},
+                                            variableId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            staticalVariable: {type: 'string'},
+                                            variableIdFont: {type: 'integer'},
+                                            question: {type: 'string'},
+                                            variableFont: {type: 'string'}
                                         }
                                     }
                                 }
