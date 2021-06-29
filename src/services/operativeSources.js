@@ -1,5 +1,6 @@
 const { operativeSources } = include('models');
 const { dateToString } = include('util');
+const {arrayToCsvFormat} = include('util');
 
 class OperativeSourcesService {
     static async fetch() {
@@ -129,6 +130,38 @@ class OperativeSourcesService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const operativeSourcesHeaders = [
+                'ID_FUENTE',
+                'NOMBRE',
+                'SIGLA',
+                'ID_TIPO_OPERATIVO',
+                'ID_FRECUENCIA',
+                'FECHA_DESDE',
+                'FECHA_HASTA',
+                'OBSERVACION',
+                'DOMINIO',
+                'SUPERVISADO'
+            ];
+            const headers = arrayToCsvFormat(operativeSourcesHeaders);
+            csvString += headers;
+            const stream = operativeSources.knex.select(operativeSourcesHeaders)
+                .from(operativeSources.tableName)
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 
