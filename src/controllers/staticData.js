@@ -26,7 +26,10 @@ class StaticDataController {
                 nomenclatures,
                 sources,
                 questions,
-                questionsTypes
+                questionsTypes,
+                operativeType,
+                frequency,
+                support
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -75,6 +78,15 @@ class StaticDataController {
             }
             if (questionsTypes) {
                 await StaticDataService.getQuestionsTypes(data);
+            }
+            if (operativeType) {
+                await StaticDataService.getOperativeType(data);
+            }
+            if (frequency) {
+                await StaticDataService.getFrequency(data);
+            }
+            if (support) {
+                await StaticDataService.getSupport(data);
             }
             res.send(data);
         } catch (error) {
