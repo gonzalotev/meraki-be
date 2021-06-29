@@ -2,8 +2,29 @@ const { wordsDictionary } = include('models');
 const { dateToString } = include('util');
 
 class WordsDictionaryService {
-    static async fetch() {
-        const words = await wordsDictionary.find({FECHA_BAJA: null});
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'PALABRA', order: 'asc'}];
+        const filterBy = {FECHA_BAJA: null};
+        const columnsToSelect = wordsDictionary.selectableProps;
+        let words=[];
+        if(page && search) {
+            words = await wordsDictionary.findByMatch(
+                page,
+                search,
+                ['PALABRA'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            words = await wordsDictionary.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            words = await wordsDictionary.find(filterBy, columnsToSelect, orderBy);
+        }
+
         return words.map(words => ({
             word: words.PALABRA,
             truncate: words.TRUNCADO,
@@ -222,6 +243,11 @@ class WordsDictionaryService {
     static async checkIfAllWordsExist(words){
         const wordsFound = await wordsDictionary.findWords(words);
         return { wordsFound };
+    }
+
+    static async getTotal({search}){
+        const { total } = await wordsDictionary.countTotal({FECHA_BAJA: null}, search, ['PALABRA']);
+        return total;
     }
 }
 
