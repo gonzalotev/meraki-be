@@ -16,6 +16,7 @@ class SpecialPhraseTypeService {
             userDeleted: specialPhraseType.ID_USUARIO_BAJA,
             deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
         }));
+
     }
 
     static async create(params, userCreator) {
@@ -30,19 +31,9 @@ class SpecialPhraseTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const specialPhraseType = await specialPhraseTypeModel.insertOne(formattedSpecialPhraseType);
-
-        return {
-            id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
-            description: specialPhraseType.DESCRIPCION,
-            observation: specialPhraseType.OBSERVACION,
-            domain: specialPhraseType.DOMINIO,
-            approved: !!specialPhraseType.SUPERVISADO,
-            createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
-        };
+        const specialPhraseTypeId = await specialPhraseTypeModel.insertOne(formattedSpecialPhraseType, ['ID_TIPO_FRASE_ESPECIAL']);
+        const specialPhraseType = await SpecialPhraseTypeService.findOne({id: specialPhraseTypeId});
+        return specialPhraseType;
     }
 
     static async findOne(filters){

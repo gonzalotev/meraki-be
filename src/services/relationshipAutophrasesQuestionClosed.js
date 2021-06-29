@@ -1,13 +1,16 @@
 const { relationshipAutophrasesQuestionClosed: relationshipAutophrasesQuestionClosedModel } = include('models');
 const { dateToString } = include('util');
+const AutoPhraseService = require('./autoPhrase');
+const OperativeFontService = require('./operativeFonts');
+const SourceQuestionRelationService = require('./sourceQuestionsRelations');
 const trim = require('lodash/trim');
 
 class RelationshipAutophrasesQuestionClosedService {
     static async fetch() {
-        const relationshipsTypes = await relationshipAutophrasesQuestionClosedModel.find({FECHA_BAJA: null});
-        return relationshipsTypes.map(relationshipAutophrasesQuestionClosed => ({
+        let relationshipsTypes = await relationshipAutophrasesQuestionClosedModel.find({FECHA_BAJA: null});
+        relationshipsTypes =relationshipsTypes.map(relationshipAutophrasesQuestionClosed => ({
             autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
-            fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
+            operativeFontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
             observation: relationshipAutophrasesQuestionClosed.OBSERVACION,
@@ -20,12 +23,18 @@ class RelationshipAutophrasesQuestionClosedService {
             userDeleted: relationshipAutophrasesQuestionClosed.ID_USUARIO_BAJA,
             deletedAt: dateToString(relationshipAutophrasesQuestionClosed.FECHA_BAJA)
         }));
+
+        await AutoPhraseService.getAutoPhrase(relationshipsTypes);
+        await SourceQuestionRelationService.getQuestionData(relationshipsTypes);
+        await OperativeFontService.getOperativeFontData(relationshipsTypes);
+
+        return relationshipsTypes;
     }
 
     static async create(params, userCreator) {
         const formattedRelationshipAutophrasesQuestionClosed = {
             ID_AUTOFRASE: trim(params.autophraseId),
-            ID_FUENTE: trim(params.fontId),
+            ID_FUENTE: trim(params.operativeFontId),
             ID_PREGUNTA: trim(params.questionId),
             ABREVIATURA: trim(params.abreviation),
             OBSERVACION: trim(params.observation),
@@ -43,7 +52,7 @@ class RelationshipAutophrasesQuestionClosedService {
 
         return {
             autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
-            fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
+            operativeFontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
             observation: relationshipAutophrasesQuestionClosed.OBSERVACION,
@@ -63,7 +72,7 @@ class RelationshipAutophrasesQuestionClosedService {
             {ID_AUTOFRASE: filters.id});
         return {
             autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
-            fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
+            operativeFontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
             observation: relationshipAutophrasesQuestionClosed.OBSERVACION,
@@ -81,7 +90,7 @@ class RelationshipAutophrasesQuestionClosedService {
     static async update(filters, params, userCreator){
         const formattedRelationshipAutophrasesQuestionClosed = {
             ID_AUTOFRASE: trim(params.autophraseId),
-            ID_FUENTE: trim(params.fontId),
+            ID_FUENTE: trim(params.operativeFontId),
             ID_PREGUNTA: trim(params.questionId),
             ABREVIATURA: trim(params.abreviation),
             OBSERVACION: trim(params.observation),
@@ -99,7 +108,7 @@ class RelationshipAutophrasesQuestionClosedService {
             formattedRelationshipAutophrasesQuestionClosed);
         return {
             autophraseId: relationshipAutophrasesQuestionClosed.ID_AUTOFRASE,
-            fontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
+            operativeFontId: relationshipAutophrasesQuestionClosed.ID_FUENTE,
             questionId: relationshipAutophrasesQuestionClosed.ID_PREGUNTA,
             abreviation: relationshipAutophrasesQuestionClosed.ABREVIATURA,
             observation: relationshipAutophrasesQuestionClosed.OBSERVACION,

@@ -18,7 +18,12 @@ class RelationshipAutophrasesNomenclatureService {
             createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
             userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
+            id: relationshipAutophrasesNomenclature.AUTOFRASE,
+            nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
+            variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
+            staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
         }));
         await AutoPhraseService.getAutoPhrase(relationshipsTypes);
         await NomenclatorsService.getNomenclatorData(relationshipsTypes);
@@ -39,7 +44,12 @@ class RelationshipAutophrasesNomenclatureService {
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            AUTOFRASE: trim(params.id),
+            NOMENCLATURA: trim(params.nomenclature),
+            ID_VARIABLE: trim(params.variableId),
+            ABREVIATURA: trim(params.abbreviation),
+            VARIABLE_ESTADISTICA: trim(params.staticalVariable)
         };
         const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.
             insertOne(formattedRelationshipAutophrasesNomenclature);
@@ -54,13 +64,19 @@ class RelationshipAutophrasesNomenclatureService {
             createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
             userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
+            id: relationshipAutophrasesNomenclature.AUTOFRASE,
+            nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
+            variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
+            staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
         };
     }
 
     static async findOne(filters) {
         const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.findById(
-            { ID_AUTOFRASE: filters.id });
+            { ID_AUTOFRASE: filters.autophraseId, ID_NOMENCLADOR: filters.nomenclatorId,
+                ID_NOMENCLATURA: filters.nomenclatureId });
         return {
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
             nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
@@ -71,7 +87,12 @@ class RelationshipAutophrasesNomenclatureService {
             createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
             userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
+            id: relationshipAutophrasesNomenclature.AUTOFRASE,
+            nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
+            variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
+            staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
         };
     }
 
@@ -86,7 +107,12 @@ class RelationshipAutophrasesNomenclatureService {
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            AUTOFRASE: trim(params.id),
+            NOMENCLATURA: trim(params.nomenclature),
+            ID_VARIABLE: trim(params.variableId),
+            ABREVIATURA: trim(params.abbreviation),
+            VARIABLE_ESTADISTICA: trim(params.staticalVariable)
         };
         const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.updateOne(
             { ID_AUTOFRASE: filters.id },
@@ -101,13 +127,18 @@ class RelationshipAutophrasesNomenclatureService {
             createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
             userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA)
+            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
+            id: relationshipAutophrasesNomenclature.AUTOFRASE,
+            nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
+            variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
+            abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
+            staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
         };
     }
 
-
     static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_AUTOFRASE: filters.id };
+        const formattedFilters = { ID_AUTOFRASE: filters.autophraseId,
+            ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId };
         const success = await relationshipAutophrasesNomenclatureModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted

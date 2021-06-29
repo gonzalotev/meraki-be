@@ -30,19 +30,10 @@ class RelationshipTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const relationshipType = await relationshipTypeModel.insertOne(formattedRelationshipType);
+        const relationshipTypeId = await relationshipTypeModel.insertOne(formattedRelationshipType, ['ID_TIPO_RELACION']);
+        const relationshipType = await RelationshipTypeService.findOne({id: relationshipTypeId});
+        return relationshipType;
 
-        return {
-            id: relationshipType.ID_TIPO_RELACION,
-            description: relationshipType.DESCRIPCION,
-            observation: relationshipType.OBSERVACION,
-            domain: relationshipType.DOMINIO,
-            approved: !!relationshipType.SUPERVISADO,
-            createdAt: dateToString(relationshipType.FECHA_ALTA),
-            userCreator: relationshipType.ID_USUARIO_ALTA,
-            userDeleted: relationshipType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipType.FECHA_BAJA)
-        };
     }
 
     static async findOne(filters){

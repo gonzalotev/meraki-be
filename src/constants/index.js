@@ -485,7 +485,12 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
+    'ID_USUARIO_BAJA',
+    'AUTOFRASE',
+    'NOMENCLATURA',
+    'ID_VARIABLE',
+    'ABREVIATURA',
+    'VARIABLE_ESTADISTICA'
 ];
 
 const operativeSourcesTableName = 'FUENTES_OPERATIVO';
@@ -546,6 +551,25 @@ const nomenclaturesAttrib = [
     'ACRONIMO',
     'OBSERVACION',
     'DOMINIO',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const operativeFontsTableName = 'FUENTES_OPERATIVO';
+const operativeFontsAttrib = [
+    'ID_FUENTE',
+    'NOMBRE',
+    'SIGLA',
+    'ID_TIPO_OPERATIVO',
+    'ID_FRECUENCIA',
+    'ID_SOPORTE',
+    'FECHA_DESDE',
+    'FECHA_HASTA',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
     'ID_USUARIO_BAJA',
     'FECHA_BAJA'
 ];
@@ -617,5 +641,7 @@ module.exports = {
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,
-    nomenclaturesAttrib
+    nomenclaturesAttrib,
+    operativeFontsTableName,
+    operativeFontsAttrib
 };

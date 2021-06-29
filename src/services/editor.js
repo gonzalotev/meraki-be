@@ -30,19 +30,9 @@ class EditorService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const editor = await editorModel.insertOne(formattedEditor);
-
-        return {
-            id: editor.ID_EDITOR,
-            description: editor.DESCRIPCION,
-            observation: editor.OBSERVACION,
-            domain: editor.DOMINIO,
-            approved: !!editor.SUPERVISADO,
-            createdAt: dateToString(editor.FECHA_ALTA),
-            userCreator: editor.ID_USUARIO_ALTA,
-            userDeleted: editor.ID_USUARIO_BAJA,
-            deletedAt: dateToString(editor.FECHA_BAJA)
-        };
+        const editorId = await editorModel.insertOne(formattedEditor, ['ID_EDITOR']);
+        const editor = await EditorService.findOne({id: editorId});
+        return editor;
     }
 
     static async findOne(filters){

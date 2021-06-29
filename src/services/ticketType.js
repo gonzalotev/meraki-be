@@ -39,19 +39,10 @@ class TicketTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const ticketType = await ticketTypeModel.insertOne(formattedTicketType);
+        const ticketTypeId = await ticketTypeModel.insertOne(formattedTicketType, ['ID_TIPO_CHAT']);
+        const ticketType = await TicketTypeService.findOne({id: ticketTypeId});
+        return ticketType;
 
-        return {
-            id: ticketType.ID_TIPO_CHAT,
-            description: ticketType.DESCRIPCION,
-            observation: ticketType.OBSERVACION,
-            domain: ticketType.DOMINIO,
-            approved: !!ticketType.SUPERVISADO,
-            createdAt: dateToString(ticketType.FECHA_ALTA),
-            userCreator: ticketType.ID_USUARIO_ALTA,
-            userDeleted: ticketType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(ticketType.FECHA_BAJA)
-        };
     }
 
     static async findOne(filters) {

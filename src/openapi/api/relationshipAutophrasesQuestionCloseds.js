@@ -17,7 +17,7 @@ module.exports = {
                                             type: 'object',
                                             properties: {
                                                 autophraseId: {type: 'integer'},
-                                                fontId: {type: 'integer'},
+                                                operativeFontId: {type: 'integer'},
                                                 questionId: {type: 'integer'},
                                                 abreviation: {type: 'string'},
                                                 createdAt: {type: 'string'},
@@ -50,7 +50,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 autophraseId: {type: 'integer'},
-                                fontId: {type: 'integer'},
+                                operativeFontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
@@ -75,7 +75,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
-                                            fontId: {type: 'integer'},
+                                            operativeFontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
@@ -118,7 +118,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 autophraseId: {type: 'integer'},
-                                fontId: {type: 'integer'},
+                                operativeFontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
@@ -143,7 +143,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
-                                            fontId: {type: 'integer'},
+                                            operativeFontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
@@ -210,7 +210,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
-                                            fontId: {type: 'integer'},
+                                            operativeFontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},

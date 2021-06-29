@@ -30,19 +30,9 @@ class NetworkTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const networkType = await networkTypeModel.insertOne(formattedNetworkType);
-
-        return {
-            id: networkType.ID_TIPO_RED,
-            description: networkType.DESCRIPCION,
-            observation: networkType.OBSERVACION,
-            domain: networkType.DOMINIO,
-            approved: !!networkType.SUPERVISADO,
-            createdAt: dateToString(networkType.FECHA_ALTA),
-            userCreator: networkType.ID_USUARIO_ALTA,
-            userDeleted: networkType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(networkType.FECHA_BAJA)
-        };
+        const networkTypeId = await networkTypeModel.insertOne(formattedNetworkType, ['ID_TIPO_RED']);
+        const networkType = await NetworkTypeService.findOne({id: networkTypeId});
+        return networkType;
     }
 
     static async findOne(filters){

@@ -63,18 +63,18 @@ class ModelCreate {
         return objectToSave;
     }
 
-    async insertOne(props, transaction = this.transaction) {
+    async insertOne(props, returning = this.selectableProps, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
         objectToSave.FECHA_ALTA = new Date();
         if (transaction) {
             const objectCreated = await transaction(this.tableName)
                 .insert(objectToSave)
-                .returning(this.selectableProps)
+                .returning(returning)
                 .timeout(this.timeout);
             return head(objectCreated);
         }
         const objectCreated = await this.knex.insert(objectToSave)
-            .returning(this.selectableProps)
+            .returning(returning)
             .into(this.tableName)
             .timeout(this.timeout);
 
@@ -153,6 +153,7 @@ class ModelCreate {
             .orderBy(orderBy)
             .timeout(this.timeout);
     }
+
     async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
         const foundObject = await this.knex.select(columns)
             .from(this.tableName)

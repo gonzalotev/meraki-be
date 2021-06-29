@@ -12,6 +12,7 @@ class RelationshipAutophrasesNomenclatureController {
 
     static async find(req, res, next) {
         try {
+            console.log(req.params);
             const relationshipAutophrasesNomenclature = await RelationshipAutophrasesNomenclatureService.
                 findOne(req.params);
             res.send({ relationshipAutophrasesNomenclature });
