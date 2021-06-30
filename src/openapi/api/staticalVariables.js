@@ -2,7 +2,7 @@ module.exports = {
     '/api/staticalVariables': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Statical Variables'],
             responses: {
                 200: {
                     description: 'Success',
@@ -43,7 +43,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Statical Variables'],
             requestBody: {
                 description: 'The new  statical variable to create',
                 required: true,
@@ -103,7 +103,7 @@ module.exports = {
     '/api/staticalVariables/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Statical Variables'],
             parameters: [
                 {
                     in: 'path',
@@ -174,7 +174,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Statical Variables'],
             parameters: [
                 {
                     in: 'path',
@@ -194,7 +194,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Statical Variables'],
             parameters: [
                 {
                     in: 'path',
@@ -227,6 +227,42 @@ module.exports = {
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/staticalVariables/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Statical Variables'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }
