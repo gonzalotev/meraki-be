@@ -1,7 +1,6 @@
 const { dictionaryLinguistic } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
-const {arrayToCsvFormat} = include('util');
 const map = require('lodash/map');
 
 class DictionaryLinguisticService {

@@ -1,4 +1,5 @@
 const { AutoPhraseService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class AutoPhraseController {
     static async fetch(req, res, next) {
@@ -47,6 +48,18 @@ class AutoPhraseController {
             } else {
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    static async downloadCsv(req, res, next){
+        try {
+            const {search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const stream = await AutoPhraseService.getCsv({search: searchValue});
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
         } catch(err) {
             next(err);
         }
