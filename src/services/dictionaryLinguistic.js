@@ -146,7 +146,7 @@ class DictionaryLinguisticService {
         const { total } = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search, ['DESCRIPCION_ORIGINAL']);
         return total;
     }
-    static getCsv(){
+    static getCsv({search}){
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -184,7 +184,9 @@ class DictionaryLinguisticService {
             const headers = arrayToCsvFormat(dictionaryLinguisticFileHeaders);
             csvString += headers;
             const stream = dictionaryLinguistic.knex.select(dictionaryLinguisticTableHeaders)
-                .from(dictionaryLinguisticTableHeaders.tableName)
+                .from(dictionaryLinguistic.tableName)
+                .where('DESCRIPCION_ORIGINAL', 'like', `${search}%`)
+                .orderBy([{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
