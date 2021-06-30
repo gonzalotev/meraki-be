@@ -1,6 +1,7 @@
 const { operativeSources } = include('models');
 const { dateToString } = include('util');
 const {arrayToCsvFormat} = include('util');
+const map = require('lodash/map');
 
 class OperativeSourcesService {
     static async fetch() {
@@ -135,21 +136,54 @@ class OperativeSourcesService {
     static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
-            const operativeSourcesHeaders = [
-                'ID_FUENTE',
-                'NOMBRE',
-                'SIGLA',
-                'ID_TIPO_OPERATIVO',
-                'ID_FRECUENCIA',
-                'FECHA_DESDE',
-                'FECHA_HASTA',
-                'OBSERVACION',
-                'DOMINIO',
-                'SUPERVISADO'
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_FUENTE',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'NOMBRE',
+                    nameInFile: 'NOMBRE'
+                },
+                {
+                    nameInTable: 'SIGLA',
+                    nameInFile: 'SIGLA'
+                },
+                {
+                    nameInTable: 'ID_TIPO_OPERATIVO',
+                    nameInFile: 'TIPO DE OPERATIVO'
+                },
+                {
+                    nameInTable: 'ID_FRECUENCIA',
+                    nameInFile: 'FRECUENCIA'
+                },
+                {
+                    nameInTable: 'FECHA_DESDE',
+                    nameInFile: 'DESDE'
+                },
+                {
+                    nameInTable: 'FECHA_HASTA',
+                    nameInFile: 'HASTA'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
             ];
-            const headers = arrayToCsvFormat(operativeSourcesHeaders);
+
+            const operativeSourcesTableHeaders = map(fieldNames, field => field.nameInTable);
+            const operativeSourcesFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(operativeSourcesFileHeaders);
             csvString += headers;
-            const stream = operativeSources.knex.select(operativeSourcesHeaders)
+            const stream = operativeSources.knex.select(operativeSourcesTableHeaders)
                 .from(operativeSources.tableName)
                 .stream();
             stream.on('error', function(err) {
