@@ -1,6 +1,7 @@
 const { specialPhraseType: specialPhraseTypeModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class SpecialPhraseTypeService {
     static async fetch() {
@@ -85,6 +86,52 @@ class SpecialPhraseTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv({search}){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_TIPO_FRASE_ESPECIAL',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = specialPhraseTypeModel.knex.select(tableHeaders)
+                .from(specialPhraseTypeModel.tableName)
+                .where('DESCRIPCION', 'like', `${search}%`)
+                .orderBy([{column: 'ID_TIPO_FRASE_ESPECIAL', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

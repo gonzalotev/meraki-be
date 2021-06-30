@@ -178,11 +178,11 @@ class DictionaryLinguisticService {
                     nameInFile: 'DOMINIO'
                 }
             ];
-            const dictionaryLinguisticTableHeaders = map(fieldNames, field => field.nameInTable);
-            const dictionaryLinguisticFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(dictionaryLinguisticFileHeaders);
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
             csvString += headers;
-            const stream = dictionaryLinguistic.knex.select(dictionaryLinguisticTableHeaders)
+            const stream = dictionaryLinguistic.knex.select(tableHeaders)
                 .from(dictionaryLinguistic.tableName)
                 .where('DESCRIPCION_ORIGINAL', 'like', `${search}%`)
                 .orderBy([{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}])
