@@ -1,4 +1,5 @@
 const { questionType: questionTypeModel } = include('models');
+const { arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -89,6 +90,39 @@ class QuestionTypeService {
         }
         resources.foreignData.questionType = questionType;
         return resources;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_ABIERTA_CERRADA',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                }
+            ];
+            const TableHeaders = map(fieldNames, field => field.nameInTable);
+            const FileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(FileHeaders);
+            csvString += headers;
+            const stream = questionTypeModel.knex.select(TableHeaders)
+                .from(questionTypeModel.tableName)
+                .orderBy([{column: 'ID_ABIERTA_CERRADA', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 
