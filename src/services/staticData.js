@@ -82,7 +82,8 @@ class StaticDataService {
             .select({
                 id: 'ID_NOMENCLATURA',
                 nomenclatorId: 'ID_NOMENCLADOR',
-                description: 'DESCRIPCION'
+                description: 'DESCRIPCION',
+                abbreviation: 'ABREVIATURA'
             })
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
@@ -119,6 +120,36 @@ class StaticDataService {
             .orderBy([{column: 'ID_ABIERTA_CERRADA', order: 'asc'}]);
         data.questionsTypes = questionsTypes;
         return data;
+    }
+    static async getOperativeType(data){
+        const operativeType = await knex.select({
+            id: 'ID_TIPO_OPERATIVO',
+            description: 'DESCRIPCION'
+        })
+            .from('TIPOS_DE_OPERATIVO')
+            .orderBy([{column: 'ID_TIPO_OPERATIVO', order: 'asc'}]);
+        data.operativeType = operativeType;
+        return operativeType;
+    }
+    static async getFrequency(data){
+        const frequency = await knex.select({
+            id: 'ID_FRECUENCIA',
+            description: 'DESCRIPCION'
+        })
+            .from('FRECUENCIAS')
+            .orderBy([{column: 'ID_FRECUENCIA', order: 'asc'}]);
+        data.frequency = frequency;
+        return frequency;
+    }
+    static async getSupport(data){
+        const support = await knex.select({
+            id: 'ID_SOPORTE',
+            description: 'DESCRIPCION'
+        })
+            .from('SOPORTE')
+            .orderBy([{column: 'ID_SOPORTE', order: 'asc'}]);
+        data.support = support;
+        return support;
     }
 }
 
