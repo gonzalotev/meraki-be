@@ -2,9 +2,8 @@ const { relationshipAutophrasesNomenclature: relationshipAutophrasesNomenclature
 const AutoPhraseService = require('./autoPhrase');
 const NomenclatorsService = require('./nomenclators');
 const NomenclaturesService = require('./nomenclatures');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class RelationshipAutophrasesNomenclatureService {
     static async fetch() {
@@ -145,74 +144,6 @@ class RelationshipAutophrasesNomenclatureService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
-    }
-
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_AUTOFRASE',
-                    nameInFile: 'ID DE AUTOFRASE'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE NOMENCLADOR'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLATURA',
-                    nameInFile: 'ID DE NOMENCLATURA'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'VARIABLE_ESTADISTICA',
-                    nameInFile: 'VARIABLE'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                },
-                {
-                    nameInTable: 'NOMENCLATURA',
-                    nameInFile: 'NOMENCLATURA'
-                },
-                {
-                    nameInTable: 'AUTOFRASE',
-                    nameInFile: 'AUTOFRASE'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = relationshipAutophrasesNomenclatureModel.knex.select(tableHeaders)
-                .from(relationshipAutophrasesNomenclatureModel.tableName)
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

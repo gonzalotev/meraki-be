@@ -1,7 +1,9 @@
 const { dictionaryLinguistic } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
+const knex = include('helpers/database');
+const {arrayToCsvFormat} = include('util');
+const {linguisticDictionaryHeaders} = include('constants/csvHeaders');
 
 class DictionaryLinguisticService {
     static async fetch({page, search, formatted=false}) {
@@ -145,48 +147,12 @@ class DictionaryLinguisticService {
         const { total } = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search, ['DESCRIPCION_ORIGINAL']);
         return total;
     }
-    static getCsv({search}){
+    static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'DESCRIPCION_ORIGINAL',
-                    nameInFile: 'DESCRIPCIÓN ORIGINAL'
-                },
-                {
-                    nameInTable: 'DESCRIPCION_DESTINO',
-                    nameInFile: 'DESCRIPCIÓN DESTINO'
-                },
-                {
-                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                    nameInFile: 'ID DE TIPOLOGÍA DICCIONARIO'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
+            const headers = arrayToCsvFormat(linguisticDictionaryHeaders);
             csvString += headers;
-            const stream = dictionaryLinguistic.knex.select(tableHeaders)
-                .from(dictionaryLinguistic.tableName)
-                .where('DESCRIPCION_ORIGINAL', 'like', `${search}%`)
-                .orderBy([{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}])
-                .stream();
+            const stream = knex.select(linguisticDictionaryHeaders).from(dictionaryLinguistic.tableName).stream();
             stream.on('error', function(err) {
                 reject(err);
             });

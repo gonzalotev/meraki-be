@@ -11,8 +11,8 @@ class OperativeSourcesController {
 
     static async find(req, res, next){
         try {
-            const operativeSources = await OperativeSourcesService.findOne(req.params);
-            res.send({operativeSources});
+            const operativeSource = await OperativeSourcesService.findOne(req.params);
+            res.send({operativeSource});
         } catch(err) {
             next(err);
         }
@@ -58,15 +58,7 @@ class OperativeSourcesController {
             next(error);
         }
     }
-    static async downloadCsv(req, res, next){
-        try {
-            const stream = await OperativeSourcesService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
-            next(err);
-        }
-    }
+
 }
 
 module.exports = OperativeSourcesController;

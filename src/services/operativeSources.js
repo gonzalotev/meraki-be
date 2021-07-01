@@ -1,7 +1,5 @@
 const { operativeSources } = include('models');
-const { dateToString } = include('util');
-const {arrayToCsvFormat} = include('util');
-const map = require('lodash/map');
+const { dateToString, stringToDate } = include('util');
 
 class OperativeSourcesService {
     static async fetch() {
@@ -33,8 +31,8 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: params.dateFrom,
-            FECHA_HASTA: params.dateTo,
+            FECHA_DESDE: stringToDate(params.dateFrom),
+            FECHA_HASTA: stringToDate(params.dateTo),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
@@ -94,8 +92,8 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: params.dateFrom,
-            FECHA_HASTA: params.dateTo,
+            FECHA_DESDE: stringToDate(params.dateFrom),
+            FECHA_HASTA: stringToDate(params.dateTo),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
@@ -131,71 +129,6 @@ class OperativeSourcesService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
-    }
-
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'NOMBRE',
-                    nameInFile: 'NOMBRE'
-                },
-                {
-                    nameInTable: 'SIGLA',
-                    nameInFile: 'SIGLA'
-                },
-                {
-                    nameInTable: 'ID_TIPO_OPERATIVO',
-                    nameInFile: 'TIPO DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_FRECUENCIA',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'FECHA_DESDE',
-                    nameInFile: 'DESDE'
-                },
-                {
-                    nameInTable: 'FECHA_HASTA',
-                    nameInFile: 'HASTA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-
-            const operativeSourcesTableHeaders = map(fieldNames, field => field.nameInTable);
-            const operativeSourcesFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(operativeSourcesFileHeaders);
-            csvString += headers;
-            const stream = operativeSources.knex.select(operativeSourcesTableHeaders)
-                .from(operativeSources.tableName)
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

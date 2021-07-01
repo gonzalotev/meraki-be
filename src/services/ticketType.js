@@ -1,8 +1,6 @@
-const toUpper = require('lodash/toUpper');
 const { ticketType: ticketTypeModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class TicketTypeService {
     static async fetch(query) {
@@ -32,7 +30,7 @@ class TicketTypeService {
     static async create(params, userCreator) {
         const formattedTicketType = {
             ID_TIPO_CHAT: null,
-            DESCRIPCION: toUpper(trim(params.description)),
+            DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -67,7 +65,7 @@ class TicketTypeService {
     static async update(filters, params) {
         const formattedTicketType = {
             ID_TIPO_CHAT: params.id,
-            DESCRIPCION: toUpper(trim(params.description)),
+            DESCRIPCION: trim(params.description),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -100,51 +98,6 @@ class TicketTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
-    }
-
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_TIPO_CHAT',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = ticketTypeModel.knex.select(tableHeaders)
-                .from(ticketTypeModel.tableName)
-                .orderBy([{column: 'ID_TIPO_CHAT', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

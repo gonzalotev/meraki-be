@@ -4,7 +4,6 @@ module.exports = router => {
     router.route('/')
         .get(NomenclatorSubtypesController.fetch)
         .post(NomenclatorSubtypesController.create);
-    router.route('/downloadCsv').get(NomenclatorSubtypesController.downloadCsv);
     router.route('/:id/:typeId')
         .get(NomenclatorSubtypesController.find)
         .delete(NomenclatorSubtypesController.delete)

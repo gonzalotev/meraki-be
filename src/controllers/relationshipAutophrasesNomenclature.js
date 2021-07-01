@@ -12,6 +12,7 @@ class RelationshipAutophrasesNomenclatureController {
 
     static async find(req, res, next) {
         try {
+            console.log(req.params);
             const relationshipAutophrasesNomenclature = await RelationshipAutophrasesNomenclatureService.
                 findOne(req.params);
             res.send({ relationshipAutophrasesNomenclature });
@@ -49,16 +50,6 @@ class RelationshipAutophrasesNomenclatureController {
             } else {
                 res.sendStatus(400);
             }
-        } catch(err) {
-            next(err);
-        }
-    }
-
-    static async downloadCsv(req, res, next){
-        try {
-            const stream = await RelationshipAutophrasesNomenclatureService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
         } catch(err) {
             next(err);
         }

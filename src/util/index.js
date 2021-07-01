@@ -43,7 +43,6 @@ const dateToString = date => {
     }
     return null;
 };
-exports.dateToString = dateToString;
 const dateTimeToString = dateTime => {
     if(isDate(dateTime)){
         return moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
@@ -52,6 +51,10 @@ const dateTimeToString = dateTime => {
 };
 const stringToDate = date => {
     if(date && isString(date)){
+        console.log('string to date log:');
+        console.log(date);
+        console.log(moment(date).toDate());
+        console.log(moment.defaultFormat);
         return moment(date).toDate();
     }
     return null;

@@ -59,9 +59,7 @@ class DictionaryLinguisticController {
 
     static async downloadCsv(req, res, next){
         try {
-            const {search} = req.query;
-            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const stream = await DictionaryLinguisticService.getCsv({search: searchValue});
+            const stream = await DictionaryLinguisticService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {
