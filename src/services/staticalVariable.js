@@ -1,5 +1,6 @@
 const { staticalVariable: staticalVariableModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+>>>>>>> src/services/staticalVariable.js
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -129,6 +130,64 @@ class StaticalVariableService {
             }
             resource.foreignData.variable = find(variables, variable => variable.id === resource.variableId);
             return resource;
+        });
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_VARIABLE',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'NOMBRE',
+                    nameInFile: 'NOMBRE'
+                },
+                {
+                    nameInTable: 'ABREVIATURA',
+                    nameInFile: 'ABREVIATURA'
+                },
+                {
+                    nameInTable: 'DIGITOS',
+                    nameInFile: 'DÍGITOS'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'ID_PADRE',
+                    nameInFile: 'ID_PADRE'
+                }
+            ];
+
+            const staticalVariableTableHeaders = map(fieldNames, field => field.nameInTable);
+            const staticalVariableFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(staticalVariableFileHeaders);
+            csvString += headers;
+            const stream = staticalVariableModel.knex.select(staticalVariableTableHeaders)
+                .from(staticalVariableModel.tableName)
+                .orderBy([{column: 'ID_VARIABLE', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
         });
     }
 }

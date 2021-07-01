@@ -1,5 +1,5 @@
 const { dictionaryType: dictionaryTypeModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -148,6 +148,71 @@ class DictionaryTypeService {
             return value;
         });
         return resourceArrayWithDictionaryType;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                    nameInFile: 'ID TIPO DE DICCIONARIO'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'SI_PALABRA_NO_FRASE_ORIGEN',
+                    nameInFile: 'SI_PALABRA_NO_FRASE_ORIGEN'
+                },
+                {
+                    nameInTable: 'SI_DESCRIPCION_DESTINO',
+                    nameInFile: 'TIENE DESCRIPCIÓN DESTINO'
+                },
+                {
+                    nameInTable: 'SI_PALABRA_NO_FRASE_DESTINO',
+                    nameInFile: 'SI_PALABRA_NO_FRASE_DESTINO'
+                },
+                {
+                    nameInTable: 'EXPRESION_REGULAR',
+                    nameInFile: 'EXPRESIÓN REGULAR'
+                },
+                {
+                    nameInTable: 'VALIDACION',
+                    nameInFile: 'VALIDACIÓN'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
+            ];
+            const dictionaryTypeTableHeaders = map(fieldNames, field => field.nameInTable);
+            const dictionaryTypeFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(dictionaryTypeFileHeaders);
+            csvString += headers;
+            const stream = dictionaryTypeModel.knex.select(dictionaryTypeTableHeaders)
+                .from(dictionaryTypeModel.tableName)
+                .orderBy([{column: 'DESCRIPCION', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

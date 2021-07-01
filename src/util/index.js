@@ -43,6 +43,7 @@ const dateToString = date => {
     }
     return null;
 };
+exports.dateToString = dateToString;
 const dateTimeToString = dateTime => {
     if(isDate(dateTime)){
         return moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
