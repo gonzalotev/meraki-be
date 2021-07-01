@@ -1,6 +1,5 @@
 const { staticalVariable: staticalVariableModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
->>>>>>> src/services/staticalVariable.js
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
