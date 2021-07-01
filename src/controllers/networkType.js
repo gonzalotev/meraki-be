@@ -50,6 +50,15 @@ class NetworkTypeController {
             next(err);
         }
     }
+    static async downloadCsv(req, res, next){
+        try {
+            const stream = await NetworkTypeService.getCsv();
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
+        } catch(err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = NetworkTypeController;
