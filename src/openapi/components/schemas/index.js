@@ -72,6 +72,6 @@ module.exports = {
     AutoPhraseClosedQuestion,
     AutoPhraseNomenclatureRelation,
     WordCorrector,
-    Questions
+    Questions,
     SourceQuestionRelation
 };
