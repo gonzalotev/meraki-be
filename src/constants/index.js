@@ -653,7 +653,7 @@ module.exports = {
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
     questionsTableName,
-    questionsAttrib
+    questionsAttrib,
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,
