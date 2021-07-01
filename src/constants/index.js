@@ -575,6 +575,19 @@ const operativeFontsAttrib = [
     'FECHA_BAJA'
 ];
 
+const questionsTableName = 'PREGUNTAS';
+const questionsAttrib = [
+    'ID_PREGUNTA',
+    'PREGUNTA',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -639,6 +652,8 @@ module.exports = {
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
+    questionsTableName,
+    questionsAttrib
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,
