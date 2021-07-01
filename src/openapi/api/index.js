@@ -58,6 +58,6 @@ module.exports = {
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
     ...relationshipAutophrasesQuestionCloseds,
-    ...questions
+    ...questions,
     ...sourceQuestionRelation
 };
