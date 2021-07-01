@@ -188,16 +188,7 @@ const relationshipAutophrasesQuestionClosedsAttrib = [
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
-    'VARIABLE_ESTADISTICA',
-    'ABREVIATURA_VARIABLE',
-    'ID_VARIABLE',
-    'AUTOFRASE',
-    'NOMENCLATURA',
-    'ID_VARIABLE_FUENTE',
-    'PREGUNTA',
-    'VARIABLE_FUENTE',
-    'FUENTE'
+    'FECHA_BAJA'
 ];
 
 const assignmentRoleOperativeVariableTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';

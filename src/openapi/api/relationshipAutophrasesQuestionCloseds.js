@@ -19,22 +19,14 @@ module.exports = {
                                                 autophraseId: {type: 'integer'},
                                                 nomenclatorId: {type: 'integer'},
                                                 nomenclatureId: {type: 'string'},
-                                                operativeFontId: {type: 'integer'},
+                                                fontId: {type: 'integer'},
                                                 questionId: {type: 'integer'},
                                                 abreviation: {type: 'string'},
                                                 font: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'},
-                                                id: {type: 'string'},
-                                                nomenclature: {type: 'string'},
-                                                variableId: {type: 'integer'},
-                                                abbreviation: {type: 'string'},
-                                                staticalVariable: {type: 'string'},
-                                                variableIdFont: {type: 'integer'},
-                                                question: {type: 'string'},
-                                                variableFont: {type: 'string'}
+                                                deletedAt: {type: 'string'}
                                             }
                                         }
                                     }
@@ -63,22 +55,14 @@ module.exports = {
                                 autophraseId: {type: 'integer'},
                                 nomenclatorId: {type: 'integer'},
                                 nomenclatureId: {type: 'string'},
-                                operativeFontId: {type: 'integer'},
+                                fontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
-                                font: {type: 'string'},
                                 abreviation: {type: 'string'},
+                                font: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'},
-                                id: {type: 'string'},
-                                nomenclature: {type: 'string'},
-                                variableId: {type: 'integer'},
-                                abbreviation: {type: 'string'},
-                                staticalVariable: {type: 'string'},
-                                variableIdFont: {type: 'integer'},
-                                question: {type: 'string'},
-                                variableFont: {type: 'string'}
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -99,22 +83,14 @@ module.exports = {
                                             autophraseId: {type: 'integer'},
                                             nomenclatorId: {type: 'integer'},
                                             nomenclatureId: {type: 'string'},
-                                            operativeFontId: {type: 'integer'},
-                                            font: {type: 'string'},
+                                            fontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
+                                            font: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'},
-                                            id: {type: 'string'},
-                                            nomenclature: {type: 'string'},
-                                            variableId: {type: 'integer'},
-                                            abbreviation: {type: 'string'},
-                                            staticalVariable: {type: 'string'},
-                                            variableIdFont: {type: 'integer'},
-                                            question: {type: 'string'},
-                                            variableFont: {type: 'string'}
+                                            deletedAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -167,22 +143,14 @@ module.exports = {
                                 autophraseId: {type: 'integer'},
                                 nomenclatorId: {type: 'integer'},
                                 nomenclatureId: {type: 'string'},
-                                operativeFontId: {type: 'integer'},
-                                font: {type: 'string'},
+                                fontId: {type: 'integer'},
                                 questionId: {type: 'integer'},
                                 abreviation: {type: 'string'},
+                                font: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'},
-                                id: {type: 'string'},
-                                nomenclature: {type: 'string'},
-                                variableId: {type: 'integer'},
-                                abbreviation: {type: 'string'},
-                                staticalVariable: {type: 'string'},
-                                variableIdFont: {type: 'integer'},
-                                question: {type: 'string'},
-                                variableFont: {type: 'string'}
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -203,22 +171,14 @@ module.exports = {
                                             autophraseId: {type: 'integer'},
                                             nomenclatorId: {type: 'integer'},
                                             nomenclatureId: {type: 'string'},
-                                            operativeFontId: {type: 'integer'},
-                                            font: {type: 'string'},
+                                            fontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
+                                            font: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'},
-                                            id: {type: 'string'},
-                                            nomenclature: {type: 'string'},
-                                            variableId: {type: 'integer'},
-                                            abbreviation: {type: 'string'},
-                                            staticalVariable: {type: 'string'},
-                                            variableIdFont: {type: 'integer'},
-                                            question: {type: 'string'},
-                                            variableFont: {type: 'string'}
+                                            deletedAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -309,22 +269,14 @@ module.exports = {
                                             autophraseId: {type: 'integer'},
                                             nomenclatorId: {type: 'integer'},
                                             nomenclatureId: {type: 'string'},
-                                            operativeFontId: {type: 'integer'},
-                                            font: {type: 'string'},
+                                            fontId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
+                                            font: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'},
-                                            id: {type: 'string'},
-                                            nomenclature: {type: 'string'},
-                                            variableId: {type: 'integer'},
-                                            abbreviation: {type: 'string'},
-                                            staticalVariable: {type: 'string'},
-                                            variableIdFont: {type: 'integer'},
-                                            question: {type: 'string'},
-                                            variableFont: {type: 'string'}
+                                            deletedAt: {type: 'string'}
                                         }
                                     }
                                 }
