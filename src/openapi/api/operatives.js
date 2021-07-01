@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/operativeSources': {
+    '/api/operatives': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Sources'],
+            tags: ['Operatives'],
             responses: {
                 200: {
                     description: 'ok',
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    opertiveSources: {
+                                    words: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -28,7 +28,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Sources'],
+            tags: ['Operatives'],
             requestBody: {
                 description: 'The new operative source to create',
                 required: true,
@@ -44,7 +44,7 @@ module.exports = {
                                 frequencyId: {type: 'string'},
                                 supportId: {type: 'string'},
                                 dateFrom: {type: 'string'},
-                                dateTo: {type: 'string'},
+                                dateToString: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 supervised: {type: 'boolean'},
@@ -67,7 +67,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    operativeSource: {
+                                    operative: {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
@@ -77,7 +77,7 @@ module.exports = {
                                             frequencyId: {type: 'string'},
                                             supportId: {type: 'string'},
                                             dateFrom: {type: 'string'},
-                                            dateTo: {type: 'string'},
+                                            dateToString: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             supervised: {type: 'boolean'},
@@ -99,10 +99,10 @@ module.exports = {
             }
         }
     },
-    '/api/operativeSources/{sourceId}': {
+    '/api/operatives/{sourceId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Sources'],
+            tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',
@@ -127,7 +127,7 @@ module.exports = {
                                 frequencyId: {type: 'string'},
                                 supportId: {type: 'string'},
                                 dateFrom: {type: 'string'},
-                                dateTo: {type: 'string'},
+                                dateToString: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 supervised: {type: 'boolean'},
@@ -149,7 +149,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    operativeSource: {
+                                    operative: {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
@@ -159,7 +159,7 @@ module.exports = {
                                             frequencyId: {type: 'string'},
                                             supportId: {type: 'string'},
                                             dateFrom: {type: 'string'},
-                                            dateTo: {type: 'string'},
+                                            dateToString: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             supervised: {type: 'boolean'},
@@ -182,7 +182,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Sources'],
+            tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',
@@ -205,7 +205,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Operative Sources'],
+            tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',
@@ -233,7 +233,7 @@ module.exports = {
                                             frequencyId: {type: 'string'},
                                             supportId: {type: 'string'},
                                             dateFrom: {type: 'string'},
-                                            dateTo: {type: 'string'},
+                                            dateToString: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             supervised: {type: 'boolean'},

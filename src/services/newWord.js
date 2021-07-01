@@ -1,5 +1,5 @@
 const { newWord: newWordModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 
@@ -146,58 +146,6 @@ class NewWordService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
-    }
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_OPERATIVO',
-                    nameInFile: 'ID DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'NUEVAS_PALABRAS',
-                    nameInFile: 'PALABRA NUEVA'
-                },
-                {
-                    nameInTable: 'FRECUENCIAS',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'ABC',
-                    nameInFile: 'CURVA ABC'
-                },
-                {
-                    nameInTable: 'CORREGIDA',
-                    nameInFile: 'CORREGIDA'
-                },
-                {
-                    nameInTable: 'FECHA_ALTA',
-                    nameInFile: 'FECHA DE ALTA'
-                }
-            ];
-            const newWordTableHeaders = map(fieldNames, field => field.nameInTable);
-            const newWordFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(newWordFileHeaders);
-            csvString += headers;
-            const stream = newWordModel.knex.select(newWordTableHeaders)
-                .from(newWordModel.tableName)
-                .orderBy([{column: 'NUEVAS_PALABRAS', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

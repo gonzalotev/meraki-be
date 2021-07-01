@@ -1,7 +1,5 @@
 const { wordsDictionary } = include('models');
 const { dateToString } = include('util');
-const map = require('lodash/map');
-const {arrayToCsvFormat} = include('util');
 
 class WordsDictionaryService {
     static async fetch({page, search}) {
@@ -250,108 +248,6 @@ class WordsDictionaryService {
     static async getTotal({search}){
         const { total } = await wordsDictionary.countTotal({FECHA_BAJA: null}, search, ['PALABRA']);
         return total;
-    }
-
-    static getCsv({search}){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'PALABRA',
-                    nameInFile: 'PALABRA'
-                },
-                {
-                    nameInTable: 'TRUNCADO',
-                    nameInFile: 'TRUNCADO'
-                },
-                {
-                    nameInTable: 'ACRONIMO',
-                    nameInFile: 'ACRÓNIMO'
-                },
-                {
-                    nameInTable: 'VERBO',
-                    nameInFile: 'VERBO'
-                },
-                {
-                    nameInTable: 'SUSTANTIVO',
-                    nameInFile: 'SUSTANTIVO'
-                },
-                {
-                    nameInTable: 'ADJETIVO',
-                    nameInFile: 'ADJETIVO'
-                },
-                {
-                    nameInTable: 'ADVERBIO',
-                    nameInFile: 'ADVERBIO'
-                },
-                {
-                    nameInTable: 'PRONOMBRE',
-                    nameInFile: 'PRONOMBRE'
-                },
-                {
-                    nameInTable: 'ARTICULO',
-                    nameInFile: 'ARTÍCULO'
-                },
-                {
-                    nameInTable: 'PREPOSICION',
-                    nameInFile: 'PREPOSICIÓN'
-                },
-                {
-                    nameInTable: 'PALABRA_DUDOSA',
-                    nameInFile: 'PALABRA DUDOSA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'ID_GENERO_NUMERO',
-                    nameInFile: 'ID GENERO Y NÚMERO'
-                },
-                {
-                    nameInTable: 'ID_NUMERO',
-                    nameInFile: 'ID NUMERO'
-                },
-                {
-                    nameInTable: 'FRECUENCIA',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'ABC',
-                    nameInFile: 'CURVA ABC'
-                },
-                {
-                    nameInTable: 'FAMILIA',
-                    nameInFile: 'FAMILIA'
-                }
-            ];
-            const wordsDictionaryTableHeaders = map(fieldNames, field => field.nameInTable);
-            const wordsDictionaryFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(wordsDictionaryFileHeaders);
-            csvString += headers;
-            const stream = wordsDictionary.knex.select(wordsDictionaryTableHeaders)
-                .from(wordsDictionary.tableName)
-                .where('PALABRA', 'like', `${search}%`)
-                .orderBy([{column: 'PALABRA', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

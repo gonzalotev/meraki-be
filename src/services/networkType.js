@@ -1,7 +1,6 @@
 const { networkType: networkTypeModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class NetworkTypeService {
     static async fetch() {
@@ -85,51 +84,6 @@ class NetworkTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
-    }
-
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_TIPO_RED',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = networkTypeModel.knex.select(tableHeaders)
-                .from(networkTypeModel.tableName)
-                .orderBy([{column: 'ID_TIPO_RED', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

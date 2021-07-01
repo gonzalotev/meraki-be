@@ -82,8 +82,7 @@ class StaticDataService {
             .select({
                 id: 'ID_NOMENCLATURA',
                 nomenclatorId: 'ID_NOMENCLADOR',
-                description: 'DESCRIPCION',
-                abbreviation: 'ABREVIATURA'
+                description: 'DESCRIPCION'
             })
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);

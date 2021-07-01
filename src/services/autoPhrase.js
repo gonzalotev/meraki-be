@@ -1,5 +1,5 @@
 const { autoPhrase: autoPhraseModel } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const StaticalVariableService = require('./staticalVariable');
 const trim = require('lodash/trim');
 const knex = include('helpers/database');
@@ -163,64 +163,6 @@ class AutoPhraseService {
                 autoPhrase => autoPhrase.id === resource.autophraseId
             );
             return resource;
-        });
-    }
-
-    static getCsv({search}){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_AUTOFRASE',
-                    nameInFile: 'ID DE AUTOFRASE'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'FRASE_FINAL',
-                    nameInFile: 'FRASE FINAL'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'FECHA_RETROALIMENTACION',
-                    nameInFile: 'FECHA DE RETROALIMENTACIÓN'
-                },
-                {
-                    nameInTable: 'FRASE_RETROALIMENTADA_SI_NO',
-                    nameInFile: 'FRASE_RETROALIMENTADA_SI_NO'
-                }
-            ];
-            const autoPhraseTableHeaders = map(fieldNames, field => field.nameInTable);
-            const autoPhraseFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(autoPhraseFileHeaders);
-            csvString += headers;
-            const stream = autoPhraseModel.knex.select(autoPhraseTableHeaders)
-                .from(autoPhraseModel.tableName)
-                .where('FRASE_FINAL', 'like', `${search}%`)
-                .orderBy([{column: 'FRASE_FINAL', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
         });
     }
 }
