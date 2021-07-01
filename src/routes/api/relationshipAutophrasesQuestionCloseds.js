@@ -4,7 +4,7 @@ module.exports = router => {
     router.route('/')
         .get(RelationshipAutophrasesQuestionClosedController.fetch)
         .post(RelationshipAutophrasesQuestionClosedController.create);
-    router.route('/:id')
+    router.route('/:autophraseId/:nomenclatorId/:nomenclatureId')
         .get(RelationshipAutophrasesQuestionClosedController.find)
         .put(RelationshipAutophrasesQuestionClosedController.update)
         .delete(RelationshipAutophrasesQuestionClosedController.delete);

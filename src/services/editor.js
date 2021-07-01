@@ -1,6 +1,7 @@
 const { editor: editorModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class EditorService {
     static async fetch() {
@@ -30,19 +31,9 @@ class EditorService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const editor = await editorModel.insertOne(formattedEditor);
-
-        return {
-            id: editor.ID_EDITOR,
-            description: editor.DESCRIPCION,
-            observation: editor.OBSERVACION,
-            domain: editor.DOMINIO,
-            approved: !!editor.SUPERVISADO,
-            createdAt: dateToString(editor.FECHA_ALTA),
-            userCreator: editor.ID_USUARIO_ALTA,
-            userDeleted: editor.ID_USUARIO_BAJA,
-            deletedAt: dateToString(editor.FECHA_BAJA)
-        };
+        const editorId = await editorModel.insertOne(formattedEditor, ['ID_EDITOR']);
+        const editor = await EditorService.findOne({id: editorId});
+        return editor;
     }
 
     static async findOne(filters){
@@ -93,6 +84,51 @@ class EditorService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_EDITOR',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = editorModel.knex.select(tableHeaders)
+                .from(editorModel.tableName)
+                .orderBy([{column: 'ID_EDITOR', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

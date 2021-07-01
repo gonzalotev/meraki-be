@@ -1,9 +1,8 @@
 const { wordCorrector: wordCorrectorModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const knex = include('helpers/database');
+const map = require('lodash/map');
 const {arrayToCsvFormat} = include('util');
-const {wordCorrectorHeaders} = include('constants/csvHeaders');
 
 class WordCorrectorService {
     static async fetch({page, search}) {
@@ -116,15 +115,48 @@ class WordCorrectorService {
     }
 
     static async getTotal({search}){
-        const result = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search);
-        return result.total;
+        const { total } = await wordCorrectorModel.countTotal({FECHA_BAJA: null}, search, ['PALABRA']);
+        return total;
     }
-    static getCsv(){
+
+    static getCsv({search}){
         return new Promise((resolve, reject) => {
             let csvString = '';
-            const headers = arrayToCsvFormat(wordCorrectorHeaders);
+            const fieldNames = [
+                {
+                    nameInTable: 'INCORRECTA',
+                    nameInFile: 'INCORRECTA'
+                },
+                {
+                    nameInTable: 'CORRECTA',
+                    nameInFile: 'CORRECTA'
+                },
+                {
+                    nameInTable: 'DESTINO_PALABRA_FRASE_SI_NO',
+                    nameInFile: 'DESTINO_PALABRA_FRASE_SI_NO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIóN'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'FRECUENCIA',
+                    nameInFile: 'FRECUENCIA'
+                }
+            ];
+            const wordCorrectorTableHeaders = map(fieldNames, field => field.nameInTable);
+            const wordCorrectorFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(wordCorrectorFileHeaders);
             csvString += headers;
-            const stream = knex.select(wordCorrectorHeaders).from(wordCorrectorModel.tableName).stream();
+            const stream = wordCorrectorModel.knex.select(wordCorrectorTableHeaders)
+                .from(wordCorrectorModel.tableName)
+                .where('CORRECTA', 'like', `${search}%`)
+                .orderBy([{column: 'CORRECTA', order: 'asc'}])
+                .stream();
             stream.on('error', function(err) {
                 reject(err);
             });

@@ -107,7 +107,7 @@ module.exports = {
             }
         }
     },
-    '/api/assignmentRoles/{id}': {
+    '/api/assignmentRoles/{id}/{idUser}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles'],
@@ -115,6 +115,13 @@ module.exports = {
                 {
                     in: 'path',
                     name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'idUser',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
@@ -184,6 +191,13 @@ module.exports = {
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'idUser',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -204,6 +218,13 @@ module.exports = {
                 {
                     in: 'path',
                     name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'idUser',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
@@ -229,6 +250,42 @@ module.exports = {
                                             createdAt: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/assignmentRoles/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Assignment Roles'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }

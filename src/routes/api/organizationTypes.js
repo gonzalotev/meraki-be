@@ -4,6 +4,7 @@ module.exports = router => {
     router.route('/')
         .get(OrganizationTypeController.fetch)
         .post(OrganizationTypeController.create);
+    router.route('/downloadCsv').get(OrganizationTypeController.downloadCsv);
     router.route('/:id')
         .get(OrganizationTypeController.find)
         .put(OrganizationTypeController.update)

@@ -53,6 +53,16 @@ class RelationshipAutophrasesNomenclatureController {
             next(err);
         }
     }
+
+    static async downloadCsv(req, res, next){
+        try {
+            const stream = await RelationshipAutophrasesNomenclatureService.getCsv();
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
+        } catch(err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = RelationshipAutophrasesNomenclatureController;

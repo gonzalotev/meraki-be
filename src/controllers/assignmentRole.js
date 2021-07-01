@@ -41,12 +41,22 @@ class AssignmentRoleController {
 
     static async delete(req, res, next){
         try {
-            const success = await AssignmentRoleService.delete(req.params, req.user.id);
+            const success = await AssignmentRoleService.delete(req.params);
             if(success){
                 res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    static async downloadCsv(req, res, next){
+        try {
+            const stream = await AssignmentRoleService.getCsv();
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
         } catch(err) {
             next(err);
         }

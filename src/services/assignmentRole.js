@@ -1,6 +1,7 @@
 const { assignmentRole: assignmentRoleModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class AssignmentRoleService {
     static async fetch(query) {
@@ -80,7 +81,7 @@ class AssignmentRoleService {
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const assignmentRole = await assignmentRoleModel.updateOne(
-            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.idUser},
+            { ID_ROL_USUARIO: filters.id, ID_USUARIO: filters.idUser},
             formattedAssignmentRole
         );
         return {
@@ -96,11 +97,56 @@ class AssignmentRoleService {
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_ROL_USUARIO: filters.id };
+        const formattedFilters = { ID_ROL_USUARIO: filters.id, ID_USUARIO: filters.idUser };
         const success = await assignmentRoleModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date()
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'NOMBRE_USUARIO',
+                    nameInFile: 'USUARIO'
+                },
+                {
+                    nameInTable: 'ID_ROL_USUARIO',
+                    nameInFile: 'ROL'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = assignmentRoleModel.knex.select(tableHeaders)
+                .from(assignmentRoleModel.tableName)
+                .orderBy([{column: 'NOMBRE_USUARIO', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

@@ -1,6 +1,7 @@
 const { relationshipType: relationshipTypeModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class RelationshipTypeService {
     static async fetch() {
@@ -30,19 +31,10 @@ class RelationshipTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const relationshipType = await relationshipTypeModel.insertOne(formattedRelationshipType);
+        const relationshipTypeId = await relationshipTypeModel.insertOne(formattedRelationshipType, ['ID_TIPO_RELACION']);
+        const relationshipType = await RelationshipTypeService.findOne({id: relationshipTypeId});
+        return relationshipType;
 
-        return {
-            id: relationshipType.ID_TIPO_RELACION,
-            description: relationshipType.DESCRIPCION,
-            observation: relationshipType.OBSERVACION,
-            domain: relationshipType.DOMINIO,
-            approved: !!relationshipType.SUPERVISADO,
-            createdAt: dateToString(relationshipType.FECHA_ALTA),
-            userCreator: relationshipType.ID_USUARIO_ALTA,
-            userDeleted: relationshipType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipType.FECHA_BAJA)
-        };
     }
 
     static async findOne(filters){
@@ -94,6 +86,51 @@ class RelationshipTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_TIPO_RELACION',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = relationshipTypeModel.knex.select(tableHeaders)
+                .from(relationshipTypeModel.tableName)
+                .orderBy([{column: 'ID_TIPO_RELACION', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

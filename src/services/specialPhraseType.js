@@ -1,6 +1,7 @@
 const { specialPhraseType: specialPhraseTypeModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class SpecialPhraseTypeService {
     static async fetch() {
@@ -16,6 +17,7 @@ class SpecialPhraseTypeService {
             userDeleted: specialPhraseType.ID_USUARIO_BAJA,
             deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
         }));
+
     }
 
     static async create(params, userCreator) {
@@ -30,19 +32,9 @@ class SpecialPhraseTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const specialPhraseType = await specialPhraseTypeModel.insertOne(formattedSpecialPhraseType);
-
-        return {
-            id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
-            description: specialPhraseType.DESCRIPCION,
-            observation: specialPhraseType.OBSERVACION,
-            domain: specialPhraseType.DOMINIO,
-            approved: !!specialPhraseType.SUPERVISADO,
-            createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
-        };
+        const specialPhraseTypeId = await specialPhraseTypeModel.insertOne(formattedSpecialPhraseType, ['ID_TIPO_FRASE_ESPECIAL']);
+        const specialPhraseType = await SpecialPhraseTypeService.findOne({id: specialPhraseTypeId});
+        return specialPhraseType;
     }
 
     static async findOne(filters){
@@ -60,7 +52,7 @@ class SpecialPhraseTypeService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params, transaction){
         const formattedSpecialPhraseType = {
             ID_TIPO_FRASE_ESPECIAL: trim(params.id),
             DESCRIPCION: trim(params.description),
@@ -72,19 +64,10 @@ class SpecialPhraseTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const specialPhraseType = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
-            formattedSpecialPhraseType);
-        return {
-            id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
-            description: specialPhraseType.DESCRIPCION,
-            observation: specialPhraseType.OBSERVACION,
-            domain: specialPhraseType.DOMINIO,
-            approved: !!specialPhraseType.SUPERVISADO,
-            createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
-        };
+        const specialPhraseTypeId = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
+            formattedSpecialPhraseType, ['ID_TIPO_FRASE_ESPECIAL'], transaction);
+        const specialPhraseType = await SpecialPhraseTypeService.findOne({id: specialPhraseTypeId});
+        return specialPhraseType;
     }
 
     static async delete(filters, userDeleted){
@@ -94,6 +77,52 @@ class SpecialPhraseTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv({search}){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_TIPO_FRASE_ESPECIAL',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = specialPhraseTypeModel.knex.select(tableHeaders)
+                .from(specialPhraseTypeModel.tableName)
+                .where('DESCRIPCION', 'like', `${search}%`)
+                .orderBy([{column: 'ID_TIPO_FRASE_ESPECIAL', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

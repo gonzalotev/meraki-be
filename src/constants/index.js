@@ -33,29 +33,6 @@ const dictionaryTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
-const operativesTableName = 'OPERATIVOS';
-
-const operativesAttrib = [
-    'ID_OPERATIVO',
-    'ID_FUENTE',
-    'DESCRIPCION',
-    'OBSERVACION',
-    'DOMINIO',
-    'FECHA_LLEGADA_OPERATIVO',
-    'TOTAL_REGISTROS_OPERATIVO',
-    'CONTACTO_OPERATIVO',
-    'MAIL_CONTACTO',
-    'FECHA_INICIO_CODIFICACION',
-    'FECHA_FIN_CODIFICACION',
-    'FECHA_INICIO_ENTREGA',
-    'FECHA_INICIO_BORRADO',
-    'FECHA_FIN_BORRADO',
-    'CALIDAD_TOTAL_OPERATIVO',
-    'NIVEL_ERROR_OPERATIVO',
-    'ID_USUARIO',
-    'FECHA_ALTA'
-];
-
 const staticalVariableTableName = 'VARIABLES_ESTADISTICAS';
 
 const staticalVariableAttrib = [
@@ -256,7 +233,6 @@ const nomenclatorsAttrib = [
     'CLASIFICADOR_NACIONAL',
     'CLASIFICADOR_INTERNACIONAL',
     'CLASIFICADOR_EXTERNO',
-    'ID_TIPO_CLASIFICADOR',
     'COEFICIENTE',
     'EN_CONSTRUCCION',
     'PRUEBA_PILOTO',
@@ -265,7 +241,6 @@ const nomenclatorsAttrib = [
     'IDIOMA_CASTELLANO',
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
-    'ID_USUARIO',
     'FECHA_ALTA'
 ];
 
@@ -487,7 +462,117 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
+    'ID_USUARIO_BAJA',
+    'AUTOFRASE',
+    'NOMENCLATURA',
+    'ID_VARIABLE',
+    'ABREVIATURA',
+    'VARIABLE_ESTADISTICA'
+];
+
+const operativeSourcesTableName = 'FUENTES_OPERATIVO';
+const operativeSourcesAttrib = [
+    'ID_FUENTE',
+    'NOMBRE',
+    'SIGLA',
+    'ID_TIPO_OPERATIVO',
+    'ID_FRECUENCIA',
+    'ID_SOPORTE',
+    'FECHA_DESDE',
+    'FECHA_HASTA',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const sourceQuestionsRelationsTableName = 'RELACION_FUENTE_PREGUNTAS';
+const sourceQuestionsRelationsAttrib = [
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'CODIGO_PREGUNTA',
+    'ID_VARIABLE',
+    'ID_NOMENCLADOR',
+    'ID_ABIERTA_CERRADA',
+    'ES_OBLIGATORIA_SI_NO',
+    'SE_CODIFICA_SI_NO',
+    'ES_AUXILIAR_SI_NO',
+    'PASAR_A_PROCESAMIENTO_SI_NO',
+    'NECESITA_AUXILIARES_SI_NO',
+    'AUTOFRASE_LEER_SI_NO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const operativesTableName = 'OPERATIVOS';
+const operativesAttrib = [
+    'ID_OPERATIVO',
+    'ID_FUENTE',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'FECHA_LLEGADA_OPERATIVO',
+    'TOTAL_REGISTROS_OPERATIVO',
+    'CONTACTO_OPERATIVO',
+    'MAIL_CONTACTO',
+    'FECHA_INICIO_CODIFICACION',
+    'FECHA_FIN_CODIFICACION',
+    'FECHA_INICIO_ENTREGA',
+    'FECHA_INICIO_BORRADO',
+    'FECHA_FIN_BORRADO',
+    'CALIDAD_TOTAL_OPERATIVO',
+    'NIVEL_ERROR_OPERATIVO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const nomenclaturesTableName = 'NOMENCLATURAS';
+const nomenclaturesAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'ABREVIATURA',
+    'ORIGINAL',
+    'DESCRIPCION',
+    'FRACCIONADO_DE_PALABRAS',
+    'SUPERVISADO',
+    'COEFICIENTE',
+    'ID_PADRE_NOMENCLADOR',
+    'ID_PADRE_NOMENCLATURA',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ACRONIMO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const operativeFontsTableName = 'FUENTES_OPERATIVO';
+const operativeFontsAttrib = [
+    'ID_FUENTE',
+    'NOMBRE',
+    'SIGLA',
+    'ID_TIPO_OPERATIVO',
+    'ID_FRECUENCIA',
+    'ID_SOPORTE',
+    'FECHA_DESDE',
+    'FECHA_HASTA',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
 ];
 
 const questionsTableName = 'PREGUNTAS';
@@ -561,10 +646,18 @@ module.exports = {
     wordCorrectorAttrib,
     newPhraseTableName,
     newPhraseAttrib,
+    operativeSourcesTableName,
+    operativeSourcesAttrib,
     relationshipAutoPhraseNomenclatureTableName,
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
     questionsTableName,
     questionsAttrib
+    sourceQuestionsRelationsTableName,
+    sourceQuestionsRelationsAttrib,
+    nomenclaturesTableName,
+    nomenclaturesAttrib,
+    operativeFontsTableName,
+    operativeFontsAttrib
 };

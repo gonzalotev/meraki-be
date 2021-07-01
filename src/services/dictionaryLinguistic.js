@@ -1,22 +1,30 @@
 const { dictionaryLinguistic } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
-const knex = include('helpers/database');
-const {arrayToCsvFormat} = include('util');
-const {linguisticDictionaryHeaders} = include('constants/csvHeaders');
+const map = require('lodash/map');
 
 class DictionaryLinguisticService {
     static async fetch({page, search, formatted=false}) {
+        const orderBy = [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}];
+        const filterBy = {FECHA_BAJA: null};
+        const columnsToSelect = dictionaryLinguistic.selectableProps;
         let dictionaries=[];
         if(page && search) {
-            dictionaries = await dictionaryLinguistic.fetchByPageAndTerm(page, search, {FECHA_BAJA: null});
+            dictionaries = await dictionaryLinguistic.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION_ORIGINAL'],
+                filterBy,
+                orderBy
+            );
         } else if(page){
-            dictionaries = await dictionaryLinguistic.findByPage(page,
-                {FECHA_BAJA: null},
-                dictionaryLinguistic.selectableProps,
-                [{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}]);
+            dictionaries = await dictionaryLinguistic.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
         } else {
-            dictionaries = await dictionaryLinguistic.find({FECHA_BAJA: null});
+            dictionaries = await dictionaryLinguistic.find(filterBy, columnsToSelect, orderBy);
         }
 
         if(formatted){
@@ -134,15 +142,51 @@ class DictionaryLinguisticService {
     }
 
     static async getTotal({search}){
-        const result = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search);
-        return result.total;
+        const { total } = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search, ['DESCRIPCION_ORIGINAL']);
+        return total;
     }
-    static getCsv(){
+    static getCsv({search}){
         return new Promise((resolve, reject) => {
             let csvString = '';
-            const headers = arrayToCsvFormat(linguisticDictionaryHeaders);
+            const fieldNames = [
+                {
+                    nameInTable: 'DESCRIPCION_ORIGINAL',
+                    nameInFile: 'DESCRIPCIÓN ORIGINAL'
+                },
+                {
+                    nameInTable: 'DESCRIPCION_DESTINO',
+                    nameInFile: 'DESCRIPCIÓN DESTINO'
+                },
+                {
+                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                    nameInFile: 'ID DE TIPOLOGÍA DICCIONARIO'
+                },
+                {
+                    nameInTable: 'ID_VARIABLE',
+                    nameInFile: 'ID DE VARIABLE'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
             csvString += headers;
-            const stream = knex.select(linguisticDictionaryHeaders).from(dictionaryLinguistic.tableName).stream();
+            const stream = dictionaryLinguistic.knex.select(tableHeaders)
+                .from(dictionaryLinguistic.tableName)
+                .where('DESCRIPCION_ORIGINAL', 'like', `${search}%`)
+                .orderBy([{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}])
+                .stream();
             stream.on('error', function(err) {
                 reject(err);
             });

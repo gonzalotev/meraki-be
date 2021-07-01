@@ -22,7 +22,12 @@ module.exports = {
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
+                                                deletedAt: {type: 'string'},
+                                                id: {type: 'string'},
+                                                nomenclature: {type: 'string'},
+                                                variableId: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
+                                                staticalVariable: {type: 'string'}
                                             }
                                         }
                                     }
@@ -56,7 +61,12 @@ module.exports = {
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                deletedAt: {type: 'string'},
+                                id: {type: 'string'},
+                                nomenclature: {type: 'string'},
+                                variableId: {type: 'integer'},
+                                abbreviation: {type: 'string'},
+                                staticalVariable: {type: 'string'}
                             }
                         }
                     }
@@ -82,7 +92,12 @@ module.exports = {
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            deletedAt: {type: 'string'},
+                                            id: {type: 'string'},
+                                            nomenclature: {type: 'string'},
+                                            variableId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            staticalVariable: {type: 'string'}
                                         }
                                     }
                                 }
@@ -97,7 +112,7 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesNomenclatures/{autophraseId}': {
+    '/api/relationshipAutophrasesNomenclatures/{autophraseId}/{nomenclatorId}/{nomenclatureId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Relationship Autophrases Nomenclatures'],
@@ -107,6 +122,20 @@ module.exports = {
                     name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -124,7 +153,12 @@ module.exports = {
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                deletedAt: {type: 'string'},
+                                id: {type: 'string'},
+                                nomenclature: {type: 'string'},
+                                variableId: {type: 'integer'},
+                                abbreviation: {type: 'string'},
+                                staticalVariable: {type: 'string'}
                             }
                         }
                     }
@@ -149,7 +183,12 @@ module.exports = {
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            deletedAt: {type: 'string'},
+                                            id: {type: 'string'},
+                                            nomenclature: {type: 'string'},
+                                            variableId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            staticalVariable: {type: 'string'}
                                         }
                                     }
                                 }
@@ -165,13 +204,27 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Types'],
+            tags: ['Relationship Autophrases Nomenclatures'],
             parameters: [
                 {
                     in: 'path',
                     name: 'autophraseId',
                     required: true,
                     schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -196,6 +249,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -216,8 +283,49 @@ module.exports = {
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            deletedAt: {type: 'string'},
+                                            id: {type: 'string'},
+                                            nomenclature: {type: 'string'},
+                                            variableId: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            staticalVariable: {type: 'string'}
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/relationshipAutophrasesNomenclatures/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Relationship Autophrases Nomenclatures'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }

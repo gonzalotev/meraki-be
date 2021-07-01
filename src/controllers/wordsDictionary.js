@@ -1,10 +1,14 @@
 const { WordsDictionaryService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class WordsDictionaryController {
     static async fetch(req, res, next) {
         try {
-            const words = await WordsDictionaryService.fetch();
-            res.send({ words });
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const words = await WordsDictionaryService.fetch({page, search: searchValue});
+            const total = await WordsDictionaryService.getTotal({search: searchValue});
+            res.send({ words, total });
         } catch(error) {
             next(error);
         }
@@ -54,6 +58,17 @@ class WordsDictionaryController {
             }else{
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+    static async downloadCsv(req, res, next){
+        try {
+            const {search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const stream = await WordsDictionaryService.getCsv({search: searchValue});
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
         } catch(err) {
             next(err);
         }
