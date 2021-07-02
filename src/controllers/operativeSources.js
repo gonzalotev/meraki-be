@@ -39,7 +39,7 @@ class OperativeSourcesController {
 
     static async delete(req, res, next){
         try{
-            const result = await OperativeSourcesService.deleteOne(req.params, req.user.id);
+            const result = await OperativeSourcesService.delete(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
