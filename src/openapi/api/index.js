@@ -28,6 +28,7 @@ const operativeSources = require('./operativeSources');
 const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
 const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
+const questions = require('./questions');
 
 module.exports = {
     ...assignments,
@@ -59,5 +60,6 @@ module.exports = {
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
     ...relationshipAutophrasesQuestionCloseds,
-    ...sourceQuestionRelation
+    ...sourceQuestionRelation,
+    ...questions
 };

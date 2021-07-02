@@ -18,7 +18,13 @@ class DictionaryLinguisticController {
 
     static async find(req, res, next) {
         try{
-            const dictionaryLinguistic = await DictionaryLinguisticService.findOne(req.params);
+            const {originalDescription, dictionaryTypeId, variableId} = req.params;
+            const id = {
+                originalDescription: decodeURIComponent(originalDescription),
+                dictionaryTypeId,
+                variableId
+            };
+            const dictionaryLinguistic = await DictionaryLinguisticService.findOne(id);
             res.send({dictionaryLinguistic});
         } catch(error) {
             next(error);
