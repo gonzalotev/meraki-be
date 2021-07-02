@@ -186,7 +186,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'Operative Source to delete'
