@@ -51,10 +51,6 @@ const dateTimeToString = dateTime => {
 };
 const stringToDate = date => {
     if(date && isString(date)){
-        console.log('string to date log:');
-        console.log(date);
-        console.log(moment(date).toDate());
-        console.log(moment.defaultFormat);
         return moment(date).toDate();
     }
     return null;
