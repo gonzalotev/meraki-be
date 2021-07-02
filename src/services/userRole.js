@@ -15,7 +15,11 @@ class UserRoleService {
         }));
     }
     static async fetch(userId) {
-        const userRoles = await roleUser.find({ID_USUARIO: userId, FECHA_BAJA: null});
+        const userRoles = await roleUser.find(
+            {ID_USUARIO: userId, FECHA_BAJA: null},
+            roleUser.selectableProps,
+            [{column: 'ID_ROL_USUARIO', order: 'asc'}]
+        );
         return userRoles.map(userRole => ({
             userId: userRole.ID_USUARIO,
             roleId: userRole.ID_ROL_USUARIO,
