@@ -1,5 +1,5 @@
 const { operativeSources } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString } = include('util');
 
 class OperativeSourcesService {
     static async fetch() {
@@ -31,8 +31,8 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: stringToDate(params.dateFrom),
-            FECHA_HASTA: stringToDate(params.dateTo),
+            FECHA_DESDE: params.dateFrom,
+            FECHA_HASTA: params.dateTo,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
@@ -92,8 +92,8 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: stringToDate(params.dateFrom),
-            FECHA_HASTA: stringToDate(params.dateTo),
+            FECHA_DESDE: params.dateFrom,
+            FECHA_HASTA: params.dateTo,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
