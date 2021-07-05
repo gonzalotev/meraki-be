@@ -179,6 +179,7 @@ const relationshipAutophrasesQuestionClosedsAttrib = [
     'ID_AUTOFRASE',
     'ID_FUENTE',
     'ID_PREGUNTA',
+    'ID_VARIABLE',
     'ABREVIATURA',
     'OBSERVACION',
     'DOMINIO',

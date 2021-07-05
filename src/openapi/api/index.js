@@ -8,6 +8,7 @@ const ticketTypes = require('./ticketTypes');
 const questionTypes = require('./questionTypes');
 const organizationTypes = require('./organizationTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
+const operativesLot = require('./operativesLot');
 const relationshipTypes = require('./relationshipTypes');
 const relationshipAutophrasesQuestionCloseds = require('./relationshipAutophrasesQuestionCloseds');
 const dictionaryTypes = require('./dictionaryTypes');
@@ -57,5 +58,6 @@ module.exports = {
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
     ...relationshipAutophrasesQuestionCloseds,
-    ...sourceQuestionRelation
+    ...sourceQuestionRelation,
+    ...operativesLot
 };

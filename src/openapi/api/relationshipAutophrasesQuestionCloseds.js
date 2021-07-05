@@ -2,7 +2,24 @@ module.exports = {
     '/api/relationshipAutophrasesQuestionCloseds': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrases Questions Closeds'],
+            tags: ['Relationship Autophrase Question Closed'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'source',
+                    required: false,
+                    schema: {type: 'number'}
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,25 +28,11 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relationships: {
+                                    relationshipAutophrasesQuestionCloseds: {
                                         type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                autophraseId: {type: 'integer'},
-                                                nomenclatorId: {type: 'integer'},
-                                                nomenclatureId: {type: 'string'},
-                                                fontId: {type: 'integer'},
-                                                questionId: {type: 'integer'},
-                                                abreviation: {type: 'string'},
-                                                font: {type: 'string'},
-                                                createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
-                                            }
-                                        }
-                                    }
+                                        items: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}
+                                    },
+                                    total: {type: 'number'}
                                 }
                             }
                         }
@@ -43,26 +46,29 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrases Questions Closeds'],
+            tags: ['Relationship Autophrase Question Closed'],
             requestBody: {
-                description: 'The new  type of relationship to create',
+                description: 'The new Relationship Autophrase Question Closed to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                autophraseId: {type: 'integer'},
-                                nomenclatorId: {type: 'integer'},
-                                nomenclatureId: {type: 'string'},
-                                fontId: {type: 'integer'},
-                                questionId: {type: 'integer'},
-                                abreviation: {type: 'string'},
-                                font: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                sourceId: {type: 'number'},
+                                questionId: {type: 'number'},
+                                questionCode: {type: 'string'},
+                                variableId: {type: 'string'},
+                                nomenclatorId: {type: 'number'},
+                                questionTypeId: {type: 'string'},
+                                isRequired: {type: 'boolean'},
+                                isCodable: {type: 'boolean'},
+                                isAuxiliary: {type: 'boolean'},
+                                shouldBeProcessed: {type: 'boolean'},
+                                souldHaveAuxiliary: {type: 'boolean'},
+                                shouldReadAutoPhrase: {type: 'boolean'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'}
                             }
                         }
                     }
@@ -70,30 +76,12 @@ module.exports = {
             },
             responses: {
                 201: {
-                    description: 'ok',
+                    description: 'Success',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {
-                                    success: {type: 'boolean'},
-                                    relationship: {
-                                        type: 'object',
-                                        properties: {
-                                            autophraseId: {type: 'integer'},
-                                            nomenclatorId: {type: 'integer'},
-                                            nomenclatureId: {type: 'string'},
-                                            fontId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
-                                            font: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
+                                properties: {relationshipAutophraseQuestionClosed: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}}
                             }
                         }
                     }
@@ -105,52 +93,49 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}/{nomenclatorId}/{nomenclatureId}': {
+    '/api/relationshipAutophrasesQuestionCloseds/{sourceId}/{questionId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrases Questions Closeds'],
+            tags: ['Relationship Autophrase Question Closed'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'autophraseId',
+                    name: 'sourceId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'}
                 },
                 {
                     in: 'path',
-                    name: 'nomenclatorId',
+                    name: 'questionId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatureId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'}
                 }
             ],
             requestBody: {
-                description: 'The new  type of relationship to create',
+                description: 'The Relationship Autophrase Question Closed to update',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                autophraseId: {type: 'integer'},
-                                nomenclatorId: {type: 'integer'},
-                                nomenclatureId: {type: 'string'},
-                                fontId: {type: 'integer'},
-                                questionId: {type: 'integer'},
-                                abreviation: {type: 'string'},
-                                font: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                sourceId: {type: 'number'},
+                                questionId: {type: 'number'},
+                                questionCode: {type: 'string'},
+                                variableId: {type: 'string'},
+                                nomenclatorId: {
+                                    type: 'number',
+                                    nullable: true
+                                },
+                                questionTypeId: {type: 'string'},
+                                isRequired: {type: 'boolean'},
+                                isCodable: {type: 'boolean'},
+                                isAuxiliary: {type: 'boolean'},
+                                shouldBeProcessed: {type: 'boolean'},
+                                souldHaveAuxiliary: {type: 'boolean'},
+                                shouldReadAutoPhrase: {type: 'boolean'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'}
                             }
                         }
                     }
@@ -158,30 +143,47 @@ module.exports = {
             },
             responses: {
                 200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {relationshipAutophraseQuestionClosed: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}}
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Relationship Autophrase Question Closed'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'sourceId',
+                    required: true,
+                    schema: {type: 'number'}
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'number'}
+                }
+            ],
+            responses: {
+                200: {
                     description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {
-                                    success: {type: 'boolean'},
-                                    relationship: {
-                                        type: 'object',
-                                        properties: {
-                                            autophraseId: {type: 'integer'},
-                                            nomenclatorId: {type: 'integer'},
-                                            nomenclatureId: {type: 'string'},
-                                            fontId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
-                                            font: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
+                                properties: {relationshipAutophraseQuestionClosed: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}}
                             }
                         }
                     }
@@ -194,90 +196,53 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Types'],
+            tags: ['Relationship Autophrase Question Closed'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'autophraseId',
+                    name: 'sourceId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'}
                 },
                 {
                     in: 'path',
-                    name: 'nomenclatorId',
+                    name: 'questionId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatureId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'}
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
-        },
+        }
+    },
+    '/api/relationshipAutophrasesQuestionCloseds/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrases Questions Closeds'],
+            tags: ['Relationship Autophrase Question Closed'],
             parameters: [
                 {
-                    in: 'path',
-                    name: 'autophraseId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatorId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatureId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
                 200: {
-                    description: 'ok',
+                    description: 'Success',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relationship: {
-                                        type: 'object',
-                                        properties: {
-                                            autophraseId: {type: 'integer'},
-                                            nomenclatorId: {type: 'integer'},
-                                            nomenclatureId: {type: 'string'},
-                                            fontId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
-                                            font: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }
