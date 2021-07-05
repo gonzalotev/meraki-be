@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    words: {
+                                    opertiveSources: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -44,7 +44,7 @@ module.exports = {
                                 frequencyId: {type: 'string'},
                                 supportId: {type: 'string'},
                                 dateFrom: {type: 'string'},
-                                dateToString: {type: 'string'},
+                                dateTo: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 supervised: {type: 'boolean'},
@@ -77,7 +77,7 @@ module.exports = {
                                             frequencyId: {type: 'string'},
                                             supportId: {type: 'string'},
                                             dateFrom: {type: 'string'},
-                                            dateToString: {type: 'string'},
+                                            dateTo: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             supervised: {type: 'boolean'},
@@ -127,7 +127,7 @@ module.exports = {
                                 frequencyId: {type: 'string'},
                                 supportId: {type: 'string'},
                                 dateFrom: {type: 'string'},
-                                dateToString: {type: 'string'},
+                                dateTo: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 supervised: {type: 'boolean'},
@@ -159,7 +159,7 @@ module.exports = {
                                             frequencyId: {type: 'string'},
                                             supportId: {type: 'string'},
                                             dateFrom: {type: 'string'},
-                                            dateToString: {type: 'string'},
+                                            dateTo: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             supervised: {type: 'boolean'},
@@ -186,7 +186,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'Operative Source to delete'
@@ -233,7 +233,7 @@ module.exports = {
                                             frequencyId: {type: 'string'},
                                             supportId: {type: 'string'},
                                             dateFrom: {type: 'string'},
-                                            dateToString: {type: 'string'},
+                                            dateTo: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             supervised: {type: 'boolean'},
@@ -242,42 +242,6 @@ module.exports = {
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/operativeSources/downloadCsv': {
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Operative Sources'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }

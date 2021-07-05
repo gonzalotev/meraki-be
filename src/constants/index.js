@@ -33,6 +33,31 @@ const dictionaryTypeAttrib = [
     'ID_USUARIO_BAJA'
 ];
 
+const operativesTableName = 'OPERATIVOS';
+
+const operativesAttrib = [
+    'ID_OPERATIVO',
+    'ID_FUENTE',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'FECHA_LLEGADA_OPERATIVO',
+    'TOTAL_REGISTROS_OPERATIVO',
+    'CONTACTO_OPERATIVO',
+    'MAIL_CONTACTO',
+    'FECHA_INICIO_CODIFICACION',
+    'FECHA_FIN_CODIFICACION',
+    'FECHA_INICIO_ENTREGA',
+    'FECHA_INICIO_BORRADO',
+    'FECHA_FIN_BORRADO',
+    'CALIDAD_TOTAL_OPERATIVO',
+    'NIVEL_ERROR_OPERATIVO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 const staticalVariableTableName = 'VARIABLES_ESTADISTICAS';
 
 const staticalVariableAttrib = [
@@ -512,30 +537,6 @@ const sourceQuestionsRelationsAttrib = [
     'FECHA_BAJA'
 ];
 
-const operativesTableName = 'OPERATIVOS';
-const operativesAttrib = [
-    'ID_OPERATIVO',
-    'ID_FUENTE',
-    'DESCRIPCION',
-    'OBSERVACION',
-    'DOMINIO',
-    'FECHA_LLEGADA_OPERATIVO',
-    'TOTAL_REGISTROS_OPERATIVO',
-    'CONTACTO_OPERATIVO',
-    'MAIL_CONTACTO',
-    'FECHA_INICIO_CODIFICACION',
-    'FECHA_FIN_CODIFICACION',
-    'FECHA_INICIO_ENTREGA',
-    'FECHA_INICIO_BORRADO',
-    'FECHA_FIN_BORRADO',
-    'CALIDAD_TOTAL_OPERATIVO',
-    'NIVEL_ERROR_OPERATIVO',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
-];
-
 const nomenclaturesTableName = 'NOMENCLATURAS';
 const nomenclaturesAttrib = [
     'ID_NOMENCLADOR',
@@ -570,6 +571,19 @@ const operativeFontsAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const questionsTableName = 'PREGUNTAS';
+const questionsAttrib = [
+    'ID_PREGUNTA',
+    'PREGUNTA',
+    'SUPERVISADO',
+    'OBSERVACION',
+    'DOMINIO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',
@@ -645,5 +659,7 @@ module.exports = {
     nomenclaturesTableName,
     nomenclaturesAttrib,
     operativeFontsTableName,
-    operativeFontsAttrib
+    operativeFontsAttrib,
+    questionsAttrib,
+    questionsTableName
 };

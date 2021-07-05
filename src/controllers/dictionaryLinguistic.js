@@ -18,7 +18,13 @@ class DictionaryLinguisticController {
 
     static async find(req, res, next) {
         try{
-            const dictionaryLinguistic = await DictionaryLinguisticService.findOne(req.params);
+            const {originalDescription, dictionaryTypeId, variableId} = req.params;
+            const id = {
+                originalDescription: decodeURIComponent(originalDescription),
+                dictionaryTypeId,
+                variableId
+            };
+            const dictionaryLinguistic = await DictionaryLinguisticService.findOne(id);
             res.send({dictionaryLinguistic});
         } catch(error) {
             next(error);
@@ -59,9 +65,7 @@ class DictionaryLinguisticController {
 
     static async downloadCsv(req, res, next){
         try {
-            const {search} = req.query;
-            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const stream = await DictionaryLinguisticService.getCsv({search: searchValue});
+            const stream = await DictionaryLinguisticService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {

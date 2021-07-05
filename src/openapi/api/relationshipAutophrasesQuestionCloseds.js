@@ -30,9 +30,20 @@ module.exports = {
                                 properties: {
                                     relationshipAutophrasesQuestionCloseds: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}
-                                    },
-                                    total: {type: 'number'}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                autophraseId: {type: 'integer'},
+                                                operativeFontId: {type: 'integer'},
+                                                questionId: {type: 'integer'},
+                                                abreviation: {type: 'string'},
+                                                createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                userDeleted: {type: 'string'},
+                                                deletedAt: {type: 'string'}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -55,20 +66,14 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'number'},
-                                questionId: {type: 'number'},
-                                questionCode: {type: 'string'},
-                                variableId: {type: 'string'},
-                                nomenclatorId: {type: 'number'},
-                                questionTypeId: {type: 'string'},
-                                isRequired: {type: 'boolean'},
-                                isCodable: {type: 'boolean'},
-                                isAuxiliary: {type: 'boolean'},
-                                shouldBeProcessed: {type: 'boolean'},
-                                souldHaveAuxiliary: {type: 'boolean'},
-                                shouldReadAutoPhrase: {type: 'boolean'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'}
+                                autophraseId: {type: 'integer'},
+                                operativeFontId: {type: 'integer'},
+                                questionId: {type: 'integer'},
+                                abreviation: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -81,7 +86,22 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relationshipAutophraseQuestionClosed: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}}
+                                properties: {
+                                    success: {type: 'boolean'},
+                                    relationship: {
+                                        type: 'object',
+                                        properties: {
+                                            autophraseId: {type: 'integer'},
+                                            operativeFontId: {type: 'integer'},
+                                            questionId: {type: 'integer'},
+                                            abreviation: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -93,22 +113,17 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesQuestionCloseds/{sourceId}/{questionId}': {
+    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Relationship Autophrase Question Closed'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'autophraseId',
                     required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
@@ -119,23 +134,14 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'number'},
-                                questionId: {type: 'number'},
-                                questionCode: {type: 'string'},
-                                variableId: {type: 'string'},
-                                nomenclatorId: {
-                                    type: 'number',
-                                    nullable: true
-                                },
-                                questionTypeId: {type: 'string'},
-                                isRequired: {type: 'boolean'},
-                                isCodable: {type: 'boolean'},
-                                isAuxiliary: {type: 'boolean'},
-                                shouldBeProcessed: {type: 'boolean'},
-                                souldHaveAuxiliary: {type: 'boolean'},
-                                shouldReadAutoPhrase: {type: 'boolean'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'}
+                                autophraseId: {type: 'integer'},
+                                operativeFontId: {type: 'integer'},
+                                questionId: {type: 'integer'},
+                                abreviation: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
+                                userDeleted: {type: 'string'},
+                                deletedAt: {type: 'string'}
                             }
                         }
                     }
@@ -148,7 +154,22 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relationshipAutophraseQuestionClosed: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}}
+                                properties: {
+                                    success: {type: 'boolean'},
+                                    relationship: {
+                                        type: 'object',
+                                        properties: {
+                                            autophraseId: {type: 'integer'},
+                                            operativeFontId: {type: 'integer'},
+                                            questionId: {type: 'integer'},
+                                            abreviation: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -165,15 +186,10 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'autophraseId',
                     required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -202,34 +218,8 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'number'}
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'number'}
-                }
-            ],
-            responses: {
-                204: {description: 'The resource was deleted successfully.'},
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/relationshipAutophrasesQuestionCloseds/downloadCsv': {
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrase Question Closed'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -240,9 +230,18 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
+                                    relationship: {
+                                        type: 'object',
+                                        properties: {
+                                            autophraseId: {type: 'integer'},
+                                            operativeFontId: {type: 'integer'},
+                                            questionId: {type: 'integer'},
+                                            abreviation: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
                                     }
                                 }
                             }

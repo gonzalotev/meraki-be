@@ -1,7 +1,6 @@
 const { assignmentRolesNomenclator: assignmentRolesNomenclatorModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class AssignmentRolesNomenclatorService {
     static async fetch(query) {
@@ -115,59 +114,6 @@ class AssignmentRolesNomenclatorService {
             FECHA_BAJA: new Date()
         });
         return !!success;
-    }
-
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'NOMBRE_USUARIO',
-                    nameInFile: 'USUARIO'
-                },
-                {
-                    nameInTable: 'ID_ROL_USUARIO',
-                    nameInFile: 'ROL'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE CLASIFICADOR'
-                },
-                {
-                    nameInTable: 'CLASIFICADOR',
-                    nameInFile: 'CLASIFICADOR'
-                },
-                {
-                    nameInTable: 'SI_NO',
-                    nameInFile: 'SI_NO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = assignmentRolesNomenclatorModel.knex.select(tableHeaders)
-                .from(assignmentRolesNomenclatorModel.tableName)
-                .orderBy([{column: 'NOMBRE_USUARIO', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
-        });
     }
 }
 

@@ -13,7 +13,7 @@
     "delay": "3500",
     "env": {
       "NODE_ENV": "development",
-      "PAGE_SIZE":"20"
+      "PAGE_SIZE": "20"
     }
   },
   "scripts": {

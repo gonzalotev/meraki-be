@@ -2,6 +2,7 @@ const users = require('./user');
 const assignments = require('./assignments');
 const staticData = require('./staticData');
 const dictionaryLinguistic = require('./dictionaryLinguistic');
+const operatives = require('./operatives');
 const staticalVariables = require('./staticalVariables');
 const rolesTypes = require('./rolesTypes');
 const ticketTypes = require('./ticketTypes');
@@ -28,10 +29,12 @@ const operativeSources = require('./operativeSources');
 const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
 const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
+const questions = require('./questions');
 
 module.exports = {
     ...assignments,
     ...dictionaryLinguistic,
+    ...operatives,
     ...staticalVariables,
     ...users,
     ...staticData,
@@ -59,5 +62,6 @@ module.exports = {
     ...assignmentRolesOperativeVariables,
     ...relationshipAutophrasesQuestionCloseds,
     ...sourceQuestionRelation,
+    ...questions,
     ...operativesLot
 };

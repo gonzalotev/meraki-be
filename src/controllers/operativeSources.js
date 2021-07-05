@@ -11,8 +11,8 @@ class OperativeSourcesController {
 
     static async find(req, res, next){
         try {
-            const operativeSources = await OperativeSourcesService.findOne(req.params);
-            res.send({operativeSources});
+            const operativeSource = await OperativeSourcesService.findOne(req.params);
+            res.send({operativeSource});
         } catch(err) {
             next(err);
         }
@@ -39,7 +39,7 @@ class OperativeSourcesController {
 
     static async delete(req, res, next){
         try{
-            const result = await OperativeSourcesService.deleteOne(req.params, req.user.id);
+            const result = await OperativeSourcesService.delete(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
@@ -58,15 +58,7 @@ class OperativeSourcesController {
             next(error);
         }
     }
-    static async downloadCsv(req, res, next){
-        try {
-            const stream = await OperativeSourcesService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
-            next(err);
-        }
-    }
+
 }
 
 module.exports = OperativeSourcesController;

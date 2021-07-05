@@ -4,7 +4,6 @@ module.exports = router => {
     router.route('/')
         .get(NewWordController.fetch)
         .post(validateWords, NewWordController.create);
-    router.route('/downloadCsv').get(NewWordController.downloadCsv);
     router.route('/:operative/:variable').get(NewWordController.findFirst);
     router.route('/:id')
         .get(NewWordController.find)

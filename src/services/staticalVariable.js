@@ -1,5 +1,5 @@
 const { staticalVariable: staticalVariableModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -48,14 +48,26 @@ class StaticalVariableService {
             SUPERVISADO: params.approved,
             ID_PADRE: trim(params.id_father),
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
-            FECHA_ALTA: stringToDate(params.createdAt)
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null,
+            FECHA_ALTA: new Date()
         };
-        const staticalVariableId = await staticalVariableModel.insertOne(formattedStaticalVariable, ['ID_VARIABLE']);
-        const staticalVariable = await StaticalVariableService.findOne({id: staticalVariableId});
-        return staticalVariable;
+        const staticalVariable = await staticalVariableModel.insertOne(formattedStaticalVariable);
 
+        return {
+            id: staticalVariable.ID_VARIABLE,
+            name: staticalVariable.NOMBRE,
+            abbreviation: staticalVariable.ABREVIATURA,
+            digits: staticalVariable.DIGITOS,
+            observation: staticalVariable.OBSERVACION,
+            domain: staticalVariable.DOMINIO,
+            approved: !!staticalVariable.SUPERVISADO,
+            id_father: staticalVariable.ID_PADRE,
+            createdAt: dateToString(staticalVariable.FECHA_ALTA),
+            userCreator: staticalVariable.ID_USUARIO_ALTA,
+            userDeleted: staticalVariable.ID_USUARIO_BAJA,
+            deletedAt: dateToString(staticalVariable.FECHA_BAJA)
+        };
     }
 
     static async findOne(filters){
@@ -76,7 +88,7 @@ class StaticalVariableService {
         };
     }
 
-    static async update(filters, params, transaction){
+    static async update(filters, params, userCreator){
         const formattedStaticalVariable = {
             ID_VARIABLE: trim(params.id),
             NOMBRE: toUpper(trim(params.name)),
@@ -86,15 +98,27 @@ class StaticalVariableService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_PADRE: trim(params.id_father),
-            ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
+            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const staticalVariableId = await staticalVariableModel.updateOne(
-            {ID_VARIABLE: filters.id}, formattedStaticalVariable, ['ID_VARIABLE'], transaction);
-        const staticalVariable = await StaticalVariableService.findOne({id: staticalVariableId});
-        return staticalVariable;
+        const staticalVariable = await staticalVariableModel.updateOne(
+            {ID_VARIABLE: filters.id}, formattedStaticalVariable);
+        return {
+            id: staticalVariable.ID_VARIABLE,
+            name: staticalVariable.NOMBRE,
+            abbreviation: staticalVariable.ABREVIATURA,
+            digits: staticalVariable.DIGITOS,
+            observation: staticalVariable.OBSERVACION,
+            domain: staticalVariable.DOMINIO,
+            approved: !!staticalVariable.SUPERVISADO,
+            id_father: staticalVariable.ID_PADRE,
+            createdAt: dateToString(staticalVariable.FECHA_ALTA),
+            userCreator: staticalVariable.ID_USUARIO_ALTA,
+            userDeleted: staticalVariable.ID_USUARIO_BAJA,
+            deletedAt: dateToString(staticalVariable.FECHA_BAJA)
+        };
     }
 
     static async delete(filters, userDeleted){
@@ -130,64 +154,6 @@ class StaticalVariableService {
             }
             resource.foreignData.variable = find(variables, variable => variable.id === resource.variableId);
             return resource;
-        });
-    }
-
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'NOMBRE',
-                    nameInFile: 'NOMBRE'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                },
-                {
-                    nameInTable: 'DIGITOS',
-                    nameInFile: 'DÍGITOS'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'ID_PADRE',
-                    nameInFile: 'ID_PADRE'
-                }
-            ];
-
-            const staticalVariableTableHeaders = map(fieldNames, field => field.nameInTable);
-            const staticalVariableFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(staticalVariableFileHeaders);
-            csvString += headers;
-            const stream = staticalVariableModel.knex.select(staticalVariableTableHeaders)
-                .from(staticalVariableModel.tableName)
-                .orderBy([{column: 'ID_VARIABLE', order: 'asc'}])
-                .stream();
-            stream.on('error', function(err) {
-                reject(err);
-            });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function() {
-                resolve(csvString);
-            });
         });
     }
 }
