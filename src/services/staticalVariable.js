@@ -52,22 +52,9 @@ class StaticalVariableService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const staticalVariable = await staticalVariableModel.insertOne(formattedStaticalVariable);
-
-        return {
-            id: staticalVariable.ID_VARIABLE,
-            name: staticalVariable.NOMBRE,
-            abbreviation: staticalVariable.ABREVIATURA,
-            digits: staticalVariable.DIGITOS,
-            observation: staticalVariable.OBSERVACION,
-            domain: staticalVariable.DOMINIO,
-            approved: !!staticalVariable.SUPERVISADO,
-            id_father: staticalVariable.ID_PADRE,
-            createdAt: dateToString(staticalVariable.FECHA_ALTA),
-            userCreator: staticalVariable.ID_USUARIO_ALTA,
-            userDeleted: staticalVariable.ID_USUARIO_BAJA,
-            deletedAt: dateToString(staticalVariable.FECHA_BAJA)
-        };
+        const staticalVariableId = await staticalVariableModel.insertOne(formattedStaticalVariable, ['ID_VARIABLE']);
+        const staticalVariable = await StaticalVariableService.findOne({id: staticalVariableId});
+        return staticalVariable;
     }
 
     static async findOne(filters){
@@ -88,7 +75,7 @@ class StaticalVariableService {
         };
     }
 
-    static async update(filters, params, userCreator){
+    static async update(filters, params, userCreator, transaction){
         const formattedStaticalVariable = {
             ID_VARIABLE: trim(params.id),
             NOMBRE: toUpper(trim(params.name)),
@@ -103,22 +90,10 @@ class StaticalVariableService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const staticalVariable = await staticalVariableModel.updateOne(
-            {ID_VARIABLE: filters.id}, formattedStaticalVariable);
-        return {
-            id: staticalVariable.ID_VARIABLE,
-            name: staticalVariable.NOMBRE,
-            abbreviation: staticalVariable.ABREVIATURA,
-            digits: staticalVariable.DIGITOS,
-            observation: staticalVariable.OBSERVACION,
-            domain: staticalVariable.DOMINIO,
-            approved: !!staticalVariable.SUPERVISADO,
-            id_father: staticalVariable.ID_PADRE,
-            createdAt: dateToString(staticalVariable.FECHA_ALTA),
-            userCreator: staticalVariable.ID_USUARIO_ALTA,
-            userDeleted: staticalVariable.ID_USUARIO_BAJA,
-            deletedAt: dateToString(staticalVariable.FECHA_BAJA)
-        };
+        const staticalVariableId = await staticalVariableModel.updateOne(
+            {ID_VARIABLE: filters.id}, formattedStaticalVariable, ['ID_VARIABLE'], transaction);
+        const staticalVariable = await StaticalVariableService.findOne({id: staticalVariableId});
+        return staticalVariable;
     }
 
     static async delete(filters, userDeleted){
