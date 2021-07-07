@@ -1,25 +1,8 @@
 module.exports = {
-    '/api/relationshipAutophrasesQuestionCloseds': {
+    '/api/operativesLot': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrase Question Closed'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: false,
-                    schema: {
-                        type: 'number',
-                        default: 1
-                    }
-                },
-                {
-                    in: 'query',
-                    name: 'source',
-                    required: false,
-                    schema: {type: 'number'}
-                }
-            ],
+            tags: ['OPERATIVES LOTS'],
             responses: {
                 200: {
                     description: 'Success',
@@ -28,15 +11,17 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relationshipAutophrasesQuestionCloseds: {
+                                    phrases: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                autophraseId: {type: 'integer'},
-                                                operativeFontId: {type: 'integer'},
-                                                questionId: {type: 'integer'},
-                                                abreviation: {type: 'string'},
+                                                id: {type: 'integer'},
+                                                abbreviation: {type: 'string'},
+                                                description: {type: 'string'},
+                                                observation: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                approved: {type: 'boolean'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
@@ -57,19 +42,20 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrase Question Closed'],
+            tags: ['OPERATIVES LOTS'],
             requestBody: {
-                description: 'The new Relationship Autophrase Question Closed to create',
+                description: 'The new  type of specialPhrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                autophraseId: {type: 'integer'},
-                                operativeFontId: {type: 'integer'},
-                                questionId: {type: 'integer'},
-                                abreviation: {type: 'string'},
+                                abbreviation: {type: 'string'},
+                                description: {type: 'string'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -81,20 +67,22 @@ module.exports = {
             },
             responses: {
                 201: {
-                    description: 'Success',
+                    description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    relationship: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
-                                            autophraseId: {type: 'integer'},
-                                            operativeFontId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
+                                            id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -113,31 +101,33 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}': {
+    '/api/operativesLot/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrase Question Closed'],
+            tags: ['OPERATIVES LOTS'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'autophraseId',
+                    name: 'id',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The Relationship Autophrase Question Closed to update',
+                description: 'The new  type of specialPhrase to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                autophraseId: {type: 'integer'},
-                                operativeFontId: {type: 'integer'},
-                                questionId: {type: 'integer'},
-                                abreviation: {type: 'string'},
+                                id: {type: 'integer'},
+                                abbreviation: {type: 'string'},
+                                description: {type: 'string'},
+                                observation: {type: 'string'},
+                                domain: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -149,20 +139,22 @@ module.exports = {
             },
             responses: {
                 200: {
-                    description: 'Success',
+                    description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    relationship: {
+                                    phrase: {
                                         type: 'object',
                                         properties: {
-                                            autophraseId: {type: 'integer'},
-                                            operativeFontId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
+                                            id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -180,13 +172,36 @@ module.exports = {
                 }
             }
         },
-        get: {
+        delete: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrase Question Closed'],
+            tags: ['OPERATIVES LOTS'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'autophraseId',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['OPERATIVES LOTS'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -199,7 +214,23 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {relationshipAutophraseQuestionClosed: {$ref: '#/components/schemas/RelationshipAutophraseQuestionClosed'}}
+                                properties: {
+                                    phrase: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            abbreviation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            userDeleted: {type: 'string'},
+                                            deletedAt: {type: 'string'}
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -209,17 +240,18 @@ module.exports = {
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
-        },
-        delete: {
+        }
+    },
+    '/api/operativesLots/downloadCsv': {
+        get: {
             security: [{bearerAuth: []}],
-            tags: ['Relationship Autophrase Question Closed'],
+            tags: ['OPERATIVES LOTS'],
             parameters: [
                 {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -230,18 +262,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    relationship: {
-                                        type: 'object',
-                                        properties: {
-                                            autophraseId: {type: 'integer'},
-                                            operativeFontId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }

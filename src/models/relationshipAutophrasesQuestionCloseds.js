@@ -1,8 +1,8 @@
 const ModelCreate = include('helpers/modelCreate');
 const {relationshipAutophrasesQuestionClosedsAttrib, relationshipAutophrasesQuestionClosedsTableName} = include('constants');
-const name = 'relationshipAutophrasesQuestionClosed';
+const name = 'relationshipAutophraseQuestionClosed';
 
-class SpecialPhraseType extends ModelCreate {
+class RelationshipAutophraseQuestionClosed extends ModelCreate {
     constructor(props) {
         super({
             ...props,
@@ -13,4 +13,4 @@ class SpecialPhraseType extends ModelCreate {
     }
 }
 
-module.exports = knex => new SpecialPhraseType({ knex });
+module.exports = knex => new RelationshipAutophraseQuestionClosed({ knex });

@@ -9,6 +9,7 @@ const ticketTypes = require('./ticketTypes');
 const questionTypes = require('./questionTypes');
 const organizationTypes = require('./organizationTypes');
 const specialPhrasesTypes = require('./specialPhrasesTypes');
+const operativesLot = require('./operativesLot');
 const relationshipTypes = require('./relationshipTypes');
 const relationshipAutophrasesQuestionCloseds = require('./relationshipAutophrasesQuestionCloseds');
 const dictionaryTypes = require('./dictionaryTypes');
@@ -28,6 +29,7 @@ const operativeSources = require('./operativeSources');
 const assignmentRolesNomenclators = require('./assignmentRolesNomenclators');
 const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVariables');
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
+const questions = require('./questions');
 
 module.exports = {
     ...assignments,
@@ -59,5 +61,7 @@ module.exports = {
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
     ...relationshipAutophrasesQuestionCloseds,
-    ...sourceQuestionRelation
+    ...sourceQuestionRelation,
+    ...questions,
+    ...operativesLot
 };

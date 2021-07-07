@@ -4,6 +4,7 @@ const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
+const toUpper = require('lodash/toUpper');
 
 class StaticalVariableService {
     static async fetch() {
@@ -39,7 +40,7 @@ class StaticalVariableService {
     static async create(params, userCreator) {
         const formattedStaticalVariable = {
             ID_VARIABLE: trim(params.id),
-            NOMBRE: trim(params.name),
+            NOMBRE: toUpper(trim(params.name)),
             ABREVIATURA: trim(params.abbreviation),
             DIGITOS: params.digits,
             OBSERVACION: trim(params.observation),
@@ -90,7 +91,7 @@ class StaticalVariableService {
     static async update(filters, params, userCreator){
         const formattedStaticalVariable = {
             ID_VARIABLE: trim(params.id),
-            NOMBRE: trim(params.name),
+            NOMBRE: toUpper(trim(params.name)),
             ABREVIATURA: trim(params.abbreviation),
             DIGITOS: params.digits,
             OBSERVACION: trim(params.observation),

@@ -19,6 +19,7 @@ const AutoPhraseNomenclatureRelation = require('./autoPhraseNomenclatureRelation
 const WordCorrector = require('./wordCorrector');
 const SourceQuestionRelation = require('./sourceQuestionRelation');
 const OperativeSources = require('./operativeSources');
+const RelationshipAutophraseQuestionClosed = require('./relationshipAutophraseQuestionClosed');
 
 module.exports = {
     ArrayString: {
@@ -74,4 +75,5 @@ module.exports = {
     WordCorrector,
     SourceQuestionRelation,
     OperativeSources
+    RelationshipAutophraseQuestionClosed
 };
