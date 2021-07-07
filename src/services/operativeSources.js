@@ -24,6 +24,7 @@ class OperativeSourcesService {
     }
 
     static async create(params, userCreator) {
+        console.log(params);
         const formattedOperativeSource = {
             ID_FUENTE: params.sourceId,
             NOMBRE: params.name,
@@ -31,40 +32,26 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: new Date(params.dateFrom),
-            FECHA_HASTA: params.dateTo,
+            FECHA_DESDE: stringToDate(params.dateFrom),
+            FECHA_HASTA: stringToDate(params.dateTo),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: params.createdAt,
+            FECHA_ALTA: stringToDate(params.createdAt),
             ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt
+            FECHA_BAJA: stringToDate(params.deletedAt)
         };
-        const operative = await operativeSources.insertOne(formattedOperativeSource);
-
-        return {
-            sourceId: operative.ID_FUENTE,
-            name: operative.NOMBRE,
-            initial: operative.SIGLA,
-            operativeTypeId: operative.ID_TIPO_OPERATIVO,
-            frequencyId: operative.ID_FRECUENCIA,
-            supportId: operative.ID_SOPORTE,
-            dateFrom: dateToString(operative.FECHA_DESDE),
-            dateTo: dateToString(operative.FECHA_HASTA),
-            observation: operative.OBSERVACION,
-            domain: operative.DOMINIO,
-            supervised: operative.SUPERVISADO,
-            createdAt: dateToString(operative.FECHA_ALTA),
-            userCreator: operative.ID_USUARIO_ALTA,
-            userDeleted: operative.ID_USUARIO_BAJA,
-            deletedAt: dateToString(operative.FECHA_BAJA)
-        };
+        const operativeId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
+        console.log(operativeId);
+        const operative = await OperativeSourcesService.findOne({sourceId: operativeId});
+        return operative;
     }
 
     static async findOne(filters){
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSource = await operativeSources.findById(formattedFilters);
+        console.log(operativeSource);
         return {
             sourceId: operativeSource.ID_FUENTE,
             name: operativeSource.NOMBRE,

@@ -12,7 +12,6 @@ const includes = require('lodash/includes');
 const keys = require('lodash/keys');
 const clone = require('lodash/clone');
 const isString = require('lodash/isString');
-const split = require('lodash/split');
 const { getOffset, getPageSize } = require('./getOffset');
 const standarText = require('./standarText');
 const arrayToCsvFormat = require('./arrayToCsvFormat');
@@ -52,17 +51,7 @@ const dateTimeToString = dateTime => {
 };
 const stringToDate = date => {
     if(date && isString(date)){
-        const formatMoment = moment(date).format('DD/MM/YYYY');
-        const arrayDate = split(date, '/');
-        console.log(arrayDate);
-        console.log('string to date log:');
-        console.log(date);
-        console.log(moment(arrayDate[2]+'/'+arrayDate[1]+'/'+arrayDate[0], 'DD/MM/YYYY'));
-        const finalDate = moment(arrayDate[2]+'/'+arrayDate[1]+'/'+arrayDate[0], 'DD/MM/YYYY');
-        console.log(moment.defaultFormat);
-        console.log(finalDate.toDate());
-        console.log(new Date(formatMoment));
-        return date;
+        return moment(date).toDate();
     }
     return null;
 };
