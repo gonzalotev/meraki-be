@@ -189,7 +189,7 @@ class ModelCreate {
         }
     }
 
-    async updateOne(filters, props, returning = (this.selectableProps), transaction = this.transaction) {
+    async updateOne(filters, props, returning = this.selectableProps, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
         if (transaction) {
             const modifiedObject = await transaction(this.tableName)
