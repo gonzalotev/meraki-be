@@ -1,9 +1,14 @@
 module.exports = {
     type: 'object',
     properties: {
-        id: { type: 'integer'},
-        sourceId: {type: 'integer'},
+        operativeId: { type: 'string'},
+        sourceId: {type: 'string'},
         description: {type: 'string'},
+        arrivalDate: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
         observation: {
             type: 'string',
             nullable: true
@@ -17,7 +22,6 @@ module.exports = {
             nullable: true
         },
         totalRecords: {type: 'integer'},
-        contact: {type: 'string'},
         contactEmail: {type: 'string'},
         encodingStartDate: {
             type: 'string',

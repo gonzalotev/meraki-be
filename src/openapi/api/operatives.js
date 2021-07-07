@@ -13,7 +13,7 @@ module.exports = {
                                 properties: {
                                     words: {
                                         type: 'array',
-                                        items: {}
+                                        items: {$ref: '#/components/schemas/Operatives'}
                                     }
                                 }
                             }
@@ -38,16 +38,21 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 sourceId: {type: 'string'},
-                                name: {type: 'string'},
-                                initial: {type: 'string'},
-                                operativeTypeId: {type: 'string'},
-                                frequencyId: {type: 'string'},
-                                supportId: {type: 'string'},
-                                dateFrom: {type: 'string'},
-                                dateToString: {type: 'string'},
+                                operativeId: {type: 'string'},
+                                arrivalDate: {type: 'string'},
+                                codingEndDate: {type: 'string'},
+                                codingStartDate: {type: 'string'},
+                                deletedEndDate: {type: 'string'},
+                                deletedStartDate: {type: 'string'},
+                                deliveryStartDate: {type: 'string'},
+                                description: {type: 'string'},
                                 observation: {type: 'string'},
+                                mailContact: {type: 'string'},
+                                operatingContact: {type: 'string'},
+                                operatingErrorLevel: {type: 'string'},
+                                qualityOperational: {type: 'string'},
+                                totalRecords: {type: 'string'},
                                 domain: {type: 'string'},
-                                supervised: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -59,7 +64,7 @@ module.exports = {
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
@@ -71,16 +76,21 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
-                                            name: {type: 'string'},
-                                            initial: {type: 'string'},
-                                            operativeTypeId: {type: 'string'},
-                                            frequencyId: {type: 'string'},
-                                            supportId: {type: 'string'},
-                                            dateFrom: {type: 'string'},
-                                            dateToString: {type: 'string'},
+                                            operativeId: {type: 'string'},
+                                            arrivalDate: {type: 'string'},
+                                            codingEndDate: {type: 'string'},
+                                            codingStartDate: {type: 'string'},
+                                            deletedEndDate: {type: 'string'},
+                                            deletedStartDate: {type: 'string'},
+                                            deliveryStartDate: {type: 'string'},
+                                            description: {type: 'string'},
                                             observation: {type: 'string'},
+                                            mailContact: {type: 'string'},
+                                            operatingContact: {type: 'string'},
+                                            operatingErrorLevel: {type: 'string'},
+                                            qualityOperational: {type: 'string'},
+                                            totalRecords: {type: 'string'},
                                             domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -99,14 +109,14 @@ module.exports = {
             }
         }
     },
-    '/api/operatives/{sourceId}': {
+    '/api/operatives/{operativeId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'operativeId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'Operative Source to update'
@@ -121,16 +131,21 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 sourceId: {type: 'string'},
-                                name: {type: 'string'},
-                                initial: {type: 'string'},
-                                operativeTypeId: {type: 'string'},
-                                frequencyId: {type: 'string'},
-                                supportId: {type: 'string'},
-                                dateFrom: {type: 'string'},
-                                dateToString: {type: 'string'},
+                                operativeId: {type: 'string'},
+                                arrivalDate: {type: 'string'},
+                                codingEndDate: {type: 'string'},
+                                codingStartDate: {type: 'string'},
+                                deletedEndDate: {type: 'string'},
+                                deletedStartDate: {type: 'string'},
+                                deliveryStartDate: {type: 'string'},
+                                description: {type: 'string'},
                                 observation: {type: 'string'},
+                                mailContact: {type: 'string'},
+                                operatingContact: {type: 'string'},
+                                operatingErrorLevel: {type: 'string'},
+                                qualityOperational: {type: 'string'},
+                                totalRecords: {type: 'string'},
                                 domain: {type: 'string'},
-                                supervised: {type: 'boolean'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -153,16 +168,21 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
-                                            name: {type: 'string'},
-                                            initial: {type: 'string'},
-                                            operativeTypeId: {type: 'string'},
-                                            frequencyId: {type: 'string'},
-                                            supportId: {type: 'string'},
-                                            dateFrom: {type: 'string'},
-                                            dateToString: {type: 'string'},
+                                            operativeId: {type: 'string'},
+                                            arrivalDate: {type: 'string'},
+                                            codingEndDate: {type: 'string'},
+                                            codingStartDate: {type: 'string'},
+                                            deletedEndDate: {type: 'string'},
+                                            deletedStartDate: {type: 'string'},
+                                            deliveryStartDate: {type: 'string'},
+                                            description: {type: 'string'},
                                             observation: {type: 'string'},
+                                            mailContact: {type: 'string'},
+                                            operatingContact: {type: 'string'},
+                                            operatingErrorLevel: {type: 'string'},
+                                            qualityOperational: {type: 'string'},
+                                            totalRecords: {type: 'string'},
                                             domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -186,10 +206,10 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'operative',
+                    name: 'operativeId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Operative Source to delete'
+                    description: 'Operative Source to update'
                 }
             ],
             responses: {
@@ -209,10 +229,10 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'operativeId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'operative source to get'
+                    description: 'Operative Source to update'
                 }
             ],
             responses: {
@@ -227,21 +247,62 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
-                                            name: {type: 'string'},
-                                            initial: {type: 'string'},
-                                            operativeTypeId: {type: 'string'},
-                                            frequencyId: {type: 'string'},
-                                            supportId: {type: 'string'},
-                                            dateFrom: {type: 'string'},
-                                            dateToString: {type: 'string'},
+                                            operativeId: {type: 'string'},
+                                            arrivalDate: {type: 'string'},
+                                            codingEndDate: {type: 'string'},
+                                            codingStartDate: {type: 'string'},
+                                            deletedEndDate: {type: 'string'},
+                                            deletedStartDate: {type: 'string'},
+                                            deliveryStartDate: {type: 'string'},
+                                            description: {type: 'string'},
                                             observation: {type: 'string'},
+                                            mailContact: {type: 'string'},
+                                            operatingContact: {type: 'string'},
+                                            operatingErrorLevel: {type: 'string'},
+                                            qualityOperational: {type: 'string'},
+                                            totalRecords: {type: 'string'},
                                             domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/operatives/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Operatives'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }

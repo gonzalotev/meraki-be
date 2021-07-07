@@ -75,7 +75,7 @@ class StaticalVariableService {
         };
     }
 
-    static async update(filters, params, userCreator, transaction){
+    static async update(filters, params){
         const formattedStaticalVariable = {
             ID_VARIABLE: trim(params.id),
             NOMBRE: toUpper(trim(params.name)),
@@ -85,13 +85,13 @@ class StaticalVariableService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_PADRE: trim(params.id_father),
-            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const staticalVariableId = await staticalVariableModel.updateOne(
-            {ID_VARIABLE: filters.id}, formattedStaticalVariable, ['ID_VARIABLE'], transaction);
+        const staticalVariableId = await staticalVariableModel.updateOne({ID_VARIABLE: filters.id},
+            formattedStaticalVariable, ['ID_VARIABLE']);
         const staticalVariable = await StaticalVariableService.findOne({id: staticalVariableId});
         return staticalVariable;
     }

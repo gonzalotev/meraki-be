@@ -11,8 +11,8 @@ class OperativesController {
 
     static async find(req, res, next){
         try {
-            const operatives = await OperativesService.findOne(req.params);
-            res.send({operatives});
+            const operative = await OperativesService.findOne(req.params);
+            res.send({operative});
         } catch(err) {
             next(err);
         }
@@ -20,9 +20,9 @@ class OperativesController {
 
     static async create(req, res, next) {
         try{
-            const operatives = await OperativesService.create(req.body, req.user.id);
+            const operative = await OperativesService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ operatives });
+            res.send({ operative });
         } catch(err) {
             next(err);
         }
@@ -30,8 +30,8 @@ class OperativesController {
 
     static async update(req, res, next){
         try{
-            const operatives = await OperativesService.update(req.params, req.body);
-            res.send({ success: true, operatives });
+            const operative = await OperativesService.update(req.params, req.body);
+            res.send({ success: true, operative });
         } catch(error) {
             next(error);
         }
@@ -39,7 +39,7 @@ class OperativesController {
 
     static async delete(req, res, next){
         try{
-            const result = await OperativesService.deleteOne(req.params, req.user.id);
+            const result = await OperativesService.delete(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
@@ -56,6 +56,16 @@ class OperativesController {
             res.send({ operative });
         } catch(error) {
             next(error);
+        }
+    }
+
+    static async downloadCsv(req, res, next){
+        try {
+            const stream = await OperativesService.getCsv();
+            const buf = Buffer.from(stream);
+            res.send(buf);
+        } catch(err) {
+            next(err);
         }
     }
 
