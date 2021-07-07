@@ -20,9 +20,11 @@ class OperativeSourcesController {
 
     static async create(req, res, next) {
         try{
-            const operativeSources = await OperativeSourcesService.create(req.body, req.user.id);
+            const operativeSource = await OperativeSourcesService.create(req.body, req.user.id);
+            console.log('controller operativesources');
+            console.log(operativeSource);
             res.status(201);
-            res.send({ operativeSources });
+            res.send({ operativeSource });
         } catch(err) {
             next(err);
         }
@@ -30,8 +32,8 @@ class OperativeSourcesController {
 
     static async update(req, res, next){
         try{
-            const operativeSources = await OperativeSourcesService.update(req.params, req.body);
-            res.send({ success: true, operativeSources });
+            const operativeSource = await OperativeSourcesService.update(req.params, req.body);
+            res.send({ success: true, operativeSource });
         } catch(error) {
             next(error);
         }

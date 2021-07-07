@@ -59,7 +59,7 @@ module.exports = {
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
