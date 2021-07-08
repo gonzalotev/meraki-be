@@ -45,13 +45,14 @@ const dateToString = date => {
 };
 const dateTimeToString = dateTime => {
     if(isDate(dateTime)){
-        return moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
+        return moment(dateTime).format('DD-MM-YYYY HH:mm:ss');
     }
     return null;
 };
+
 const stringToDate = date => {
     if(date && isString(date)){
-        return moment(date).toDate();
+        return moment(date, 'DD-MM-YYYY HH:mm:ss').toDate();
     }
     return null;
 };

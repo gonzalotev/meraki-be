@@ -1,9 +1,14 @@
 const { OperativesService } = include('services');
+const toUpper = require('lodash/toUpper');
+
 class OperativesController {
     static async fetch(req, res, next) {
         try {
-            const operativesss = await OperativesService.fetch();
-            res.send({ operativesss });
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const operativesss = await OperativesService.fetch({page, search: searchValue});
+            const total = await OperativesService.getTotal({search: searchValue});
+            res.send({ operativesss, total });
         } catch(error) {
             next(error);
         }

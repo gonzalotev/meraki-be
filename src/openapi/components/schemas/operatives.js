@@ -1,8 +1,8 @@
 module.exports = {
     type: 'object',
     properties: {
-        operativeId: { type: 'string'},
-        sourceId: {type: 'string'},
+        operativeId: { type: 'integer'},
+        sourceId: {type: 'integer'},
         description: {type: 'string'},
         arrivalDate: {
             type: 'string',

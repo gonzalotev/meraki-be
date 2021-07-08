@@ -3,6 +3,17 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Operatives'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'ok',
