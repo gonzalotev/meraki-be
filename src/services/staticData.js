@@ -150,6 +150,16 @@ class StaticDataService {
         data.support = support;
         return support;
     }
+    static async getTicketTypes(data){
+        const ticketTypes = await knex.select({
+            id: 'ID_TIPO_CHAT',
+            description: 'DESCRIPCION'
+        })
+            .from('TIPOS_DE_CHAT')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.ticketTypes = ticketTypes;
+        return ticketTypes;
+    }
 }
 
 module.exports = StaticDataService;

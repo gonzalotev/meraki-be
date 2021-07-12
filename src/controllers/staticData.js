@@ -29,7 +29,8 @@ class StaticDataController {
                 questionsTypes,
                 operativeType,
                 frequency,
-                support
+                support,
+                ticketTypes
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -81,6 +82,9 @@ class StaticDataController {
             }
             if (operativeType) {
                 await StaticDataService.getOperativeType(data);
+            }
+            if (ticketTypes) {
+                await StaticDataService.getTicketTypes(data);
             }
             if (frequency) {
                 await StaticDataService.getFrequency(data);
