@@ -2,6 +2,7 @@ const map = require('lodash/map');
 const join = require('lodash/join');
 const isDate = require('lodash/isDate');
 const utils = include('util');
+
 module.exports = dataArray => {
     const nuevoArray = map(dataArray, value => {
         const emptyValue = '""';

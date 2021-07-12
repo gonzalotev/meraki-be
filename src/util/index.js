@@ -55,6 +55,7 @@ const stringToDate = date => {
     }
     return null;
 };
+exports.dateToString = dateToString;
 
 const setDate = obj => {
     assign(obj, { createdAt: dateToString(obj.createdAt), deletedAt: dateToString(obj.deletedAt)});
