@@ -65,9 +65,7 @@ class WordsDictionaryController {
 
     static async downloadCsv(req, res, next){
         try {
-            const {search} = req.query;
-            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const stream = await WordsDictionaryService.getCsv({search: searchValue});
+            const stream = await WordsDictionaryService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {

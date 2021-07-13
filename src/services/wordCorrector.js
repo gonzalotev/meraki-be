@@ -119,7 +119,7 @@ class WordCorrectorService {
         return total;
     }
 
-    static getCsv({search}){
+    static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -154,7 +154,6 @@ class WordCorrectorService {
             csvString += headers;
             const stream = wordCorrectorModel.knex.select(wordCorrectorTableHeaders)
                 .from(wordCorrectorModel.tableName)
-                .where('CORRECTA', 'like', `${search}%`)
                 .orderBy([{column: 'CORRECTA', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {

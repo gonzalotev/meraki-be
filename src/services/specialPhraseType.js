@@ -88,7 +88,7 @@ class SpecialPhraseTypeService {
         return !!success;
     }
 
-    static getCsv({search}){
+    static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -119,7 +119,6 @@ class SpecialPhraseTypeService {
             csvString += headers;
             const stream = specialPhraseTypeModel.knex.select(tableHeaders)
                 .from(specialPhraseTypeModel.tableName)
-                .where('DESCRIPCION', 'like', `${search}%`)
                 .orderBy([{column: 'ID_TIPO_FRASE_ESPECIAL', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
