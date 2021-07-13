@@ -30,12 +30,8 @@ class QuestionService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        //  const question = await questionsModel.insertOne(formattedQuestion);
-
-        const questionId= await questionsModel.insertOne(formattedQuestion,['ID_PREGUNTA']);
-        const question= await QuestionService.findOne({id:questionId}​​​​​​​​);
-        return question;
-
+                
+        // const question = await questionsModel.insertOne(formattedQuestion);
         // return {
         //     id: question.ID_PREGUNTA,
         //     question: question.PREGUNTA,
@@ -47,6 +43,10 @@ class QuestionService {
         //     userDeleted: question.ID_USUARIO_BAJA,
         //     deletedAt: dateToString(question.FECHA_BAJA)
         // };
+
+        const questionId= await questionsModel.insertOne(formattedQuestion,['ID_PREGUNTA']);
+        const question= await QuestionService.findOne({id: questionId}​​​​​​​​);
+        return question;
     }
 
     static async findOne(filters){
@@ -75,13 +75,9 @@ class QuestionService {
             FECHA_ALTA: stringToDate(params.createdAt),
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: stringToDate(params.deletedAt)
-        };
-        const questionId = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
-        formattedQuestion,['ID_PREGUNTA']);
-        const question= await QuestionService.findOne({id: questionId}​​​​​​​​);
-        return question;
+        };        
 
-        // const questionId = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
+        // const question = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
         //      formattedQuestion);
         // return {
         //     id: question.ID_PREGUNTA,
@@ -94,6 +90,12 @@ class QuestionService {
         //     userDeleted: question.ID_USUARIO_BAJA,
         //     deletedAt: dateToString(question.FECHA_BAJA)
         // };
+        
+        const questionId = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
+            formattedQuestion,['ID_PREGUNTA']);
+        const question= await QuestionService.findOne({id: questionId}​​​​​​​​);
+        return question;
+
     }
 
     static async delete(filters, userDeleted){

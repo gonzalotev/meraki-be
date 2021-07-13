@@ -590,6 +590,24 @@ const questionsAttrib = [
     'FECHA_BAJA'
 ];
 
+const encodingProcessesTableName = 'PROCESOS_DE_CODIFICACION';
+const encodingProcessesAttrib = [
+    'ID_PROCESO_CODIFICACION',
+    'DESCRIPCION',
+    'AUTOMATICO_SI_NO',
+    'PORCENTAJE_PARA_AUDITAR',
+    'NIVEL_DE_ERROR_ACEPTABLE',
+    'DOMINIO',
+    'OBSERVACION',
+    'SUPERVISADO',    
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -661,5 +679,7 @@ module.exports = {
     operativeFontsTableName,
     operativeFontsAttrib,
     questionsAttrib,
-    questionsTableName
+    questionsTableName,
+    encodingProcessesAttrib,
+    encodingProcessesTableName 
 };
