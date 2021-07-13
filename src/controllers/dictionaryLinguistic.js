@@ -43,7 +43,13 @@ class DictionaryLinguisticController {
 
     static async update(req, res, next){
         try{
-            const dictionaryLinguistic = await DictionaryLinguisticService.update(req.params, req.body);
+            const {originalDescription, dictionaryTypeId, variableId} = req.params;
+            const id = {
+                originalDescription: decodeURIComponent(originalDescription),
+                dictionaryTypeId,
+                variableId
+            };
+            const dictionaryLinguistic = await DictionaryLinguisticService.update(id, req.body);
             res.send({dictionaryLinguistic});
         } catch(err){
             next(err);
@@ -52,7 +58,13 @@ class DictionaryLinguisticController {
 
     static async delete(req, res, next){
         try {
-            const success = await DictionaryLinguisticService.delete(req.params, req.user.id);
+            const {originalDescription, dictionaryTypeId, variableId} = req.params;
+            const id = {
+                originalDescription: decodeURIComponent(originalDescription),
+                dictionaryTypeId,
+                variableId
+            };
+            const success = await DictionaryLinguisticService.delete(id, req.user.id);
             if(success){
                 res.sendStatus(204);
             } else {
