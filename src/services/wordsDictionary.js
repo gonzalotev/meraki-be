@@ -251,7 +251,7 @@ class WordsDictionaryService {
         return total;
     }
 
-    static getCsv({search}){
+    static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -338,7 +338,6 @@ class WordsDictionaryService {
             csvString += headers;
             const stream = wordsDictionary.knex.select(wordsDictionaryTableHeaders)
                 .from(wordsDictionary.tableName)
-                .where('PALABRA', 'like', `${search}%`)
                 .orderBy([{column: 'PALABRA', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {

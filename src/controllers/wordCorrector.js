@@ -57,9 +57,7 @@ class WordCorrectorController {
 
     static async downloadCsv(req, res, next){
         try {
-            const {search} = req.query;
-            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const stream = await WordCorrectorService.getCsv({search: searchValue});
+            const stream = await WordCorrectorService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {

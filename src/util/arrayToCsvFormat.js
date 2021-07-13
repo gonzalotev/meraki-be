@@ -5,14 +5,14 @@ const utils = include('util');
 
 module.exports = dataArray => {
     const nuevoArray = map(dataArray, value => {
-        const emptyValue = '""';
+        const emptyValue = '';
         if (!value) {
             return emptyValue;
         }
         if (isDate(value)) {
-            return `"${utils.dateToString(value)}"`;
+            return `${utils.dateToString(value)}`;
         }
-        return `"${value}"`;
+        return `${value}`;
     });
     const csv = join(nuevoArray, '; ');
     return `${csv}\n`;

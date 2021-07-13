@@ -166,7 +166,7 @@ class AutoPhraseService {
         });
     }
 
-    static getCsv({search}){
+    static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -209,7 +209,6 @@ class AutoPhraseService {
             csvString += headers;
             const stream = autoPhraseModel.knex.select(autoPhraseTableHeaders)
                 .from(autoPhraseModel.tableName)
-                .where('FRASE_FINAL', 'like', `${search}%`)
                 .orderBy([{column: 'FRASE_FINAL', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
