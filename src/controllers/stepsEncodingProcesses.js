@@ -1,8 +1,8 @@
-const { OperativeSourcesService } = include('services');
-class OperativeSourcesController {
+const { StepsEncodingProcessesService } = include('services');
+class StepsEncodingProcesses {
     static async fetch(req, res, next) {
         try {
-            const operativesSources = await OperativeSourcesService.fetch();
+            const operativesSources = await StepsEncodingProcessesService.fetch();
             res.send({ operativesSources });
         } catch(error) {
             next(error);
@@ -11,7 +11,7 @@ class OperativeSourcesController {
 
     static async find(req, res, next){
         try {
-            const operativeSource = await OperativeSourcesService.findOne(req.params);
+            const operativeSource = await StepsEncodingProcessesService.findOne(req.params);
             res.send({operativeSource});
         } catch(err) {
             next(err);
@@ -20,7 +20,7 @@ class OperativeSourcesController {
 
     static async create(req, res, next) {
         try{
-            const operativeSource = await OperativeSourcesService.create(req.body, req.user.id);
+            const operativeSource = await StepsEncodingProcessesService.create(req.body, req.user.id);
             console.log('controller operativesources');
             console.log(operativeSource);
             res.status(201);
@@ -32,7 +32,7 @@ class OperativeSourcesController {
 
     static async update(req, res, next){
         try{
-            const operativeSource = await OperativeSourcesService.update(req.params, req.body);
+            const operativeSource = await StepsEncodingProcessesService.update(req.params, req.body);
             res.send({ success: true, operativeSource });
         } catch(error) {
             next(error);
@@ -41,7 +41,7 @@ class OperativeSourcesController {
 
     static async delete(req, res, next){
         try{
-            const result = await OperativeSourcesService.delete(req.params, req.user.id);
+            const result = await StepsEncodingProcessesService.delete(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
@@ -54,7 +54,7 @@ class OperativeSourcesController {
 
     static async fetchOne(req, res, next){
         try{
-            const operativeSource = await OperativeSourcesService.findById(req.params);
+            const operativeSource = await StepsEncodingProcessesService.findById(req.params);
             res.send({ operativeSource });
         } catch(error) {
             next(error);
@@ -63,7 +63,7 @@ class OperativeSourcesController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await OperativeSourcesService.getCsv();
+            const stream = await StepsEncodingProcessesService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {
@@ -72,4 +72,4 @@ class OperativeSourcesController {
     }
 }
 
-module.exports = OperativeSourcesController;
+module.exports = StepsEncodingProcesses;
