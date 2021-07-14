@@ -45,8 +45,6 @@ module.exports = {
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                processStartDate: {type: 'string'},
-                                processEndDate: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
 
@@ -75,8 +73,6 @@ module.exports = {
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            processStartDate: {type: 'string'},
-                                            processEndDate: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -122,8 +118,6 @@ module.exports = {
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                processStartDate: {type: 'string'},
-                                processEndDate: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -151,8 +145,6 @@ module.exports = {
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            processStartDate: {type: 'string'},
-                                            processEndDate: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -222,8 +214,6 @@ module.exports = {
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            processStartDate: {type: 'string'},
-                                            processEndDate: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }

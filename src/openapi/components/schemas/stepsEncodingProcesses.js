@@ -9,14 +9,6 @@ module.exports = {
         domain: {type: 'string'},
         userCreator: {type: 'string'},
         createdAt: {type: 'string'},
-        processStartDate: {
-            type: 'string',
-            format: 'date',
-            nullable: true},
-        processEndDate: {
-            type: 'string',
-            format: 'date',
-            nullable: true},
         userDeleted: {type: 'string'},
         deletedAt: {type: 'string'}
     }

@@ -14,8 +14,6 @@ class OperativeSourcesService {
             domain: operative.DOMINIO,
             userCreator: operative.ID_USUARIO_ALTA,
             createdAt: dateToString(operative.FECHA_ALTA),
-            dateFrom: dateToString(operative.FECHA_INICIO_PROCESO),
-            dateTo: dateToString(operative.FECHA_FINAL_PROCESO),
             userDeleted: operative.ID_USUARIO_BAJA,
             deletedAt: dateToString(operative.FECHA_BAJA)
         }));
@@ -30,8 +28,6 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: stringToDate(params.dateFrom),
-            FECHA_HASTA: stringToDate(params.dateTo),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
@@ -59,8 +55,6 @@ class OperativeSourcesService {
             domain: encodingProcess.DOMINIO,
             userCreator: encodingProcess.ID_USUARIO_ALTA,
             createdAt: dateToString(encodingProcess.FECHA_ALTA),
-            dateFrom: dateToString(encodingProcess.FECHA_INICIO_PROCESO),
-            dateTo: dateToString(encodingProcess.FECHA_FINAL_PROCESO),
             userDeleted: encodingProcess.ID_USUARIO_BAJA,
             deletedAt: dateToString(encodingProcess.FECHA_BAJA)
         };
@@ -74,8 +68,6 @@ class OperativeSourcesService {
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: stringToDate(params.dateFrom),
-            FECHA_HASTA: stringToDate(params.dateTo),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,

@@ -600,8 +600,6 @@ const stepsEncodingProcessesAttrib = [
     'DOMINIO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
-    'FECHA_INICIO_PROCESO',
-    'FECHA_FINAL_PROCESO',
     'ID_USUARIO_BAJA',
     'FECHA_BAJA'
 ];
