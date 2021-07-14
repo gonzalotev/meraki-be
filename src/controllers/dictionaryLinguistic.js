@@ -43,13 +43,9 @@ class DictionaryLinguisticController {
 
     static async update(req, res, next){
         try{
-            const {originalDescription, dictionaryTypeId, variableId} = req.params;
-            const id = {
-                originalDescription: decodeURIComponent(originalDescription),
-                dictionaryTypeId,
-                variableId
-            };
-            const dictionaryLinguistic = await DictionaryLinguisticService.update(id, req.body);
+            const {originalDescription, dictionaryTypeId, variableId, dictionary} = req.body;
+            const id = {originalDescription, dictionaryTypeId, variableId};
+            const dictionaryLinguistic = await DictionaryLinguisticService.update(id, dictionary);
             res.send({dictionaryLinguistic});
         } catch(err){
             next(err);
