@@ -55,13 +55,14 @@ class OperativesService {
     }
 
     static async create(params, userCreator) {
+        console.log(params.arrivalDate);
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
             ID_OPERATIVO: params.operativeId,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            FECHA_LLEGADA_OPERATIVO: stringToDate(params.arrivalDate),
+            FECHA_LLEGADA_OPERATIVO: params.arrivalDate,
             TOTAL_REGISTROS_OPERATIVO: params.totalRecords,
             CONTACTO_OPERATIVO: params.operatingContact,
             MAIL_CONTACTO: params.mailContact,
