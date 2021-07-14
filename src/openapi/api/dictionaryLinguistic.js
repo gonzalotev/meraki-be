@@ -83,32 +83,10 @@ module.exports = {
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
-        }
-    },
-    '/api/dictionaryLinguistic/{originalDescription}/{dictionaryTypeId}/{variableId}': {
+        },
         put: {
             security: [{bearerAuth: []}],
             tags: ['Dictionary Linguistic'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'originalDescription',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'dictionaryTypeId',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'variableId',
-                    required: true,
-                    schema: {type: 'string'}
-                }
-            ],
             requestBody: {
                 description: 'The new  dictionary linguistic to create',
                 required: true,
@@ -120,10 +98,18 @@ module.exports = {
                                 originalDescription: {type: 'string'},
                                 dictionaryTypeId: {type: 'string'},
                                 variableId: {type: 'string'},
-                                destinationDescription: {type: 'string'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                dictionary: {
+                                    type: 'object',
+                                    properties: {
+                                        originalDescription: {type: 'string'},
+                                        dictionaryTypeId: {type: 'string'},
+                                        variableId: {type: 'string'},
+                                        destinationDescription: {type: 'string'},
+                                        observation: {type: 'string'},
+                                        domain: {type: 'string'},
+                                        approved: {type: 'boolean'}
+                                    }
+                                }
                             }
                         }
                     }
@@ -146,7 +132,9 @@ module.exports = {
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
-        },
+        }
+    },
+    '/api/dictionaryLinguistic/{originalDescription}/{dictionaryTypeId}/{variableId}': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Dictionary Linguistic'],
