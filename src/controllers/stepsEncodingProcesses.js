@@ -1,9 +1,9 @@
 const { StepsEncodingProcessesService } = include('services');
-class StepsEncodingProcesses {
+class StepsEncodingProcessesController {
     static async fetch(req, res, next) {
         try {
-            const operativesSources = await StepsEncodingProcessesService.fetch();
-            res.send({ operativesSources });
+            const stepsEncodingProcesses = await StepsEncodingProcessesService.fetch();
+            res.send({ stepsEncodingProcesses });
         } catch(error) {
             next(error);
         }
@@ -11,8 +11,8 @@ class StepsEncodingProcesses {
 
     static async find(req, res, next){
         try {
-            const operativeSource = await StepsEncodingProcessesService.findOne(req.params);
-            res.send({operativeSource});
+            const stepEncodingProcess = await StepsEncodingProcessesService.findOne(req.params);
+            res.send({stepEncodingProcess});
         } catch(err) {
             next(err);
         }
@@ -20,11 +20,11 @@ class StepsEncodingProcesses {
 
     static async create(req, res, next) {
         try{
-            const operativeSource = await StepsEncodingProcessesService.create(req.body, req.user.id);
-            console.log('controller operativesources');
-            console.log(operativeSource);
+            const stepEncodingProcess = await StepsEncodingProcessesService.create(req.body, req.user.id);
+            console.log('controller stepEncodingProcess');
+            console.log(stepEncodingProcess);
             res.status(201);
-            res.send({ operativeSource });
+            res.send({ stepEncodingProcess });
         } catch(err) {
             next(err);
         }
@@ -32,8 +32,8 @@ class StepsEncodingProcesses {
 
     static async update(req, res, next){
         try{
-            const operativeSource = await StepsEncodingProcessesService.update(req.params, req.body);
-            res.send({ success: true, operativeSource });
+            const stepEncodingProcess = await StepsEncodingProcessesService.update(req.params, req.body);
+            res.send({ success: true, stepEncodingProcess });
         } catch(error) {
             next(error);
         }
@@ -54,8 +54,8 @@ class StepsEncodingProcesses {
 
     static async fetchOne(req, res, next){
         try{
-            const operativeSource = await StepsEncodingProcessesService.findById(req.params);
-            res.send({ operativeSource });
+            const stepEncodingProcess = await StepsEncodingProcessesService.findById(req.params);
+            res.send({ stepEncodingProcess });
         } catch(error) {
             next(error);
         }
@@ -72,4 +72,4 @@ class StepsEncodingProcesses {
     }
 }
 
-module.exports = StepsEncodingProcesses;
+module.exports = StepsEncodingProcessesController;

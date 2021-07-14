@@ -2,7 +2,7 @@ const { StepsEncodingProcesses } = include('models');
 const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
 const map = require('lodash/map');
 
-class OperativeSourcesService {
+class StepsEncodingProcessesService {
     static async fetch() {
         const operatives = await StepsEncodingProcesses.find({FECHA_BAJA: null});
         return operatives.map(operative => ({
@@ -38,7 +38,7 @@ class OperativeSourcesService {
         };
         const operativeId = await StepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE']);
         console.log(operativeId);
-        const operative = await OperativeSourcesService.findOne({sourceId: operativeId});
+        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId});
         return operative;
     }
 
@@ -79,7 +79,7 @@ class OperativeSourcesService {
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSourceId = await StepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
         console.log(operativeSourceId);
-        const operative = await OperativeSourcesService.findOne({sourceId: operativeSourceId});
+        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeSourceId});
         return operative;
     }
 
@@ -157,4 +157,4 @@ class OperativeSourcesService {
     }
 }
 
-module.exports = OperativeSourcesService;
+module.exports = StepsEncodingProcessesService;

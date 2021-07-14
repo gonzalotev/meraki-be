@@ -1,13 +1,13 @@
-const {StepsEncodingProcesses} = include('controllers');
+const {StepsEncodingProcessesController} = include('controllers');
 
 module.exports = router => {
     router.route('/')
-        .get(StepsEncodingProcesses.fetch)
-        .post(StepsEncodingProcesses.create);
-    router.route('/downloadCsv').get(StepsEncodingProcesses.downloadCsv);
+        .get(StepsEncodingProcessesController.fetch)
+        .post(StepsEncodingProcessesController.create);
+    router.route('/downloadCsv').get(StepsEncodingProcessesController.downloadCsv);
     router.route('/:sourceId/:questionId')
-        .get(StepsEncodingProcesses.find)
-        .delete(StepsEncodingProcesses.delete)
-        .put(StepsEncodingProcesses.update);
+        .get(StepsEncodingProcessesController.find)
+        .delete(StepsEncodingProcessesController.delete)
+        .put(StepsEncodingProcessesController.update);
     return router;
 };
