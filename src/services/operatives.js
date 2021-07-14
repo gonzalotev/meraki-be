@@ -62,7 +62,7 @@ class OperativesService {
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            FECHA_LLEGADA_OPERATIVO: params.arrivalDate,
+            FECHA_LLEGADA_OPERATIVO: stringToDate(params.arrivalDate),
             TOTAL_REGISTROS_OPERATIVO: params.totalRecords,
             CONTACTO_OPERATIVO: params.operatingContact,
             MAIL_CONTACTO: params.mailContact,
@@ -73,9 +73,9 @@ class OperativesService {
             CALIDAD_TOTAL_OPERATIVO: params.qualityOperational,
             NIVEL_ERROR_OPERATIVO: params.operatingErrorLevel,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: params.createdAt,
+            FECHA_ALTA: new Date(),
             ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt
+            FECHA_BAJA: stringToDate(params.deletedAt)
         };
         const operativeId = await operatives.insertOne(formattedOperative, ['ID_OPERATIVO']);
         const operative = await OperativesService.findOne({operativeId: operativeId});
