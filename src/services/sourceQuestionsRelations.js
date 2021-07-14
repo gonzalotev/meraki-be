@@ -2,14 +2,12 @@ const { sourceQuestionRelation } = include('models');
 const StaticalVariableService = require('./staticalVariable');
 const NomenclatorsService = require('./nomenclators');
 const QuestionsTypeSerive = require('./questionType');
-const { dateToString } = include('util');
+const { dateToString, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
 const knex = include('helpers/database');
-const {sourceQuestionsRelationsHeaders} = include('constants/csvHeaders');
-const {arrayToCsvFormat} = include('util');
 const toNumber = require('lodash/toNumber');
 
 class SourceQuestionRelationService {
@@ -240,9 +238,72 @@ class SourceQuestionRelationService {
     static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
-            const headers = arrayToCsvFormat(sourceQuestionsRelationsHeaders);
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_FUENTE',
+                    nameInFile: 'ID DE FUENTE'
+                },
+                {
+                    nameInTable: 'ID_PREGUNTA',
+                    nameInFile: 'ID DE PREGUNTA'
+                },
+                {
+                    nameInTable: 'CODIGO_PREGUNTA',
+                    nameInFile: 'CODIGO DE PREGUNTA'
+                },
+                {
+                    nameInTable: 'ID_VARIABLE',
+                    nameInFile: 'ID DE VARIABLE'
+                },
+                {
+                    nameInTable: 'ID_NOMENCLADOR',
+                    nameInFile: 'ID DE NOMENCLADOR'
+                },
+                {
+                    nameInTable: 'ID_ABIERTA_CERRADA',
+                    nameInFile: 'PREGUNTA ABIERTA O CERRADA'
+                },
+                {
+                    nameInTable: 'ES_OBLIGATORIA_SI_NO',
+                    nameInFile: 'ES OBLIGATORIA'
+                },
+                {
+                    nameInTable: 'SE_CODIFICA_SI_NO',
+                    nameInFile: 'SE CODIFICA'
+                },
+                {
+                    nameInTable: 'ES_AUXILIAR_SI_NO',
+                    nameInFile: 'ES AUXILIAR'
+                },
+                {
+                    nameInTable: 'PASAR_A_PROCESAMIENTO_SI_NO',
+                    nameInFile: 'SE PROCESA'
+                },
+                {
+                    nameInTable: 'NECESITA_AUXILIARES_SI_NO',
+                    nameInFile: 'NECESITA AUXILIAR'
+                },
+                {
+                    nameInTable: 'AUTOFRASE_LEER_SI_NO',
+                    nameInFile: 'LEER AUTOFRASE'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                }
+            ];
+
+            const sourceQuestionRelationTableHeaders = map(fieldNames, field => field.nameInTable);
+            const sourceQuestionRelationFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(sourceQuestionRelationFileHeaders);
             csvString += headers;
-            const stream = knex.select(sourceQuestionsRelationsHeaders).from(sourceQuestionRelation.tableName).stream();
+            const stream = sourceQuestionRelation.knex.select(sourceQuestionRelationTableHeaders)
+                .from(sourceQuestionRelation.tableName)
+                .stream();
             stream.on('error', function(err) {
                 reject(err);
             });

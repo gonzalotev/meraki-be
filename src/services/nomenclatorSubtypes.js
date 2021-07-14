@@ -1,6 +1,7 @@
 const { nomenclatorSubtypes } = include('models');
-const { dateToString } = include('util');
+const { dateToString, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class NomenclatorSubtypeService {
     static async fetch() {
@@ -93,6 +94,58 @@ class NomenclatorSubtypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_TIPO',
+                    nameInFile: 'ID TIPO DE NOMENCLADOR'
+                },
+                {
+                    nameInTable: 'ID_SUBTIPO',
+                    nameInFile: 'ID SUBTIPO'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = nomenclatorSubtypes.knex.select(tableHeaders)
+                .from(nomenclatorSubtypes.tableName)
+                .orderBy([
+                    {column: 'ID_TIPO', order: 'asc'},
+                    {column: 'ID_SUBTIPO', order: 'asc'}
+                ])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

@@ -65,7 +65,6 @@ class ModelCreate {
 
     async insertOne(props, returning = this.selectableProps, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
-        objectToSave.FECHA_ALTA = new Date();
         if (transaction) {
             const objectCreated = await transaction(this.tableName)
                 .insert(objectToSave)
@@ -73,6 +72,9 @@ class ModelCreate {
                 .timeout(this.timeout);
             return head(objectCreated);
         }
+        console.log(this.selectableProps);
+        console.log('modelo');
+        console.log(objectToSave);
         const objectCreated = await this.knex.insert(objectToSave)
             .returning(returning)
             .into(this.tableName)

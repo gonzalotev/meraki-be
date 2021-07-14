@@ -51,11 +51,15 @@ const dateTimeToString = dateTime => {
 };
 
 const stringToDate = date => {
+    if(date && isDate(date)){
+        return date;
+    }
     if(date && isString(date)){
         return moment(date, 'DD-MM-YYYY HH:mm:ss').toDate();
     }
     return null;
 };
+exports.dateToString = dateToString;
 
 const setDate = obj => {
     assign(obj, { createdAt: dateToString(obj.createdAt), deletedAt: dateToString(obj.deletedAt)});
