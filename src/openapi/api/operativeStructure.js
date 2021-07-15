@@ -1,23 +1,17 @@
 module.exports = {
-    '/api/sourceQuestionsRelations': {
+    '/api/operativeStructure': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Source Questions Relations'],
+            tags: ['Operative Structure'],
             parameters: [
                 {
                     in: 'query',
                     name: 'page',
                     required: false,
                     schema: {
-                        type: 'integer',
+                        type: 'number',
                         default: 1
                     }
-                },
-                {
-                    in: 'query',
-                    name: 'source',
-                    required: false,
-                    schema: {type: 'integer'}
                 }
             ],
             responses: {
@@ -28,11 +22,11 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    sourceQuestionsRelations: {
+                                    operativesStructures: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/SourceQuestionRelation'}
+                                        items: {$ref: '#/components/schemas/OperativeStructure'}
                                     },
-                                    total: {type: 'integer'}
+                                    total: {type: 'number'}
                                 }
                             }
                         }
@@ -46,7 +40,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Source Questions Relations'],
+            tags: ['Operative Structure'],
             requestBody: {
                 description: 'The new Source Questions Relations to create',
                 required: true,
@@ -55,20 +49,78 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'integer'},
-                                questionId: {type: 'integer'},
-                                questionCode: {type: 'string'},
-                                variableId: {type: 'string'},
-                                nomenclatorId: {type: 'integer'},
-                                questionTypeId: {type: 'string'},
-                                isRequired: {type: 'boolean'},
-                                isCodable: {type: 'boolean'},
-                                isAuxiliary: {type: 'boolean'},
-                                shouldBeProcessed: {type: 'boolean'},
-                                souldHaveAuxiliary: {type: 'boolean'},
-                                shouldReadAutoPhrase: {type: 'boolean'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'}
+                                operativeId: {
+                                    type: 'integer',
+                                    nullable: false
+                                },
+                                originalName: {
+                                    type: 'string',
+                                    maxLength: 50,
+                                    nullable: false
+                                },
+                                entryFieldNameId: {
+                                    type: 'string',
+                                    maxLength: 30,
+                                    nullable: false
+                                },
+                                originalAuxiliaryFieldId: {
+                                    type: 'string',
+                                    maxLength: 30,
+                                    nullable: true
+                                },
+                                finalAuxiliaryField: {
+                                    type: 'string',
+                                    maxLength: 30,
+                                    nullable: false
+                                },
+                                variableDescription: {
+                                    type: 'string',
+                                    maxLength: 100,
+                                    nullable: true
+                                },
+                                shouldDisplayAuxiliary: {type: 'boolean'},
+                                isPartOfTheId: {
+                                    type: 'boolean',
+                                    nullable: false
+                                },
+                                datatypeId: {
+                                    type: 'string',
+                                    maxLength: 1,
+                                    nullable: false
+                                },
+                                dataSize: {
+                                    type: 'integer',
+                                    nullable: false
+                                },
+                                hasDecimals: {type: 'boolean'},
+                                decimals: { type: 'integer'},
+                                initialPosition: {
+                                    type: 'integer',
+                                    nullable: false
+                                },
+                                finalPosition: {
+                                    type: 'integer',
+                                    nullable: false
+                                },
+                                shouldDataBeConverted: {type: 'boolean'},
+                                observation: {
+                                    type: 'string',
+                                    maxLength: 120,
+                                    nullable: true
+                                },
+                                domain: {
+                                    type: 'string',
+                                    maxLength: 300,
+                                    nullable: true
+                                },
+                                sourceId: {
+                                    type: 'number',
+                                    nullable: true
+                                },
+                                questionId: {
+                                    type: 'number',
+                                    nullable: true
+                                }
                             }
                         }
                     }
@@ -81,7 +133,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {sourceQuestionRelation: {$ref: '#/components/schemas/SourceQuestionRelation'}}
+                                properties: {operativeStructure: {$ref: '#/components/schemas/OperativeStructure'}}
                             }
                         }
                     }
@@ -93,53 +145,28 @@ module.exports = {
             }
         }
     },
-    '/api/sourceQuestionsRelations/{sourceId}/{questionId}': {
+    '/api/operativeStructure/{operativeId}/{structureId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Source Questions Relations'],
+            tags: ['Operative Structure'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'operativeId',
                     required: true,
-                    schema: {type: 'integer'}
+                    schema: {type: 'number'}
                 },
                 {
                     in: 'path',
-                    name: 'questionId',
+                    name: 'structureId',
                     required: true,
-                    schema: {type: 'integer'}
+                    schema: {type: 'number'}
                 }
             ],
             requestBody: {
                 description: 'The Source Questions Relations to update',
                 required: true,
-                content: {
-                    'application/json': {
-                        schema: {
-                            type: 'object',
-                            properties: {
-                                sourceId: {type: 'integer'},
-                                questionId: {type: 'integer'},
-                                questionCode: {type: 'string'},
-                                variableId: {type: 'string'},
-                                nomenclatorId: {
-                                    type: 'integer',
-                                    nullable: true
-                                },
-                                questionTypeId: {type: 'string'},
-                                isRequired: {type: 'boolean'},
-                                isCodable: {type: 'boolean'},
-                                isAuxiliary: {type: 'boolean'},
-                                shouldBeProcessed: {type: 'boolean'},
-                                souldHaveAuxiliary: {type: 'boolean'},
-                                shouldReadAutoPhrase: {type: 'boolean'},
-                                observation: {type: 'string'},
-                                domain: {type: 'string'}
-                            }
-                        }
-                    }
-                }
+                content: {'application/json': {schema: {$ref: '#/components/schemas/OperativeStructure'}}}
             },
             responses: {
                 200: {
@@ -148,7 +175,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {sourceQuestionRelation: {$ref: '#/components/schemas/SourceQuestionRelation'}}
+                                properties: {operativeStructure: {$ref: '#/components/schemas/OperativeStructure'}}
                             }
                         }
                     }
@@ -161,19 +188,19 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Source Questions Relations'],
+            tags: ['Operative Structure'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'operativeId',
                     required: true,
-                    schema: {type: 'integer'}
+                    schema: {type: 'number'}
                 },
                 {
                     in: 'path',
-                    name: 'questionId',
+                    name: 'structureId',
                     required: true,
-                    schema: {type: 'integer'}
+                    schema: {type: 'number'}
                 }
             ],
             responses: {
@@ -183,7 +210,7 @@ module.exports = {
                         'application/json': {
                             schema: {
                                 type: 'object',
-                                properties: {sourceQuestionRelation: {$ref: '#/components/schemas/SourceQuestionRelation'}}
+                                properties: {operativeStructure: {$ref: '#/components/schemas/OperativeStructure'}}
                             }
                         }
                     }
@@ -196,19 +223,19 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Source Questions Relations'],
+            tags: ['Operative Structure'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'sourceId',
+                    name: 'operativeId',
                     required: true,
-                    schema: {type: 'integer'}
+                    schema: {type: 'number'}
                 },
                 {
                     in: 'path',
-                    name: 'questionId',
+                    name: 'structureId',
                     required: true,
-                    schema: {type: 'integer'}
+                    schema: {type: 'number'}
                 }
             ],
             responses: {
@@ -220,18 +247,10 @@ module.exports = {
             }
         }
     },
-    '/api/sourceQuestionsRelations/downloadCsv': {
+    '/api/operativeStructure/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Source Questions Relations'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
+            tags: ['Operative Structure'],
             responses: {
                 200: {
                     description: 'Success',

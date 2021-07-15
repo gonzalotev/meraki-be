@@ -2,6 +2,7 @@ const { dictionaryLinguistic } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
+const toUpper = require('lodash/toUpper');
 
 class DictionaryLinguisticService {
     static async fetch({page, search, formatted=false}) {
@@ -67,10 +68,10 @@ class DictionaryLinguisticService {
     }
     static async create(params, userCreator){
         const formattedDictionaryLinguistic = {
-            DESCRIPCION_ORIGINAL: trim(params.originalDescription),
+            DESCRIPCION_ORIGINAL: toUpper(trim(params.originalDescription)),
             ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypeId,
             ID_VARIABLE: params.variableId,
-            DESCRIPCION_DESTINO: trim(params.destinationDescription),
+            DESCRIPCION_DESTINO: toUpper(trim(params.destinationDescription)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -96,10 +97,10 @@ class DictionaryLinguisticService {
     }
     static async update(filters, params){
         const formattedDictionaryLinguistic = {
-            DESCRIPCION_ORIGINAL: trim(params.originalDescription),
+            DESCRIPCION_ORIGINAL: toUpper(trim(params.originalDescription)),
             ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypeId,
             ID_VARIABLE: params.variableId,
-            DESCRIPCION_DESTINO: trim(params.destinationDescription),
+            DESCRIPCION_DESTINO: toUpper(trim(params.destinationDescription)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,

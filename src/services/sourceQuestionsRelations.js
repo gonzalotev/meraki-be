@@ -145,31 +145,15 @@ class SourceQuestionRelationService {
             FECHA_ALTA: new Date(),
             FECHA_BAJA: null
         };
-        const relation = await sourceQuestionRelation.insertOne(formattedSourceQuestionRelation);
 
-        return {
-            sourceId: toNumber(relation.ID_FUENTE),
-            questionId: toNumber(relation.ID_PREGUNTA),
-            questionCode: relation.CODIGO_PREGUNTA,
-            variableId: relation.ID_VARIABLE,
-            nomenclatorId: relation.ID_NOMENCLADOR,
-            questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!toNumber(relation.ES_OBLIGATORIA_SI_NO),
-            isCodable: !!toNumber(relation.SE_CODIFICA_SI_NO),
-            isAuxiliary: !!toNumber(relation.ES_AUXILIAR_SI_NO),
-            shouldBeProcessed: !!toNumber(relation.PASAR_A_PROCESAMIENTO_SI_NO),
-            souldHaveAuxiliary: !!toNumber(relation.NECESITA_AUXILIARES_SI_NO),
-            shouldReadAutoPhrase: !!toNumber(relation.AUTOFRASE_LEER_SI_NO),
-            observation: relation.OBSERVACION,
-            domain: relation.DOMINIO,
-            userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            deletedAt: dateToString(relation.FECHA_BAJA)
-        };
+        const relationId = await sourceQuestionRelation.insertOne(formattedSourceQuestionRelation,
+            ['ID_FUENTE', 'ID_PREGUNTA']);
+        const relation = await SourceQuestionRelationService.findOne({sourceId: relationId.ID_FUENTE,
+            questionId: relationId.ID_PREGUNTA});
+        return relation;
     }
 
-    static async update({sourceId, questionId}, params){
+    static async update(filters, params){
         const formattedSourceQuestionRelation = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
@@ -188,31 +172,11 @@ class SourceQuestionRelationService {
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: params.userDeleted
         };
-        const ids = {
-            ID_FUENTE: sourceId,
-            ID_PREGUNTA: questionId
-        };
-        const relation = await sourceQuestionRelation.updateOne(ids, formattedSourceQuestionRelation);
-        return {
-            sourceId: toNumber(relation.ID_FUENTE),
-            questionId: toNumber(relation.ID_PREGUNTA),
-            questionCode: relation.CODIGO_PREGUNTA,
-            variableId: relation.ID_VARIABLE,
-            nomenclatorId: relation.ID_NOMENCLADOR,
-            questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!toNumber(relation.ES_OBLIGATORIA_SI_NO),
-            isCodable: !!toNumber(relation.SE_CODIFICA_SI_NO),
-            isAuxiliary: !!toNumber(relation.ES_AUXILIAR_SI_NO),
-            shouldBeProcessed: !!toNumber(relation.PASAR_A_PROCESAMIENTO_SI_NO),
-            souldHaveAuxiliary: !!toNumber(relation.NECESITA_AUXILIARES_SI_NO),
-            shouldReadAutoPhrase: !!toNumber(relation.AUTOFRASE_LEER_SI_NO),
-            observation: relation.OBSERVACION,
-            domain: relation.DOMINIO,
-            userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            deletedAt: dateToString(relation.FECHA_BAJA)
-        };
+        const relationId = await sourceQuestionRelation.updateOne({ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId}, formattedSourceQuestionRelation, ['ID_FUENTE', 'ID_PREGUNTA']);
+        const relation = await SourceQuestionRelationService.findOne({sourceId: relationId.ID_FUENTE,
+            questionId: relationId.ID_PREGUNTA});
+        return relation;
     }
     static async delete({sourceId, questionId}, userDeleted){
         const ids = {

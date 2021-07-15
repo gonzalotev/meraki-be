@@ -35,13 +35,12 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
+                                                id: {type: 'string'},
                                                 variableId: {type: 'string'},
                                                 finalPhrase: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
                                                 approved: {type: 'boolean'},
-                                                idFather: {type: 'boolean'},
                                                 prhaseRetro: {type: 'boolean'},
                                                 dateRetro: {type: 'string'},
                                                 createdAt: {type: 'string'},
@@ -73,12 +72,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
+                                id: {type: 'string'},
                                 variableId: {type: 'string'},
                                 finalPhrase: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 approved: {type: 'boolean'},
-                                idFather: {type: 'boolean'},
                                 prhaseRetro: {type: 'boolean'},
                                 dateRetro: {type: 'string'},
                                 createdAt: {type: 'string'},
@@ -102,13 +101,12 @@ module.exports = {
                                     prhase: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             variableId: {type: 'string'},
                                             finalPhrase: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
-                                            idFather: {type: 'boolean'},
                                             prhaseRetro: {type: 'boolean'},
                                             dateRetro: {type: 'string'},
                                             createdAt: {type: 'string'},
@@ -150,13 +148,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 variableId: {type: 'string'},
                                 finalPhrase: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 approved: {type: 'boolean'},
-                                idFather: {type: 'boolean'},
                                 prhaseRetro: {type: 'boolean'},
                                 dateRetro: {type: 'string'},
                                 createdAt: {type: 'string'},
@@ -180,13 +177,12 @@ module.exports = {
                                     prhase: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             variableId: {type: 'string'},
                                             finalPhrase: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
-                                            idFather: {type: 'boolean'},
                                             prhaseRetro: {type: 'boolean'},
                                             dateRetro: {type: 'string'},
                                             createdAt: {type: 'string'},
@@ -252,13 +248,12 @@ module.exports = {
                                     phrase: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             variableId: {type: 'string'},
                                             finalPhrase: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             approved: {type: 'boolean'},
-                                            idFather: {type: 'boolean'},
                                             prhaseRetro: {type: 'boolean'},
                                             dateRetro: {type: 'string'},
                                             createdAt: {type: 'string'},

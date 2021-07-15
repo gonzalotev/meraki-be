@@ -2,6 +2,7 @@ const { ticketType: ticketTypeModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
+const toUpper = require('lodash/toUpper');
 
 class TicketTypeService {
     static async fetch(query) {
@@ -31,7 +32,7 @@ class TicketTypeService {
     static async create(params, userCreator) {
         const formattedTicketType = {
             ID_TIPO_CHAT: null,
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -66,7 +67,7 @@ class TicketTypeService {
     static async update(filters, params) {
         const formattedTicketType = {
             ID_TIPO_CHAT: params.id,
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,

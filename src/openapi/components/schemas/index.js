@@ -21,6 +21,7 @@ const SourceQuestionRelation = require('./sourceQuestionRelation');
 const OperativeSources = require('./operativeSources');
 const RelationshipAutophraseQuestionClosed = require('./relationshipAutophraseQuestionClosed');
 const StepsEncodingProcesses = require('./stepsEncodingProcesses');
+const OperativeStructure = require('./operativeStructure');
 
 module.exports = {
     ArrayString: {
@@ -77,5 +78,6 @@ module.exports = {
     SourceQuestionRelation,
     OperativeSources,
     RelationshipAutophraseQuestionClosed,
-    StepsEncodingProcesses
+    StepsEncodingProcesses,
+    OperativeStructure
 };

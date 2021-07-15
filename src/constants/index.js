@@ -604,6 +604,34 @@ const stepsEncodingProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
+const operativeStructureAttrib = [
+    'ID_OPERATIVO',
+    'ID_ESTRUCTURA',
+    'NOMBRE_ORIGINAL',
+    'ID_NOMBRE_CAMPO_ENTRADA',
+    'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL',
+    'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL',
+    'DESCRIPCION_VARIABLE',
+    'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
+    'ES_PARTE_DEL_ID',
+    'ID_TIPO_DE_DATO',
+    'TAMANIO_DATO',
+    'TIENE_DECIMALES',
+    'DECIMALES',
+    'POSICION_INICIAL',
+    'POSICION_FINAL',
+    'HAY_CONVERSION_DATO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -678,4 +706,6 @@ module.exports = {
     questionsTableName,
     stepsEncodingProcessesTableName,
     stepsEncodingProcessesAttrib
+    operativeStructureTableName,
+    operativeStructureAttrib
 };

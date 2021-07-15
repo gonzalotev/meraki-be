@@ -55,7 +55,7 @@ class WordsDictionaryService {
         }));
     }
 
-    static async create(params, userCreator, transaction) {
+    static async create(params, userCreator) {
         const formattedWord = {
             PALABRA: params.word,
             TRUNCADO: params.truncate,
@@ -83,35 +83,9 @@ class WordsDictionaryService {
             ABC: params.abc,
             FAMILIA: params.family
         };
-        const word = await wordsDictionary.insertOne(formattedWord, transaction);
-
-        return {
-            word: word.PALABRA,
-            truncate: word.TRUNCADO,
-            acronim: word.ACRONIMO,
-            verb: !!word.VERBO,
-            noun: !!word.SUSTANTIVO,
-            adjective: !!word.ADJETIVO,
-            adverb: !!word.ADVERBIO,
-            pronoun: !!word.PRONOMBRE,
-            article: !!word.ARTICULO,
-            preposition: !!word.PREPOSICION,
-            doubtWord: !!word.PALABRA_DUDOSA,
-            observation: word.OBSERVACION,
-            domain: word.DOMINIO,
-            supervised: !!word.SUPERVISADO,
-            hashFunction: word.FUNCION_DE_HASH,
-            hash: word.HASH,
-            createdAt: dateToString(word.FECHA_ALTA),
-            userCreator: word.ID_USUARIO_ALTA,
-            userDeleted: word.ID_USUARIO_BAJA,
-            deletedAt: dateToString(word.FECHA_BAJA),
-            genderId: word.ID_GENERO_NUMERO,
-            numberId: word.ID_NUMERO,
-            frequency: word.FRECUENCIA,
-            abc: word.ABC,
-            family: word.FAMILIA
-        };
+        const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
+        const word = await WordsDictionaryService.findOne({word: wordId});
+        return word;
     }
 
     static async findOne(filters){
@@ -202,35 +176,9 @@ class WordsDictionaryService {
             ABC: params.abc,
             FAMILIA: params.family
         };
-        const formattedFilters = {PALABRA: filters.word};
-        const word = await wordsDictionary.updateOne(formattedFilters, formattedWord);
-        return {
-            word: word.PALABRA,
-            truncate: word.TRUNCADO,
-            acronim: word.ACRONIMO,
-            verb: !!word.VERBO,
-            noun: !!word.SUSTANTIVO,
-            adjective: !!word.ADJETIVO,
-            adverb: !!word.ADVERBIO,
-            pronoun: !!word.PRONOMBRE,
-            article: !!word.ARTICULO,
-            preposition: !!word.PREPOSICION,
-            doubtWord: !!word.PALABRA_DUDOSA,
-            observation: word.OBSERVACION,
-            domain: word.DOMINIO,
-            supervised: !!word.SUPERVISADO,
-            hashFunction: word.FUNCION_DE_HASH,
-            hash: word.HASH,
-            createdAt: dateToString(word.FECHA_ALTA),
-            userCreator: word.ID_USUARIO_ALTA,
-            userDeleted: word.ID_USUARIO_BAJA,
-            deletedAt: dateToString(word.FECHA_BAJA),
-            genderId: word.ID_GENERO_NUMERO,
-            numberId: word.ID_NUMERO,
-            frequency: word.FRECUENCIA,
-            abc: word.ABC,
-            family: word.FAMILIA
-        };
+        const wordId = await wordsDictionary.updateOne({PALABRA: filters.word}, formattedWord, ['PALABRA']);
+        const word = await WordsDictionaryService.findOne({id: wordId});
+        return word;
     }
 
     static async delete(filters, userDeleted){
