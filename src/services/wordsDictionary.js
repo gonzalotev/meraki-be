@@ -84,7 +84,7 @@ class WordsDictionaryService {
             FAMILIA: params.family
         };
         const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
-        const word = await WordsDictionaryService.findOne({id: wordId});
+        const word = await WordsDictionaryService.findOne({word: wordId});
         return word;
     }
 
