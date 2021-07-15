@@ -2,6 +2,7 @@ const { specialPhraseType: specialPhraseTypeModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
+const toUpper = require('lodash/toUpper');
 
 class SpecialPhraseTypeService {
     static async fetch() {
@@ -11,7 +12,7 @@ class SpecialPhraseTypeService {
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
             domain: specialPhraseType.DOMINIO,
-            approved: specialPhraseType.SUPERVISADO,
+            approved: !!specialPhraseType.SUPERVISADO,
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
             userCreator: specialPhraseType.ID_USUARIO_ALTA,
             userDeleted: specialPhraseType.ID_USUARIO_BAJA,
@@ -23,7 +24,7 @@ class SpecialPhraseTypeService {
     static async create(params, userCreator) {
         const formattedSpecialPhraseType = {
             ID_TIPO_FRASE_ESPECIAL: null,
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -44,7 +45,7 @@ class SpecialPhraseTypeService {
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
             domain: specialPhraseType.DOMINIO,
-            approved: specialPhraseType.SUPERVISADO,
+            approved: !!specialPhraseType.SUPERVISADO,
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
             userCreator: specialPhraseType.ID_USUARIO_ALTA,
             userDeleted: specialPhraseType.ID_USUARIO_BAJA,
@@ -55,7 +56,7 @@ class SpecialPhraseTypeService {
     static async update(filters, params){
         const formattedSpecialPhraseType = {
             ID_TIPO_FRASE_ESPECIAL: trim(params.id),
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -64,19 +65,10 @@ class SpecialPhraseTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const specialPhraseType = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
-            formattedSpecialPhraseType);
-        return {
-            id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
-            description: specialPhraseType.DESCRIPCION,
-            observation: specialPhraseType.OBSERVACION,
-            domain: specialPhraseType.DOMINIO,
-            approved: !!specialPhraseType.SUPERVISADO,
-            createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
-        };
+        const specialPhraseTypeId = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
+            formattedSpecialPhraseType, ['ID_TIPO_FRASE_ESPECIAL']);
+        const specialPhraseType = await SpecialPhraseTypeService.findOne({id: specialPhraseTypeId});
+        return specialPhraseType;
     }
 
     static async delete(filters, userDeleted){

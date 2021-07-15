@@ -32,11 +32,11 @@ class AutoPhraseService {
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
             finalPhrase: autoPhrase.FRASE_FINAL,
-            approved: autoPhrase.SUPERVISADO,
+            approved: !!autoPhrase.SUPERVISADO,
             observation: autoPhrase.OBSERVACION,
             domain: autoPhrase.DOMINIO,
             dateRetro: dateToString(autoPhrase.FECHA_RETROALIMENTACION),
-            prhaseRetro: autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
+            prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
             userCreator: autoPhrase.ID_USUARIO_ALTA,
             userDeleted: autoPhrase.ID_USUARIO_BAJA,
@@ -63,22 +63,9 @@ class AutoPhraseService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const autoPhrase = await autoPhraseModel.insertOne(formattedAutoPhrase);
-
-        return {
-            id: autoPhrase.ID_AUTOFRASE,
-            variableId: autoPhrase.ID_VARIABLE,
-            finalPhrase: autoPhrase.FRASE_FINAL,
-            approved: autoPhrase.SUPERVISADO,
-            observation: autoPhrase.OBSERVACION,
-            dateRetro: dateToString(autoPhrase.FECHA_RETROALIMENTACION),
-            prhaseRetro: autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
-            domain: autoPhrase.DOMINIO,
-            createdAt: dateToString(autoPhrase.FECHA_ALTA),
-            userCreator: autoPhrase.ID_USUARIO_ALTA,
-            userDeleted: autoPhrase.ID_USUARIO_BAJA,
-            deletedAt: dateToString(autoPhrase.FECHA_BAJA)
-        };
+        const autoPhraseId = await autoPhraseModel.insertOne(formattedAutoPhrase, ['ID_AUTOFRASE']);
+        const autoPhrase = await AutoPhraseService.findOne({id: autoPhraseId});
+        return autoPhrase;
     }
 
     static async findOne(filters) {
@@ -89,9 +76,11 @@ class AutoPhraseService {
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
             finalPhrase: autoPhrase.FRASE_FINAL,
-            approved: autoPhrase.SUPERVISADO,
+            approved: !!autoPhrase.SUPERVISADO,
             observation: autoPhrase.OBSERVACION,
             domain: autoPhrase.DOMINIO,
+            dateRetro: dateToString(autoPhrase.FECHA_RETROALIMENTACION),
+            prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
             userCreator: autoPhrase.ID_USUARIO_ALTA,
             userDeleted: autoPhrase.ID_USUARIO_BAJA,
@@ -106,9 +95,11 @@ class AutoPhraseService {
 
     static async update(filters, params, userCreator) {
         const formattedAutoPhrase = {
-            ID_AUTOFRASE: trim(params.id),
+            ID_AUTOFRASE: null,
             ID_VARIABLE: trim(params.variableId),
             FRASE_FINAL: trim(params.finalPhrase),
+            FECHA_RETROALIMENTACION: dateToString(params.dateRetro),
+            FRASE_RETROALIMENTADA_SI_NO: params.prhaseRetro,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -117,22 +108,10 @@ class AutoPhraseService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const autoPhrase = await autoPhraseModel.updateOne(
-            { ID_AUTOFRASE: filters.id },
-            formattedAutoPhrase
-        );
-        return {
-            id: autoPhrase.ID_AUTOFRASE,
-            variableId: autoPhrase.ID_VARIABLE,
-            finalPhrase: autoPhrase.FRASE_FINAL,
-            approved: autoPhrase.SUPERVISADO,
-            observation: autoPhrase.OBSERVACION,
-            domain: autoPhrase.DOMINIO,
-            createdAt: dateToString(autoPhrase.FECHA_ALTA),
-            userCreator: autoPhrase.ID_USUARIO_ALTA,
-            userDeleted: autoPhrase.ID_USUARIO_BAJA,
-            deletedAt: dateToString(autoPhrase.FECHA_BAJA)
-        };
+        const autoPhraseId = await autoPhraseModel.updateOne({ ID_AUTOFRASE: filters.id },
+            formattedAutoPhrase, ['ID_AUTOFRASE']);
+        const autoPhrase = await AutoPhraseService.findOne({id: autoPhraseId});
+        return autoPhrase;
     }
 
     static async delete(filters, userDeleted) {
