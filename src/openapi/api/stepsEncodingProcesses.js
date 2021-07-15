@@ -89,7 +89,7 @@ module.exports = {
             }
         }
     },
-    '/api/operativeSources/{sourceId}/{questionId}': {
+    '/api/stepsEncodingProcesses/{sourceId}/{questionId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Steps Encoding Processes'],
@@ -99,7 +99,14 @@ module.exports = {
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'step encoding process to update'
+                    description: 'sourceId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
                 }
             ],
             requestBody: {
@@ -169,7 +176,14 @@ module.exports = {
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Operative Source to delete'
+                    description: 'sourceId to delete'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to delete'
                 }
             ],
             responses: {
@@ -192,7 +206,14 @@ module.exports = {
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'operative source to get'
+                    description: 'sourceId to get'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to get'
                 }
             ],
             responses: {
@@ -230,7 +251,7 @@ module.exports = {
             }
         }
     },
-    '/api/operativeSources/downloadCsv': {
+    '/api/stepsEncodingProcesses/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Steps Encoding Processes'],
