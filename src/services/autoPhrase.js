@@ -2,7 +2,6 @@ const { autoPhrase: autoPhraseModel } = include('models');
 const { dateToString, arrayToCsvFormat } = include('util');
 const StaticalVariableService = require('./staticalVariable');
 const trim = require('lodash/trim');
-const knex = include('helpers/database');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
@@ -10,24 +9,16 @@ const compact = require('lodash/compact');
 const isEmpty = require('lodash/isEmpty');
 
 class AutoPhraseService {
-    static async fetch(query) {
-        let autosPhrases;
-        if (query.search) {
-            autosPhrases = await knex.select(autoPhraseModel.selectableProps)
-                .from(autoPhraseModel.tableName)
-                .where('FRASE_FINAL', 'like', `${query.search}%`)
-                .orderBy([{ column: 'FRASE_FINAL', order: 'asc' }])
-                .timeout(autoPhraseModel.timeout);
-        } else if
-        (query.page) {
-            autosPhrases = await autoPhraseModel.findByPage(
-                query.page,
-                { FECHA_BAJA: null },
-                autoPhraseModel.selectableProps,
-                [{ column: 'ID_AUTOFRASE', order: 'asc' }]
-            );
-
+    static async fetch({ page, search }) {
+        let autosPhrases = [];
+        if (page && search) {
+            autosPhrases = await autoPhraseModel.fetchByPageAndTerm(page, search, { FECHA_BAJA: null });
+        } else if (page) {
+            autosPhrases = await autoPhraseModel.findByPage(page, { FECHA_BAJA: null });
+        } else {
+            autosPhrases = await autoPhraseModel.find({ FECHA_BAJA: null });
         }
+
         autosPhrases = autosPhrases.map(autoPhrase => ({
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
@@ -64,7 +55,7 @@ class AutoPhraseService {
             FECHA_ALTA: new Date()
         };
         const autoPhraseId = await autoPhraseModel.insertOne(formattedAutoPhrase, ['ID_AUTOFRASE']);
-        const autoPhrase = await AutoPhraseService.findOne({id: autoPhraseId});
+        const autoPhrase = await AutoPhraseService.findOne({ id: autoPhraseId });
         return autoPhrase;
     }
 
@@ -88,9 +79,13 @@ class AutoPhraseService {
         };
     }
 
-    static async getTotal(filters) {
-        const total = await autoPhraseModel.countDocuments(filters);
-        return total['COUNT(*)'];
+    // static async getTotal(filters) {
+    //     const total = await autoPhraseModel.countDocuments(filters);
+    //     return total['COUNT(*)'];
+    // }
+    static async getTotal({ search }) {
+        const { total } = await autoPhraseModel.countTotal({ FECHA_BAJA: null }, search, ['FRASE_FINAL']);
+        return total;
     }
 
     static async update(filters, params, userCreator) {
@@ -110,7 +105,7 @@ class AutoPhraseService {
         };
         const autoPhraseId = await autoPhraseModel.updateOne({ ID_AUTOFRASE: filters.id },
             formattedAutoPhrase, ['ID_AUTOFRASE']);
-        const autoPhrase = await AutoPhraseService.findOne({id: autoPhraseId});
+        const autoPhrase = await AutoPhraseService.findOne({ id: autoPhraseId });
         return autoPhrase;
     }
 
@@ -145,7 +140,7 @@ class AutoPhraseService {
         });
     }
 
-    static getCsv(){
+    static getCsv() {
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -188,15 +183,15 @@ class AutoPhraseService {
             csvString += headers;
             const stream = autoPhraseModel.knex.select(autoPhraseTableHeaders)
                 .from(autoPhraseModel.tableName)
-                .orderBy([{column: 'FRASE_FINAL', order: 'asc'}])
+                .orderBy([{ column: 'FRASE_FINAL', order: 'asc' }])
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
+            stream.on('data', function (data) {
                 csvString += arrayToCsvFormat(data);
             });
-            stream.on('end', function() {
+            stream.on('end', function () {
                 resolve(csvString);
             });
         });

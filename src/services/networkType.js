@@ -40,7 +40,7 @@ class NetworkTypeService {
     static async findOne(filters){
         const networkType = await networkTypeModel.findById({ID_TIPO_RED: filters.id});
         return {
-            id: networkType.ID_TIPO_RED,
+            id: trim(networkType.ID_TIPO_RED),
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
