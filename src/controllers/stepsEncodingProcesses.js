@@ -2,8 +2,8 @@ const { StepsEncodingProcessesService } = include('services');
 class StepsEncodingProcessesController {
     static async fetch(req, res, next) {
         try {
-            const stepsEncodingProcesses = await StepsEncodingProcessesService.fetch();
-            res.send({ stepsEncodingProcesses });
+            const encodingProcesses = await StepsEncodingProcessesService.fetch();
+            res.send({ encodingProcesses });
         } catch(error) {
             next(error);
         }
