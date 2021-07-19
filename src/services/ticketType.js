@@ -76,21 +76,10 @@ class TicketTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const ticketType = await ticketTypeModel.updateOne(
-            { ID_TIPO_CHAT: filters.id },
-            formattedTicketType
-        );
-        return {
-            id: ticketType.ID_TIPO_CHAT,
-            description: ticketType.DESCRIPCION,
-            observation: ticketType.OBSERVACION,
-            domain: ticketType.DOMINIO,
-            approved: !!ticketType.SUPERVISADO,
-            createdAt: dateToString(ticketType.FECHA_ALTA),
-            userCreator: ticketType.ID_USUARIO_ALTA,
-            userDeleted: ticketType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(ticketType.FECHA_BAJA)
-        };
+        const ticketTypeId = await ticketTypeModel.updateOne({ ID_TIPO_CHAT: filters.id },
+            formattedTicketType, ['ID_TIPO_CHAT']);
+        const ticketType = await TicketTypeService.findOne({id: ticketTypeId});
+        return ticketType;
     }
 
     static async delete(filters, userDeleted) {
