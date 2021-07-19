@@ -94,10 +94,10 @@ class AutoPhraseService {
 
     static async update(filters, params, userCreator) {
         const formattedAutoPhrase = {
-            ID_AUTOFRASE: null,
+            ID_AUTOFRASE: params.id,
             ID_VARIABLE: trim(params.variableId),
             FRASE_FINAL: trim(params.finalPhrase),
-            FECHA_RETROALIMENTACION: dateToString(params.dateRetro),
+            FECHA_RETROALIMENTACION: stringToDate(params.dateRetro),
             FRASE_RETROALIMENTADA_SI_NO: params.prhaseRetro,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
