@@ -705,7 +705,7 @@ module.exports = {
     questionsAttrib,
     questionsTableName,
     stepsEncodingProcessesTableName,
-    stepsEncodingProcessesAttrib
+    stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib
 };
