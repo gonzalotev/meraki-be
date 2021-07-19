@@ -1,6 +1,7 @@
 const { wordsDictionary } = include('models');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
+const trim = require ('lodash/trim');
 
 class WordsDictionaryService {
     static async fetch({page, search}) {
@@ -81,7 +82,7 @@ class WordsDictionaryService {
             ID_NUMERO: params.numberId,
             FRECUENCIA: params.frequency,
             ABC: params.abc,
-            FAMILIA: params.family
+            FAMILIA: trim(params.family)
         };
         const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
         const word = await WordsDictionaryService.findOne({word: wordId});

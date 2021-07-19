@@ -30,19 +30,9 @@ class QuestionService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const question = await questionsModel.insertOne(formattedQuestion);
-
-        return {
-            id: question.ID_PREGUNTA,
-            question: question.PREGUNTA,
-            approved: !!question.SUPERVISADO,
-            observation: question.OBSERVACION,
-            domain: question.DOMINIO,
-            userCreator: question.ID_USUARIO_ALTA,
-            createdAt: dateToString(question.FECHA_ALTA),
-            userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateToString(question.FECHA_BAJA)
-        };
+        const questionId = await questionsModel.insertOne(formattedQuestion, ['ID_PREGUNTA']);
+        const question = await QuestionService.findOne({id: questionId});
+        return question;
     }
 
     static async findOne(filters){
@@ -72,19 +62,10 @@ class QuestionService {
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
-        const question = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
-            formattedQuestion);
-        return {
-            id: question.ID_PREGUNTA,
-            question: question.PREGUNTA,
-            approved: !!question.SUPERVISADO,
-            observation: question.OBSERVACION,
-            domain: question.DOMINIO,
-            userCreator: question.ID_USUARIO_ALTA,
-            createdAt: dateToString(question.FECHA_ALTA),
-            userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateToString(question.FECHA_BAJA)
-        };
+        const questionId = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
+            formattedQuestion, ['ID_PREGUNTA']);
+        const question = await QuestionService.findOne({id: questionId});
+        return question;
     }
 
     static async delete(filters, userDeleted){
