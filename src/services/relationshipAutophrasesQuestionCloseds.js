@@ -36,8 +36,8 @@ class RelationshipAutophraseQuestionClosedService {
             createdAt: dateToString(relation.FECHA_ALTA),
             deletedAt: dateToString(relation.FECHA_BAJA)
         }));
-        await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
-        await RelationshipAutophraseQuestionClosedService.getQuestionData(relations);
+        // await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
+        // await RelationshipAutophraseQuestionClosedService.getQuestionData(relations);
         await StaticalVariableService.getVariableData(relations);
         await NomenclatorsService.getNomenclatorData(relations);
         await QuestionsTypeSerive.getQuestionTypeData(relations);
