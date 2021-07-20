@@ -33,9 +33,13 @@ class StepsEncodingProcessesService {
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null
         };
-        const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE']);
+        const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
         console.log(operativeId);
-        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId});
+        const operative = await StepsEncodingProcessesService.findOne(
+            {sourceId: operativeId.ID_FUENTE,
+                questionId: operativeId.ID_PREGUNTA,
+                order: operativeId.ORDEN,
+                encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
         return operative;
     }
 
@@ -78,9 +82,12 @@ class StepsEncodingProcessesService {
             ORDEN: filters.order,
             ID_PROCESO_CODIFICACION: filters.encodingProcessId
         };
-        const operativeSourceId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeSourceId);
-        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeSourceId});
+        const operativeId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        console.log(operativeId);
+        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId.ID_FUENTE,
+            questionId: operativeId.ID_PREGUNTA,
+            order: operativeId.ORDEN,
+            encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
         return operative;
     }
 
