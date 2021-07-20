@@ -1,11 +1,13 @@
 const { stepsEncodingProcesses } = include('models');
+const OperativeSourcesService = require('./operativeSources');
+const QuestionsService = require('./questions');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 
 class StepsEncodingProcessesService {
     static async fetch() {
-        const operatives = await stepsEncodingProcesses.find({FECHA_BAJA: null});
-        return operatives.map(operative => ({
+        let operatives = await stepsEncodingProcesses.find({FECHA_BAJA: null});
+        operatives = operatives.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
             order: operative.ORDEN,
@@ -17,6 +19,9 @@ class StepsEncodingProcessesService {
             userDeleted: operative.ID_USUARIO_BAJA,
             deletedAt: dateToString(operative.FECHA_BAJA)
         }));
+        await OperativeSourcesService.getSourceData(operatives);
+        await QuestionsService.getQuestionData(operatives);
+        return operatives;
     }
 
     static async create(params, userCreator) {
