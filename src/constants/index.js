@@ -599,14 +599,12 @@ const encodingProcessesAttrib = [
     'NIVEL_DE_ERROR_ACEPTABLE',
     'DOMINIO',
     'OBSERVACION',
-    'SUPERVISADO',    
+    'SUPERVISADO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
     'ID_USUARIO_BAJA',
     'FECHA_BAJA'
 ];
-
-
 
 module.exports = {
     linguisticDictionaryTableName,
@@ -681,5 +679,5 @@ module.exports = {
     questionsAttrib,
     questionsTableName,
     encodingProcessesAttrib,
-    encodingProcessesTableName 
+    encodingProcessesTableName
 };

@@ -1,5 +1,5 @@
 const ModelCreate = include('helpers/modelCreate');
-const {encodingProcessesAttrib, encodingProcessesTableName} = include('constants');
+const { encodingProcessesAttrib, encodingProcessesTableName } = include('constants');
 const name = 'encodingProcesses';
 
 class EncodingProcess extends ModelCreate {

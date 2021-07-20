@@ -9,10 +9,10 @@ module.exports = {
             type: 'string',
             maxLength: 120,
             nullable: false
-        },        
-        automatic_yes_no: {type: 'boolean'},
-        percentage_to_audit: {type: 'number'},
-        acceptable_level_error: {type: 'number'},  
+        },
+        automatic_yes_no: { type: 'boolean' },
+        percentage_to_audit: { type: 'number' },
+        acceptable_level_error: { type: 'number' },
         domain: {
             type: 'string',
             maxLength: 300
@@ -21,7 +21,7 @@ module.exports = {
             type: 'string',
             maxLength: 120
         },
-        approved: {type: 'boolean'},        
+        approved: { type: 'boolean' },
         userCreator: {
             type: 'string',
             maxLength: 50,
