@@ -27,6 +27,7 @@ class NomenclatorService {
             description: nomenclator.DESCRIPCION_COMPLETA,
             initials: nomenclator.SIGLA
         }));
+        console.log(nomenclators);
         return map(resources, resource => {
             if (!resource.foreignData) {
                 resource.foreignData = {};

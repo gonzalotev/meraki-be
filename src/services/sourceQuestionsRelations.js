@@ -1,13 +1,12 @@
 const { sourceQuestionRelation } = include('models');
 const StaticalVariableService = require('./staticalVariable');
 const NomenclatorsService = require('./nomenclators');
-const QuestionsTypeSerive = require('./questionType');
+const QuestionsTypeService = require('./questionType');
+const OperativeSourcesService = require('./operativeSources');
+const QuestionsService = require('./questions');
 const { dateToString, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
-const uniq = require('lodash/uniq');
 const map = require('lodash/map');
-const find = require('lodash/find');
-const knex = include('helpers/database');
 const toNumber = require('lodash/toNumber');
 
 class SourceQuestionRelationService {
@@ -50,47 +49,12 @@ class SourceQuestionRelationService {
             createdAt: dateToString(relation.FECHA_ALTA),
             deletedAt: dateToString(relation.FECHA_BAJA)
         }));
-        await SourceQuestionRelationService.getSourceData(relations);
-        await SourceQuestionRelationService.getQuestionData(relations);
+        await OperativeSourcesService.getSourceData(relations);
+        await QuestionsService.getQuestionData(relations);
         await StaticalVariableService.getVariableData(relations);
         await NomenclatorsService.getNomenclatorData(relations);
-        await QuestionsTypeSerive.getQuestionTypeData(relations);
+        await QuestionsTypeService.getQuestionTypeData(relations);
         return relations;
-    }
-    static async getSourceData(resources){
-        const sourcesIds = uniq(map(resources, resource => resource.sourceId));
-        let sources = await knex.select()
-            .from('FUENTES_OPERATIVO')
-            .whereIn('ID_FUENTE', sourcesIds);
-        sources = map(sources, source => ({
-            id: source.ID_FUENTE,
-            name: source.NOMBRE,
-            initials: source.SIGLA
-        }));
-        return map(resources, resource => {
-            if (!resource.foreignData) {
-                resource.foreignData = {};
-            }
-            resource.foreignData.source = find(sources, source => source.id === resource.sourceId);
-            return resource;
-        });
-    }
-    static async getQuestionData(resources){
-        const questionsIds = uniq(map(resources, resource => resource.questionId));
-        let questions = await knex.select()
-            .from('PREGUNTAS')
-            .whereIn('ID_PREGUNTA', questionsIds);
-        questions = map(questions, question => ({
-            id: question.ID_PREGUNTA,
-            question: question.PREGUNTA
-        }));
-        return map(resources, resource => {
-            if (!resource.foreignData) {
-                resource.foreignData = {};
-            }
-            resource.foreignData.question = find(questions, question => question.id === resource.questionId);
-            return resource;
-        });
     }
 
     static async findOne({sourceId, questionId}){
@@ -119,8 +83,9 @@ class SourceQuestionRelationService {
             createdAt: dateToString(relation.FECHA_ALTA),
             deletedAt: dateToString(relation.FECHA_BAJA)
         } : {};
-
-        await QuestionsTypeSerive.getQuestionTypeData(relation);
+        await StaticalVariableService.getVariableData([relation]);
+        await NomenclatorsService.getNomenclatorData([relation]);
+        await QuestionsTypeService.getQuestionTypeData(relation);
         return relation;
     }
 

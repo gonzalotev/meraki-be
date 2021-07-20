@@ -163,7 +163,6 @@ const lotsAttrib = [
     'SE_BORRA_TODO_EL_LOTE',
     'FECHA_INICIO_BORRADO',
     'FECHA_FIN_BORRADO',
-    'ID_USUARIO',
     'FECHA_ALTA'
 ];
 
@@ -241,6 +240,7 @@ const nomenclatorsAttrib = [
     'ID_NOMENCLADOR',
     'SIGLA',
     'DESCRIPCION_ABREVIADA',
+    'DESCRIPCION_COMPLETA',
     'DOMINIO',
     'OBSERVACION',
     'TOTAL_DE_DIGITOS',

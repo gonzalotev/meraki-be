@@ -255,5 +255,51 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/sourceQuestionsRelations/options': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Source Questions Relations'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'sources',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'sourceId',
+                    required: false,
+                    schema: {type: 'number'}
+                },
+                {
+                    in: 'query',
+                    name: 'questions',
+                    required: false,
+                    schema: {type: 'boolean'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    sources: {type: 'array'},
+                                    questions: {type: 'array'}
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
     }
 };

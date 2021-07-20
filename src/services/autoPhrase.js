@@ -1,10 +1,11 @@
 const { autoPhrase: autoPhraseModel } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const StaticalVariableService = require('./staticalVariable');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
+const toUpper = require('lodash/toUpper');
 const compact = require('lodash/compact');
 const isEmpty = require('lodash/isEmpty');
 
@@ -27,6 +28,7 @@ class AutoPhraseService {
             observation: autoPhrase.OBSERVACION,
             domain: autoPhrase.DOMINIO,
             dateRetro: dateToString(autoPhrase.FECHA_RETROALIMENTACION),
+            dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
             userCreator: autoPhrase.ID_USUARIO_ALTA,
@@ -43,11 +45,12 @@ class AutoPhraseService {
         const formattedAutoPhrase = {
             ID_AUTOFRASE: null,
             ID_VARIABLE: trim(params.variableId),
-            FRASE_FINAL: trim(params.finalPhrase),
-            FECHA_RETROALIMENTACION: dateToString(params.dateRetro),
+            FRASE_FINAL: toUpper(trim(params.finalPhrase)),
+            FECHA_RETROALIMENTACION: stringToDate(params.dateRetro),
             FRASE_RETROALIMENTADA_SI_NO: params.prhaseRetro,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
+            ID_DEPENDE_ID_AUTOFRASE: params.dependId,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -72,6 +75,7 @@ class AutoPhraseService {
             domain: autoPhrase.DOMINIO,
             dateRetro: dateToString(autoPhrase.FECHA_RETROALIMENTACION),
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
+            dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
             userCreator: autoPhrase.ID_USUARIO_ALTA,
             userDeleted: autoPhrase.ID_USUARIO_BAJA,
@@ -90,13 +94,14 @@ class AutoPhraseService {
 
     static async update(filters, params, userCreator) {
         const formattedAutoPhrase = {
-            ID_AUTOFRASE: null,
+            ID_AUTOFRASE: params.id,
             ID_VARIABLE: trim(params.variableId),
             FRASE_FINAL: trim(params.finalPhrase),
-            FECHA_RETROALIMENTACION: dateToString(params.dateRetro),
+            FECHA_RETROALIMENTACION: stringToDate(params.dateRetro),
             FRASE_RETROALIMENTADA_SI_NO: params.prhaseRetro,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
+            ID_DEPENDE_ID_AUTOFRASE: params.dependId,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
@@ -155,6 +160,10 @@ class AutoPhraseService {
                 {
                     nameInTable: 'FRASE_FINAL',
                     nameInFile: 'FRASE FINAL'
+                },
+                {
+                    nameInTable: 'ID_DEPENDE_ID_AUTOFRASE',
+                    nameInFile: 'DEPENDE AUTOFRASE'
                 },
                 {
                     nameInTable: 'SUPERVISADO',
