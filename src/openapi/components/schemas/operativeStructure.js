@@ -24,7 +24,7 @@ module.exports = {
             maxLength: 30,
             nullable: true
         },
-        finalAuxiliaryField: {
+        finalAuxiliaryFieldId: {
             type: 'string',
             maxLength: 30,
             nullable: false
