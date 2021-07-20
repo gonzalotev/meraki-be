@@ -40,7 +40,12 @@ class StepsEncodingProcessesService {
     }
 
     static async findOne(filters){
-        const formattedFilters = {ID_FUENTE: filters.sourceId};
+        const formattedFilters = {
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId,
+            ORDEN: filters.order,
+            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+        };
         const encodingProcess = await stepsEncodingProcesses.findById(formattedFilters);
         console.log(encodingProcess);
         return {
@@ -65,12 +70,14 @@ class StepsEncodingProcessesService {
             ORDEN: params.order,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            ID_USUARIO_ALTA: params.userCreator
         };
-        const formattedFilters = {ID_FUENTE: filters.sourceId};
+        const formattedFilters = {
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId,
+            ORDEN: filters.order,
+            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+        };
         const operativeSourceId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
         console.log(operativeSourceId);
         const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeSourceId});
@@ -78,7 +85,13 @@ class StepsEncodingProcessesService {
     }
 
     static async delete(filters, userDeleted){
-        const success = await stepsEncodingProcesses.deleteOne({ID_FUENTE: filters.sourceId}, {
+        const success = await stepsEncodingProcesses.deleteOne({
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId,
+            ORDEN: filters.order,
+            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+        },
+        {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
