@@ -55,6 +55,7 @@ class OperativesService {
     }
 
     static async create(params, userCreator) {
+        console.log(params.arrivalDate);
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
             ID_OPERATIVO: params.operativeId,
@@ -72,9 +73,9 @@ class OperativesService {
             CALIDAD_TOTAL_OPERATIVO: params.qualityOperational,
             NIVEL_ERROR_OPERATIVO: params.operatingErrorLevel,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: params.createdAt,
+            FECHA_ALTA: new Date(),
             ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: params.deletedAt
+            FECHA_BAJA: stringToDate(params.deletedAt)
         };
         const operativeId = await operatives.insertOne(formattedOperative, ['ID_OPERATIVO']);
         const operative = await OperativesService.findOne({operativeId: operativeId});

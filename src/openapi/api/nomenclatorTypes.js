@@ -2,7 +2,26 @@ module.exports = {
     '/api/nomenclatorTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Nomenclator Types'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -41,7 +60,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Nomenclator Types'],
             requestBody: {
                 description: 'The new  type of nomenclator to create',
                 required: true,
@@ -102,7 +121,7 @@ module.exports = {
     '/api/nomenclatorTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Nomenclator Types'],
             parameters: [
                 {
                     in: 'path',
@@ -170,7 +189,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Nomenclator Types'],
             parameters: [
                 {
                     in: 'path',
@@ -193,7 +212,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Nomenclator Types'],
             parameters: [
                 {
                     in: 'path',
@@ -240,7 +259,7 @@ module.exports = {
     '/api/nomenclatorTypes/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Nomenclator Types'],
             parameters: [
                 {
                     in: 'query',

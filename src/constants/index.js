@@ -591,6 +591,20 @@ const questionsAttrib = [
     'FECHA_BAJA'
 ];
 
+const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
+const stepsEncodingProcessesAttrib = [
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ORDEN',
+    'ID_PROCESO_CODIFICACION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
 const operativeStructureAttrib = [
     'ID_OPERATIVO',
@@ -691,6 +705,8 @@ module.exports = {
     operativeFontsAttrib,
     questionsAttrib,
     questionsTableName,
+    stepsEncodingProcessesTableName,
+    stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib
 };

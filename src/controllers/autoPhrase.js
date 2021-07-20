@@ -1,10 +1,22 @@
 const { AutoPhraseService } = include('services');
+const toUpper = require('lodash/toUpper');
 
 class AutoPhraseController {
+    // static async fetch(req, res, next) {
+    //     try {
+    //         const autosPhrases = await AutoPhraseService.fetch(req.query);
+    //         const total = await AutoPhraseService.getTotal({});
+    //         res.send({ autosPhrases, total });
+    //     } catch(error) {
+    //         next(error);
+    //     }
+    // }
     static async fetch(req, res, next) {
         try {
-            const autosPhrases = await AutoPhraseService.fetch(req.query);
-            const total = await AutoPhraseService.getTotal({});
+            const {page, search} = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const autosPhrases = await AutoPhraseService.fetch({page, search: searchValue});
+            const total = await AutoPhraseService.getTotal({search: searchValue});
             res.send({ autosPhrases, total });
         } catch(error) {
             next(error);

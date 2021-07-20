@@ -1,55 +1,19 @@
 module.exports = {
-    '/api/autoPhrases': {
+    '/api/stepsEncodingProcesses': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'page',
-                    required: false,
-                    schema: {
-                        type: 'number',
-                        default: 1
-                    }
-                },
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {
-                        type: 'string'
-                    }
-                }
-            ],
+            tags: ['Steps Encoding Processes'],
             responses: {
                 200: {
-                    description: 'Success',
+                    description: 'ok',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    prhases: {
+                                    opertiveSources: {
                                         type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                id: {type: 'string'},
-                                                variableId: {type: 'string'},
-                                                finalPhrase: {type: 'string'},
-                                                observation: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                approved: {type: 'boolean'},
-                                                prhaseRetro: {type: 'boolean'},
-                                                dateRetro: {type: 'string'},
-                                                dependId: {type: 'string'},
-                                                createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
-                                            }
-                                        }
+                                        items: {}
                                     }
                                 }
                             }
@@ -64,28 +28,26 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
+            tags: ['Steps Encoding Processes'],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new step encoding process to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
-                                variableId: {type: 'string'},
-                                finalPhrase: {type: 'string'},
+                                sourceId: {type: 'string'},
+                                questionId: {type: 'string'},
+                                order: {type: 'string'},
+                                encodingProcessId: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                prhaseRetro: {type: 'boolean'},
-                                dateRetro: {type: 'string'},
-                                dependId: {type: 'string'},
-                                createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
+                                createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
+
                             }
                         }
                     }
@@ -100,20 +62,17 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    prhase: {
+                                    operativeSource: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
-                                            variableId: {type: 'string'},
-                                            finalPhrase: {type: 'string'},
+                                            sourceId: {type: 'string'},
+                                            questionId: {type: 'string'},
+                                            order: {type: 'string'},
+                                            encodingProcessId: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            prhaseRetro: {type: 'boolean'},
-                                            dateRetro: {type: 'string'},
-                                            dependId: {type: 'string'},
-                                            createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -130,38 +89,42 @@ module.exports = {
             }
         }
     },
-    '/api/autoPhrases/{id}': {
+    '/api/stepsEncodingProcesses/{sourceId}/{questionId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Steps Encoding Processes'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'sourceId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: 'sourceId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
                 }
             ],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'Changes to save',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
-                                variableId: {type: 'string'},
-                                finalPhrase: {type: 'string'},
+                                sourceId: {type: 'string'},
+                                questionId: {type: 'string'},
+                                order: {type: 'string'},
+                                encodingProcessId: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                prhaseRetro: {type: 'boolean'},
-                                dateRetro: {type: 'string'},
-                                dependId: {type: 'string'},
-                                createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
+                                createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -178,20 +141,17 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    prhase: {
+                                    operativeSource: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
-                                            variableId: {type: 'string'},
-                                            finalPhrase: {type: 'string'},
+                                            sourceId: {type: 'string'},
+                                            questionId: {type: 'string'},
+                                            order: {type: 'string'},
+                                            encodingProcessId: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            prhaseRetro: {type: 'boolean'},
-                                            dateRetro: {type: 'string'},
-                                            dependId: {type: 'string'},
-                                            createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -209,19 +169,26 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Steps Encoding Processes'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'sourceId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: 'sourceId to delete'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to delete'
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
+                204: {
+                    description: 'The resource was deleted successfully',
                     content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
                 },
                 default: {
@@ -232,14 +199,21 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Steps Encoding Processes'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'sourceId',
                     required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'},
+                    description: 'sourceId to get'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to get'
                 }
             ],
             responses: {
@@ -250,20 +224,17 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    phrase: {
+                                    word: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
-                                            variableId: {type: 'string'},
-                                            finalPhrase: {type: 'string'},
+                                            sourceId: {type: 'string'},
+                                            questionId: {type: 'string'},
+                                            order: {type: 'string'},
+                                            encodingProcessId: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            prhaseRetro: {type: 'boolean'},
-                                            dateRetro: {type: 'string'},
-                                            dependId: {type: 'string'},
-                                            createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -280,10 +251,10 @@ module.exports = {
             }
         }
     },
-    '/api/autoPhrases/downloadCsv': {
+    '/api/stepsEncodingProcesses/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
+            tags: ['Steps Encoding Processes'],
             parameters: [
                 {
                     in: 'query',

@@ -2,6 +2,7 @@ const { networkType: networkTypeModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
+const toUpper = require('lodash/toUpper');
 
 class NetworkTypeService {
     static async fetch() {
@@ -22,7 +23,7 @@ class NetworkTypeService {
     static async create(params, userCreator) {
         const formattedNetworkType = {
             ID_TIPO_RED: trim(params.id),
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -39,7 +40,7 @@ class NetworkTypeService {
     static async findOne(filters){
         const networkType = await networkTypeModel.findById({ID_TIPO_RED: filters.id});
         return {
-            id: networkType.ID_TIPO_RED,
+            id: trim(networkType.ID_TIPO_RED),
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
             domain: networkType.DOMINIO,
@@ -54,7 +55,7 @@ class NetworkTypeService {
     static async update(filters, params){
         const formattedNetworkType = {
             ID_TIPO_RED: trim(params.id),
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -63,19 +64,10 @@ class NetworkTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const networkType = await networkTypeModel.updateOne({ID_TIPO_RED: filters.id},
-            formattedNetworkType);
-        return {
-            id: networkType.ID_TIPO_RED,
-            description: networkType.DESCRIPCION,
-            observation: networkType.OBSERVACION,
-            domain: networkType.DOMINIO,
-            approved: !!networkType.SUPERVISADO,
-            createdAt: dateToString(networkType.FECHA_ALTA),
-            userCreator: networkType.ID_USUARIO_ALTA,
-            userDeleted: networkType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(networkType.FECHA_BAJA)
-        };
+        const networkTypeId = await networkTypeModel.updateOne({ID_TIPO_RED: filters.id},
+            formattedNetworkType, ['ID_TIPO_RED']);
+        const networkType = await NetworkTypeService.findOne({id: networkTypeId});
+        return networkType;
     }
 
     static async delete(filters, userDeleted){
