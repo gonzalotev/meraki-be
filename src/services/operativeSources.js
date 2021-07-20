@@ -1,6 +1,8 @@
 const { operativeSources } = include('models');
 const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
 const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
 
 class OperativeSourcesService {
     static async fetch() {
@@ -167,6 +169,52 @@ class OperativeSourcesService {
             stream.on('end', function() {
                 resolve(csvString);
             });
+        });
+    }
+
+    static async fetchIfExist(Model, id){
+        const sources = await operativeSources.knex(operativeSources.tableName).whereExists(function() {
+            this.select('*')
+                .from(Model.tableName)
+                .whereRaw(`${operativeSources.tableName}.${id} = ${Model.tableName}.${id}`);
+        })
+            .orderBy([{column: 'NOMBRE', order: 'asc'}]);
+
+        return sources.map(source => ({
+            id: source.ID_FUENTE,
+            name: source.NOMBRE,
+            initial: source.SIGLA,
+            operativeTypeId: source.ID_TIPO_OPERATIVO,
+            frequencyId: source.ID_FRECUENCIA,
+            supportId: source.ID_SOPORTE,
+            dateFrom: dateToString(source.FECHA_DESDE),
+            dateTo: dateToString(source.FECHA_HASTA),
+            observation: source.OBSERVACION,
+            domain: source.DOMINIO,
+            supervised: source.SUPERVISADO,
+            createdAt: dateToString(source.FECHA_ALTA),
+            userCreator: source.ID_USUARIO_ALTA,
+            userDeleted: source.ID_USUARIO_BAJA,
+            deletedAt: dateToString(source.FECHA_BAJA)
+        }));
+    }
+
+    static async getSourceData(resources){
+        const sourcesIds = uniq(map(resources, resource => resource.sourceId));
+        let sources = await operativeSources.knex.select()
+            .from(operativeSources.tableName)
+            .whereIn('ID_FUENTE', sourcesIds);
+        sources = map(sources, source => ({
+            id: source.ID_FUENTE,
+            name: source.NOMBRE,
+            initials: source.SIGLA
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.source = find(sources, source => source.id === resource.sourceId);
+            return resource;
         });
     }
 }

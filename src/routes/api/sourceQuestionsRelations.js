@@ -5,6 +5,7 @@ module.exports = router => {
         .get(SourceQuestionsRelationsController.fetch)
         .post(SourceQuestionsRelationsController.create);
     router.route('/downloadCsv').get(SourceQuestionsRelationsController.downloadCsv);
+    router.route('/options').get(SourceQuestionsRelationsController.getOptions);
     router.route('/:sourceId/:questionId')
         .put(SourceQuestionsRelationsController.update)
         .get(SourceQuestionsRelationsController.find)

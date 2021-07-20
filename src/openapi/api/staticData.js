@@ -128,6 +128,30 @@ module.exports = {
                     name: 'support',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'entryFieldsNames',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'originalAuxiliariesFields',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'finalAuxiliariesFields',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'datatypes',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {

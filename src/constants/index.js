@@ -241,6 +241,7 @@ const nomenclatorsAttrib = [
     'ID_NOMENCLADOR',
     'SIGLA',
     'DESCRIPCION_ABREVIADA',
+    'DESCRIPCION_COMPLETA',
     'DOMINIO',
     'OBSERVACION',
     'TOTAL_DE_DIGITOS',
