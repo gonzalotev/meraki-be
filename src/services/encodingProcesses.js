@@ -1,6 +1,7 @@
 const { encodingProcesses: encodingProcessesModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const replace = require('lodash/replace');
 
 class EncodingProcessService {
     static async fetch() {
@@ -26,8 +27,8 @@ class EncodingProcessService {
             ID_PROCESO_CODIFICACION: trim(params.id),
             DESCRIPCION: trim(params.description),
             AUTOMATICO_SI_NO: params.automatic_yes_no,
-            PORCENTAJE_PARA_AUDITAR: params.percentage_to_audit,
-            NIVEL_DE_ERROR_ACEPTABLE: params.acceptable_level_error,
+            PORCENTAJE_PARA_AUDITAR: replace(params.percentage_to_audit, ',', '.'),
+            NIVEL_DE_ERROR_ACEPTABLE: replace(params.acceptable_level_error, ',', '.'),
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             SUPERVISADO: params.approved,
@@ -65,8 +66,8 @@ class EncodingProcessService {
             ID_PROCESO_CODIFICACION: trim(params.id),
             DESCRIPCION: trim(params.description),
             AUTOMATICO_SI_NO: params.automatic_yes_no,
-            PORCENTAJE_PARA_AUDITAR: params.percentage_to_audit,
-            NIVEL_DE_ERROR_ACEPTABLE: params.acceptable_level_error,
+            PORCENTAJE_PARA_AUDITAR: replace(params.percentage_to_audit, ',', '.'),
+            NIVEL_DE_ERROR_ACEPTABLE: replace(params.acceptable_level_error, ',', '.'),
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             SUPERVISADO: params.approved,
