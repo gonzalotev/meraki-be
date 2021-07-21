@@ -72,9 +72,6 @@ class ModelCreate {
                 .timeout(this.timeout);
             return head(objectCreated);
         }
-        console.log(this.selectableProps);
-        console.log('modelo');
-        console.log(objectToSave);
         const objectCreated = await this.knex.insert(objectToSave)
             .returning(returning)
             .into(this.tableName)
