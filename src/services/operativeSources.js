@@ -27,7 +27,6 @@ class OperativeSourcesService {
     }
 
     static async create(params, userCreator) {
-        console.log(params);
         const formattedOperativeSource = {
             ID_FUENTE: params.sourceId,
             NOMBRE: params.name,
@@ -46,7 +45,6 @@ class OperativeSourcesService {
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
         const operativeId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeId);
         const operative = await OperativeSourcesService.findOne({sourceId: operativeId});
         return operative;
     }
@@ -54,7 +52,6 @@ class OperativeSourcesService {
     static async findOne(filters){
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSource = await operativeSources.findById(formattedFilters);
-        console.log(operativeSource);
         return {
             sourceId: operativeSource.ID_FUENTE,
             name: operativeSource.NOMBRE,
@@ -94,7 +91,6 @@ class OperativeSourcesService {
         };
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSourceId = await operativeSources.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeSourceId);
         const operative = await OperativeSourcesService.findOne({sourceId: operativeSourceId});
         return operative;
     }

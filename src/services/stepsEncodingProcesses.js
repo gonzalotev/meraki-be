@@ -25,7 +25,6 @@ class StepsEncodingProcessesService {
     }
 
     static async create(params, userCreator) {
-        console.log(params);
         const formattedOperativeSource = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
@@ -56,7 +55,6 @@ class StepsEncodingProcessesService {
             ID_PROCESO_CODIFICACION: filters.encodingProcessId
         };
         const encodingProcess = await stepsEncodingProcesses.findById(formattedFilters);
-        console.log(encodingProcess);
         return {
             sourceId: encodingProcess.ID_FUENTE,
             questionId: encodingProcess.ID_PREGUNTA,

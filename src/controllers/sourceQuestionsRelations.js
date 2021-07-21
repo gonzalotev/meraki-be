@@ -65,11 +65,9 @@ class SourceQuestionsRelationsController {
 
     static async getOptions(req, res, next){
         try {
-            const {questions, sources, sourceId} = req.query;
+            const {questions, sourceId} = req.query;
             const data = {};
-            if(sources){
-                data.sources = await OperativeSourcesService.fetchIfExist(sourceQuestionRelation, 'ID_FUENTE');
-            }
+            data.sources = await OperativeSourcesService.fetchIfExist(sourceQuestionRelation, 'ID_FUENTE');
             if(questions){
                 if(sourceId){
                     data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', {ID_FUENTE: sourceId});

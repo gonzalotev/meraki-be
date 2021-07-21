@@ -21,8 +21,6 @@ class OperativeSourcesController {
     static async create(req, res, next) {
         try{
             const operativeSource = await OperativeSourcesService.create(req.body, req.user.id);
-            console.log('controller operativesources');
-            console.log(operativeSource);
             res.status(201);
             res.send({ operativeSource });
         } catch(err) {

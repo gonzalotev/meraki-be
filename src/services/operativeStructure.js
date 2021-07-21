@@ -29,7 +29,6 @@ class OperativeStructureService {
         } else {
             structures = await OperativeStructure.find({FECHA_BAJA: null});
         }
-
         return structures.map(structure => OperativeStructureService.rebaseFormat(structure));
     }
 
@@ -50,22 +49,20 @@ class OperativeStructureService {
             createdAt: new Date(),
             deletedAt: null
         });
-        console.log(formattedOperativeStructure);
         const returnData = ['ID_OPERATIVO', 'ID_ESTRUCTURA'];
         const id = await OperativeStructure.insertOne(formattedOperativeStructure, returnData);
-        console.log({id});
         return await OperativeStructureService.findOne({operativeId: id.ID_OPERATIVO, structureId: id.ID_ESTRUCTURA});
     }
 
     static async update({operativeId, structureId}, params) {
         const formattedOperativeStructure = OperativeStructureService.formatData({...params});
+        console.log(formattedOperativeStructure);
         const ids = {
             ID_OPERATIVO: operativeId,
             ID_ESTRUCTURA: structureId
         };
         const returnData = ['ID_OPERATIVO', 'ID_ESTRUCTURA'];
         const id = await OperativeStructure.updateOne(ids, formattedOperativeStructure, returnData);
-        console.log(id);
         return OperativeStructureService.findOne({operativeId: id.ID_OPERATIVO, structureId: id.ID_ESTRUCTURA});
     }
 
@@ -233,15 +230,15 @@ class OperativeStructureService {
             ES_PARTE_DEL_ID: structure.isPartOfTheId,
             ID_TIPO_DE_DATO: structure.datatypeId,
             TAMANIO_DATO: structure.dataSize,
-            TIENE_DECIMALES: structure.hasDecimals,
+            TIENE_DECIMALES: !!structure.decimals,
             DECIMALES: structure.decimals,
             POSICION_INICIAL: structure.initialPosition,
             POSICION_FINAL: structure.finalPosition,
             HAY_CONVERSION_DATO: structure.shouldDataBeConverted,
             OBSERVACION: trim(structure.observation),
             DOMINIO: trim(structure.domain),
-            ID_FUENTE: structure.sourceId,
-            ID_PREGUNTA: structure.questionId,
+            ID_FUENTE: structure.sourceId || null,
+            ID_PREGUNTA: structure.questionId || null,
             ID_USUARIO_ALTA: structure.userCreator,
             FECHA_ALTA: stringToDate(structure.createdAt),
             ID_USUARIO_BAJA: structure.userDeleted,
