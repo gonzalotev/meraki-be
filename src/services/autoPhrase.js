@@ -1,5 +1,5 @@
 const { autoPhrase: autoPhraseModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, arrayToCsvFormat, stringToDate, dateTimeToStrings } = include('util');
 const StaticalVariableService = require('./staticalVariable');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
@@ -73,7 +73,7 @@ class AutoPhraseService {
             approved: !!autoPhrase.SUPERVISADO,
             observation: autoPhrase.OBSERVACION,
             domain: autoPhrase.DOMINIO,
-            dateRetro: dateToString(autoPhrase.FECHA_RETROALIMENTACION),
+            dateRetro: dateTimeToStrings(autoPhrase.FECHA_RETROALIMENTACION),
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
@@ -82,11 +82,6 @@ class AutoPhraseService {
             deletedAt: dateToString(autoPhrase.FECHA_BAJA)
         };
     }
-
-    // static async getTotal(filters) {
-    //     const total = await autoPhraseModel.countDocuments(filters);
-    //     return total['COUNT(*)'];
-    // }
     static async getTotal({ search }) {
         const { total } = await autoPhraseModel.countTotal({ FECHA_BAJA: null }, search, ['FRASE_FINAL']);
         return total;

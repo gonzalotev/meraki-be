@@ -38,14 +38,20 @@ const buildArchQuery = query => {
 const dateToString = date => {
     if(isDate(date)){
         return moment(date).format('YYYY-MM-DD');
-    }else if(moment(date, 'DD-MMM-YY', true).isValid()){
-        return moment(date, 'DD-MMM-YY').format('YYYY-MM-DD');
+    }else if(moment(date, 'DD-MM-YYYY', true).isValid()){
+        return moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
     }
     return null;
 };
 const dateTimeToString = dateTime => {
     if(isDate(dateTime)){
         return moment(dateTime).format('DD-MM-YYYY HH:mm:ss');
+    }
+    return null;
+};
+const dateTimeToStrings = dateTime => {
+    if(isDate(dateTime)){
+        return moment(dateTime).format('DD-MM-YYYY');
     }
     return null;
 };
@@ -59,6 +65,7 @@ const stringToDate = date => {
     }
     return null;
 };
+
 exports.dateToString = dateToString;
 
 const setDate = obj => {
@@ -95,5 +102,6 @@ module.exports = {
     stringToDate,
     convertKeysNames,
     standarText,
-    arrayToCsvFormat
+    arrayToCsvFormat,
+    dateTimeToStrings
 };

@@ -24,7 +24,6 @@ class RelationshipAutophraseQuestionClosedService {
             autophraseId: relation.ID_AUTOFRASE,
             sourceId: relation.ID_FUENTE,
             questionId: relation.ID_PREGUNTA,
-            variableId: relation.ID_VARIABLE,
             abbreviation: relation.ABREVIATURA,
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
@@ -54,7 +53,6 @@ class RelationshipAutophraseQuestionClosedService {
             autophraseId: relation.ID_AUTOFRASE,
             sourceId: relation.ID_FUENTE,
             questionId: relation.ID_PREGUNTA,
-            variableId: relation.ID_VARIABLE,
             abbreviation: relation.ABREVIATURA,
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
@@ -76,7 +74,6 @@ class RelationshipAutophraseQuestionClosedService {
             ID_AUTOFRASE: params.autophraseId,
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
-            ID_VARIABLE: params.variableId,
             ABREVIATURA: params.abbreviation,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
@@ -89,8 +86,11 @@ class RelationshipAutophraseQuestionClosedService {
             FECHA_BAJA: null
         };
         const relationId = await relationshipAutophraseQuestionClosed
-            .insertOne(formattedRelationshipAutophraseQuestionClosed, ['ID_AUTOFRASE']);
-        const relation = await RelationshipAutophraseQuestionClosedService.findOne({ id: relationId });
+            .insertOne(formattedRelationshipAutophraseQuestionClosed, ['ID_AUTOFRASE', 'ID_FUENTE', 'ID_PREGUNTA']);
+        const relation = await RelationshipAutophraseQuestionClosedService.findOne(
+            { autophraseId: relationId.ID_AUTOFRASE,
+                sourceId: relationId.ID_FUENTE,
+                questionId: relationId.ID_PREGUNTA });
         return relation;
     }
 
@@ -99,7 +99,6 @@ class RelationshipAutophraseQuestionClosedService {
             ID_AUTOFRASE: params.autophraseId,
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
-            ID_VARIABLE: params.variableId,
             ABREVIATURA: params.abbreviation,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
@@ -112,8 +111,11 @@ class RelationshipAutophraseQuestionClosedService {
             FECHA_BAJA: null
         };
         const relationId = await relationshipAutophraseQuestionClosed.updateOne({ ID_AUTOFRASE: filters.autophraseId },
-            formattedRelationshipAutophraseQuestionClosed, ['ID_AUTOFRASE']);
-        const relation = await RelationshipAutophraseQuestionClosedService.findOne({ autophraseId: relationId });
+            formattedRelationshipAutophraseQuestionClosed, ['ID_AUTOFRASE', 'ID_FUENTE', 'ID_PREGUNTA']);
+        const relation = await RelationshipAutophraseQuestionClosedService.findOne(
+            { autophraseId: relationId.ID_AUTOFRASE,
+                sourceId: relationId.ID_FUENTE,
+                questionId: relationId.ID_PREGUNTA });
         return relation;
     }
     static async delete({ sourceId, questionId }, userDeleted) {

@@ -34,7 +34,7 @@ module.exports = {
                                             type: 'object',
                                             properties: {
                                                 autophraseId: {type: 'integer'},
-                                                operativeFontId: {type: 'integer'},
+                                                sourceId: {type: 'integer'},
                                                 questionId: {type: 'integer'},
                                                 abreviation: {type: 'string'},
                                                 createdAt: {type: 'string'},
@@ -67,7 +67,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 autophraseId: {type: 'integer'},
-                                operativeFontId: {type: 'integer'},
+                                sourceId: {type: 'integer'},
                                 questionId: {type: 'integer'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
@@ -92,7 +92,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
-                                            operativeFontId: {type: 'integer'},
+                                            sourceId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
@@ -113,7 +113,7 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}': {
+    '/api/relationshipAutophrasesQuestionCloseds/{autophraseId}/{sourceId}/{questionId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Relationship Autophrase Question Closed'],
@@ -121,6 +121,20 @@ module.exports = {
                 {
                     in: 'path',
                     name: 'autophraseId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'sourceId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -135,7 +149,7 @@ module.exports = {
                             type: 'object',
                             properties: {
                                 autophraseId: {type: 'integer'},
-                                operativeFontId: {type: 'integer'},
+                                sourceId: {type: 'integer'},
                                 questionId: {type: 'integer'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
@@ -160,7 +174,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
-                                            operativeFontId: {type: 'integer'},
+                                            sourceId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
@@ -190,6 +204,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'sourceId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -216,7 +244,21 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
+                    name: 'autophraseId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
                     name: 'sourceId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -234,7 +276,7 @@ module.exports = {
                                         type: 'object',
                                         properties: {
                                             autophraseId: {type: 'integer'},
-                                            operativeFontId: {type: 'integer'},
+                                            sourceId: {type: 'integer'},
                                             questionId: {type: 'integer'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},

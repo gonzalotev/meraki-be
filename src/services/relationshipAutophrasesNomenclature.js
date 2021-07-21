@@ -52,32 +52,21 @@ class RelationshipAutophrasesNomenclatureService {
             ABREVIATURA: trim(params.abbreviation),
             VARIABLE_ESTADISTICA: trim(params.staticalVariable)
         };
-        const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.
-            insertOne(formattedRelationshipAutophrasesNomenclature);
-
-        return {
-            autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
-            nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
-            nomenclatureId: relationshipAutophrasesNomenclature.ID_NOMENCLATURA,
-            observation: relationshipAutophrasesNomenclature.OBSERVACION,
-            domain: relationshipAutophrasesNomenclature.DOMINIO,
-            approved: !!relationshipAutophrasesNomenclature.SUPERVISADO,
-            createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
-            userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
-            userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
-            id: relationshipAutophrasesNomenclature.AUTOFRASE,
-            nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
-            variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
-            abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
-            staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
-        };
+        const relationshipAutophrasesNomenclatureId = await relationshipAutophrasesNomenclatureModel.
+            insertOne(formattedRelationshipAutophrasesNomenclature, ['ID_AUTOFRASE', 'ID_NOMENCLADOR', 'ID_NOMENCLATURA']);
+        const relationshipAutophrasesNomenclature = await RelationshipAutophrasesNomenclatureService.findOne(
+            { autophraseId: relationshipAutophrasesNomenclatureId.ID_AUTOFRASE,
+                nomenclatorId: relationshipAutophrasesNomenclatureId.ID_NOMENCLADOR,
+                nomenclatureId: relationshipAutophrasesNomenclatureId.ID_NOMENCLATURA});
+        return relationshipAutophrasesNomenclature;
     }
 
     static async findOne(filters) {
         const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.findById(
-            { ID_AUTOFRASE: filters.autophraseId, ID_NOMENCLADOR: filters.nomenclatorId,
-                ID_NOMENCLATURA: filters.nomenclatureId });
+            {
+                ID_AUTOFRASE: filters.autophraseId, ID_NOMENCLADOR: filters.nomenclatorId,
+                ID_NOMENCLATURA: filters.nomenclatureId
+            });
         return {
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
             nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
@@ -115,31 +104,21 @@ class RelationshipAutophrasesNomenclatureService {
             ABREVIATURA: trim(params.abbreviation),
             VARIABLE_ESTADISTICA: trim(params.staticalVariable)
         };
-        const relationshipAutophrasesNomenclature = await relationshipAutophrasesNomenclatureModel.updateOne(
-            { ID_AUTOFRASE: filters.id },
-            formattedRelationshipAutophrasesNomenclature);
-        return {
-            autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
-            nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
-            nomenclatureId: relationshipAutophrasesNomenclature.ID_NOMENCLATURA,
-            observation: relationshipAutophrasesNomenclature.OBSERVACION,
-            domain: relationshipAutophrasesNomenclature.DOMINIO,
-            approved: !!relationshipAutophrasesNomenclature.SUPERVISADO,
-            createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
-            userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
-            userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
-            id: relationshipAutophrasesNomenclature.AUTOFRASE,
-            nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
-            variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
-            abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
-            staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
-        };
+        const relationshipAutophrasesNomenclatureId = await relationshipAutophrasesNomenclatureModel.updateOne(
+            { ID_AUTOFRASE: filters.autophraseId },
+            formattedRelationshipAutophrasesNomenclature, ['ID_AUTOFRASE', 'ID_NOMENCLADOR', 'ID_NOMENCLATURA']);
+        const relationshipAutophrasesNomenclature = await RelationshipAutophrasesNomenclatureService.findOne(
+            { autophraseId: relationshipAutophrasesNomenclatureId.ID_AUTOFRASE,
+                nomenclatorId: relationshipAutophrasesNomenclatureId.ID_NOMENCLADOR,
+                nomenclatureId: relationshipAutophrasesNomenclatureId.ID_NOMENCLATURA});
+        return relationshipAutophrasesNomenclature;
     }
 
     static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_AUTOFRASE: filters.autophraseId,
-            ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId };
+        const formattedFilters = {
+            ID_AUTOFRASE: filters.autophraseId,
+            ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId
+        };
         const success = await relationshipAutophrasesNomenclatureModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
@@ -147,7 +126,7 @@ class RelationshipAutophrasesNomenclatureService {
         return !!success;
     }
 
-    static getCsv(){
+    static getCsv() {
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -203,13 +182,13 @@ class RelationshipAutophrasesNomenclatureService {
             const stream = relationshipAutophrasesNomenclatureModel.knex.select(tableHeaders)
                 .from(relationshipAutophrasesNomenclatureModel.tableName)
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
+            stream.on('data', function (data) {
                 csvString += arrayToCsvFormat(data);
             });
-            stream.on('end', function() {
+            stream.on('end', function () {
                 resolve(csvString);
             });
         });
