@@ -7,7 +7,7 @@ const find = require('lodash/find');
 
 class QuestionService {
     static async fetch() {
-        const Questions = await questionsModel.find({FECHA_BAJA: null});
+        const Questions = await questionsModel.find({ FECHA_BAJA: null });
         return Questions.map(question => ({
             id: question.ID_PREGUNTA,
             question: question.PREGUNTA,
@@ -33,13 +33,27 @@ class QuestionService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
+
+        // const question = await questionsModel.insertOne(formattedQuestion);
+        // return {
+        //     id: question.ID_PREGUNTA,
+        //     question: question.PREGUNTA,
+        //     approved: !!question.SUPERVISADO,
+        //     observation: question.OBSERVACION,
+        //     domain: question.DOMINIO,
+        //     userCreator: question.ID_USUARIO_ALTA,
+        //     createdAt: dateToString(question.FECHA_ALTA),
+        //     userDeleted: question.ID_USUARIO_BAJA,
+        //     deletedAt: dateToString(question.FECHA_BAJA)
+        // };
+
         const questionId = await questionsModel.insertOne(formattedQuestion, ['ID_PREGUNTA']);
-        const question = await QuestionService.findOne({id: questionId});
+        const question = await QuestionService.findOne({ id: questionId });
         return question;
     }
 
-    static async findOne(filters){
-        const question = await questionsModel.findById({ID_PREGUNTA: filters.id});
+    static async findOne(filters) {
+        const question = await questionsModel.findById({ ID_PREGUNTA: filters.id });
         return {
             id: question.ID_PREGUNTA,
             question: question.PREGUNTA,
@@ -53,7 +67,7 @@ class QuestionService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedQuestion = {
             ID_PREGUNTA: params.id,
             PREGUNTA: trim(params.question),
@@ -65,14 +79,29 @@ class QuestionService {
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
-        const questionId = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
+
+        // const question = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
+        //      formattedQuestion);
+        // return {
+        //     id: question.ID_PREGUNTA,
+        //     question: question.PREGUNTA,
+        //     approved: !!question.SUPERVISADO,
+        //     observation: question.OBSERVACION,
+        //     domain: question.DOMINIO,
+        //     userCreator: question.ID_USUARIO_ALTA,
+        //     createdAt: dateToString(question.FECHA_ALTA),
+        //     userDeleted: question.ID_USUARIO_BAJA,
+        //     deletedAt: dateToString(question.FECHA_BAJA)
+        // };
+
+        const questionId = await questionsModel.updateOne({ ID_PREGUNTA: filters.id },
             formattedQuestion, ['ID_PREGUNTA']);
-        const question = await QuestionService.findOne({id: questionId});
+        const question = await QuestionService.findOne({ id: questionId });
         return question;
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_PREGUNTA: filters.id};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_PREGUNTA: filters.id };
         const success = await questionsModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
