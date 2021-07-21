@@ -20,7 +20,6 @@ class StepsEncodingProcessesService {
     }
 
     static async create(params, userCreator) {
-        console.log(params);
         const formattedOperativeSource = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
@@ -34,7 +33,6 @@ class StepsEncodingProcessesService {
             FECHA_BAJA: null
         };
         const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeId);
         const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId});
         return operative;
     }
@@ -42,7 +40,6 @@ class StepsEncodingProcessesService {
     static async findOne(filters){
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const encodingProcess = await stepsEncodingProcesses.findById(formattedFilters);
-        console.log(encodingProcess);
         return {
             sourceId: encodingProcess.ID_FUENTE,
             questionId: encodingProcess.ID_PREGUNTA,
@@ -72,7 +69,6 @@ class StepsEncodingProcessesService {
         };
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSourceId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeSourceId);
         const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeSourceId});
         return operative;
     }

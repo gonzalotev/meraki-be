@@ -21,8 +21,6 @@ class StepsEncodingProcessesController {
     static async create(req, res, next) {
         try{
             const stepEncodingProcess = await StepsEncodingProcessesService.create(req.body, req.user.id);
-            console.log('controller stepEncodingProcess');
-            console.log(stepEncodingProcess);
             res.status(201);
             res.send({ stepEncodingProcess });
         } catch(err) {

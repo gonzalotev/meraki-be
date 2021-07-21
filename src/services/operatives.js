@@ -55,7 +55,6 @@ class OperativesService {
     }
 
     static async create(params, userCreator) {
-        console.log(params.arrivalDate);
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
             ID_OPERATIVO: params.operativeId,
