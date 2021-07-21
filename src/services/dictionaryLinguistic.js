@@ -1,9 +1,8 @@
 const { dictionaryLinguistic } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
-const knex = include('helpers/database');
-const {arrayToCsvFormat} = include('util');
-const {linguisticDictionaryHeaders} = include('constants/csvHeaders');
+const map = require('lodash/map');
+const toUpper = require('lodash/toUpper');
 
 class DictionaryLinguisticService {
     static async fetch({page, search, formatted=false}) {
@@ -69,10 +68,10 @@ class DictionaryLinguisticService {
     }
     static async create(params, userCreator){
         const formattedDictionaryLinguistic = {
-            DESCRIPCION_ORIGINAL: trim(params.originalDescription),
+            DESCRIPCION_ORIGINAL: toUpper(trim(params.originalDescription)),
             ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypeId,
             ID_VARIABLE: params.variableId,
-            DESCRIPCION_DESTINO: trim(params.destinationDescription),
+            DESCRIPCION_DESTINO: toUpper(trim(params.destinationDescription)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -98,10 +97,10 @@ class DictionaryLinguisticService {
     }
     static async update(filters, params){
         const formattedDictionaryLinguistic = {
-            DESCRIPCION_ORIGINAL: trim(params.originalDescription),
+            DESCRIPCION_ORIGINAL: toUpper(trim(params.originalDescription)),
             ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypeId,
             ID_VARIABLE: params.variableId,
-            DESCRIPCION_DESTINO: trim(params.destinationDescription),
+            DESCRIPCION_DESTINO: toUpper(trim(params.destinationDescription)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -147,12 +146,48 @@ class DictionaryLinguisticService {
         const { total } = await dictionaryLinguistic.countTotal({FECHA_BAJA: null}, search, ['DESCRIPCION_ORIGINAL']);
         return total;
     }
+
     static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
-            const headers = arrayToCsvFormat(linguisticDictionaryHeaders);
+            const fieldNames = [
+                {
+                    nameInTable: 'DESCRIPCION_ORIGINAL',
+                    nameInFile: 'DESCRIPCIÓN ORIGINAL'
+                },
+                {
+                    nameInTable: 'DESCRIPCION_DESTINO',
+                    nameInFile: 'DESCRIPCIÓN DESTINO'
+                },
+                {
+                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                    nameInFile: 'ID DE TIPOLOGÍA DICCIONARIO'
+                },
+                {
+                    nameInTable: 'ID_VARIABLE',
+                    nameInFile: 'ID DE VARIABLE'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
             csvString += headers;
-            const stream = knex.select(linguisticDictionaryHeaders).from(dictionaryLinguistic.tableName).stream();
+            const stream = dictionaryLinguistic.knex.select(tableHeaders)
+                .from(dictionaryLinguistic.tableName)
+                .orderBy([{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}])
+                .stream();
             stream.on('error', function(err) {
                 reject(err);
             });

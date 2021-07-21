@@ -1,6 +1,8 @@
 const { relationshipType: relationshipTypeModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
+const toUpper = require('lodash/toUpper');
 
 class RelationshipTypeService {
     static async fetch() {
@@ -10,7 +12,7 @@ class RelationshipTypeService {
             description: relationshipType.DESCRIPCION,
             observation: relationshipType.OBSERVACION,
             domain: relationshipType.DOMINIO,
-            approved: relationshipType.SUPERVISADO,
+            approved: !!relationshipType.SUPERVISADO,
             createdAt: dateToString(relationshipType.FECHA_ALTA),
             userCreator: relationshipType.ID_USUARIO_ALTA,
             userDeleted: relationshipType.ID_USUARIO_BAJA,
@@ -21,7 +23,7 @@ class RelationshipTypeService {
     static async create(params, userCreator) {
         const formattedRelationshipType = {
             ID_TIPO_RELACION: null,
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -43,7 +45,7 @@ class RelationshipTypeService {
             description: relationshipType.DESCRIPCION,
             observation: relationshipType.OBSERVACION,
             domain: relationshipType.DOMINIO,
-            approved: relationshipType.SUPERVISADO,
+            approved: !!relationshipType.SUPERVISADO,
             createdAt: dateToString(relationshipType.FECHA_ALTA),
             userCreator: relationshipType.ID_USUARIO_ALTA,
             userDeleted: relationshipType.ID_USUARIO_BAJA,
@@ -54,7 +56,7 @@ class RelationshipTypeService {
     static async update(filters, params){
         const formattedRelationshipType = {
             ID_TIPO_RELACION: trim(params.id),
-            DESCRIPCION: trim(params.description),
+            DESCRIPCION: toUpper(trim(params.description)),
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -63,19 +65,10 @@ class RelationshipTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const relationshipType = await relationshipTypeModel.updateOne({ID_TIPO_RELACION: filters.id},
-            formattedRelationshipType);
-        return {
-            id: relationshipType.ID_TIPO_RELACION,
-            description: relationshipType.DESCRIPCION,
-            observation: relationshipType.OBSERVACION,
-            domain: relationshipType.DOMINIO,
-            approved: !!relationshipType.SUPERVISADO,
-            createdAt: dateToString(relationshipType.FECHA_ALTA),
-            userCreator: relationshipType.ID_USUARIO_ALTA,
-            userDeleted: relationshipType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipType.FECHA_BAJA)
-        };
+        const relationshipTypeId = await relationshipTypeModel.updateOne({ID_TIPO_RELACION: filters.id},
+            formattedRelationshipType, ['ID_TIPO_RELACION']);
+        const relationshipType = await RelationshipTypeService.findOne({id: relationshipTypeId});
+        return relationshipType;
     }
 
     static async delete(filters, userDeleted){
@@ -85,6 +78,51 @@ class RelationshipTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_TIPO_RELACION',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'DESCRIPCION',
+                    nameInFile: 'DESCRIPCIÓN'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = relationshipTypeModel.knex.select(tableHeaders)
+                .from(relationshipTypeModel.tableName)
+                .orderBy([{column: 'ID_TIPO_RELACION', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

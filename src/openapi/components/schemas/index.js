@@ -20,6 +20,8 @@ const WordCorrector = require('./wordCorrector');
 const SourceQuestionRelation = require('./sourceQuestionRelation');
 const OperativeSources = require('./operativeSources');
 const RelationshipAutophraseQuestionClosed = require('./relationshipAutophraseQuestionClosed');
+const StepsEncodingProcesses = require('./stepsEncodingProcesses');
+const OperativeStructure = require('./operativeStructure');
 
 module.exports = {
     ArrayString: {
@@ -75,5 +77,7 @@ module.exports = {
     WordCorrector,
     SourceQuestionRelation,
     OperativeSources,
-    RelationshipAutophraseQuestionClosed
+    RelationshipAutophraseQuestionClosed,
+    StepsEncodingProcesses,
+    OperativeStructure
 };

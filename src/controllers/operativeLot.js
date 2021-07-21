@@ -1,5 +1,4 @@
 const { OperativeLotService } = include('services');
-const toUpper = require('lodash/toUpper');
 
 class OperativeLotController {
     static async fetch(req, res, next) {
@@ -54,9 +53,7 @@ class OperativeLotController {
 
     static async downloadCsv(req, res, next){
         try {
-            const {search} = req.query;
-            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const stream = await OperativeLotService.getCsv({search: searchValue});
+            const stream = await OperativeLotService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {

@@ -160,6 +160,53 @@ class StaticDataService {
         data.ticketTypes = ticketTypes;
         return ticketTypes;
     }
+    static async getOperatives(data){
+        const operatives = await knex.select({
+            id: 'ID_OPERATIVO',
+            description: 'DESCRIPCION'
+        })
+            .from('OPERATIVOS')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.operatives = operatives;
+        return operatives;
+    }
+    static async getEntryFieldsNames(data){
+        const entryFieldsNames = await knex.select({
+            id: 'ID_NOMBRE_CAMPO_ENTRADA'
+        })
+            .from('DATOS_DE_ENTRADA_CAMPOS')
+            .orderBy([{column: 'ID_NOMBRE_CAMPO_ENTRADA', order: 'asc'}]);
+        data.entryFieldsNames = entryFieldsNames;
+        return data;
+    }
+    static async getOriginalAuxiliariesFields(data){
+        const originalAuxiliariesFields = await knex.select({
+            id: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL'
+        })
+            .from('PROCESAMIENTOS_CAMPOS_AUXILIARES_ORIGINAL')
+            .orderBy([{column: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL', order: 'asc'}]);
+        data.originalAuxiliariesFields = originalAuxiliariesFields;
+        return data;
+    }
+    static async getFinalAuxiliariesFields(data){
+        const finalAuxiliariesFields = await knex.select({
+            id: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL'
+        })
+            .from('PROCESAMIENTOS_CAMPOS_AUXILIARES_FINAL')
+            .orderBy([{column: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL', order: 'asc'}]);
+        data.finalAuxiliariesFields = finalAuxiliariesFields;
+        return data;
+    }
+    static async getDatatypes(data){
+        const datatypes = await knex.select({
+            id: 'ID_TIPO_DE_DATO',
+            abbreviation: 'ABREVIATURA'
+        })
+            .from('TIPOS_DE_DATOS')
+            .orderBy([{column: 'ABREVIATURA', order: 'asc'}]);
+        data.datatypes = datatypes;
+        return data;
+    }
 }
 
 module.exports = StaticDataService;

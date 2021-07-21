@@ -163,7 +163,6 @@ const lotsAttrib = [
     'SE_BORRA_TODO_EL_LOTE',
     'FECHA_INICIO_BORRADO',
     'FECHA_FIN_BORRADO',
-    'ID_USUARIO',
     'FECHA_ALTA'
 ];
 
@@ -204,7 +203,6 @@ const relationshipAutophrasesQuestionClosedsAttrib = [
     'ID_AUTOFRASE',
     'ID_FUENTE',
     'ID_PREGUNTA',
-    'ID_VARIABLE',
     'ABREVIATURA',
     'OBSERVACION',
     'DOMINIO',
@@ -241,6 +239,7 @@ const nomenclatorsAttrib = [
     'ID_NOMENCLADOR',
     'SIGLA',
     'DESCRIPCION_ABREVIADA',
+    'DESCRIPCION_COMPLETA',
     'DOMINIO',
     'OBSERVACION',
     'TOTAL_DE_DIGITOS',
@@ -605,6 +604,48 @@ const chatAttrib = [
     'SOLUCIONADO_SI_NO'
 ];
 
+const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
+const stepsEncodingProcessesAttrib = [
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ORDEN',
+    'ID_PROCESO_CODIFICACION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
+const operativeStructureAttrib = [
+    'ID_OPERATIVO',
+    'ID_ESTRUCTURA',
+    'NOMBRE_ORIGINAL',
+    'ID_NOMBRE_CAMPO_ENTRADA',
+    'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL',
+    'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL',
+    'DESCRIPCION_VARIABLE',
+    'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
+    'ES_PARTE_DEL_ID',
+    'ID_TIPO_DE_DATO',
+    'TAMANIO_DATO',
+    'TIENE_DECIMALES',
+    'DECIMALES',
+    'POSICION_INICIAL',
+    'POSICION_FINAL',
+    'HAY_CONVERSION_DATO',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -678,5 +719,9 @@ module.exports = {
     questionsAttrib,
     questionsTableName,
     chatTableName,
-    chatAttrib
+    chatAttrib,
+    stepsEncodingProcessesTableName,
+    stepsEncodingProcessesAttrib,
+    operativeStructureTableName,
+    operativeStructureAttrib
 };

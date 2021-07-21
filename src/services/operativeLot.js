@@ -79,7 +79,7 @@ class OperativeLotService {
         return !!success;
     }
 
-    static getCsv({search}){
+    static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -110,7 +110,6 @@ class OperativeLotService {
             csvString += headers;
             const stream = operativeLotModel.knex.select(tableHeaders)
                 .from(operativeLotModel.tableName)
-                .where('DESCRIPCION', 'like', `${search}%`)
                 .orderBy([{column: 'ID_TIPO_FRASE_ESPECIAL', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
