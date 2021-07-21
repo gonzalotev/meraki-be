@@ -9,7 +9,7 @@ module.exports = {
                     name: 'page',
                     required: false,
                     schema: {
-                        type: 'number',
+                        type: 'integer',
                         default: 1
                     }
                 },
@@ -17,7 +17,7 @@ module.exports = {
                     in: 'query',
                     name: 'source',
                     required: false,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 }
             ],
             responses: {
@@ -32,7 +32,7 @@ module.exports = {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/SourceQuestionRelation'}
                                     },
-                                    total: {type: 'number'}
+                                    total: {type: 'integer'}
                                 }
                             }
                         }
@@ -55,11 +55,11 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'number'},
-                                questionId: {type: 'number'},
+                                sourceId: {type: 'integer'},
+                                questionId: {type: 'integer'},
                                 questionCode: {type: 'string'},
                                 variableId: {type: 'string'},
-                                nomenclatorId: {type: 'number'},
+                                nomenclatorId: {type: 'integer'},
                                 questionTypeId: {type: 'string'},
                                 isRequired: {type: 'boolean'},
                                 isCodable: {type: 'boolean'},
@@ -102,13 +102,13 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 }
             ],
             requestBody: {
@@ -119,12 +119,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'number'},
-                                questionId: {type: 'number'},
+                                sourceId: {type: 'integer'},
+                                questionId: {type: 'integer'},
                                 questionCode: {type: 'string'},
                                 variableId: {type: 'string'},
                                 nomenclatorId: {
-                                    type: 'number',
+                                    type: 'integer',
                                     nullable: true
                                 },
                                 questionTypeId: {type: 'string'},
@@ -167,13 +167,13 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 }
             ],
             responses: {
@@ -202,13 +202,13 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
-                    schema: {type: 'number'}
+                    schema: {type: 'integer'}
                 }
             ],
             responses: {
@@ -244,6 +244,52 @@ module.exports = {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/sourceQuestionsRelations/options': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Source Questions Relations'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'sources',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'sourceId',
+                    required: false,
+                    schema: {type: 'number'}
+                },
+                {
+                    in: 'query',
+                    name: 'questions',
+                    required: false,
+                    schema: {type: 'boolean'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    sources: {type: 'array'},
+                                    questions: {type: 'array'}
                                 }
                             }
                         }

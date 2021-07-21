@@ -1,5 +1,7 @@
 const { wordsDictionary } = include('models');
-const { dateToString } = include('util');
+const { dateToString, arrayToCsvFormat } = include('util');
+const map = require('lodash/map');
+const trim = require ('lodash/trim');
 
 class WordsDictionaryService {
     static async fetch({page, search}) {
@@ -54,7 +56,7 @@ class WordsDictionaryService {
         }));
     }
 
-    static async create(params, userCreator, transaction) {
+    static async create(params, userCreator) {
         const formattedWord = {
             PALABRA: params.word,
             TRUNCADO: params.truncate,
@@ -80,37 +82,11 @@ class WordsDictionaryService {
             ID_NUMERO: params.numberId,
             FRECUENCIA: params.frequency,
             ABC: params.abc,
-            FAMILIA: params.family
+            FAMILIA: trim(params.family)
         };
-        const word = await wordsDictionary.insertOne(formattedWord, transaction);
-
-        return {
-            word: word.PALABRA,
-            truncate: word.TRUNCADO,
-            acronim: word.ACRONIMO,
-            verb: !!word.VERBO,
-            noun: !!word.SUSTANTIVO,
-            adjective: !!word.ADJETIVO,
-            adverb: !!word.ADVERBIO,
-            pronoun: !!word.PRONOMBRE,
-            article: !!word.ARTICULO,
-            preposition: !!word.PREPOSICION,
-            doubtWord: !!word.PALABRA_DUDOSA,
-            observation: word.OBSERVACION,
-            domain: word.DOMINIO,
-            supervised: !!word.SUPERVISADO,
-            hashFunction: word.FUNCION_DE_HASH,
-            hash: word.HASH,
-            createdAt: dateToString(word.FECHA_ALTA),
-            userCreator: word.ID_USUARIO_ALTA,
-            userDeleted: word.ID_USUARIO_BAJA,
-            deletedAt: dateToString(word.FECHA_BAJA),
-            genderId: word.ID_GENERO_NUMERO,
-            numberId: word.ID_NUMERO,
-            frequency: word.FRECUENCIA,
-            abc: word.ABC,
-            family: word.FAMILIA
-        };
+        const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
+        const word = await WordsDictionaryService.findOne({word: wordId});
+        return word;
     }
 
     static async findOne(filters){
@@ -201,35 +177,9 @@ class WordsDictionaryService {
             ABC: params.abc,
             FAMILIA: params.family
         };
-        const formattedFilters = {PALABRA: filters.word};
-        const word = await wordsDictionary.updateOne(formattedFilters, formattedWord);
-        return {
-            word: word.PALABRA,
-            truncate: word.TRUNCADO,
-            acronim: word.ACRONIMO,
-            verb: !!word.VERBO,
-            noun: !!word.SUSTANTIVO,
-            adjective: !!word.ADJETIVO,
-            adverb: !!word.ADVERBIO,
-            pronoun: !!word.PRONOMBRE,
-            article: !!word.ARTICULO,
-            preposition: !!word.PREPOSICION,
-            doubtWord: !!word.PALABRA_DUDOSA,
-            observation: word.OBSERVACION,
-            domain: word.DOMINIO,
-            supervised: !!word.SUPERVISADO,
-            hashFunction: word.FUNCION_DE_HASH,
-            hash: word.HASH,
-            createdAt: dateToString(word.FECHA_ALTA),
-            userCreator: word.ID_USUARIO_ALTA,
-            userDeleted: word.ID_USUARIO_BAJA,
-            deletedAt: dateToString(word.FECHA_BAJA),
-            genderId: word.ID_GENERO_NUMERO,
-            numberId: word.ID_NUMERO,
-            frequency: word.FRECUENCIA,
-            abc: word.ABC,
-            family: word.FAMILIA
-        };
+        const wordId = await wordsDictionary.updateOne({PALABRA: filters.word}, formattedWord, ['PALABRA']);
+        const word = await WordsDictionaryService.findOne({id: wordId});
+        return word;
     }
 
     static async delete(filters, userDeleted){
@@ -248,6 +198,107 @@ class WordsDictionaryService {
     static async getTotal({search}){
         const { total } = await wordsDictionary.countTotal({FECHA_BAJA: null}, search, ['PALABRA']);
         return total;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'PALABRA',
+                    nameInFile: 'PALABRA'
+                },
+                {
+                    nameInTable: 'TRUNCADO',
+                    nameInFile: 'TRUNCADO'
+                },
+                {
+                    nameInTable: 'ACRONIMO',
+                    nameInFile: 'ACRÓNIMO'
+                },
+                {
+                    nameInTable: 'VERBO',
+                    nameInFile: 'VERBO'
+                },
+                {
+                    nameInTable: 'SUSTANTIVO',
+                    nameInFile: 'SUSTANTIVO'
+                },
+                {
+                    nameInTable: 'ADJETIVO',
+                    nameInFile: 'ADJETIVO'
+                },
+                {
+                    nameInTable: 'ADVERBIO',
+                    nameInFile: 'ADVERBIO'
+                },
+                {
+                    nameInTable: 'PRONOMBRE',
+                    nameInFile: 'PRONOMBRE'
+                },
+                {
+                    nameInTable: 'ARTICULO',
+                    nameInFile: 'ARTÍCULO'
+                },
+                {
+                    nameInTable: 'PREPOSICION',
+                    nameInFile: 'PREPOSICIÓN'
+                },
+                {
+                    nameInTable: 'PALABRA_DUDOSA',
+                    nameInFile: 'PALABRA DUDOSA'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                },
+                {
+                    nameInTable: 'ID_GENERO_NUMERO',
+                    nameInFile: 'ID GENERO Y NÚMERO'
+                },
+                {
+                    nameInTable: 'ID_NUMERO',
+                    nameInFile: 'ID NUMERO'
+                },
+                {
+                    nameInTable: 'FRECUENCIA',
+                    nameInFile: 'FRECUENCIA'
+                },
+                {
+                    nameInTable: 'ABC',
+                    nameInFile: 'CURVA ABC'
+                },
+                {
+                    nameInTable: 'FAMILIA',
+                    nameInFile: 'FAMILIA'
+                }
+            ];
+            const wordsDictionaryTableHeaders = map(fieldNames, field => field.nameInTable);
+            const wordsDictionaryFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(wordsDictionaryFileHeaders);
+            csvString += headers;
+            const stream = wordsDictionary.knex.select(wordsDictionaryTableHeaders)
+                .from(wordsDictionary.tableName)
+                .orderBy([{column: 'PALABRA', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 

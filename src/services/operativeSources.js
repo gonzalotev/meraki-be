@@ -1,5 +1,8 @@
 const { operativeSources } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
+const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
 
 class OperativeSourcesService {
     static async fetch() {
@@ -24,7 +27,6 @@ class OperativeSourcesService {
     }
 
     static async create(params, userCreator) {
-        console.log(params);
         const formattedOperativeSource = {
             ID_FUENTE: params.sourceId,
             NOMBRE: params.name,
@@ -43,7 +45,6 @@ class OperativeSourcesService {
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
         const operativeId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeId);
         const operative = await OperativeSourcesService.findOne({sourceId: operativeId});
         return operative;
     }
@@ -51,7 +52,6 @@ class OperativeSourcesService {
     static async findOne(filters){
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSource = await operativeSources.findById(formattedFilters);
-        console.log(operativeSource);
         return {
             sourceId: operativeSource.ID_FUENTE,
             name: operativeSource.NOMBRE,
@@ -91,7 +91,6 @@ class OperativeSourcesService {
         };
         const formattedFilters = {ID_FUENTE: filters.sourceId};
         const operativeSourceId = await operativeSources.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        console.log(operativeSourceId);
         const operative = await OperativeSourcesService.findOne({sourceId: operativeSourceId});
         return operative;
     }
@@ -102,6 +101,117 @@ class OperativeSourcesService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_FUENTE',
+                    nameInFile: 'ID'
+                },
+                {
+                    nameInTable: 'NOMBRE',
+                    nameInFile: 'NOMBRE'
+                },
+                {
+                    nameInTable: 'SIGLA',
+                    nameInFile: 'SIGLA'
+                },
+                {
+                    nameInTable: 'ID_TIPO_OPERATIVO',
+                    nameInFile: 'TIPO DE OPERATIVO'
+                },
+                {
+                    nameInTable: 'ID_FRECUENCIA',
+                    nameInFile: 'FRECUENCIA'
+                },
+                {
+                    nameInTable: 'FECHA_DESDE',
+                    nameInFile: 'DESDE'
+                },
+                {
+                    nameInTable: 'FECHA_HASTA',
+                    nameInFile: 'HASTA'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACIÓN'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
+            ];
+
+            const operativeSourcesTableHeaders = map(fieldNames, field => field.nameInTable);
+            const operativeSourcesFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(operativeSourcesFileHeaders);
+            csvString += headers;
+            const stream = operativeSources.knex.select(operativeSourcesTableHeaders)
+                .from(operativeSources.tableName)
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
+    }
+
+    static async fetchIfExist(Model, id){
+        const sources = await operativeSources.knex(operativeSources.tableName).whereExists(function() {
+            this.select('*')
+                .from(Model.tableName)
+                .whereRaw(`${operativeSources.tableName}.${id} = ${Model.tableName}.${id}`);
+        })
+            .orderBy([{column: 'NOMBRE', order: 'asc'}]);
+
+        return sources.map(source => ({
+            id: source.ID_FUENTE,
+            name: source.NOMBRE,
+            initial: source.SIGLA,
+            operativeTypeId: source.ID_TIPO_OPERATIVO,
+            frequencyId: source.ID_FRECUENCIA,
+            supportId: source.ID_SOPORTE,
+            dateFrom: dateToString(source.FECHA_DESDE),
+            dateTo: dateToString(source.FECHA_HASTA),
+            observation: source.OBSERVACION,
+            domain: source.DOMINIO,
+            supervised: source.SUPERVISADO,
+            createdAt: dateToString(source.FECHA_ALTA),
+            userCreator: source.ID_USUARIO_ALTA,
+            userDeleted: source.ID_USUARIO_BAJA,
+            deletedAt: dateToString(source.FECHA_BAJA)
+        }));
+    }
+
+    static async getSourceData(resources){
+        const sourcesIds = uniq(map(resources, resource => resource.sourceId));
+        let sources = await operativeSources.knex.select()
+            .from(operativeSources.tableName)
+            .whereIn('ID_FUENTE', sourcesIds);
+        sources = map(sources, source => ({
+            id: source.ID_FUENTE,
+            name: source.NOMBRE,
+            initials: source.SIGLA
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.source = find(sources, source => source.id === resource.sourceId);
+            return resource;
+        });
     }
 }
 

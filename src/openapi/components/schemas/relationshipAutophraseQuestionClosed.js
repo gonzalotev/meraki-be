@@ -13,11 +13,6 @@ module.exports = {
             type: 'string',
             maxLength: 12
         },
-        variableId: {
-            type: 'string',
-            maxLength: 5,
-            nullable: false
-        },
         nomenclatorId: {
             type: 'number',
             nullable: true
@@ -26,16 +21,6 @@ module.exports = {
             type: 'string',
             maxLength: 1,
             nullable: false
-        },
-        isRequired: {type: 'boolean'},
-        isCodable: {type: 'boolean'},
-        isAuxiliary: {type: 'boolean'},
-        shouldBeProcessed: {type: 'boolean'},
-        souldHaveAuxiliary: {type: 'boolean'},
-        shouldReadAutoPhrase: {type: 'boolean'},
-        observation: {
-            type: 'string',
-            maxLength: 120
         },
         domain: {
             type: 'string',

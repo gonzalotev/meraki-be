@@ -1,4 +1,5 @@
-const { SourceQuestionsRelationsService } = include('services');
+const { SourceQuestionsRelationsService, OperativeSourcesService, QuestionsService } = include('services');
+const { sourceQuestionRelation } = include('models');
 
 class SourceQuestionsRelationsController {
     static async fetch(req, res, next) {
@@ -58,6 +59,24 @@ class SourceQuestionsRelationsController {
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {
+            next(err);
+        }
+    }
+
+    static async getOptions(req, res, next){
+        try {
+            const {questions, sourceId} = req.query;
+            const data = {};
+            data.sources = await OperativeSourcesService.fetchIfExist(sourceQuestionRelation, 'ID_FUENTE');
+            if(questions){
+                if(sourceId){
+                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', {ID_FUENTE: sourceId});
+                } else {
+                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA');
+                }
+            }
+            res.send(data);
+        } catch (err) {
             next(err);
         }
     }

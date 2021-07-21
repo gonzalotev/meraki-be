@@ -21,8 +21,6 @@ class OperativeSourcesController {
     static async create(req, res, next) {
         try{
             const operativeSource = await OperativeSourcesService.create(req.body, req.user.id);
-            console.log('controller operativesources');
-            console.log(operativeSource);
             res.status(201);
             res.send({ operativeSource });
         } catch(err) {
@@ -61,6 +59,15 @@ class OperativeSourcesController {
         }
     }
 
+    static async downloadCsv(req, res, next){
+        try {
+            const stream = await OperativeSourcesService.getCsv();
+            const buf = Buffer.from(stream, 'utf-8');
+            res.send(buf);
+        } catch(err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = OperativeSourcesController;

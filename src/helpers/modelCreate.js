@@ -65,7 +65,6 @@ class ModelCreate {
 
     async insertOne(props, returning = this.selectableProps, transaction = this.transaction) {
         const objectToSave = this.jsonToString(props);
-        objectToSave.FECHA_ALTA = new Date();
         if (transaction) {
             const objectCreated = await transaction(this.tableName)
                 .insert(objectToSave)

@@ -2,8 +2,7 @@ const {
     RolesService,
     DictionaryTypeService,
     StaticalVariableService,
-    StaticDataService,
-    OperativesService
+    StaticDataService
 } = include('services');
 
 class StaticDataController {
@@ -29,7 +28,11 @@ class StaticDataController {
                 questionsTypes,
                 operativeType,
                 frequency,
-                support
+                support,
+                entryFieldsNames,
+                originalAuxiliariesFields,
+                finalAuxiliariesFields,
+                datatypes
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -44,7 +47,7 @@ class StaticDataController {
                 await StaticDataService.getGenders(data);
             }
             if (operatives) {
-                await OperativesService.shortFetch(data);
+                await StaticDataService.getOperatives(data);
             }
             if (variablesNewsWords) {
                 await StaticDataService.getVariablesNewsWords(data);
@@ -87,6 +90,18 @@ class StaticDataController {
             }
             if (support) {
                 await StaticDataService.getSupport(data);
+            }
+            if (entryFieldsNames) {
+                await StaticDataService.getEntryFieldsNames(data);
+            }
+            if (originalAuxiliariesFields) {
+                await StaticDataService.getOriginalAuxiliariesFields(data);
+            }
+            if (finalAuxiliariesFields) {
+                await StaticDataService.getFinalAuxiliariesFields(data);
+            }
+            if (datatypes) {
+                await StaticDataService.getDatatypes(data);
             }
             res.send(data);
         } catch (error) {
