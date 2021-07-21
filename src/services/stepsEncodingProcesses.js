@@ -1,11 +1,13 @@
 const { stepsEncodingProcesses } = include('models');
+const OperativeSourcesService = require('./operativeSources');
+const QuestionsService = require('./questions');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 
 class StepsEncodingProcessesService {
     static async fetch() {
-        const operatives = await stepsEncodingProcesses.find({FECHA_BAJA: null});
-        return operatives.map(operative => ({
+        let operatives = await stepsEncodingProcesses.find({FECHA_BAJA: null});
+        operatives = operatives.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
             order: operative.ORDEN,
@@ -17,6 +19,9 @@ class StepsEncodingProcessesService {
             userDeleted: operative.ID_USUARIO_BAJA,
             deletedAt: dateToString(operative.FECHA_BAJA)
         }));
+        await OperativeSourcesService.getSourceData(operatives);
+        await QuestionsService.getQuestionData(operatives);
+        return operatives;
     }
 
     static async create(params, userCreator) {
@@ -32,13 +37,23 @@ class StepsEncodingProcessesService {
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null
         };
-        const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE']);
-        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId});
+        const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        console.log(operativeId);
+        const operative = await StepsEncodingProcessesService.findOne(
+            {sourceId: operativeId.ID_FUENTE,
+                questionId: operativeId.ID_PREGUNTA,
+                order: operativeId.ORDEN,
+                encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
         return operative;
     }
 
     static async findOne(filters){
-        const formattedFilters = {ID_FUENTE: filters.sourceId};
+        const formattedFilters = {
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId,
+            ORDEN: filters.order,
+            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+        };
         const encodingProcess = await stepsEncodingProcesses.findById(formattedFilters);
         return {
             sourceId: encodingProcess.ID_FUENTE,
@@ -62,19 +77,31 @@ class StepsEncodingProcessesService {
             ORDEN: params.order,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            ID_USUARIO_ALTA: params.userCreator
         };
-        const formattedFilters = {ID_FUENTE: filters.sourceId};
-        const operativeSourceId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeSourceId});
+        const formattedFilters = {
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId,
+            ORDEN: filters.order,
+            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+        };
+        const operativeId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        console.log(operativeId);
+        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId.ID_FUENTE,
+            questionId: operativeId.ID_PREGUNTA,
+            order: operativeId.ORDEN,
+            encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
         return operative;
     }
 
     static async delete(filters, userDeleted){
-        const success = await stepsEncodingProcesses.deleteOne({ID_FUENTE: filters.sourceId}, {
+        const success = await stepsEncodingProcesses.deleteOne({
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId,
+            ORDEN: filters.order,
+            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+        },
+        {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });

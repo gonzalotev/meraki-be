@@ -163,7 +163,6 @@ const lotsAttrib = [
     'SE_BORRA_TODO_EL_LOTE',
     'FECHA_INICIO_BORRADO',
     'FECHA_FIN_BORRADO',
-    'ID_USUARIO',
     'FECHA_ALTA'
 ];
 

@@ -89,7 +89,7 @@ module.exports = {
             }
         }
     },
-    '/api/stepsEncodingProcesses/{sourceId}/{questionId}': {
+    '/api/stepsEncodingProcesses/{sourceId}/{questionId}/{order}/{encodingProcessId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Steps Encoding Processes'],
@@ -104,6 +104,20 @@ module.exports = {
                 {
                     in: 'path',
                     name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'order',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'encodingProcessId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'questionId to update'
@@ -176,14 +190,28 @@ module.exports = {
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'sourceId to delete'
+                    description: 'sourceId to update'
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'questionId to delete'
+                    description: 'questionId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'order',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'encodingProcessId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
                 }
             ],
             responses: {
@@ -206,14 +234,28 @@ module.exports = {
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'sourceId to get'
+                    description: 'sourceId to update'
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'questionId to get'
+                    description: 'questionId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'order',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'encodingProcessId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
                 }
             ],
             responses: {

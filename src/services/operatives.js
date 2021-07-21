@@ -1,6 +1,6 @@
 const { operatives } = include('models');
 const { dateToString, stringToDate, dateTimeToString, arrayToCsvFormat } = include('util');
-const SourceQuestionRelationService = require('./sourceQuestionsRelations');
+const OperativeSourcesService = require('./operativeSources');
 const map = require('lodash/map');
 
 class OperativesService {
@@ -50,7 +50,7 @@ class OperativesService {
 
         }));
 
-        await SourceQuestionRelationService.getSourceData(operativess);
+        await OperativeSourcesService.getSourceData(operativess);
         return operativess;
     }
 
