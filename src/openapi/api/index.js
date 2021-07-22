@@ -33,6 +33,7 @@ const questions = require('./questions');
 const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
+const lots = require('./lots');
 
 module.exports = {
     ...assignments,
@@ -69,5 +70,6 @@ module.exports = {
     ...operativesLot,
     ...encodingProcesses,
     ...stepsEncodingProcesses,
-    ...operativeStructure
+    ...operativeStructure,
+    ...lots
 };
