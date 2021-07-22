@@ -36,7 +36,7 @@ class ticketService {
             TEXTO_CHAT_ORIGEN: trim(params.originChatText),
             FECHA_ALTA: new Date(),
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_RESPONSABLE: params.userResponsableId,
+            ID_USUARIO_RESPONSABLE: params.userReponsableId,
             TEXTO_SOLUCION: null,
             ID_USUARIO_SOLUCION: null,
             ID_TIPO_CHAT: params.ticketTypeId,
