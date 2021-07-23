@@ -592,6 +592,21 @@ const questionsAttrib = [
     'FECHA_BAJA'
 ];
 
+const chatTableName = 'CHAT';
+const chatAttrib = [
+    'ID_CHAT',
+    'TABLA_ORIGEN',
+    'TEXTO_CHAT_ORIGEN',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_RESPONSABLE',
+    'TEXTO_SOLUCION',
+    'ID_USUARIO_SOLUCION',
+    'ID_TIPO_CHAT',
+    'FECHA_SOLUCION',
+    'SOLUCIONADO_SI_NO'
+];
+
 const encodingProcessesTableName = 'PROCESOS_DE_CODIFICACION';
 const encodingProcessesAttrib = [
     'ID_PROCESO_CODIFICACION',
@@ -718,6 +733,8 @@ module.exports = {
     operativeFontsAttrib,
     questionsAttrib,
     questionsTableName,
+    chatTableName,
+    chatAttrib,
     encodingProcessesAttrib,
     encodingProcessesTableName,
     stepsEncodingProcessesTableName,
