@@ -29,6 +29,7 @@ class StaticDataController {
                 operativeType,
                 frequency,
                 support,
+                ticketTypes,
                 entryFieldsNames,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
@@ -84,6 +85,9 @@ class StaticDataController {
             }
             if (operativeType) {
                 await StaticDataService.getOperativeType(data);
+            }
+            if (ticketTypes) {
+                await StaticDataService.getTicketTypes(data);
             }
             if (frequency) {
                 await StaticDataService.getFrequency(data);
