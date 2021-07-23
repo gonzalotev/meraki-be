@@ -315,7 +315,7 @@ module.exports = {
                                 properties: {
                                     dictionaryLinguistics: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
+                                        items: {$ref: '#/components/schemas/StepsEncodingProcesses'}
                                     }
                                 }
                             }
