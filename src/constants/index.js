@@ -616,7 +616,11 @@ const encodingProcessesAttrib = [
     'NIVEL_DE_ERROR_ACEPTABLE',
     'DOMINIO',
     'OBSERVACION',
-    'SUPERVISADO'
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
 ];
 
 const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
