@@ -746,5 +746,4 @@ module.exports = {
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib
-
 };

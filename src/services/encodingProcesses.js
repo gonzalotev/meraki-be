@@ -2,6 +2,9 @@ const { encodingProcesses: encodingProcessesModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 const replace = require('lodash/replace');
+const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
 
 class EncodingProcessService {
     static async fetch() {
@@ -89,6 +92,26 @@ class EncodingProcessService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getEncodingProcessesData(resources){
+        console.log(resources);
+        const encodingProcessIds = uniq(map(resources, resource => resource.encodingProcessId));
+        let encodingProcesses = await encodingProcessesModel.knex.select()
+            .from(encodingProcessesModel.tableName)
+            .whereIn('ID_PROCESO_CODIFICACION', encodingProcessIds);
+        encodingProcesses = map(encodingProcesses, encodingProcess => ({
+            id: encodingProcess.ID_PROCESO_CODIFICACION,
+            name: encodingProcess.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.encodingProcess =
+            find(encodingProcesses, source => source.id === resource.encodingProcessId);
+            return resource;
+        });
     }
 }
 
