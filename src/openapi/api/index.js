@@ -31,8 +31,10 @@ const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVar
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
 const questions = require('./questions');
 const ticket = require ('./ticket');
+const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
+const lots = require('./lots');
 
 module.exports = {
     ...assignments,
@@ -68,6 +70,8 @@ module.exports = {
     ...questions,
     ...operativesLot,
     ...ticket,
+    ...encodingProcesses,
     ...stepsEncodingProcesses,
-    ...operativeStructure
+    ...operativeStructure,
+    ...lots
 };

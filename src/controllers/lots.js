@@ -1,10 +1,10 @@
-const {LotsService} = include('services');
-const {Lots} = include('models');
+const { LotsService } = include('services');
+
 class LotsController {
     static async fetch(req, res, next) {
         try {
-            const lots = await Lots.find();
-            res.send({ lots });
+            const lotss = await LotsService.fetch();
+            res.send({ lotss });
         } catch(error) {
             next(error);
         }
@@ -12,7 +12,7 @@ class LotsController {
 
     static async create(req, res, next) {
         try{
-            const lot = await Lots.insertOne(req.body);
+            const lot = await LotsService.insertOne(req.body);
             res.send({ success: true, lot });
         } catch(error) {
             next(error);
@@ -21,7 +21,7 @@ class LotsController {
 
     static async update(req, res, next){
         try{
-            const lot = await Lots.updateOne(req.params, req.body);
+            const lot = await LotsService.updateOne(req.params, req.body);
             res.send({ success: true, lot });
         } catch(error) {
             next(error);
@@ -30,7 +30,7 @@ class LotsController {
 
     static async delete(req, res, next){
         try{
-            const result = await Lots.deleteOne(req.params);
+            const result = await LotsService.deleteOne(req.params);
             res.send({ success: result});
         } catch(error) {
             next(error);
@@ -39,7 +39,7 @@ class LotsController {
 
     static async fetchOne(req, res, next){
         try{
-            const lot = await Lots.findById(req.params);
+            const lot = await LotsService.findById(req.params);
             res.send({ lot });
         } catch(error) {
             next(error);
