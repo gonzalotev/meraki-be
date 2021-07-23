@@ -3,6 +3,8 @@ const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 const toUpper = require('lodash/toUpper');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
 
 class TicketTypeService {
     static async fetch(query) {
@@ -89,6 +91,23 @@ class TicketTypeService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getTicketTypeData(resources){
+        const ticketTypeIds = uniq(map(resources, resource => resource.ticketTypeId));
+        let ticketTypeData = await ticketTypeModel.findByValues('ID_TIPO_CHAT', ticketTypeIds);
+        ticketTypeData = map(ticketTypeData, ticketType => ({
+            id: ticketType.ID_TIPO_CHAT,
+            description: ticketType.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.ticketType = find(ticketTypeData,
+                ticketType => ticketType.id === resource.ticketTypeId);
+            return resource;
+        });
     }
 
     static getCsv(){

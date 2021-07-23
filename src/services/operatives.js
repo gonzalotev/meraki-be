@@ -2,6 +2,8 @@ const { operatives } = include('models');
 const { dateToString, stringToDate, dateTimeToString, arrayToCsvFormat } = include('util');
 const OperativeSourcesService = require('./operativeSources');
 const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
 
 class OperativesService {
     static async fetch({page, search}) {
@@ -142,6 +144,22 @@ class OperativesService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getOperativesData(resources){
+        const operativesIds = uniq(map(resources, resource => resource.operativeId));
+        let operativesData = await operatives.findByValues('ID_OPERATIVO', operativesIds);
+        operativesData = map(operativesData, operative => ({
+            id: operative.ID_OPERATIVO,
+            description: operative.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.operative = find(operativesData, operative => operative.id === resource.operativeId);
+            return resource;
+        });
     }
 
     static async getTotal({operative}){

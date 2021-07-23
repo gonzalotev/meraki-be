@@ -163,7 +163,10 @@ const lotsAttrib = [
     'SE_BORRA_TODO_EL_LOTE',
     'FECHA_INICIO_BORRADO',
     'FECHA_FIN_BORRADO',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA'
 ];
 
 const datesWithUserAttrib = {
@@ -589,6 +592,22 @@ const questionsAttrib = [
     'FECHA_BAJA'
 ];
 
+const chatTableName = 'CHAT';
+const chatAttrib = [
+    'ID_CHAT',
+    'TABLA_ORIGEN',
+    'TEXTO_CHAT_ORIGEN',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_RESPONSABLE',
+    'TEXTO_SOLUCION',
+    'ID_USUARIO_SOLUCION',
+    'ID_TIPO_CHAT',
+    'FECHA_SOLUCION',
+    'SOLUCIONADO_SI_NO',
+    'USUARIO'
+];
+
 const encodingProcessesTableName = 'PROCESOS_DE_CODIFICACION';
 const encodingProcessesAttrib = [
     'ID_PROCESO_CODIFICACION',
@@ -598,7 +617,11 @@ const encodingProcessesAttrib = [
     'NIVEL_DE_ERROR_ACEPTABLE',
     'DOMINIO',
     'OBSERVACION',
-    'SUPERVISADO'
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
 ];
 
 const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
@@ -715,6 +738,8 @@ module.exports = {
     operativeFontsAttrib,
     questionsAttrib,
     questionsTableName,
+    chatTableName,
+    chatAttrib,
     encodingProcessesAttrib,
     encodingProcessesTableName,
     stepsEncodingProcessesTableName,
