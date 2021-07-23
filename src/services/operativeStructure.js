@@ -175,6 +175,7 @@ class OperativeStructureService {
             csvString += headers;
             const stream = OperativeStructure.knex.select(tableHeaders)
                 .from(OperativeStructure.tableName)
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

@@ -166,7 +166,8 @@ class StaticDataService {
             description: 'DESCRIPCION'
         })
             .from('OPERATIVOS')
-            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+            .where({FECHA_BAJA: null})
+            .orderByRaw('upper(DESCRIPCION) asc');
         data.operatives = operatives;
         return operatives;
     }
