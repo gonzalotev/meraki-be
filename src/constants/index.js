@@ -598,7 +598,7 @@ const encodingProcessesAttrib = [
     'NIVEL_DE_ERROR_ACEPTABLE',
     'DOMINIO',
     'OBSERVACION',
-    'SUPERVISADO',
+    'SUPERVISADO'
 ];
 
 const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
@@ -721,5 +721,4 @@ module.exports = {
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib
-    
 };

@@ -1,8 +1,10 @@
 const { stepsEncodingProcesses } = include('models');
 const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
+const EncodingProcessService = require('./encodingProcesses');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
+const toNumber = require('lodash/toNumber');
 
 class StepsEncodingProcessesService {
     static async fetch() {
@@ -21,6 +23,7 @@ class StepsEncodingProcessesService {
         }));
         await OperativeSourcesService.getSourceData(operatives);
         await QuestionsService.getQuestionData(operatives);
+        await EncodingProcessService.getEncodingProcessesData(operatives);
         return operatives;
     }
 
@@ -71,22 +74,21 @@ class StepsEncodingProcessesService {
 
     static async update(filters, params){
         const formattedOperativeSource = {
-            ID_FUENTE: params.sourceId,
-            ID_PREGUNTA: params.questionId,
+            ID_FUENTE: toNumber(params.sourceId),
+            ID_PREGUNTA: toNumber(params.questionId),
             ID_PROCESO_CODIFICACION: params.encodingProcessId,
-            ORDEN: params.order,
+            ORDEN: toNumber(params.order),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator
         };
         const formattedFilters = {
-            ID_FUENTE: filters.sourceId,
-            ID_PREGUNTA: filters.questionId,
-            ORDEN: filters.order,
+            ID_FUENTE: toNumber(filters.sourceId),
+            ID_PREGUNTA: toNumber(filters.questionId),
+            ORDEN: toNumber(filters.order),
             ID_PROCESO_CODIFICACION: filters.encodingProcessId
         };
         const operativeId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
-        console.log(operativeId);
         const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId.ID_FUENTE,
             questionId: operativeId.ID_PREGUNTA,
             order: operativeId.ORDEN,
