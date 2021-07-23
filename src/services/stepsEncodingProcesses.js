@@ -116,31 +116,19 @@ class StepsEncodingProcessesService {
             const fieldNames = [
                 {
                     nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID'
+                    nameInFile: 'FUENTE'
                 },
                 {
-                    nameInTable: 'NOMBRE',
-                    nameInFile: 'NOMBRE'
+                    nameInTable: 'ID_PREGUNTA',
+                    nameInFile: 'PREGUNTA'
                 },
                 {
-                    nameInTable: 'SIGLA',
-                    nameInFile: 'SIGLA'
+                    nameInTable: 'ORDEN',
+                    nameInFile: 'ORDEN'
                 },
                 {
-                    nameInTable: 'ID_TIPO_OPERATIVO',
-                    nameInFile: 'TIPO DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_FRECUENCIA',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'FECHA_DESDE',
-                    nameInFile: 'DESDE'
-                },
-                {
-                    nameInTable: 'FECHA_HASTA',
-                    nameInFile: 'HASTA'
+                    nameInTable: 'ID_PROCESO_CODIFICACION',
+                    nameInFile: 'PROCESO DE CODIFICACION'
                 },
                 {
                     nameInTable: 'OBSERVACION',
@@ -149,10 +137,6 @@ class StepsEncodingProcessesService {
                 {
                     nameInTable: 'DOMINIO',
                     nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
                 }
             ];
 
