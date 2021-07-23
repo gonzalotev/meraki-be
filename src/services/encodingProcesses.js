@@ -61,7 +61,7 @@ class EncodingProcessService {
         };
     }
 
-    static async update(filters, params) {
+    static async update(filters, params, userCreator) {
         const formattedEncodingProcess = {
             ID_PROCESO_CODIFICACION: trim(params.id),
             DESCRIPCION: trim(params.description),
@@ -71,10 +71,10 @@ class EncodingProcessService {
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
             SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null
         };
         const encodingId = await encodingProcessesModel.updateOne({ ID_PROCESO_CODIFICACION: filters.id },
             formattedEncodingProcess, ['ID_PROCESO_CODIFICACION']);

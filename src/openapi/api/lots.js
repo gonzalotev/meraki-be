@@ -141,14 +141,14 @@ module.exports = {
             }
         }
     },
-    '/api/lots/{id}': {
+    '/api/lots/{lotId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Lots'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'lotId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -162,13 +162,37 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                operativeId: {type: 'integer'},
+                                lotId: {type: 'integer'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'},
-                                createdAt: {type: 'string'},
+                                fileName: {type: 'string'},
+                                fileFormat: {type: 'string'},
+                                numberOfRecords: {type: 'integer'},
+                                batchDataLoadDate: {type: 'string'},
+                                endBatchDataLoadDate: {type: 'string'},
+                                TotalBatchQuality: {type: 'integer'},
+                                TotalBatchErrorLevel: {type: 'integer'},
+                                lotRejected: {type: 'boolean'},
+                                batchRejectedDate: {type: 'integer'},
+                                lotApproved: {type: 'boolean'},
+                                lotApprovedDate: {type: 'string'},
+                                feedback: {type: 'boolean'},
+                                feedbackStartDate: {type: 'string'},
+                                endDateFeedBack: {type: 'string'},
+                                lotDeliveredArea: {type: 'boolean'},
+                                lotDeliveryArea: {type: 'string'},
+                                lotDeliveredToDataLake: {type: 'boolean'},
+                                startDateToDataLake: {type: 'string'},
+                                endDateToDataLake: {type: 'string'},
+                                receiptLotOrCopy: {type: 'boolean'},
+                                dateDownloadedBatchReceiptOrCopy: {type: 'string'},
+                                wholeBatchDeleted: {type: 'boolean'},
+                                deleteStartDate: {type: 'string'},
+                                endDateErased: {type: 'string'},
                                 userCreator: {type: 'string'},
+                                createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -239,7 +263,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'lotId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -259,7 +283,7 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'lotId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'

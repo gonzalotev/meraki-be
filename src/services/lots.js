@@ -1,6 +1,8 @@
+const OperativesService = require('./operatives');
 const { lots } = include('models');
 const { lotsAttrib } = include('constants/staticData');
 const { dateToString, stringToDate, dateTimeToString } = include('util');
+const toNumber = require('lodash/toNumber');
 
 class LotsService {
     static async fetchStaticLots() {
@@ -15,10 +17,10 @@ class LotsService {
     }
 
     static async fetch() {
-        const lot = await lots.find({FECHA_BAJA: null});
-        return lot.map(lot => ({
+        let lotss = await lots.find({ FECHA_BAJA: null });
+        lotss = lotss.map(lot => ({
             operativeId: lot.ID_OPERATIVO,
-            lotId: lot.ID_OPERATIVO,
+            lotId: lot.ID_LOTE,
             description: lot.DESCRIPCION,
             observation: lot.OBSERVACION,
             domain: lot.DOMINIO,
@@ -46,11 +48,15 @@ class LotsService {
             wholeBatchDeleted: lot.SE_BORRA_TODO_EL_LOTE,
             deleteStarttDate: dateToString(lot.FECHA_INICIO_BORRADO),
             endDateErased: dateToString(lot.FECHA_FIN_BORRADO),
-            userCreator: dateToString(lot.ID_USUARIO_ALTA),
+            userCreator: lot.ID_USUARIO_ALTA,
             createdAt: lot.FECHA_ALTA,
             userDeleted: lot.FECHA_BAJA,
             deletedAt: dateToString(lot.ID_USUARIO_BAJA)
         }));
+
+        await OperativesService.getOperativesData(lotss);
+        return lotss;
+
     }
 
     static async create(params, userCreator) {
@@ -85,17 +91,21 @@ class LotsService {
             FECHA_INICIO_BORRADO: stringToDate(params.deleteStarttDate),
             FECHA_FIN_BORRADO: stringToDate(params.endDateErased),
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
+
         const lotId = await lots.insertOne(formattedLot, ['ID_LOTE']);
-        const lot = await LotsService.findOne({lotId: lotId});
+        console.log(lotId);
+        const lot = await LotsService.findOne({ lotId: lotId });
         return lot;
     }
 
-    static async findOne(filters){
-        const lot = await lots.findById({ID_LOTE: filters.lotId});
+    static async findOne(filters) {
+        const lot = await lots.findById({ ID_LOTE: toNumber(filters.lotId) });
+        console.log(lot);
+        console.log(filters);
         return {
             operativeId: lot.ID_OPERATIVO,
             lotId: lot.ID_LOTE,
@@ -133,7 +143,7 @@ class LotsService {
         };
     }
 
-    static async update(/*filters,*/ params, userCreator){
+    static async update(filters, params) {
         const formattedLot = {
             ID_OPERATIVO: params.operativeId,
             ID_LOTE: params.lotId,
@@ -164,19 +174,20 @@ class LotsService {
             SE_BORRA_TODO_EL_LOTE: params.wholeBatchDeleted,
             FECHA_INICIO_BORRADO: null,
             FECHA_FIN_BORRADO: null,
-            ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
+            ID_USUARIO_ALTA: params.userCreator,
+            ID_USUARIO_BAJA: params.userDeleted,
+            FECHA_BAJA: stringToDate(params.deletedAt),
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const formattedFilters = {ID_LOTE: params.lotId};
-        const lotId = await lots.updateOne(formattedFilters, formattedLot, ['ID_LOTE']);
-        const lot = await LotsService.findOne({lotId: lotId});
+        const lotId = await lots.updateOne({ ID_LOTE: filters.lotId },
+            formattedLot, ['ID_LOTE']);
+        const lot = await LotsService.findOne({ lotId: lotId });
         return lot;
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_LOTE: filters.lotId};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_LOTE: filters.id };
+        console.log(filters);
         const success = await lots.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted

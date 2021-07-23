@@ -163,7 +163,10 @@ const lotsAttrib = [
     'SE_BORRA_TODO_EL_LOTE',
     'FECHA_INICIO_BORRADO',
     'FECHA_FIN_BORRADO',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA'
 ];
 
 const datesWithUserAttrib = {
@@ -598,7 +601,7 @@ const encodingProcessesAttrib = [
     'NIVEL_DE_ERROR_ACEPTABLE',
     'DOMINIO',
     'OBSERVACION',
-    'SUPERVISADO',
+    'SUPERVISADO'
 ];
 
 const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
@@ -721,5 +724,5 @@ module.exports = {
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib
-    
+
 };
