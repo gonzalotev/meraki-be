@@ -604,7 +604,8 @@ const chatAttrib = [
     'ID_USUARIO_SOLUCION',
     'ID_TIPO_CHAT',
     'FECHA_SOLUCION',
-    'SOLUCIONADO_SI_NO'
+    'SOLUCIONADO_SI_NO',
+    'USUARIO'
 ];
 
 const encodingProcessesTableName = 'PROCESOS_DE_CODIFICACION';

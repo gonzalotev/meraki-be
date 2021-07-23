@@ -22,7 +22,7 @@ class TicketController {
 
     static async create(req, res, next){
         try {
-            const ticket = await TicketService.create(req.body, req.user.id);
+            const ticket = await TicketService.create(req.body, req.user);
             res.status(201);
             res.send({ ticket });
         } catch(err) {

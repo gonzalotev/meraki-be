@@ -1,16 +1,17 @@
 const { ticket: ticketModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const TicketTypeService = require('./ticketType');
+const { dateToString, dateTimeToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class ticketService {
     static async fetch(query, userId) {
-        const ticketsTypes = await ticketModel.findByPage(
+        let ticketsTypes = await ticketModel.findByPage(
             query.page,
             {ID_USUARIO_ALTA: userId},
             ticketModel.selectableProps,
             [{ column: 'ID_CHAT', order: 'asc' }]
         );
-        return ticketsTypes.map(ticket => ({
+        ticketsTypes = ticketsTypes.map(ticket => ({
             id: ticket.ID_CHAT,
             originTable: ticket.TABLA_ORIGEN,
             originChatText: ticket.TEXTO_CHAT_ORIGEN,
@@ -21,8 +22,12 @@ class ticketService {
             solutionUserId: ticket.ID_USUARIO_SOLUCION,
             ticketTypeId: ticket.ID_TIPO_CHAT,
             solutionDate: dateToString(ticket.FECHA_SOLUCION),
-            aproved: ticket.SOLUCIONADO_SI_NO
+            aproved: ticket.SOLUCIONADO_SI_NO,
+            userName: ticket.USUARIO
         }));
+
+        await TicketTypeService.getTicketTypeData(ticketsTypes);
+        return ticketsTypes;
     }
     static async getTotal(filters) {
         const total = await ticketModel.countDocuments(filters);
@@ -35,13 +40,14 @@ class ticketService {
             TABLA_ORIGEN: trim(params.originTable),
             TEXTO_CHAT_ORIGEN: trim(params.originChatText),
             FECHA_ALTA: new Date(),
-            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_ALTA: userCreator.id,
             ID_USUARIO_RESPONSABLE: params.userReponsableId,
             TEXTO_SOLUCION: null,
             ID_USUARIO_SOLUCION: null,
             ID_TIPO_CHAT: params.ticketTypeId,
             FECHA_SOLUCION: null,
-            SOLUCIONADO_SI_NO: false
+            SOLUCIONADO_SI_NO: false,
+            USUARIO: trim(params.userName)
         };
         const ticketId = await ticketModel.insertOne(formattedticket, ['ID_CHAT']);
         const ticket = await ticketService.findOne({id: ticketId});
@@ -57,14 +63,15 @@ class ticketService {
             id: ticket.ID_CHAT,
             originTable: ticket.TABLA_ORIGEN,
             originChatText: ticket.TEXTO_CHAT_ORIGEN,
-            createdAt: dateToString(ticket.FECHA_ALTA),
+            createdAt: dateTimeToString(ticket.FECHA_ALTA),
             userCreator: ticket.ID_USUARIO_ALTA,
             userReponsableId: ticket.ID_USUARIO_RESPONSABLE,
             solutionText: ticket.TEXTO_SOLUCION,
             solutionUserId: ticket.ID_USUARIO_SOLUCION,
             ticketTypeId: ticket.ID_TIPO_CHAT,
-            solutionDate: dateToString(ticket.FECHA_SOLUCION),
-            aproved: ticket.SOLUCIONADO_SI_NO
+            solutionDate: dateTimeToString(ticket.FECHA_SOLUCION),
+            aproved: !!ticket.SOLUCIONADO_SI_NO,
+            userName: ticket.USUARIO
         };
     }
 
@@ -79,26 +86,13 @@ class ticketService {
             TEXTO_SOLUCION: params.solutionText,
             ID_USUARIO_SOLUCION: userCreator,
             ID_TIPO_CHAT: params.ticketTypeId,
-            FECHA_SOLUCION: new Date(),
-            SOLUCIONADO_SI_NO: params.aproved
+            FECHA_SOLUCION: stringToDate(params.solutionDate),
+            SOLUCIONADO_SI_NO: params.aproved,
+            USUARIO: trim(params.userName)
         };
-        const ticket = await ticketModel.updateOne(
-            { ID_CHAT: filters.id },
-            formattedticket
-        );
-        return {
-            id: ticket.ID_CHAT,
-            originTable: ticket.TABLA_ORIGEN,
-            originChatText: ticket.TEXTO_CHAT_ORIGEN,
-            createdAt: dateToString(ticket.FECHA_ALTA),
-            userCreator: ticket.ID_USUARIO_ALTA,
-            userReponsableId: ticket.ID_USUARIO_RESPONSABLE,
-            solutionText: ticket.TEXTO_SOLUCION,
-            solutionUserId: ticket.ID_USUARIO_SOLUCION,
-            ticketTypeId: ticket.ID_TIPO_CHAT,
-            solutionDate: dateToString(ticket.FECHA_SOLUCION),
-            aproved: ticket.SOLUCIONADO_SI_NO
-        };
+        const ticketId = await ticketModel.updateOne({ ID_CHAT: filters.id }, formattedticket, ['ID_CHAT']);
+        const ticket = await ticketService.findOne({id: ticketId});
+        return ticket;
     }
 }
 
