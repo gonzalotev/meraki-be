@@ -1,7 +1,9 @@
 const { relationshipAutophraseQuestionClosed } = include('models');
-const StaticalVariableService = require('./staticalVariable');
+const QuestionService = require('./questions');
 const NomenclatorsService = require('./nomenclators');
-const QuestionsTypeSerive = require('./questionType');
+const AutoPhraseService = require('./autoPhrase');
+const OperativeSourcesService = require('./operativeSources');
+const NomenclatureService = require('./nomenclatures');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
@@ -36,10 +38,11 @@ class RelationshipAutophraseQuestionClosedService {
             deletedAt: dateToString(relation.FECHA_BAJA)
         }));
         // await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
-        // await RelationshipAutophraseQuestionClosedService.getQuestionData(relations);
-        await StaticalVariableService.getVariableData(relations);
+        await NomenclatureService.getNomenclatureData(relations);
+        await OperativeSourcesService.getSourceData(relations);
         await NomenclatorsService.getNomenclatorData(relations);
-        await QuestionsTypeSerive.getQuestionTypeData(relations);
+        await QuestionService.getQuestionData(relations);
+        await AutoPhraseService.getAutoPhrase(relations);
         return relations;
     }
 
@@ -65,7 +68,7 @@ class RelationshipAutophraseQuestionClosedService {
             deletedAt: dateToString(relation.FECHA_BAJA)
         } : {};
 
-        await QuestionsTypeSerive.getQuestionTypeData(relation);
+        // await QuestionsTypeSerive.getQuestionTypeData(relation);
         return relation;
     }
 
