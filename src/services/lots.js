@@ -143,7 +143,7 @@ class LotsService {
         };
     }
 
-    static async update(filters, params) {
+    static async update(filters, params, userCreator) {
         const formattedLot = {
             ID_OPERATIVO: params.operativeId,
             ID_LOTE: params.lotId,
@@ -174,14 +174,14 @@ class LotsService {
             SE_BORRA_TODO_EL_LOTE: params.wholeBatchDeleted,
             FECHA_INICIO_BORRADO: null,
             FECHA_FIN_BORRADO: null,
-            ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
-            FECHA_ALTA: stringToDate(params.createdAt)
+            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null,
+            FECHA_ALTA: new Date()
         };
-        const lotId = await lots.updateOne({ ID_LOTE: filters.lotId },
-            formattedLot, ['ID_LOTE']);
-        const lot = await LotsService.findOne({ lotId: lotId });
+        const formattedFilters = {ID_LOTE: params.lotId};
+        const lotId = await lots.updateOne(formattedFilters, formattedLot, ['ID_LOTE']);
+        const lot = await LotsService.findOne({lotId: lotId});
         return lot;
     }
 
