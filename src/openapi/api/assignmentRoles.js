@@ -27,7 +27,7 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'string'},
+                                                roleId: {type: 'string'},
                                                 description: {type: 'string'},
                                                 domain: {type: 'string'},
                                                 observation: {type: 'string'},
@@ -60,14 +60,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                roleId: {type: 'string'},
                                 description: {type: 'string'},
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
                                 userId: {type: 'string'},
-                                userName: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                userName: {type: 'string'}
                             }
                         }
                     }
@@ -85,7 +83,7 @@ module.exports = {
                                     role: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            roleId: {type: 'string'},
                                             description: {type: 'string'},
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
@@ -107,21 +105,21 @@ module.exports = {
             }
         }
     },
-    '/api/assignmentRoles/{id}/{idUser}': {
+    '/api/assignmentRoles/{roleId}/{userId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'roleId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
                 },
                 {
                     in: 'path',
-                    name: 'idUser',
+                    name: 'userId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
@@ -135,7 +133,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                roleId: {type: 'string'},
                                 description: {type: 'string'},
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
@@ -160,7 +158,7 @@ module.exports = {
                                     role: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            roleId: {type: 'string'},
                                             description: {type: 'string'},
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
@@ -187,24 +185,21 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'roleId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
                 },
                 {
                     in: 'path',
-                    name: 'idUser',
+                    name: 'userId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -217,14 +212,14 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'roleId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
                 },
                 {
                     in: 'path',
-                    name: 'idUser',
+                    name: 'userId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
@@ -241,7 +236,7 @@ module.exports = {
                                     role: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            roleId: {type: 'string'},
                                             description: {type: 'string'},
                                             domain: {type: 'string'},
                                             observation: {type: 'string'},
@@ -286,6 +281,54 @@ module.exports = {
                                     dictionaryLinguistics: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/DictionaryLinguistic'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/assignmentRoles/roles': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Assignment Roles'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'userId',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
+                    name: 'assigned',
+                    required: false,
+                    schema: {type: 'boolean'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    roles: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: { type: 'string' },
+                                                description: { type: 'string' }
+                                            }
+                                        }
                                     }
                                 }
                             }

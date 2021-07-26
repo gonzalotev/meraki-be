@@ -86,7 +86,6 @@ class SourceQuestionRelationService {
         await StaticalVariableService.getVariableData([relation]);
         await NomenclatorsService.getNomenclatorData([relation]);
         await QuestionsTypeService.getQuestionTypeData(relation);
-        console.log(relation);
         return relation;
     }
 
