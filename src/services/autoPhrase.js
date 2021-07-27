@@ -63,10 +63,10 @@ class AutoPhraseService {
     }
 
     static async findOne(filters) {
-        const autoPhrase = await autoPhraseModel.findById({
+        let autoPhrase = await autoPhraseModel.findById({
             ID_AUTOFRASE: filters.id
         });
-        return {
+        autoPhrase = {
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
             finalPhrase: autoPhrase.FRASE_FINAL,
@@ -81,6 +81,10 @@ class AutoPhraseService {
             userDeleted: autoPhrase.ID_USUARIO_BAJA,
             deletedAt: dateToString(autoPhrase.FECHA_BAJA)
         };
+
+        await StaticalVariableService.getVariableData([autoPhrase]);
+        return autoPhrase;
+
     }
     static async getTotal({ search }) {
         const { total } = await autoPhraseModel.countTotal({ FECHA_BAJA: null }, search, ['FRASE_FINAL']);
