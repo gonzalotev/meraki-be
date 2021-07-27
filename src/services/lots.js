@@ -24,8 +24,8 @@ class LotsService {
             description: lot.DESCRIPCION,
             observation: lot.OBSERVACION,
             domain: lot.DOMINIO,
-            fileName: lot.NOMBRE_DEL_ARCHIVO,
-            fileFormat: lot.FORMATO_DE_ARCHIVO,
+            fileName: lot.NOMBRE_ARCHIVO,
+            fileFormat: lot.FORMATO_ARCHIVO,
             numberOfRecords: lot.CANTIDAD_DE_REGISTROS,
             batchDataLoadDate: dateToString(lot.FECHA_CARGA_DATOS_LOTE),
             endBatchDataLoadDate: dateToString(lot.FECHA_FIN_CARGA_DATOS_LOTE),
@@ -66,8 +66,8 @@ class LotsService {
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            NOMBRE_DEL_ARCHIVO: params.fileName,
-            FORMATO_DEL_ARCHIVO: params.fileFormat,
+            NOMBRE_ARCHIVO: params.fileName,
+            FORMATO_ARCHIVO: params.fileFormat,
             CANTIDAD_DE_REGISTROS: params.numberOfRecords,
             FECHA_CARGA_DATOS_LOTE: stringToDate(params.batchDataLoadDate),
             FECHA_FIN_CARGA_DATOS_LOTE: stringToDate(params.endDateBatchDataLoad),
@@ -91,14 +91,14 @@ class LotsService {
             FECHA_INICIO_BORRADO: stringToDate(params.deleteStarttDate),
             FECHA_FIN_BORRADO: stringToDate(params.endDateErased),
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
+            ID_USUARIO_BAJA: params.userDeleted,
+            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: new Date()
         };
 
         const lotId = await lots.insertOne(formattedLot, ['ID_LOTE']);
-        console.log(lotId);
-        const lot = await LotsService.findOne({ lotId: lotId });
+        //console.log(lotId);
+        const lot = await LotsService.findOne({lotId: lotId});
         return lot;
     }
 
@@ -112,8 +112,8 @@ class LotsService {
             description: lot.DESCRIPCION,
             observation: lot.OBSERVATION,
             domain: lot.DOMINIO,
-            fileName: lot.NOMBRE_DEL_ARCHIVO,
-            fileFormat: lot.FORMATO_DE_ARCHIVO,
+            fileName: lot.NOMBRE_ARCHIVO,
+            fileFormat: lot.FORMATO_ARCHIVO,
             numberOfRecords: lot.CANTIDAD_DE_REGISTROS,
             batchDataLoadDate: dateTimeToString(lot.FECHA_CARGA_DATOS_LOTE),
             endBatchDataLoadDate: dateTimeToString(lot.FECHA_FIN_CARGA_DATOS_LOTE),
@@ -150,8 +150,8 @@ class LotsService {
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            NOMBRE_DEL_ARCHIVO: params.fileName,
-            FORMATO_DEL_ARCHIVO: params.fileFormat,
+            NOMBRE_ARCHIVO: params.fileName,
+            FORMATO_ARCHIVO: params.fileFormat,
             CANTIDAD_DE_REGISTROS: params.numberOfRecords,
             FECHA_CARGA_DATOS_LOTE: null,
             FECHA_FIN_CARGA_DATOS_LOTE: null,
