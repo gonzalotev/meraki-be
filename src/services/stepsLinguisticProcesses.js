@@ -11,7 +11,7 @@ class StepsLinguisticProcessesService {
         stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
-            dictionaryTypologyId: operative.ORDEN,
+            dictionaryTypologyId: operative.ID_TIPOLOGIA_DE_DICCIONARIO,
             order: operative.ORDEN,
             linguisticFieldNameId: operative.ID_NOMBRE_CAMPO_LINGUISTICO,
             showOnScreen: operative.SE_MUESTRA_EN_PANTALLA,
@@ -66,7 +66,7 @@ class StepsLinguisticProcessesService {
         return {
             sourceId: stepLinguisticProcess.ID_FUENTE,
             questionId: stepLinguisticProcess.ID_PREGUNTA,
-            dictionaryTypologyId: stepLinguisticProcess.ORDEN,
+            dictionaryTypologyId: stepLinguisticProcess.ID_TIPOLOGIA_DE_DICCIONARIO,
             order: stepLinguisticProcess.ORDEN,
             linguisticFieldNameId: stepLinguisticProcess.ID_NOMBRE_CAMPO_LINGUISTICO,
             showOnScreen: stepLinguisticProcess.SE_MUESTRA_EN_PANTALLA,
