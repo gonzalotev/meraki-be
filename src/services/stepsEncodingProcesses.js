@@ -41,7 +41,6 @@ class StepsEncodingProcessesService {
             FECHA_BAJA: null
         };
         const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
-        console.log(operativeId);
         const operative = await StepsEncodingProcessesService.findOne(
             {sourceId: operativeId.ID_FUENTE,
                 questionId: operativeId.ID_PREGUNTA,

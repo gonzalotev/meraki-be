@@ -97,15 +97,12 @@ class LotsService {
         };
 
         const lotId = await lots.insertOne(formattedLot, ['ID_LOTE']);
-        console.log(lotId);
         const lot = await LotsService.findOne({ lotId: lotId });
         return lot;
     }
 
     static async findOne(filters) {
         const lot = await lots.findById({ ID_LOTE: toNumber(filters.lotId) });
-        console.log(lot);
-        console.log(filters);
         return {
             operativeId: lot.ID_OPERATIVO,
             lotId: lot.ID_LOTE,
@@ -187,7 +184,6 @@ class LotsService {
 
     static async delete(filters, userDeleted) {
         const formattedFilters = { ID_LOTE: filters.id };
-        console.log(filters);
         const success = await lots.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
