@@ -35,6 +35,7 @@ const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
 const lots = require('./lots');
+const stepsLinguisticProcesses = require('./stepsLinguisticProcesses');
 
 module.exports = {
     ...assignments,
@@ -73,5 +74,6 @@ module.exports = {
     ...encodingProcesses,
     ...stepsEncodingProcesses,
     ...operativeStructure,
-    ...lots
+    ...lots,
+    ...stepsLinguisticProcesses
 };
