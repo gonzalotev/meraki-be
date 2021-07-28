@@ -11,8 +11,8 @@ class StepsLinguisticProcessesController {
 
     static async find(req, res, next){
         try {
-            const stepLinguisticProcess = await StepsLinguisticProcessesService.findOne(req.params);
-            res.send({stepLinguisticProcess});
+            const linguisticProcess = await StepsLinguisticProcessesService.findOne(req.params);
+            res.send({linguisticProcess});
         } catch(err) {
             next(err);
         }
@@ -20,9 +20,9 @@ class StepsLinguisticProcessesController {
 
     static async create(req, res, next) {
         try{
-            const stepLinguisticProcess = await StepsLinguisticProcessesService.create(req.body, req.user.id);
+            const linguisticProcess = await StepsLinguisticProcessesService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ stepLinguisticProcess });
+            res.send({ linguisticProcess });
         } catch(err) {
             next(err);
         }
@@ -30,8 +30,8 @@ class StepsLinguisticProcessesController {
 
     static async update(req, res, next){
         try{
-            const stepLinguisticProcess = await StepsLinguisticProcessesService.update(req.params, req.body);
-            res.send({ success: true, stepLinguisticProcess });
+            const linguisticProcess = await StepsLinguisticProcessesService.update(req.params, req.body);
+            res.send({ success: true, linguisticProcess });
         } catch(error) {
             next(error);
         }
@@ -52,8 +52,8 @@ class StepsLinguisticProcessesController {
 
     static async fetchOne(req, res, next){
         try{
-            const stepLinguisticProcess = await StepsLinguisticProcessesService.findById(req.params);
-            res.send({ stepLinguisticProcess });
+            const linguisticProcess = await StepsLinguisticProcessesService.findById(req.params);
+            res.send({ linguisticProcess });
         } catch(error) {
             next(error);
         }

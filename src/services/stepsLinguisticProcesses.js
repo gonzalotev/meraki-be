@@ -1,7 +1,6 @@
 const { stepsLinguisticProcesses } = include('models');
 const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
-const EncodingProcessService = require('./encodingProcesses');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
@@ -12,8 +11,10 @@ class StepsLinguisticProcessesService {
         stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
+            dictionaryTypologyId: operative.ORDEN,
             order: operative.ORDEN,
-            encodingProcessId: operative.ID_PROCESO_CODIFICACION,
+            linguisticFieldNameId: operative.ID_NOMBRE_CAMPO_LINGUISTICO,
+            showOnScreen: operative.SE_MUESTRA_EN_PANTALLA,
             observation: operative.OBSERVACION,
             domain: operative.DOMINIO,
             userCreator: operative.ID_USUARIO_ALTA,
@@ -23,7 +24,6 @@ class StepsLinguisticProcessesService {
         }));
         await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
         await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
-        await EncodingProcessService.getEncodingProcessesData(stepsLinguisticProcessesList);
         return stepsLinguisticProcessesList;
     }
 
@@ -31,8 +31,10 @@ class StepsLinguisticProcessesService {
         const formattedStepLinguisticProcess = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
-            ID_PROCESO_CODIFICACION: params.encodingProcessId,
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypologyId,
             ORDEN: params.order,
+            ID_NOMBRE_CAMPO_LINGUISTICO: params.linguisticFieldNameId,
+            SE_MUESTRA_EN_PANTALLA: params.showOnScreen,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
@@ -40,13 +42,14 @@ class StepsLinguisticProcessesService {
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null
         };
-        const operativeId = await stepsLinguisticProcesses.insertOne(formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        const operativeId = await stepsLinguisticProcesses.insertOne(formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
         console.log(operativeId);
         const operative = await StepsLinguisticProcessesService.findOne(
             {sourceId: operativeId.ID_FUENTE,
                 questionId: operativeId.ID_PREGUNTA,
-                order: operativeId.ORDEN,
-                encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
+                dictionaryTypologyId: operativeId.ID_TIPOLOGIA_DE_DICCIONARIO,
+                order: operativeId.ORDEN
+            });
         return operative;
     }
 
@@ -54,15 +57,17 @@ class StepsLinguisticProcessesService {
         const formattedFilters = {
             ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId,
-            ORDEN: filters.order,
-            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
+            ORDEN: filters.order
         };
         const stepLinguisticProcess = await stepsLinguisticProcesses.findById(formattedFilters);
         return {
             sourceId: stepLinguisticProcess.ID_FUENTE,
             questionId: stepLinguisticProcess.ID_PREGUNTA,
+            dictionaryTypologyId: stepLinguisticProcess.ORDEN,
             order: stepLinguisticProcess.ORDEN,
-            encodingProcessId: stepLinguisticProcess.ID_PROCESO_CODIFICACION,
+            linguisticFieldNameId: stepLinguisticProcess.ID_NOMBRE_CAMPO_LINGUISTICO,
+            showOnScreen: stepLinguisticProcess.SE_MUESTRA_EN_PANTALLA,
             observation: stepLinguisticProcess.OBSERVACION,
             domain: stepLinguisticProcess.DOMINIO,
             userCreator: stepLinguisticProcess.ID_USUARIO_ALTA,
@@ -76,8 +81,10 @@ class StepsLinguisticProcessesService {
         const formattedStepLinguisticProcess = {
             ID_FUENTE: toNumber(params.sourceId),
             ID_PREGUNTA: toNumber(params.questionId),
-            ID_PROCESO_CODIFICACION: params.encodingProcessId,
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypologyId,
             ORDEN: toNumber(params.order),
+            ID_NOMBRE_CAMPO_LINGUISTICO: params.linguisticFieldNameId,
+            SE_MUESTRA_EN_PANTALLA: params.showOnScreen,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator
@@ -85,15 +92,17 @@ class StepsLinguisticProcessesService {
         const formattedFilters = {
             ID_FUENTE: toNumber(filters.sourceId),
             ID_PREGUNTA: toNumber(filters.questionId),
-            ORDEN: toNumber(filters.order),
-            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
+            ORDEN: toNumber(filters.order)
         };
-        const stepLinguisticProcessId = await stepsLinguisticProcesses.updateOne(formattedFilters, formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        const stepLinguisticProcessId = await stepsLinguisticProcesses.updateOne(formattedFilters, formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
         const stepLinguisticProcess =
-        await StepsLinguisticProcessesService.findOne({sourceId: stepLinguisticProcessId.ID_FUENTE,
+        await StepsLinguisticProcessesService.findOne({
+            sourceId: stepLinguisticProcessId.ID_FUENTE,
             questionId: stepLinguisticProcessId.ID_PREGUNTA,
-            order: stepLinguisticProcessId.ORDEN,
-            encodingProcessId: stepLinguisticProcessId.ID_PROCESO_CODIFICACION});
+            dictionaryTypologyId: stepLinguisticProcessId.ID_TIPOLOGIA_DE_DICCIONARIO,
+            order: stepLinguisticProcessId.ORDEN
+        });
         return stepLinguisticProcess;
     }
 
@@ -101,8 +110,8 @@ class StepsLinguisticProcessesService {
         const success = await stepsLinguisticProcesses.deleteOne({
             ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId,
-            ORDEN: filters.order,
-            ID_PROCESO_CODIFICACION: filters.encodingProcessId
+            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
+            ORDEN: filters.order
         },
         {
             FECHA_BAJA: new Date(),

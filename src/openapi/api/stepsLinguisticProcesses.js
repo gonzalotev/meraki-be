@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    opertiveSources: {
+                                    stepsLinguisticProcesses: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -39,14 +39,14 @@ module.exports = {
                             properties: {
                                 sourceId: {type: 'string'},
                                 questionId: {type: 'string'},
+                                dictionaryTypologyId: {type: 'string'},
                                 order: {type: 'string'},
-                                encodingProcessId: {type: 'string'},
+                                linguisticFieldNameId: {type: 'string'},
+                                showOnScreen: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                createdAt: {type: 'string'}
 
                             }
                         }
@@ -62,13 +62,15 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    operativeSource: {
+                                    stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
                                             questionId: {type: 'string'},
+                                            dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'string'},
-                                            encodingProcessId: {type: 'string'},
+                                            linguisticFieldNameId: {type: 'string'},
+                                            showOnScreen: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
@@ -89,7 +91,7 @@ module.exports = {
             }
         }
     },
-    '/api/stepsLinguisticProcesses/{sourceId}/{questionId}/{order}/{encodingProcessId}': {
+    '/api/stepsLinguisticProcesses/{sourceId}/{questionId}/{dictionaryTypologyId}/{order}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Steps Linguistic Processes'],
@@ -110,14 +112,14 @@ module.exports = {
                 },
                 {
                     in: 'path',
-                    name: 'order',
+                    name: 'dictionaryTypologyId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'questionId to update'
                 },
                 {
                     in: 'path',
-                    name: 'encodingProcessId',
+                    name: 'order',
                     required: true,
                     schema: {type: 'string'},
                     description: 'questionId to update'
@@ -133,8 +135,10 @@ module.exports = {
                             properties: {
                                 sourceId: {type: 'string'},
                                 questionId: {type: 'string'},
+                                dictionaryTypologyId: {type: 'string'},
                                 order: {type: 'string'},
-                                encodingProcessId: {type: 'string'},
+                                linguisticFieldNameId: {type: 'string'},
+                                showOnScreen: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
@@ -155,13 +159,15 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    operativeSource: {
+                                    stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
                                             questionId: {type: 'string'},
+                                            dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'string'},
-                                            encodingProcessId: {type: 'string'},
+                                            linguisticFieldNameId: {type: 'string'},
+                                            showOnScreen: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
@@ -201,17 +207,17 @@ module.exports = {
                 },
                 {
                     in: 'path',
-                    name: 'order',
+                    name: 'dictionaryTypologyId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'questionId to update'
+                    description: 'dictionaryTypologyId to update'
                 },
                 {
                     in: 'path',
-                    name: 'encodingProcessId',
+                    name: 'order',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'questionId to update'
+                    description: 'order to update'
                 }
             ],
             responses: {
@@ -245,17 +251,17 @@ module.exports = {
                 },
                 {
                     in: 'path',
-                    name: 'order',
+                    name: 'dictionaryTypologyId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'questionId to update'
+                    description: 'dictionaryTypologyId to update'
                 },
                 {
                     in: 'path',
-                    name: 'encodingProcessId',
+                    name: 'order',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'questionId to update'
+                    description: 'order to update'
                 }
             ],
             responses: {
@@ -266,13 +272,15 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    word: {
+                                    stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
                                             sourceId: {type: 'string'},
                                             questionId: {type: 'string'},
+                                            dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'string'},
-                                            encodingProcessId: {type: 'string'},
+                                            linguisticFieldNameId: {type: 'string'},
+                                            showOnScreen: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
@@ -315,7 +323,7 @@ module.exports = {
                                 properties: {
                                     dictionaryLinguistics: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/stepsLinguisticProcesses'}
+                                        items: {$ref: '#/components/schemas/StepsLinguisticProcesses'}
                                     }
                                 }
                             }
