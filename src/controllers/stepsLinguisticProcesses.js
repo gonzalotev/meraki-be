@@ -1,9 +1,9 @@
-const { StepsEncodingProcessesService } = include('services');
-class StepsEncodingProcessesController {
+const { StepsLinguisticProcessesService } = include('services');
+class StepsLinguisticProcessesController {
     static async fetch(req, res, next) {
         try {
-            const encodingProcesses = await StepsEncodingProcessesService.fetch();
-            res.send({ encodingProcesses });
+            const linguisticProcesses = await StepsLinguisticProcessesService.fetch();
+            res.send({ linguisticProcesses });
         } catch(error) {
             next(error);
         }
@@ -11,8 +11,8 @@ class StepsEncodingProcessesController {
 
     static async find(req, res, next){
         try {
-            const stepEncodingProcess = await StepsEncodingProcessesService.findOne(req.params);
-            res.send({stepEncodingProcess});
+            const stepLinguisticProcess = await StepsLinguisticProcessesService.findOne(req.params);
+            res.send({stepLinguisticProcess});
         } catch(err) {
             next(err);
         }
@@ -20,9 +20,9 @@ class StepsEncodingProcessesController {
 
     static async create(req, res, next) {
         try{
-            const stepEncodingProcess = await StepsEncodingProcessesService.create(req.body, req.user.id);
+            const stepLinguisticProcess = await StepsLinguisticProcessesService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ stepEncodingProcess });
+            res.send({ stepLinguisticProcess });
         } catch(err) {
             next(err);
         }
@@ -30,8 +30,8 @@ class StepsEncodingProcessesController {
 
     static async update(req, res, next){
         try{
-            const stepEncodingProcess = await StepsEncodingProcessesService.update(req.params, req.body);
-            res.send({ success: true, stepEncodingProcess });
+            const stepLinguisticProcess = await StepsLinguisticProcessesService.update(req.params, req.body);
+            res.send({ success: true, stepLinguisticProcess });
         } catch(error) {
             next(error);
         }
@@ -39,7 +39,7 @@ class StepsEncodingProcessesController {
 
     static async delete(req, res, next){
         try{
-            const result = await StepsEncodingProcessesService.delete(req.params, req.user.id);
+            const result = await StepsLinguisticProcessesService.delete(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
@@ -52,8 +52,8 @@ class StepsEncodingProcessesController {
 
     static async fetchOne(req, res, next){
         try{
-            const stepEncodingProcess = await StepsEncodingProcessesService.findById(req.params);
-            res.send({ stepEncodingProcess });
+            const stepLinguisticProcess = await StepsLinguisticProcessesService.findById(req.params);
+            res.send({ stepLinguisticProcess });
         } catch(error) {
             next(error);
         }
@@ -61,7 +61,7 @@ class StepsEncodingProcessesController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await StepsEncodingProcessesService.getCsv();
+            const stream = await StepsLinguisticProcessesService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {
@@ -70,4 +70,4 @@ class StepsEncodingProcessesController {
     }
 }
 
-module.exports = StepsEncodingProcessesController;
+module.exports = StepsLinguisticProcessesController;

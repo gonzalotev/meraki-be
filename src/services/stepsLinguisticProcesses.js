@@ -1,4 +1,4 @@
-const { stepsEncodingProcesses } = include('models');
+const { stepsLinguisticProcesses } = include('models');
 const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
 const EncodingProcessService = require('./encodingProcesses');
@@ -6,10 +6,10 @@ const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
 
-class StepsEncodingProcessesService {
+class StepsLinguisticProcessesService {
     static async fetch() {
-        let operatives = await stepsEncodingProcesses.find({FECHA_BAJA: null});
-        operatives = operatives.map(operative => ({
+        let stepsLinguisticProcessesList = await stepsLinguisticProcesses.find({FECHA_BAJA: null});
+        stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
             order: operative.ORDEN,
@@ -21,14 +21,14 @@ class StepsEncodingProcessesService {
             userDeleted: operative.ID_USUARIO_BAJA,
             deletedAt: dateToString(operative.FECHA_BAJA)
         }));
-        await OperativeSourcesService.getSourceData(operatives);
-        await QuestionsService.getQuestionData(operatives);
-        await EncodingProcessService.getEncodingProcessesData(operatives);
-        return operatives;
+        await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
+        await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
+        await EncodingProcessService.getEncodingProcessesData(stepsLinguisticProcessesList);
+        return stepsLinguisticProcessesList;
     }
 
     static async create(params, userCreator) {
-        const formattedOperativeSource = {
+        const formattedStepLinguisticProcess = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
             ID_PROCESO_CODIFICACION: params.encodingProcessId,
@@ -40,9 +40,9 @@ class StepsEncodingProcessesService {
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null
         };
-        const operativeId = await stepsEncodingProcesses.insertOne(formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        const operativeId = await stepsLinguisticProcesses.insertOne(formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
         console.log(operativeId);
-        const operative = await StepsEncodingProcessesService.findOne(
+        const operative = await StepsLinguisticProcessesService.findOne(
             {sourceId: operativeId.ID_FUENTE,
                 questionId: operativeId.ID_PREGUNTA,
                 order: operativeId.ORDEN,
@@ -57,23 +57,23 @@ class StepsEncodingProcessesService {
             ORDEN: filters.order,
             ID_PROCESO_CODIFICACION: filters.encodingProcessId
         };
-        const encodingProcess = await stepsEncodingProcesses.findById(formattedFilters);
+        const stepLinguisticProcess = await stepsLinguisticProcesses.findById(formattedFilters);
         return {
-            sourceId: encodingProcess.ID_FUENTE,
-            questionId: encodingProcess.ID_PREGUNTA,
-            order: encodingProcess.ORDEN,
-            encodingProcessId: encodingProcess.ID_PROCESO_CODIFICACION,
-            observation: encodingProcess.OBSERVACION,
-            domain: encodingProcess.DOMINIO,
-            userCreator: encodingProcess.ID_USUARIO_ALTA,
-            createdAt: dateToString(encodingProcess.FECHA_ALTA),
-            userDeleted: encodingProcess.ID_USUARIO_BAJA,
-            deletedAt: dateToString(encodingProcess.FECHA_BAJA)
+            sourceId: stepLinguisticProcess.ID_FUENTE,
+            questionId: stepLinguisticProcess.ID_PREGUNTA,
+            order: stepLinguisticProcess.ORDEN,
+            encodingProcessId: stepLinguisticProcess.ID_PROCESO_CODIFICACION,
+            observation: stepLinguisticProcess.OBSERVACION,
+            domain: stepLinguisticProcess.DOMINIO,
+            userCreator: stepLinguisticProcess.ID_USUARIO_ALTA,
+            createdAt: dateToString(stepLinguisticProcess.FECHA_ALTA),
+            userDeleted: stepLinguisticProcess.ID_USUARIO_BAJA,
+            deletedAt: dateToString(stepLinguisticProcess.FECHA_BAJA)
         };
     }
 
     static async update(filters, params){
-        const formattedOperativeSource = {
+        const formattedStepLinguisticProcess = {
             ID_FUENTE: toNumber(params.sourceId),
             ID_PREGUNTA: toNumber(params.questionId),
             ID_PROCESO_CODIFICACION: params.encodingProcessId,
@@ -88,16 +88,17 @@ class StepsEncodingProcessesService {
             ORDEN: toNumber(filters.order),
             ID_PROCESO_CODIFICACION: filters.encodingProcessId
         };
-        const operativeId = await stepsEncodingProcesses.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
-        const operative = await StepsEncodingProcessesService.findOne({sourceId: operativeId.ID_FUENTE,
-            questionId: operativeId.ID_PREGUNTA,
-            order: operativeId.ORDEN,
-            encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
-        return operative;
+        const stepLinguisticProcessId = await stepsLinguisticProcesses.updateOne(formattedFilters, formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ORDEN', 'ID_PROCESO_CODIFICACION']);
+        const stepLinguisticProcess =
+        await StepsLinguisticProcessesService.findOne({sourceId: stepLinguisticProcessId.ID_FUENTE,
+            questionId: stepLinguisticProcessId.ID_PREGUNTA,
+            order: stepLinguisticProcessId.ORDEN,
+            encodingProcessId: stepLinguisticProcessId.ID_PROCESO_CODIFICACION});
+        return stepLinguisticProcess;
     }
 
     static async delete(filters, userDeleted){
-        const success = await stepsEncodingProcesses.deleteOne({
+        const success = await stepsLinguisticProcesses.deleteOne({
             ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId,
             ORDEN: filters.order,
@@ -123,16 +124,24 @@ class StepsEncodingProcessesService {
                     nameInFile: 'PREGUNTA'
                 },
                 {
+                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                    nameInFile: 'TIPOLOGIA DE DICCIONARIO'
+                },
+                {
                     nameInTable: 'ORDEN',
                     nameInFile: 'ORDEN'
                 },
                 {
-                    nameInTable: 'ID_PROCESO_CODIFICACION',
-                    nameInFile: 'PROCESO DE CODIFICACION'
+                    nameInTable: 'ID_NOMBRE_CAMPO_LINGUISTICO',
+                    nameInFile: 'NOMBRE CAMPO LINGUISTICO'
+                },
+                {
+                    nameInTable: 'SE_MUESTRA_EN_PANTALLA',
+                    nameInFile: 'SE MUESTRA EN PANTALLA'
                 },
                 {
                     nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
+                    nameInFile: 'OBSERVACION'
                 },
                 {
                     nameInTable: 'DOMINIO',
@@ -140,12 +149,12 @@ class StepsEncodingProcessesService {
                 }
             ];
 
-            const operativeSourcesTableHeaders = map(fieldNames, field => field.nameInTable);
-            const operativeSourcesFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(operativeSourcesFileHeaders);
+            const stepsLinguiticProcessesTableHeaders = map(fieldNames, field => field.nameInTable);
+            const stepsLinguisticProcessesFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(stepsLinguisticProcessesFileHeaders);
             csvString += headers;
-            const stream = stepsEncodingProcesses.knex.select(operativeSourcesTableHeaders)
-                .from(stepsEncodingProcesses.tableName)
+            const stream = stepsLinguisticProcesses.knex.select(stepsLinguiticProcessesTableHeaders)
+                .from(stepsLinguisticProcesses.tableName)
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
@@ -160,4 +169,4 @@ class StepsEncodingProcessesService {
     }
 }
 
-module.exports = StepsEncodingProcessesService;
+module.exports = StepsLinguisticProcessesService;

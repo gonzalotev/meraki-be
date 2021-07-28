@@ -1,16 +1,16 @@
 const ModelCreate = include('helpers/modelCreate');
-const {stepsEncodingProcessesTableName, stepsEncodingProcessesAttrib} = include('constants');
-const name = 'stepsEncodingProcesses';
+const {stepsLinguisticProcessesTableName, stepsLinguisticProcessesAttrib} = include('constants');
+const name = 'stepsLinguisticProcesses';
 
-class StepsEncodingProcesses extends ModelCreate{
+class StepsLinguisticProcesses extends ModelCreate{
     constructor(props){
         super({
             ...props,
             name,
-            tableName: stepsEncodingProcessesTableName,
-            selectableProps: stepsEncodingProcessesAttrib
+            tableName: stepsLinguisticProcessesTableName,
+            selectableProps: stepsLinguisticProcessesAttrib
         });
     }
 }
 
-module.exports = knex => new StepsEncodingProcesses({knex});
+module.exports = knex => new StepsLinguisticProcesses({knex});

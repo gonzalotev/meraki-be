@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/stepsEncodingProcesses': {
+    '/api/stepsLinguisticProcesses': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Encoding Processes'],
+            tags: ['Steps Linguistic Processes'],
             responses: {
                 200: {
                     description: 'ok',
@@ -28,9 +28,9 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Encoding Processes'],
+            tags: ['Steps Linguistic Processes'],
             requestBody: {
-                description: 'The new step encoding process to create',
+                description: 'The new step Linguistic process to create',
                 required: true,
                 content: {
                     'application/json': {
@@ -89,10 +89,10 @@ module.exports = {
             }
         }
     },
-    '/api/stepsEncodingProcesses/{sourceId}/{questionId}/{order}/{encodingProcessId}': {
+    '/api/stepsLinguisticProcesses/{sourceId}/{questionId}/{order}/{encodingProcessId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Encoding Processes'],
+            tags: ['Steps Linguistic Processes'],
             parameters: [
                 {
                     in: 'path',
@@ -183,7 +183,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Encoding Processes'],
+            tags: ['Steps Linguistic Processes'],
             parameters: [
                 {
                     in: 'path',
@@ -227,7 +227,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Encoding Processes'],
+            tags: ['Steps Linguistic Processes'],
             parameters: [
                 {
                     in: 'path',
@@ -293,10 +293,10 @@ module.exports = {
             }
         }
     },
-    '/api/stepsEncodingProcesses/downloadCsv': {
+    '/api/stepsLinguisticProcesses/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Encoding Processes'],
+            tags: ['Steps Linguistic Processes'],
             parameters: [
                 {
                     in: 'query',
@@ -315,7 +315,7 @@ module.exports = {
                                 properties: {
                                     dictionaryLinguistics: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/StepsEncodingProcesses'}
+                                        items: {$ref: '#/components/schemas/stepsLinguisticProcesses'}
                                     }
                                 }
                             }
