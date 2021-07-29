@@ -214,6 +214,25 @@ class DictionaryTypeService {
             });
         });
     }
+
+    static async getDictionaryTypeData(resources){
+        const dictionaryTypesIds = uniq(map(resources, resource => resource.dictionaryTypeId));
+        let dictionaryTypes = await dictionaryTypeModel.knex.select()
+            .from(dictionaryTypeModel.tableName)
+            .whereIn('ID_TIPOLOGIA_DE_DICCIONARIO', dictionaryTypesIds);
+        dictionaryTypes = map(dictionaryTypes, dictionaryType => ({
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.dictionaryType =
+            find(dictionaryTypes, dictionaryType => dictionaryType.id === resource.dictionaryTypeId);
+            return resource;
+        });
+    }
 }
 
 module.exports = DictionaryTypeService;

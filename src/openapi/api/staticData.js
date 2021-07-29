@@ -158,6 +158,12 @@ module.exports = {
                     name: 'datatypes',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'linguisticFieldProcesses',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {

@@ -1,6 +1,7 @@
 const { stepsLinguisticProcesses } = include('models');
 const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
+const DictionaryTypeService = require('./dictionaryType');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
@@ -24,6 +25,7 @@ class StepsLinguisticProcessesService {
         }));
         await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
         await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
+        await DictionaryTypeService.getDictionaryTypeData(stepsLinguisticProcessesList);
         return stepsLinguisticProcessesList;
     }
 
