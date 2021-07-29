@@ -682,6 +682,12 @@ const stepsLinguisticProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const linguisticFieldProcessesTableName = 'PROCESOS_LINGUISTICOS_CAMPOS';
+const linguisticFieldProcessesAttrib = [
+    'ID_NOMBRE_CAMPO_LINGUISTICO',
+    'TIPO_DATO'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -763,5 +769,7 @@ module.exports = {
     operativeStructureTableName,
     operativeStructureAttrib,
     stepsLinguisticProcessesTableName,
-    stepsLinguisticProcessesAttrib
+    stepsLinguisticProcessesAttrib,
+    linguisticFieldProcessesTableName,
+    linguisticFieldProcessesAttrib
 };
