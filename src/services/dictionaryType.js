@@ -216,7 +216,7 @@ class DictionaryTypeService {
     }
 
     static async getDictionaryTypeData(resources){
-        const dictionaryTypesIds = uniq(map(resources, resource => resource.dictionaryTypeId));
+        const dictionaryTypesIds = uniq(map(resources, resource => resource.dictionaryTypologyId));
         let dictionaryTypes = await dictionaryTypeModel.knex.select()
             .from(dictionaryTypeModel.tableName)
             .whereIn('ID_TIPOLOGIA_DE_DICCIONARIO', dictionaryTypesIds);
@@ -229,7 +229,7 @@ class DictionaryTypeService {
                 resource.foreignData = {};
             }
             resource.foreignData.dictionaryType =
-            find(dictionaryTypes, dictionaryType => dictionaryType.id === resource.dictionaryTypeId);
+            find(dictionaryTypes, dictionaryType => dictionaryType.id === resource.dictionaryTypologyId);
             return resource;
         });
     }
