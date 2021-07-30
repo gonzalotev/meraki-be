@@ -87,6 +87,18 @@ class StaticDataService {
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
     }
+    static async getNomenclatureGroup(data) {
+        const nomenclaturesGroup = await knex
+            .select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+                abbreviation: 'ABREVIATURA',
+                description: 'DESCRIPCION'
+            })
+            .from('AGRUPACIONES_NOMENCLATURA');
+        return (data.nomenclaturesGroup = nomenclaturesGroup);
+    }
     static async getSources(data) {
         const sources = await knex.select({
             id: 'ID_FUENTE',

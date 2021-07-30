@@ -21,6 +21,7 @@ const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
 const relationshipAutophrasesNomenclatures = require('./relationshipAutophrasesNomenclatures');
+const relationshipAutophrasesLetters = require('./relationshipAutophrasesLetters');
 const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
@@ -62,6 +63,7 @@ module.exports = {
     ...newPhrases,
     ...operativeSources,
     ...relationshipAutophrasesNomenclatures,
+    ...relationshipAutophrasesLetters,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,

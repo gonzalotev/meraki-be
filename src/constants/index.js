@@ -479,6 +479,21 @@ const wordsDictionaryAttrib = [
     'FAMILIA'
 ];
 
+const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
+const relationshipAutoPhraseLetterAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ID_AUTOFRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'SUPERVISADO'
+];
+
 const relationshipAutoPhraseNomenclatureTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
 const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_NOMENCLADOR',
@@ -730,6 +745,8 @@ module.exports = {
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
+    relationshipAutoPhraseLetterTableName,
+    relationshipAutoPhraseLetterAttrib,
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,

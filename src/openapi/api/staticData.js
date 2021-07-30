@@ -70,6 +70,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'nomenclatureGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'newPhrases',
                     required: false,
                     schema: {type: 'boolean'}
