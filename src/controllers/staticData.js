@@ -34,7 +34,8 @@ class StaticDataController {
                 entryFieldsNames,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
-                datatypes
+                datatypes,
+                linguisticFieldProcesses
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -110,6 +111,9 @@ class StaticDataController {
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
+            }
+            if (linguisticFieldProcesses) {
+                await StaticDataService.getLinguisticFieldProcesses(data);
             }
             res.send(data);
         } catch (error) {

@@ -220,6 +220,16 @@ class StaticDataService {
         data.datatypes = datatypes;
         return data;
     }
+    static async getLinguisticFieldProcesses(data){
+        const linguisticFieldProcesses = await knex.select({
+            id: 'ID_NOMBRE_CAMPO_LINGUISTICO',
+            dataType: 'TIPO_DATO'
+        })
+            .from('PROCESOS_LINGUISTICOS_CAMPOS')
+            .orderBy([{column: 'ID_NOMBRE_CAMPO_LINGUISTICO', order: 'asc'}]);
+        data.linguisticFieldProcesses = linguisticFieldProcesses;
+        return data;
+    }
 }
 
 module.exports = StaticDataService;
