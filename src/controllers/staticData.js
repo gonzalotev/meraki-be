@@ -23,7 +23,9 @@ class StaticDataController {
                 lots,
                 fonts,
                 nomenclatures,
-                momenclatureGroup,
+                nomenclaturesGroup,
+                nomenclatorsGroup,
+                relationshipGroup,
                 sources,
                 questions,
                 questionsTypes,
@@ -34,8 +36,7 @@ class StaticDataController {
                 entryFieldsNames,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
-                datatypes,
-                linguisticFieldProcesses
+                datatypes
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -76,8 +77,14 @@ class StaticDataController {
             if (nomenclatures) {
                 await StaticDataService.getNomenclatures(data);
             }
-            if (momenclatureGroup) {
-                await StaticDataService.getNomenclatureGroup(data);
+            if (nomenclaturesGroup) {
+                await StaticDataService.getNomenclaturesGroup(data);
+            }
+            if (nomenclatorsGroup) {
+                await StaticDataService.getNomenclatorsGroup(data);
+            }
+            if (relationshipGroup) {
+                await StaticDataService.getRelationshipGroup(data);
             }
             if (sources) {
                 await StaticDataService.getSources(data);
@@ -111,9 +118,6 @@ class StaticDataController {
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
-            }
-            if (linguisticFieldProcesses) {
-                await StaticDataService.getLinguisticFieldProcesses(data);
             }
             res.send(data);
         } catch (error) {
