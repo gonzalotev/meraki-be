@@ -1,5 +1,5 @@
 const knex = include('helpers/database');
-
+const NomenclatorService = require('./nomenclators');
 class StaticDataService {
     static async getGenders(data) {
         const genders = await knex
@@ -171,6 +171,31 @@ class StaticDataService {
         data.operatives = operatives;
         return operatives;
     }
+    static async getLevels(data, filters){
+        data.levels = {nomenclators: [], digits: []};
+        if(filters.nomenclators) {
+            data.levels.nomenclators = await NomenclatorService.fetchIfExist(
+                {tableName: 'NIVEL'},
+                'ID_NOMENCLADOR',
+                {FECHA_BAJA: null}
+            );
+        }
+        if(filters.digits) {
+            const { nomenclatorId } = filters;
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId};
+            }
+            data.levels.digits = await knex.select({
+                amountOfDigits: 'ID_CANTIDAD_DIGITOS',
+                description: 'DESCRIPCION'
+            })
+                .from('NIVEL')
+                .where(whereFilter);
+        }
+        return data;
+    }
+
     static async getEntryFieldsNames(data){
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'
