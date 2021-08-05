@@ -150,6 +150,25 @@ class DictionaryTypeService {
         return resourceArrayWithDictionaryType;
     }
 
+    static async getDictionaryTypeData(resources){
+        const dictionariesTypesIds = uniq(map(resources, resource => resource.dictionaryTypeId));
+        let dictionariesTypes = await dictionaryTypeModel.findByValues('ID_TIPOLOGIA_DE_DICCIONARIO', dictionariesTypesIds);
+        dictionariesTypes = map(dictionariesTypes, dictionary => ({
+            id: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionary.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.dictionaryType = find(
+                dictionariesTypes,
+                dictionary => dictionary.id === resource.dictionaryTypeId
+            );
+            return resource;
+        });
+    }
+
     static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';

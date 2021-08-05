@@ -16,6 +16,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'levels',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
                     name: 'ticketTypes',
                     required: false,
                     schema: {type: 'boolean'}
