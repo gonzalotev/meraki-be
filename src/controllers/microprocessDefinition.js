@@ -15,7 +15,6 @@ class MicroprocessDefinitionController {
     static async find(req, res, next) {
         try{
             const microprocess = await MicroprocessDefinitionService.findOne(req.params);
-            console.log(microprocess);
             res.send({microprocess});
         } catch(error) {
             next(error);
