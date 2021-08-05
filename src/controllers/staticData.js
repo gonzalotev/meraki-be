@@ -23,6 +23,9 @@ class StaticDataController {
                 lots,
                 fonts,
                 nomenclatures,
+                nomenclaturesGroup,
+                nomenclatorsGroup,
+                relationshipGroup,
                 sources,
                 questions,
                 questionsTypes,
@@ -78,6 +81,15 @@ class StaticDataController {
             }
             if (nomenclatures) {
                 await StaticDataService.getNomenclatures(data);
+            }
+            if (nomenclaturesGroup) {
+                await StaticDataService.getNomenclaturesGroup(data);
+            }
+            if (nomenclatorsGroup) {
+                await StaticDataService.getNomenclatorsGroup(data);
+            }
+            if (relationshipGroup) {
+                await StaticDataService.getRelationshipGroup(data);
             }
             if (sources) {
                 await StaticDataService.getSources(data);

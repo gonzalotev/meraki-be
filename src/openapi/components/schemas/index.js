@@ -23,6 +23,7 @@ const RelationshipAutophraseQuestionClosed = require('./relationshipAutophraseQu
 const StepsEncodingProcesses = require('./stepsEncodingProcesses');
 const OperativeStructure = require('./operativeStructure');
 const MicroprocessDefinition = require('./microprocessDefinition');
+const StepsLinguisticProcesses = require('./stepsLinguisticProcesses');
 
 module.exports = {
     ArrayString: {
@@ -81,5 +82,6 @@ module.exports = {
     RelationshipAutophraseQuestionClosed,
     StepsEncodingProcesses,
     OperativeStructure,
-    MicroprocessDefinition
+    MicroprocessDefinition,
+    StepsLinguisticProcesses
 };

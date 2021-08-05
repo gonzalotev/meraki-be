@@ -1,6 +1,5 @@
 const { questions: questionsModel } = include('models');
 const { dateToString, stringToDate } = include('util');
-const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
@@ -24,28 +23,15 @@ class QuestionService {
     static async create(params, userCreator) {
         const formattedQuestion = {
             ID_PREGUNTA: null,
-            PREGUNTA: trim(params.question),
+            PREGUNTA: params.question,
             SUPERVISADO: params.approved,
-            OBSERVACION: trim(params.observation),
-            DOMINIO: trim(params.domain),
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-
-        // const question = await questionsModel.insertOne(formattedQuestion);
-        // return {
-        //     id: question.ID_PREGUNTA,
-        //     question: question.PREGUNTA,
-        //     approved: !!question.SUPERVISADO,
-        //     observation: question.OBSERVACION,
-        //     domain: question.DOMINIO,
-        //     userCreator: question.ID_USUARIO_ALTA,
-        //     createdAt: dateToString(question.FECHA_ALTA),
-        //     userDeleted: question.ID_USUARIO_BAJA,
-        //     deletedAt: dateToString(question.FECHA_BAJA)
-        // };
 
         const questionId = await questionsModel.insertOne(formattedQuestion, ['ID_PREGUNTA']);
         const question = await QuestionService.findOne({ id: questionId });
@@ -70,29 +56,15 @@ class QuestionService {
     static async update(filters, params) {
         const formattedQuestion = {
             ID_PREGUNTA: params.id,
-            PREGUNTA: trim(params.question),
+            PREGUNTA: params.question,
             SUPERVISADO: params.approved,
-            OBSERVACION: trim(params.observation),
-            DOMINIO: trim(params.domain),
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator,
             FECHA_ALTA: stringToDate(params.createdAt),
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
-
-        // const question = await questionsModel.updateOne({ID_PREGUNTA: filters.id},
-        //      formattedQuestion);
-        // return {
-        //     id: question.ID_PREGUNTA,
-        //     question: question.PREGUNTA,
-        //     approved: !!question.SUPERVISADO,
-        //     observation: question.OBSERVACION,
-        //     domain: question.DOMINIO,
-        //     userCreator: question.ID_USUARIO_ALTA,
-        //     createdAt: dateToString(question.FECHA_ALTA),
-        //     userDeleted: question.ID_USUARIO_BAJA,
-        //     deletedAt: dateToString(question.FECHA_BAJA)
-        // };
 
         const questionId = await questionsModel.updateOne({ ID_PREGUNTA: filters.id },
             formattedQuestion, ['ID_PREGUNTA']);

@@ -479,6 +479,21 @@ const wordsDictionaryAttrib = [
     'FAMILIA'
 ];
 
+const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
+const relationshipAutoPhraseLetterAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ID_AUTOFRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'SUPERVISADO'
+];
+
 const relationshipAutoPhraseNomenclatureTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
 const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_NOMENCLADOR',
@@ -685,6 +700,28 @@ const microprocessDefinitionAttrib = [
     'FECHA_BAJA'
 ];
 
+const stepsLinguisticProcessesTableName = 'PASOS_PROCESOS_LINGUISTICOS';
+const stepsLinguisticProcessesAttrib = [
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'ORDEN',
+    'ID_NOMBRE_CAMPO_LINGUISTICO',
+    'SE_MUESTRA_EN_PANTALLA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const linguisticFieldProcessesTableName = 'PROCESOS_LINGUISTICOS_CAMPOS';
+const linguisticFieldProcessesAttrib = [
+    'ID_NOMBRE_CAMPO_LINGUISTICO',
+    'TIPO_DATO'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -749,6 +786,8 @@ module.exports = {
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
+    relationshipAutoPhraseLetterTableName,
+    relationshipAutoPhraseLetterAttrib,
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,
@@ -765,6 +804,11 @@ module.exports = {
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib,
+    
     microprocessDefinitionTableName,
-    microprocessDefinitionAttrib
+    microprocessDefinitionAttrib,
+    stepsLinguisticProcessesTableName,
+    stepsLinguisticProcessesAttrib,
+    linguisticFieldProcessesTableName,
+    linguisticFieldProcessesAttrib
 };

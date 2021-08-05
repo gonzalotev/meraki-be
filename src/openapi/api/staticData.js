@@ -76,6 +76,24 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'nomenclaturesGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'nomenclatorsGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'relationshipGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'newPhrases',
                     required: false,
                     schema: {type: 'boolean'}
@@ -162,6 +180,12 @@ module.exports = {
                 {
                     in: 'query',
                     name: 'datatypes',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'linguisticFieldProcesses',
                     required: false,
                     schema: {type: 'boolean'}
                 }

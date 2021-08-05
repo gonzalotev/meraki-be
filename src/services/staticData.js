@@ -87,6 +87,46 @@ class StaticDataService {
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
     }
+    static async getNomenclatorsGroup(data) {
+        const nomenclatorsGroup = await knex
+            .select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                description: 'DESCRIPCION'
+            })
+            .from('AGRUPACIONES_NOMENCLADOR')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.nomenclatorsGroup = nomenclatorsGroup;
+        return data;
+    }
+    static async getNomenclaturesGroup(data) {
+        const nomenclaturesGroup = await knex.select({
+            nomenclatorId: 'ID_NOMENCLADOR',
+            groupId: 'ID_AGRUPACION',
+            nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+            abbreviation: 'ABREVIATURA',
+            description: 'DESCRIPCION'
+        })
+            .from('AGRUPACIONES_NOMENCLATURA')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.nomenclaturesGroup = nomenclaturesGroup;
+        return data;
+    }
+    static async getRelationshipGroup(data) {
+        const relationshipGroup = await knex.select({
+            nomenclatorId: 'ID_NOMENCLADOR',
+            groupId: 'ID_AGRUPACION',
+            nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+            nomenclatureId: 'ID_NOMENCLATURA'
+        })
+            .from('AGRUPACIONES_RELACION')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'ID_NOMENCLATURA_AGRUPACION', order: 'asc'}]);
+        data.relationshipGroup = relationshipGroup;
+        return data;
+    }
     static async getSources(data) {
         const sources = await knex.select({
             id: 'ID_FUENTE',
@@ -231,6 +271,16 @@ class StaticDataService {
             .from('TIPOS_DE_DATOS')
             .orderBy([{column: 'ABREVIATURA', order: 'asc'}]);
         data.datatypes = datatypes;
+        return data;
+    }
+    static async getLinguisticFieldProcesses(data){
+        const linguisticFieldProcesses = await knex.select({
+            id: 'ID_NOMBRE_CAMPO_LINGUISTICO',
+            dataType: 'TIPO_DATO'
+        })
+            .from('PROCESOS_LINGUISTICOS_CAMPOS')
+            .orderBy([{column: 'ID_NOMBRE_CAMPO_LINGUISTICO', order: 'asc'}]);
+        data.linguisticFieldProcesses = linguisticFieldProcesses;
         return data;
     }
 }
