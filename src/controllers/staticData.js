@@ -37,8 +37,13 @@ class StaticDataController {
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
-                linguisticFieldProcesses
+                linguisticFieldProcesses,
+                levels
             } = req.query;
+            if(levels) {
+                const formattedLevels = JSON.parse(decodeURIComponent(levels));
+                await StaticDataService.getLevels(data, formattedLevels);
+            }
             if (roles) {
                 await RolesService.shortFetch(data);
             }
