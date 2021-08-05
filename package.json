@@ -70,7 +70,7 @@
     "express-openapi-validator": "^3.12.1",
     "helmet": "^3.22.0",
     "knex": "^0.20.14",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "node-fetch": "^2.6.1",
     "oracledb": "^5.2.0",

@@ -37,6 +37,7 @@ class StaticDataController {
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
+                linguisticFieldProcesses,
                 levels
             } = req.query;
             if(levels) {
@@ -123,6 +124,9 @@ class StaticDataController {
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
+            }
+            if (linguisticFieldProcesses) {
+                await StaticDataService.getLinguisticFieldProcesses(data);
             }
             res.send(data);
         } catch (error) {
