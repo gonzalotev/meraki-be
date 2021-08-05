@@ -24,7 +24,7 @@ class MicroprocessDefinitionService {
         microprocesses = microprocesses.map(microprocess => MicroprocessDefinitionService.rebaseFormat(microprocess));
         await MicroprocessDefinitionService.getLevelData(microprocesses);
         await StaticalVariableService.getVariableData(microprocesses);
-        await DictionaryTypeService.getDictionaryTypeData(microprocesses);
+        await DictionaryTypeService.getDictionaryTypeData(microprocesses, 'dictionaryTypeId');
         return microprocesses;
     }
 
@@ -48,9 +48,7 @@ class MicroprocessDefinitionService {
     }
 
     static async update({id}, params) {
-        console.log(params);
         const formattedMicroprocess = MicroprocessDefinitionService.formatData({...params});
-        console.log(formattedMicroprocess);
         const ids = {ID_MICROPROCESO: id};
         const returnData = ['ID_MICROPROCESO'];
         const createdId = await MicroprocessDefinition.updateOne(ids, formattedMicroprocess, returnData);
@@ -116,7 +114,6 @@ class MicroprocessDefinitionService {
         let levels = await MicroprocessDefinition.knex.select('*')
             .from('NIVEL')
             .whereIn(['ID_NOMENCLADOR', 'ID_CANTIDAD_DIGITOS'], ids);
-        console.log(levels);
         levels = map(levels, level => ({
             nomenclatorId: level.ID_NOMENCLADOR,
             amountOfDigits: level.ID_CANTIDAD_DIGITOS,

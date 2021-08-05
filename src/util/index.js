@@ -57,7 +57,6 @@ const dateTimeToStrings = dateTime => {
 };
 
 const stringToDate = date => {
-    console.log(date);
     if(date && isDate(date)){
         return date;
     }

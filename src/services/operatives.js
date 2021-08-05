@@ -111,7 +111,6 @@ class OperativesService {
     }
 
     static async update(filters, params, userCreator){
-        console.log(params);
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
             ID_OPERATIVO: params.operativeId,
@@ -133,7 +132,6 @@ class OperativesService {
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null
         };
-        console.log(formattedOperative);
         const formattedFilters = {ID_OPERATIVO: params.operativeId};
         const operativeId = await operatives.updateOne(formattedFilters, formattedOperative, ['ID_OPERATIVO']);
         const operative = await OperativesService.findOne({operativeId: operativeId});

@@ -150,21 +150,21 @@ class DictionaryTypeService {
         return resourceArrayWithDictionaryType;
     }
 
-    static async getDictionaryTypeData(resources){
-        const dictionariesTypesIds = uniq(map(resources, resource => resource.dictionaryTypeId));
-        let dictionariesTypes = await dictionaryTypeModel.findByValues('ID_TIPOLOGIA_DE_DICCIONARIO', dictionariesTypesIds);
-        dictionariesTypes = map(dictionariesTypes, dictionary => ({
-            id: dictionary.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionary.DESCRIPCION
+    static async getDictionaryTypeData(resources, field='dictionaryTypologyId'){
+        const dictionaryTypesIds = uniq(map(resources, resource => resource[field]));
+        let dictionaryTypes = await dictionaryTypeModel.knex.select()
+            .from(dictionaryTypeModel.tableName)
+            .whereIn('ID_TIPOLOGIA_DE_DICCIONARIO', dictionaryTypesIds);
+        dictionaryTypes = map(dictionaryTypes, dictionaryType => ({
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION
         }));
         return map(resources, resource => {
             if (!resource.foreignData) {
                 resource.foreignData = {};
             }
-            resource.foreignData.dictionaryType = find(
-                dictionariesTypes,
-                dictionary => dictionary.id === resource.dictionaryTypeId
-            );
+            resource.foreignData.dictionaryType =
+            find(dictionaryTypes, dictionaryType => dictionaryType.id === resource[field]);
             return resource;
         });
     }
@@ -231,25 +231,6 @@ class DictionaryTypeService {
             stream.on('end', function() {
                 resolve(csvString);
             });
-        });
-    }
-
-    static async getDictionaryTypeData(resources){
-        const dictionaryTypesIds = uniq(map(resources, resource => resource.dictionaryTypologyId));
-        let dictionaryTypes = await dictionaryTypeModel.knex.select()
-            .from(dictionaryTypeModel.tableName)
-            .whereIn('ID_TIPOLOGIA_DE_DICCIONARIO', dictionaryTypesIds);
-        dictionaryTypes = map(dictionaryTypes, dictionaryType => ({
-            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionaryType.DESCRIPCION
-        }));
-        return map(resources, resource => {
-            if (!resource.foreignData) {
-                resource.foreignData = {};
-            }
-            resource.foreignData.dictionaryType =
-            find(dictionaryTypes, dictionaryType => dictionaryType.id === resource.dictionaryTypologyId);
-            return resource;
         });
     }
 }

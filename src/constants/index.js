@@ -804,7 +804,6 @@ module.exports = {
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib,
-    
     microprocessDefinitionTableName,
     microprocessDefinitionAttrib,
     stepsLinguisticProcessesTableName,
