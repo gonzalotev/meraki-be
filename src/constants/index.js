@@ -291,6 +291,21 @@ const questionTypeAttrib = [
     'DESCRIPCION'
 ];
 
+const nomenclatorsGroupingsTableName = 'AGRUPACIONES_NOMENCLADOR';
+const nomenclatorsGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'DESCRIPCION',
+    'DOMINIO',
+    'TOTAL_DE_DIGITOS',
+    'CANTIDAD_DE_NIVELES',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'OBSERVACION'
+];
+
 const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
 const specialPhraseTypeAttrib = [
     'ID_TIPO_FRASE_ESPECIAL',
@@ -727,6 +742,8 @@ module.exports = {
     assignmentRoleOperativeVariableAttrib,
     nomenclatorsAttrib,
     nomenclatorsTableName,
+    nomenclatorsGroupingsTableName,
+    nomenclatorsGroupingsAttrib,
     ticketTypeAttrib,
     ticketTypeTableName,
     specialPhraseTypeTableName,

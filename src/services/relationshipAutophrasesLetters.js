@@ -2,6 +2,7 @@ const { relationshipAutophrasesLetter: relationshipAutophrasesLetterModel } = in
 const AutoPhraseService = require('./autoPhrase');
 const StaticDataService = require('./staticData');
 const NomenclatorsService = require('./nomenclators');
+const NomenclatorsGroupingService = require('./nomenclatorsGroupings');
 const { dateToString, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
@@ -25,8 +26,7 @@ class RelationshipAutophrasesLetterService {
         await AutoPhraseService.getAutoPhrase(relationshipsLetter);
         await NomenclatorsService.getNomenclatorData(relationshipsLetter);
         await StaticDataService.getNomenclaturesGroup(relationshipsLetter);
-        await StaticDataService.getNomenclatorsGroup(relationshipsLetter);
-
+        await NomenclatorsGroupingService.getNomenclatorsGroupingsData(relationshipsLetter);
         return relationshipsLetter;
 
     }
@@ -79,8 +79,7 @@ class RelationshipAutophrasesLetterService {
             deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
         } : {};
         await NomenclatorsService.getNomenclatorData([relationshipAutophrasesLetter]);
-        await StaticDataService.getNomenclaturesGroup([relationshipAutophrasesLetter]);
-        await StaticDataService.getNomenclatorsGroup(relationshipAutophrasesLetter);
+        await NomenclatorsGroupingService.getNomenclatorsGroupingsData([relationshipAutophrasesLetter]);
         return relationshipAutophrasesLetter;
     }
 
