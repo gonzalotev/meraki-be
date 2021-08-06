@@ -681,6 +681,25 @@ const operativeStructureAttrib = [
     'FECHA_BAJA'
 ];
 
+const microprocessDefinitionTableName = 'MICROPROCESOS';
+const microprocessDefinitionAttrib = [
+    'ID_MICROPROCESO',
+    'ID_VARIABLE',
+    'ORDEN',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'ID_NOMENCLADOR',
+    'ID_CANTIDAD_DIGITOS',
+    'CARGADO_COMPLETO_SI_NO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 const stepsLinguisticProcessesTableName = 'PASOS_PROCESOS_LINGUISTICOS';
 const stepsLinguisticProcessesAttrib = [
     'ID_FUENTE',
@@ -798,6 +817,8 @@ module.exports = {
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
     operativeStructureAttrib,
+    microprocessDefinitionTableName,
+    microprocessDefinitionAttrib,
     stepsLinguisticProcessesTableName,
     stepsLinguisticProcessesAttrib,
     linguisticFieldProcessesTableName,

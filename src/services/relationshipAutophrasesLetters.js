@@ -1,5 +1,6 @@
 const { relationshipAutophrasesLetter: relationshipAutophrasesLetterModel } = include('models');
 const AutoPhraseService = require('./autoPhrase');
+const StaticDataService = require('./staticData');
 const NomenclatorsService = require('./nomenclators');
 const { dateToString, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
@@ -23,6 +24,8 @@ class RelationshipAutophrasesLetterService {
         }));
         await AutoPhraseService.getAutoPhrase(relationshipsLetter);
         await NomenclatorsService.getNomenclatorData(relationshipsLetter);
+        await StaticDataService.getNomenclaturesGroup(relationshipsLetter);
+        await StaticDataService.getNomenclatorsGroup(relationshipsLetter);
 
         return relationshipsLetter;
 
@@ -54,15 +57,15 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    static async findOne(filters) {
-        const relationshipAutophrasesLetter = await relationshipAutophrasesLetterModel.findById(
-            {
-                ID_NOMENCLADOR: filters.nomenclatorId,
-                ID_AGRUPACION: filters.groupId,
-                ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
-                ID_AUTOFRASE: filters.autophraseId
-            });
-        return {
+    static async findOne({nomenclatorId, groupId, nomenclatureGroupId, autophraseId}){
+        const ids = {
+            ID_NOMENCLADOR: nomenclatorId,
+            ID_AGRUPACION: groupId,
+            ID_NOMENCLATURA_AGRUPACION: nomenclatureGroupId,
+            ID_AUTOFRASE: autophraseId
+        };
+        let relationshipAutophrasesLetter = await relationshipAutophrasesLetterModel.findById(ids);
+        relationshipAutophrasesLetter = relationshipAutophrasesLetter ? {
             nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
             groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
             nomenclatureGroupId: relationshipAutophrasesLetter.ID_NOMENCLATURA_AGRUPACION,
@@ -74,8 +77,35 @@ class RelationshipAutophrasesLetterService {
             userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA,
             userDeleted: relationshipAutophrasesLetter.ID_USUARIO_BAJA,
             deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
-        };
+        } : {};
+        await NomenclatorsService.getNomenclatorData([relationshipAutophrasesLetter]);
+        await StaticDataService.getNomenclaturesGroup([relationshipAutophrasesLetter]);
+        await StaticDataService.getNomenclatorsGroup(relationshipAutophrasesLetter);
+        return relationshipAutophrasesLetter;
     }
+
+    // static async findOne(filters) {
+    //     const relationshipAutophrasesLetter = await relationshipAutophrasesLetterModel.findById(
+    //         {
+    //             ID_NOMENCLADOR: filters.nomenclatorId,
+    //             ID_AGRUPACION: filters.groupId,
+    //             ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
+    //             ID_AUTOFRASE: filters.autophraseId
+    //         });
+    //     return {
+    //         nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
+    //         groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
+    //         nomenclatureGroupId: relationshipAutophrasesLetter.ID_NOMENCLATURA_AGRUPACION,
+    //         autophraseId: relationshipAutophrasesLetter.ID_AUTOFRASE,
+    //         observation: relationshipAutophrasesLetter.OBSERVACION,
+    //         domain: relationshipAutophrasesLetter.DOMINIO,
+    //         approved: !!relationshipAutophrasesLetter.SUPERVISADO,
+    //         createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
+    //         userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA,
+    //         userDeleted: relationshipAutophrasesLetter.ID_USUARIO_BAJA,
+    //         deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
+    //     };
+    // }
 
     static async update(filters, params, userCreator) {
         const formattedRelationshipAutophrasesLetter = {

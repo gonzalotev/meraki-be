@@ -38,6 +38,23 @@ class NomenclatorService {
             return resource;
         });
     }
+
+    static async fetchIfExist(Model, id, filters = {}){
+        const nomenclators = await Nomenclators.knex(Nomenclators.tableName).whereExists(function() {
+            this.select('*')
+                .from(Model.tableName)
+                .whereRaw(`${Nomenclators.tableName}.${id} = ${Model.tableName}.${id}`)
+                .andWhere(filters);
+        })
+            .orderBy([{column: 'SIGLA', order: 'asc'}]);
+
+        return nomenclators.map(nomenclator => ({
+            id: nomenclator.ID_NOMENCLADOR,
+            initial: nomenclator.SIGLA,
+            shortDescription: nomenclator.DESCRIPCION_ABREVIADA,
+            longDescription: nomenclator.DESCRIPCION_COMPLETA
+        }));
+    }
 }
 
 module.exports = NomenclatorService;

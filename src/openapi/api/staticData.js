@@ -16,6 +16,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'levels',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
                     name: 'ticketTypes',
                     required: false,
                     schema: {type: 'boolean'}
@@ -70,7 +76,19 @@ module.exports = {
                 },
                 {
                     in: 'query',
-                    name: 'nomenclatureGroup',
+                    name: 'nomenclaturesGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'nomenclatorsGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'relationshipGroup',
                     required: false,
                     schema: {type: 'boolean'}
                 },

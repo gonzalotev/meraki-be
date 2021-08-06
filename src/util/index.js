@@ -61,7 +61,7 @@ const stringToDate = date => {
         return date;
     }
     if(date && isString(date)){
-        return moment(date, 'DD-MM-YYYY HH:mm:ss').toDate();
+        return moment(date).toDate();
     }
     return null;
 };

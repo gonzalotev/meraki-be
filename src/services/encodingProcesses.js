@@ -95,7 +95,6 @@ class EncodingProcessService {
     }
 
     static async getEncodingProcessesData(resources){
-        console.log(resources);
         const encodingProcessIds = uniq(map(resources, resource => resource.encodingProcessId));
         let encodingProcesses = await encodingProcessesModel.knex.select()
             .from(encodingProcessesModel.tableName)

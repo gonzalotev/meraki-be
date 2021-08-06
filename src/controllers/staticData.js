@@ -23,7 +23,9 @@ class StaticDataController {
                 lots,
                 fonts,
                 nomenclatures,
-                momenclatureGroup,
+                nomenclaturesGroup,
+                nomenclatorsGroup,
+                relationshipGroup,
                 sources,
                 questions,
                 questionsTypes,
@@ -35,8 +37,13 @@ class StaticDataController {
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
-                linguisticFieldProcesses
+                linguisticFieldProcesses,
+                levels
             } = req.query;
+            if(levels) {
+                const formattedLevels = JSON.parse(decodeURIComponent(levels));
+                await StaticDataService.getLevels(data, formattedLevels);
+            }
             if (roles) {
                 await RolesService.shortFetch(data);
             }
@@ -76,8 +83,14 @@ class StaticDataController {
             if (nomenclatures) {
                 await StaticDataService.getNomenclatures(data);
             }
-            if (momenclatureGroup) {
-                await StaticDataService.getNomenclatureGroup(data);
+            if (nomenclaturesGroup) {
+                await StaticDataService.getNomenclaturesGroup(data);
+            }
+            if (nomenclatorsGroup) {
+                await StaticDataService.getNomenclatorsGroup(data);
+            }
+            if (relationshipGroup) {
+                await StaticDataService.getRelationshipGroup(data);
             }
             if (sources) {
                 await StaticDataService.getSources(data);

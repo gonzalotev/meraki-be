@@ -1,5 +1,5 @@
 const knex = include('helpers/database');
-
+const NomenclatorService = require('./nomenclators');
 class StaticDataService {
     static async getGenders(data) {
         const genders = await knex
@@ -87,17 +87,45 @@ class StaticDataService {
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
     }
-    static async getNomenclatureGroup(data) {
-        const nomenclaturesGroup = await knex
+    static async getNomenclatorsGroup(data) {
+        const nomenclatorsGroup = await knex
             .select({
                 nomenclatorId: 'ID_NOMENCLADOR',
                 groupId: 'ID_AGRUPACION',
-                nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
-                abbreviation: 'ABREVIATURA',
                 description: 'DESCRIPCION'
             })
-            .from('AGRUPACIONES_NOMENCLATURA');
-        return (data.nomenclaturesGroup = nomenclaturesGroup);
+            .from('AGRUPACIONES_NOMENCLADOR')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.nomenclatorsGroup = nomenclatorsGroup;
+        return data;
+    }
+    static async getNomenclaturesGroup(data) {
+        const nomenclaturesGroup = await knex.select({
+            nomenclatorId: 'ID_NOMENCLADOR',
+            groupId: 'ID_AGRUPACION',
+            nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+            abbreviation: 'ABREVIATURA',
+            description: 'DESCRIPCION'
+        })
+            .from('AGRUPACIONES_NOMENCLATURA')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.nomenclaturesGroup = nomenclaturesGroup;
+        return data;
+    }
+    static async getRelationshipGroup(data) {
+        const relationshipGroup = await knex.select({
+            nomenclatorId: 'ID_NOMENCLADOR',
+            groupId: 'ID_AGRUPACION',
+            nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+            nomenclatureId: 'ID_NOMENCLATURA'
+        })
+            .from('AGRUPACIONES_RELACION')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'ID_NOMENCLATURA_AGRUPACION', order: 'asc'}]);
+        data.relationshipGroup = relationshipGroup;
+        return data;
     }
     static async getSources(data) {
         const sources = await knex.select({
@@ -183,6 +211,31 @@ class StaticDataService {
         data.operatives = operatives;
         return operatives;
     }
+    static async getLevels(data, filters){
+        data.levels = {nomenclators: [], digits: []};
+        if(filters.nomenclators) {
+            data.levels.nomenclators = await NomenclatorService.fetchIfExist(
+                {tableName: 'NIVEL'},
+                'ID_NOMENCLADOR',
+                {FECHA_BAJA: null}
+            );
+        }
+        if(filters.digits) {
+            const { nomenclatorId } = filters;
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId};
+            }
+            data.levels.digits = await knex.select({
+                amountOfDigits: 'ID_CANTIDAD_DIGITOS',
+                description: 'DESCRIPCION'
+            })
+                .from('NIVEL')
+                .where(whereFilter);
+        }
+        return data;
+    }
+
     static async getEntryFieldsNames(data){
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'

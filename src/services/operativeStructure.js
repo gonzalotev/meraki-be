@@ -56,7 +56,6 @@ class OperativeStructureService {
 
     static async update({operativeId, structureId}, params) {
         const formattedOperativeStructure = OperativeStructureService.formatData({...params});
-        console.log(formattedOperativeStructure);
         const ids = {
             ID_OPERATIVO: operativeId,
             ID_ESTRUCTURA: structureId
