@@ -1,13 +1,14 @@
 const { microprocessesListIf: microprocessesListIfModel } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
 const map = require('lodash/map');
 const trim = require('lodash/trim');
+const toUpper = require('lodash/toUpper');
 
 class microprocessesListIfService {
-    static async fetch(query, userId) {
+    static async fetch(query) {
         const microprocessesListIfTypes = await microprocessesListIfModel.findByPage(
             query.page,
-            {ID_LISTAS: userId},
+            {},
             microprocessesListIfModel.selectableProps,
             [{ column: 'ID_LISTAS', order: 'asc' }]
         );
@@ -15,7 +16,7 @@ class microprocessesListIfService {
             id: microprocessesListIf.ID_LISTAS,
             variableId: microprocessesListIf.ID_VARIABLE,
             description: microprocessesListIf.DESCRIPCION,
-            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGÍA_DE_DICCIONARIO,
+            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGIA_DE_DICCIONARIO,
             observation: microprocessesListIf.OBSERVACION,
             domain: microprocessesListIf.DOMINIO,
             approved: microprocessesListIf.SUPERVISADO,
@@ -31,12 +32,12 @@ class microprocessesListIfService {
     static async create(params, userCreator) {
         const formattedmicroprocessesListIf = {
             ID_LISTAS: null,
-            ID_VARIABLE: null,
-            DESCRIPCION: trim(params.description),
-            ID_TIPOLOGÍA_DE_DICCIONARIO: null,
+            ID_VARIABLE: params.variableId,
+            DESCRIPCION: toUpper(trim(params.description)),
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.diccionaryTypologyId,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
-            SUPERVISADO: false,
+            SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: new Date()
         };
@@ -54,7 +55,7 @@ class microprocessesListIfService {
             id: microprocessesListIf.ID_LISTAS,
             variableId: microprocessesListIf.ID_VARIABLE,
             description: microprocessesListIf.DESCRIPCION,
-            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGÍA_DE_DICCIONARIO,
+            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGIA_DE_DICCIONARIO,
             observation: microprocessesListIf.OBSERVACION,
             domain: microprocessesListIf.OBSERVACION,
             approved: microprocessesListIf.SUPERVISADO,
@@ -63,17 +64,17 @@ class microprocessesListIfService {
         };
     }
 
-    static async update(filters, params, userCreator) {
+    static async update(filters, params) {
         const formattedmicroprocessesListIf = {
-            ID_LISTAS: null,
-            ID_VARIABLE: null,
-            DESCRIPCION: trim(params.description),
-            ID_TIPOLOGÍA_DE_DICCIONARIO: null,
+            ID_LISTAS: params.id,
+            ID_VARIABLE: params.variableId,
+            DESCRIPCION: toUpper(trim(params.description)),
+            ID_TIPOLOGÍA_DE_DICCIONARIO: params.diccionaryTypologyId,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
-            SUPERVISADO: false,
-            ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date()
+            SUPERVISADO: params.approved,
+            ID_USUARIO_ALTA: params.userCreator,
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const microprocessesListIf = await microprocessesListIfModel.updateOne(
             { ID_LISTAS: filters.id },
@@ -83,7 +84,7 @@ class microprocessesListIfService {
             id: microprocessesListIf.ID_LISTAS,
             variableId: microprocessesListIf.ID_VARIABLE,
             description: microprocessesListIf.DESCRIPCION,
-            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGÍA_DE_DICCIONARIO,
+            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGIA_DE_DICCIONARIO,
             observation: microprocessesListIf.OBSERVACION,
             domain: microprocessesListIf.OBSERVACION,
             approved: microprocessesListIf.SUPERVISADO,
@@ -123,7 +124,7 @@ class microprocessesListIfService {
             csvString += headers;
             const stream = microprocessesListIfModel.knex.select(tableHeaders)
                 .from(microprocessesListIfModel.tableName)
-                .orderBy([{column: 'ID_TIPO_CHAT', order: 'asc'}])
+                .orderBy([{column: 'ID_LISTAS', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
