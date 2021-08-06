@@ -36,6 +36,7 @@ const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
 const lots = require('./lots');
+const microprocessDefinition = require('./microprocessDefinition');
 const stepsLinguisticProcesses = require('./stepsLinguisticProcesses');
 
 module.exports = {
@@ -77,5 +78,6 @@ module.exports = {
     ...stepsEncodingProcesses,
     ...operativeStructure,
     ...lots,
+    ...microprocessDefinition,
     ...stepsLinguisticProcesses
 };

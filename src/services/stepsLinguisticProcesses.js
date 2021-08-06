@@ -45,7 +45,6 @@ class StepsLinguisticProcessesService {
             FECHA_BAJA: null
         };
         const operativeId = await stepsLinguisticProcesses.insertOne(formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
-        console.log(operativeId);
         const operative = await StepsLinguisticProcessesService.findOne(
             {sourceId: operativeId.ID_FUENTE,
                 questionId: operativeId.ID_PREGUNTA,
@@ -56,7 +55,6 @@ class StepsLinguisticProcessesService {
     }
 
     static async findOne(filters){
-        console.log(filters);
         const formattedFilters = {
             ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId,
@@ -64,7 +62,6 @@ class StepsLinguisticProcessesService {
             ORDEN: filters.order
         };
         const stepLinguisticProcess = await stepsLinguisticProcesses.findById(formattedFilters);
-        console.log(stepLinguisticProcess);
         return {
             sourceId: stepLinguisticProcess.ID_FUENTE,
             questionId: stepLinguisticProcess.ID_PREGUNTA,
