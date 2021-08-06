@@ -1,9 +1,9 @@
-const { microprocessesListIfService } = include('services');
+const { MicroprocessesListIfService } = include('services');
 
 class MicroprocessesListIfController {
     static async fetch(req, res, next) {
         try {
-            const microprocessesListIf = await microprocessesListIfService.fetch(req.query, req.user.id);
+            const microprocessesListIf = await MicroprocessesListIfService.fetch(req.query, req.user.id);
             res.send({ microprocessesListIf });
         } catch(error) {
             next(error);
@@ -12,7 +12,7 @@ class MicroprocessesListIfController {
 
     static async find(req, res, next) {
         try {
-            const microprocessesListIf = await microprocessesListIfService.findOne(req.params);
+            const microprocessesListIf = await MicroprocessesListIfService.findOne(req.params);
             res.send({ microprocessesListIf });
         } catch(error) {
             next(error);
@@ -21,7 +21,7 @@ class MicroprocessesListIfController {
 
     static async create(req, res, next){
         try {
-            const microprocessesListIf = await microprocessesListIfService.create(req.body, req.user);
+            const microprocessesListIf = await MicroprocessesListIfService.create(req.body, req.user.id);
             res.status(201);
             res.send({ microprocessesListIf });
         } catch(err) {
@@ -31,7 +31,7 @@ class MicroprocessesListIfController {
 
     static async update(req, res, next){
         try {
-            const microprocessesListIf = await microprocessesListIfService.update(req.params, req.body, req.user.id);
+            const microprocessesListIf = await MicroprocessesListIfService.update(req.params, req.body, req.user.id);
             res.send({microprocessesListIf});
         } catch(err){
             next(err);
@@ -40,7 +40,7 @@ class MicroprocessesListIfController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await microprocessesListIfService.getCsv();
+            const stream = await MicroprocessesListIfService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {

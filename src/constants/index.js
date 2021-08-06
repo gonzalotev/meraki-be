@@ -761,7 +761,7 @@ const microprocessesListIfAttrib = [
     'ID_LISTAS',
     'ID_VARIABLE',
     'DESCRIPCION',
-    'ID_TIPOLOGÍA_DE_DICCIONARIO',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
     'OBSERVACION',
     'DOMINIO',
     'SUPERVISADO',
