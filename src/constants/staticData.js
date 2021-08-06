@@ -9,6 +9,14 @@ const nomenclatorsGroupingsAttrib = [
     'ID_AGRUPACION',
     'DESCRIPCION'
 ];
+
+const nomenclaturesGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ABREVIATURA',
+    'DESCRIPCION'
+];
 const lotsAttrib = [
     'ID_OPERATIVO',
     'ID_LOTE',
@@ -24,5 +32,6 @@ module.exports = {
     nomenclatorsAttrib,
     lotsAttrib,
     staticalVariableAttrib,
-    nomenclatorsGroupingsAttrib
+    nomenclatorsGroupingsAttrib,
+    nomenclaturesGroupingsAttrib
 };

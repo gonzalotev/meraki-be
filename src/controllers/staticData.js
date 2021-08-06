@@ -38,11 +38,17 @@ class StaticDataController {
                 finalAuxiliariesFields,
                 datatypes,
                 linguisticFieldProcesses,
-                levels
+                levels,
+                relationshipAutophrasesLetter
             } = req.query;
             if(levels) {
                 const formattedLevels = JSON.parse(decodeURIComponent(levels));
                 await StaticDataService.getLevels(data, formattedLevels);
+            }
+            if(relationshipAutophrasesLetter) {
+                const formattedRelationshipAutophrasesLetter = JSON.parse(decodeURIComponent(
+                    relationshipAutophrasesLetter));
+                await StaticDataService.getRelationshipAutophrasesLetter(data, formattedRelationshipAutophrasesLetter);
             }
             if (roles) {
                 await RolesService.shortFetch(data);

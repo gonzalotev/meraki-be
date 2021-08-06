@@ -306,6 +306,25 @@ const nomenclatorsGroupingsAttrib = [
     'OBSERVACION'
 ];
 
+const nomenclaturesGroupingsTableName = 'AGRUPACIONES_NOMENCLATURA';
+const nomenclaturesGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ABREVIATURA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_PADRE_NOMENCLADOR',
+    'ID_PADRE_AGRUPACION',
+    'ID_PADRE_NOMENCLATURA_AGRUPACION',
+    'FRACCIONADO_DE_PALABRAS',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
 const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
 const specialPhraseTypeAttrib = [
     'ID_TIPO_FRASE_ESPECIAL',
@@ -763,6 +782,8 @@ module.exports = {
     nomenclatorsTableName,
     nomenclatorsGroupingsTableName,
     nomenclatorsGroupingsAttrib,
+    nomenclaturesGroupingsTableName,
+    nomenclaturesGroupingsAttrib,
     ticketTypeAttrib,
     ticketTypeTableName,
     specialPhraseTypeTableName,

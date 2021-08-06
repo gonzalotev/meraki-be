@@ -236,6 +236,47 @@ class StaticDataService {
         return data;
     }
 
+    static async getRelationshipAutophrasesLetter(data, filters){
+        data.relationshipAutophrasesLetter = {nomenclators: [], nomenclatorGrouping: [], nomenclatureGrouping: []};
+        if(filters.nomenclators) {
+            data.relationshipAutophrasesLetter.nomenclators = await NomenclatorService.fetchIfExist(
+                {tableName: 'RELACION_AGRUPACIONES_AUTOFRASES'},
+                'ID_NOMENCLADOR',
+                {FECHA_BAJA: null}
+            );
+        }
+        if(filters.nomenclatorGrouping) {
+            const { nomenclatorId } = filters;
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId};
+            }
+            data.relationshipAutophrasesLetter.nomenclatorGrouping = await knex.select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                description: 'DESCRIPCION'
+            })
+                .from('AGRUPACIONES_NOMENCLADOR')
+                .where(whereFilter);
+        }
+        if(filters.nomenclatureGrouping) {
+            const { nomenclatorId, groupId } = filters;
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId && groupId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
+            }
+            data.relationshipAutophrasesLetter.nomenclatureGrouping = await knex.select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+                description: 'DESCRIPCION'
+            })
+                .from('AGRUPACIONES_NOMENCLATURA')
+                .where(whereFilter);
+        }
+        return data;
+    }
+
     static async getEntryFieldsNames(data){
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'
