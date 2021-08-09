@@ -261,6 +261,8 @@ class StaticDataService {
         }
         if(filters.nomenclatureGrouping) {
             const { nomenclatorId, groupId } = filters;
+            console.log(nomenclatorId);
+            console.log(groupId);
             let whereFilter = {FECHA_BAJA: null};
             if (nomenclatorId && groupId) {
                 whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
@@ -269,11 +271,13 @@ class StaticDataService {
                 nomenclatorId: 'ID_NOMENCLADOR',
                 groupId: 'ID_AGRUPACION',
                 nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
-                description: 'DESCRIPCION'
+                description: 'DESCRIPCION',
+                abbreviation: 'ABREVIATURA'
             })
                 .from('AGRUPACIONES_NOMENCLATURA')
                 .where(whereFilter);
         }
+        console.log(data.relationshipAutophrasesLetter.nomenclatureGrouping);
         return data;
     }
 
