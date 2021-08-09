@@ -38,6 +38,7 @@ const operativeStructure = require('./operativeStructure');
 const lots = require('./lots');
 const microprocessDefinition = require('./microprocessDefinition');
 const stepsLinguisticProcesses = require('./stepsLinguisticProcesses');
+const microprocessesListIf = require('./microprocessesListIf');
 
 module.exports = {
     ...assignments,
@@ -79,5 +80,6 @@ module.exports = {
     ...operativeStructure,
     ...lots,
     ...microprocessDefinition,
-    ...stepsLinguisticProcesses
+    ...stepsLinguisticProcesses,
+    ...microprocessesListIf
 };
