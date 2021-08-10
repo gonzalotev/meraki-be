@@ -57,7 +57,7 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    static async findOne({nomenclatorId, groupId, nomenclatureGroupId, autophraseId}){
+    static async findOne({ nomenclatorId, groupId, nomenclatureGroupId, autophraseId }) {
         const ids = {
             ID_NOMENCLADOR: nomenclatorId,
             ID_AGRUPACION: groupId,
