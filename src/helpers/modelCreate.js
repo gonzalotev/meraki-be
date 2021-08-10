@@ -239,16 +239,30 @@ class ModelCreate {
     }
 
     deleteOne(id, deletionData) {
-        if (this.transaction) {
-            return this.transaction(this.tableName)
-                .update(deletionData)
+        if(deletionData == null) {
+            if (this.transaction) {
+                return this.transaction(this.tableName)                   
+                    .where(id)
+                    .del()
+                    .timeout(this.timeout);
+            }
+            return this.knex(this.tableName)
+                .where(id)
+                .del()
+                .timeout(this.timeout);
+        }
+        else {
+            if (this.transaction) {
+                return this.transaction(this.tableName)
+                    .update(deletionData)
+                    .where(id)
+                    .timeout(this.timeout);
+            }
+            return this.knex.update(deletionData)
+                .from(this.tableName)
                 .where(id)
                 .timeout(this.timeout);
         }
-        return this.knex.update(deletionData)
-            .from(this.tableName)
-            .where(id)
-            .timeout(this.timeout);
     }
 
     deleteMany(ids) {

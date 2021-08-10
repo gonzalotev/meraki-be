@@ -688,6 +688,19 @@ const linguisticFieldProcessesAttrib = [
     'TIPO_DATO'
 ];
 
+const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
+const microprocessesListsIfWordsAttrib = [
+    'ID_LISTAS',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'    
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -771,5 +784,7 @@ module.exports = {
     stepsLinguisticProcessesTableName,
     stepsLinguisticProcessesAttrib,
     linguisticFieldProcessesTableName,
-    linguisticFieldProcessesAttrib
+    linguisticFieldProcessesAttrib,
+    microprocessesListsIfWordsTableName,
+    microprocessesListsIfWordsAttrib
 };
