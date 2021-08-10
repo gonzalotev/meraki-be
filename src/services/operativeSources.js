@@ -168,11 +168,12 @@ class OperativeSourcesService {
         });
     }
 
-    static async fetchIfExist(Model, id){
+    static async fetchIfExist(Model, id, filters = {}){
         const sources = await operativeSources.knex(operativeSources.tableName).whereExists(function() {
             this.select('*')
                 .from(Model.tableName)
-                .whereRaw(`${operativeSources.tableName}.${id} = ${Model.tableName}.${id}`);
+                .whereRaw(`${operativeSources.tableName}.${id} = ${Model.tableName}.${id}`)
+                .andWhere(filters);
         })
             .orderBy([{column: 'NOMBRE', order: 'asc'}]);
 
