@@ -15,6 +15,8 @@ const isString = require('lodash/isString');
 const { getOffset, getPageSize } = require('./getOffset');
 const standarText = require('./standarText');
 const arrayToCsvFormat = require('./arrayToCsvFormat');
+const excelFileManager = require('./excelFileManager');
+const dynamicQueryExecutor = require('./dynamicTableQueries');
 
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
@@ -103,5 +105,7 @@ module.exports = {
     convertKeysNames,
     standarText,
     arrayToCsvFormat,
-    dateTimeToStrings
+    dateTimeToStrings,
+    excelFileManager,
+    dynamicQueryExecutor
 };

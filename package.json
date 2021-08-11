@@ -66,6 +66,7 @@
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
+    "exceljs": "^4.2.1",
     "express": "^4.17.1",
     "express-openapi-validator": "^3.12.1",
     "helmet": "^3.22.0",
