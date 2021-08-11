@@ -32,6 +32,7 @@ const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVar
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
 const questions = require('./questions');
 const ticket = require ('./ticket');
+const microprocessesListsIfWords = require('./microprocessesListsIfWords');
 const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
@@ -65,6 +66,7 @@ module.exports = {
     ...wordCorrector,
     ...newPhrases,
     ...operativeSources,
+    ...microprocessesListsIfWords,
     ...relationshipAutophrasesNomenclatures,
     ...relationshipAutophrasesLetters,
     ...assignmentRoles,

@@ -120,7 +120,7 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    findByMatch(page, valueToSearch, columnsToSearch, filters={}, orderBy = ORDER_BY) {
+    findByMatch(page, valueToSearch, columnsToSearch, filters = {}, orderBy = ORDER_BY) {
         return this.knex.select(this.selectableProps)
             .from(this.tableName)
             .where(query => {
@@ -160,7 +160,7 @@ class ModelCreate {
             .timeout(this.timeout);
     }
 
-    async findById (id, columns = this.selectableProps, orderBy = ORDER_BY) {
+    async findById(id, columns = this.selectableProps, orderBy = ORDER_BY) {
         const foundObject = await this.knex.select(columns)
             .from(this.tableName)
             .where(id)
@@ -239,16 +239,30 @@ class ModelCreate {
     }
 
     deleteOne(id, deletionData) {
-        if (this.transaction) {
-            return this.transaction(this.tableName)
-                .update(deletionData)
+        if (deletionData == null) {
+            if (this.transaction) {
+                return this.transaction(this.tableName)
+                    .where(id)
+                    .del()
+                    .timeout(this.timeout);
+            }
+            return this.knex(this.tableName)
+                .where(id)
+                .del()
+                .timeout(this.timeout);
+        }
+        else {
+            if (this.transaction) {
+                return this.transaction(this.tableName)
+                    .update(deletionData)
+                    .where(id)
+                    .timeout(this.timeout);
+            }
+            return this.knex.update(deletionData)
+                .from(this.tableName)
                 .where(id)
                 .timeout(this.timeout);
         }
-        return this.knex.update(deletionData)
-            .from(this.tableName)
-            .where(id)
-            .timeout(this.timeout);
     }
 
     deleteMany(ids) {
@@ -273,7 +287,7 @@ class ModelCreate {
             .where(filters)
             .timeout(this.timeout));
     }
-    async countTotal (filters = {}, valueToSearch = '', columnsToSearch=[]) {
+    async countTotal(filters = {}, valueToSearch = '', columnsToSearch = []) {
         return head(await this.knex(this.tableName)
             .count({ total: '*' })
             .where(query => {
