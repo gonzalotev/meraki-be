@@ -34,6 +34,7 @@ class StaticDataController {
                 support,
                 ticketTypes,
                 entryFieldsNames,
+                microprocessesLists,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
@@ -116,6 +117,9 @@ class StaticDataController {
             if (frequency) {
                 await StaticDataService.getFrequency(data);
             }
+            if (microprocessesLists) {
+                await StaticDataService.getMicroprocessesLists(data);
+            }
             if (support) {
                 await StaticDataService.getSupport(data);
             }
@@ -135,6 +139,7 @@ class StaticDataController {
                 await StaticDataService.getLinguisticFieldProcesses(data);
             }
             res.send(data);
+
         } catch (error) {
             next(error);
         }

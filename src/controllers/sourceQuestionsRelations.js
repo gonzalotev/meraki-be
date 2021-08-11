@@ -67,12 +67,12 @@ class SourceQuestionsRelationsController {
         try {
             const {questions, sourceId} = req.query;
             const data = {};
-            data.sources = await OperativeSourcesService.fetchIfExist(sourceQuestionRelation, 'ID_FUENTE');
+            data.sources = await OperativeSourcesService.fetchIfExist(sourceQuestionRelation, 'ID_FUENTE', {FECHA_BAJA: null});
             if(questions){
                 if(sourceId){
-                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', {ID_FUENTE: sourceId});
+                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', {ID_FUENTE: sourceId, FECHA_BAJA: null});
                 } else {
-                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA');
+                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', {FECHA_BAJA: null});
                 }
             }
             res.send(data);

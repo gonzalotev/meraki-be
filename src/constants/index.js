@@ -261,6 +261,8 @@ const nomenclatorsAttrib = [
     'CLASIFICADOR_NACIONAL',
     'CLASIFICADOR_INTERNACIONAL',
     'CLASIFICADOR_EXTERNO',
+    'ID_TIPO_ORGANIZACION',
+    'TIENE_COEFICIENTE',
     'EN_CONSTRUCCION',
     'PRUEBA_PILOTO',
     'USO_INTERNO',
@@ -268,7 +270,11 @@ const nomenclatorsAttrib = [
     'IDIOMA_CASTELLANO',
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'VALIDAR_CONCATENADO'
 ];
 
 const ticketTypeTableName = 'TIPOS_DE_CHAT';
@@ -686,6 +692,19 @@ const stepsEncodingProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
+const microprocessesListsIfWordsAttrib = [
+    'ID_LISTAS',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
 const operativeStructureAttrib = [
     'ID_OPERATIVO',
@@ -844,6 +863,8 @@ module.exports = {
     nomenclaturesAttrib,
     operativeFontsTableName,
     operativeFontsAttrib,
+    microprocessesListsIfWordsTableName,
+    microprocessesListsIfWordsAttrib,
     questionsAttrib,
     questionsTableName,
     chatTableName,

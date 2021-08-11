@@ -16,6 +16,7 @@ const RelationshipTypes = require('./relationshipTypes');
 const AutoPhrase = require('./autoPhrase');
 const AutoPhraseClosedQuestion = require('./autoPhraseClosedQuestion');
 const AutoPhraseNomenclatureRelation = require('./autoPhraseNomenclatureRelation');
+const MicroprocessesListsIfWords = require('./microprocessesListsIfWords');
 const WordCorrector = require('./wordCorrector');
 const SourceQuestionRelation = require('./sourceQuestionRelation');
 const OperativeSources = require('./operativeSources');
@@ -77,6 +78,7 @@ module.exports = {
     AutoPhraseClosedQuestion,
     AutoPhraseNomenclatureRelation,
     WordCorrector,
+    MicroprocessesListsIfWords,
     SourceQuestionRelation,
     OperativeSources,
     RelationshipAutophraseQuestionClosed,
