@@ -12,12 +12,6 @@ module.exports = {
                         type: 'number',
                         default: 1
                     }
-                },
-                {
-                    in: 'query',
-                    name: 'source',
-                    required: false,
-                    schema: {type: 'number'}
                 }
             ],
             responses: {
@@ -38,7 +32,7 @@ module.exports = {
                                                 wordOrPhrase: { type: 'string' },
                                                 isWordOrPhrase: { type: 'boolean' },
                                                 observation: { type: 'string' },
-                                                domain: { type: 'string' },                                                
+                                                domain: { type: 'string' },
                                                 approved: { type: 'boolean' },
                                                 userCreator: { type: 'string' },
                                                 createdAt: { type: 'string' }
@@ -72,7 +66,7 @@ module.exports = {
                                 wordOrPhrase: { type: 'string' },
                                 isWordOrPhrase: { type: 'boolean' },
                                 observation: { type: 'string' },
-                                domain: { type: 'string' },                                                
+                                domain: { type: 'string' },
                                 approved: { type: 'boolean' },
                                 userCreator: { type: 'string' },
                                 createdAt: { type: 'string' }
@@ -82,7 +76,7 @@ module.exports = {
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
@@ -98,7 +92,7 @@ module.exports = {
                                             wordOrPhrase: { type: 'string' },
                                             isWordOrPhrase: { type: 'boolean' },
                                             observation: { type: 'string' },
-                                            domain: { type: 'string' },                                                
+                                            domain: { type: 'string' },
                                             approved: { type: 'boolean' },
                                             userCreator: { type: 'string' },
                                             createdAt: { type: 'string' }
@@ -149,7 +143,7 @@ module.exports = {
                                 wordOrPhrase: { type: 'string' },
                                 isWordOrPhrase: { type: 'boolean' },
                                 observation: { type: 'string' },
-                                domain: { type: 'string' },                                                
+                                domain: { type: 'string' },
                                 approved: { type: 'boolean' },
                                 userCreator: { type: 'string' },
                                 createdAt: { type: 'string' }
@@ -175,7 +169,7 @@ module.exports = {
                                             wordOrPhrase: { type: 'string' },
                                             isWordOrPhrase: { type: 'boolean' },
                                             observation: { type: 'string' },
-                                            domain: { type: 'string' },                                                
+                                            domain: { type: 'string' },
                                             approved: { type: 'boolean' },
                                             userCreator: { type: 'string' },
                                             createdAt: { type: 'string' }
@@ -257,7 +251,7 @@ module.exports = {
                                             wordOrPhrase: { type: 'string' },
                                             isWordOrPhrase: { type: 'boolean' },
                                             observation: { type: 'string' },
-                                            domain: { type: 'string' },                                                
+                                            domain: { type: 'string' },
                                             approved: { type: 'boolean' },
                                             userCreator: { type: 'string' },
                                             createdAt: { type: 'string' }
@@ -277,7 +271,7 @@ module.exports = {
     },
     '/api/microprocessesListsIfWords/downloadCsv': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['MicroprocessesListsIfWords'],
             responses: {
                 200: {
@@ -289,7 +283,7 @@ module.exports = {
                                 properties: {
                                     microprocessesListsIfWords: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
+                                        items: { $ref: '#/components/schemas/DictionaryLinguistic' }
                                     }
                                 }
                             }
@@ -298,7 +292,7 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }

@@ -13,4 +13,4 @@ class MicroprocessesListsIfWord extends ModelCreate {
     }
 }
 
-module.exports = knex => new MicroprocessesListsIfWord({ knex });  
+module.exports = knex => new MicroprocessesListsIfWord({ knex });

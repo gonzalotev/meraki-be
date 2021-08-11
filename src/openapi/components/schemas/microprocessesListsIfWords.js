@@ -22,7 +22,7 @@ module.exports = {
         domain: {
             type: 'string',
             maxLength: 300
-        },        
+        },
         approved: { type: 'boolean' },
         userCreator: {
             type: 'string',

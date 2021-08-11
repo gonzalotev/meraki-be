@@ -164,6 +164,12 @@ module.exports = {
                     name: 'linguisticFieldProcesses',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'microprocessesLists',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {

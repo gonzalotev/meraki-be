@@ -698,7 +698,7 @@ const microprocessesListsIfWordsAttrib = [
     'DOMINIO',
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA'    
+    'FECHA_ALTA'
 ];
 
 module.exports = {

@@ -1,4 +1,4 @@
-const {MicroprocessesListsIfWordsController} = include('controllers');
+const { MicroprocessesListsIfWordsController } = include('controllers');
 
 module.exports = router => {
     router.route('/')
@@ -8,6 +8,6 @@ module.exports = router => {
     router.route('/:idLists/:idOrder')
         .get(MicroprocessesListsIfWordsController.find)
         .put(MicroprocessesListsIfWordsController.update)
-        .delete(MicroprocessesListsIfWordsController.delete);                
+        .delete(MicroprocessesListsIfWordsController.delete);
     return router;
 };

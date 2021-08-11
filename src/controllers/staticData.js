@@ -34,7 +34,8 @@ class StaticDataController {
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
-                linguisticFieldProcesses
+                linguisticFieldProcesses,
+                microprocessesLists
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -111,7 +112,11 @@ class StaticDataController {
             if (linguisticFieldProcesses) {
                 await StaticDataService.getLinguisticFieldProcesses(data);
             }
+            if (microprocessesLists) {
+                await StaticDataService.getMicroprocessesLists(data);
+            }
             res.send(data);
+
         } catch (error) {
             next(error);
         }
