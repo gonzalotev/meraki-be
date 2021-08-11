@@ -638,6 +638,19 @@ const stepsEncodingProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
+const microprocessesListsIfWordsAttrib = [
+    'ID_LISTAS',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
 const operativeStructureAttrib = [
     'ID_OPERATIVO',
@@ -686,19 +699,6 @@ const linguisticFieldProcessesTableName = 'PROCESOS_LINGUISTICOS_CAMPOS';
 const linguisticFieldProcessesAttrib = [
     'ID_NOMBRE_CAMPO_LINGUISTICO',
     'TIPO_DATO'
-];
-
-const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
-const microprocessesListsIfWordsAttrib = [
-    'ID_LISTAS',
-    'ID_ORDEN',
-    'PALABRA_O_FRASE',
-    'ES_PALABRA_O_FRASE',
-    'OBSERVACION',
-    'DOMINIO',
-    'SUPERVISADO',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA'
 ];
 
 module.exports = {
@@ -771,6 +771,8 @@ module.exports = {
     nomenclaturesAttrib,
     operativeFontsTableName,
     operativeFontsAttrib,
+    microprocessesListsIfWordsTableName,
+    microprocessesListsIfWordsAttrib,
     questionsAttrib,
     questionsTableName,
     chatTableName,
@@ -784,7 +786,5 @@ module.exports = {
     stepsLinguisticProcessesTableName,
     stepsLinguisticProcessesAttrib,
     linguisticFieldProcessesTableName,
-    linguisticFieldProcessesAttrib,
-    microprocessesListsIfWordsTableName,
-    microprocessesListsIfWordsAttrib
+    linguisticFieldProcessesAttrib
 };

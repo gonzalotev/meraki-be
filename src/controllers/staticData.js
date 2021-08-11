@@ -31,11 +31,11 @@ class StaticDataController {
                 support,
                 ticketTypes,
                 entryFieldsNames,
+                microprocessesLists,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
-                linguisticFieldProcesses,
-                microprocessesLists
+                linguisticFieldProcesses
             } = req.query;
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -94,6 +94,9 @@ class StaticDataController {
             if (frequency) {
                 await StaticDataService.getFrequency(data);
             }
+            if (microprocessesLists) {
+                await StaticDataService.getMicroprocessesLists(data);
+            }
             if (support) {
                 await StaticDataService.getSupport(data);
             }
@@ -111,9 +114,6 @@ class StaticDataController {
             }
             if (linguisticFieldProcesses) {
                 await StaticDataService.getLinguisticFieldProcesses(data);
-            }
-            if (microprocessesLists) {
-                await StaticDataService.getMicroprocessesLists(data);
             }
             res.send(data);
 

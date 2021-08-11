@@ -31,12 +31,12 @@ const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVar
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
 const questions = require('./questions');
 const ticket = require ('./ticket');
+const microprocessesListsIfWords = require('./microprocessesListsIfWords');
 const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
 const lots = require('./lots');
 const stepsLinguisticProcesses = require('./stepsLinguisticProcesses');
-const microprocessesListsIfWords = require('./microprocessesListsIfWords');
 
 module.exports = {
     ...assignments,
@@ -63,6 +63,7 @@ module.exports = {
     ...wordCorrector,
     ...newPhrases,
     ...operativeSources,
+    ...microprocessesListsIfWords,
     ...relationshipAutophrasesNomenclatures,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
@@ -76,6 +77,5 @@ module.exports = {
     ...stepsEncodingProcesses,
     ...operativeStructure,
     ...lots,
-    ...stepsLinguisticProcesses,
-    ...microprocessesListsIfWords
+    ...stepsLinguisticProcesses
 };
