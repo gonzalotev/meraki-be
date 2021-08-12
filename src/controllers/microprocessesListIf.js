@@ -3,8 +3,10 @@ const { MicroprocessesListIfService } = include('services');
 class MicroprocessesListIfController {
     static async fetch(req, res, next) {
         try {
-            const microprocessesListIf = await MicroprocessesListIfService.fetch(req.query, req.user.id);
-            res.send({ microprocessesListIf });
+            const {page} = req.query;
+            const microprocessesListIf = await MicroprocessesListIfService.fetch({page});
+            const total = await MicroprocessesListIfService.getTotal();
+            res.send({ microprocessesListIf, total });
         } catch(error) {
             next(error);
         }
