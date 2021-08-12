@@ -21,6 +21,7 @@ const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
 const relationshipAutophrasesNomenclatures = require('./relationshipAutophrasesNomenclatures');
+const relationshipAutophrasesLetters = require('./relationshipAutophrasesLetters');
 const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
@@ -31,10 +32,14 @@ const assignmentRolesOperativeVariables = require('./assignmentRolesOperativeVar
 const sourceQuestionRelation = require('./sourceQuestionsRelations');
 const questions = require('./questions');
 const ticket = require ('./ticket');
+const microprocessesListsIfWords = require('./microprocessesListsIfWords');
 const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
 const lots = require('./lots');
+const microprocessDefinition = require('./microprocessDefinition');
+const stepsLinguisticProcesses = require('./stepsLinguisticProcesses');
+const microprocessesListIf = require('./microprocessesListIf');
 
 module.exports = {
     ...assignments,
@@ -61,7 +66,9 @@ module.exports = {
     ...wordCorrector,
     ...newPhrases,
     ...operativeSources,
+    ...microprocessesListsIfWords,
     ...relationshipAutophrasesNomenclatures,
+    ...relationshipAutophrasesLetters,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
@@ -73,5 +80,8 @@ module.exports = {
     ...encodingProcesses,
     ...stepsEncodingProcesses,
     ...operativeStructure,
-    ...lots
+    ...lots,
+    ...microprocessDefinition,
+    ...stepsLinguisticProcesses,
+    ...microprocessesListIf
 };

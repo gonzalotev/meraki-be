@@ -23,6 +23,9 @@ class StaticDataController {
                 lots,
                 fonts,
                 nomenclatures,
+                nomenclaturesGroup,
+                nomenclatorsGroup,
+                relationshipGroup,
                 sources,
                 questions,
                 questionsTypes,
@@ -31,10 +34,23 @@ class StaticDataController {
                 support,
                 ticketTypes,
                 entryFieldsNames,
+                microprocessesLists,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
-                datatypes
+                datatypes,
+                linguisticFieldProcesses,
+                levels,
+                relationshipAutophrasesLetter
             } = req.query;
+            if(levels) {
+                const formattedLevels = JSON.parse(decodeURIComponent(levels));
+                await StaticDataService.getLevels(data, formattedLevels);
+            }
+            if(relationshipAutophrasesLetter) {
+                const formattedRelationshipAutophrasesLetter = JSON.parse(decodeURIComponent(
+                    relationshipAutophrasesLetter));
+                await StaticDataService.getRelationshipAutophrasesLetter(data, formattedRelationshipAutophrasesLetter);
+            }
             if (roles) {
                 await RolesService.shortFetch(data);
             }
@@ -74,6 +90,15 @@ class StaticDataController {
             if (nomenclatures) {
                 await StaticDataService.getNomenclatures(data);
             }
+            if (nomenclaturesGroup) {
+                await StaticDataService.getNomenclaturesGroup(data);
+            }
+            if (nomenclatorsGroup) {
+                await StaticDataService.getNomenclatorsGroup(data);
+            }
+            if (relationshipGroup) {
+                await StaticDataService.getRelationshipGroup(data);
+            }
             if (sources) {
                 await StaticDataService.getSources(data);
             }
@@ -92,6 +117,9 @@ class StaticDataController {
             if (frequency) {
                 await StaticDataService.getFrequency(data);
             }
+            if (microprocessesLists) {
+                await StaticDataService.getMicroprocessesLists(data);
+            }
             if (support) {
                 await StaticDataService.getSupport(data);
             }
@@ -107,7 +135,11 @@ class StaticDataController {
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
             }
+            if (linguisticFieldProcesses) {
+                await StaticDataService.getLinguisticFieldProcesses(data);
+            }
             res.send(data);
+
         } catch (error) {
             next(error);
         }

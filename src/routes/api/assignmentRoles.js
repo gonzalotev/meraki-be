@@ -5,7 +5,8 @@ module.exports = router => {
         .get(AssignmentRoleController.fetch)
         .post(AssignmentRoleController.create);
     router.route('/downloadCsv').get(AssignmentRoleController.downloadCsv);
-    router.route('/:id/:idUser')
+    router.route('/roles').get(AssignmentRoleController.getRoles);
+    router.route('/:roleId/:userId')
         .get(AssignmentRoleController.find)
         .put(AssignmentRoleController.update)
         .delete(AssignmentRoleController.delete);

@@ -1,5 +1,5 @@
 const knex = include('helpers/database');
-
+const NomenclatorService = require('./nomenclators');
 class StaticDataService {
     static async getGenders(data) {
         const genders = await knex
@@ -87,6 +87,46 @@ class StaticDataService {
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
     }
+    static async getNomenclatorsGroup(data) {
+        const nomenclatorsGroup = await knex
+            .select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                description: 'DESCRIPCION'
+            })
+            .from('AGRUPACIONES_NOMENCLADOR')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.nomenclatorsGroup = nomenclatorsGroup;
+        return data;
+    }
+    static async getNomenclaturesGroup(data) {
+        const nomenclaturesGroup = await knex.select({
+            nomenclatorId: 'ID_NOMENCLADOR',
+            groupId: 'ID_AGRUPACION',
+            nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+            abbreviation: 'ABREVIATURA',
+            description: 'DESCRIPCION'
+        })
+            .from('AGRUPACIONES_NOMENCLATURA')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.nomenclaturesGroup = nomenclaturesGroup;
+        return data;
+    }
+    static async getRelationshipGroup(data) {
+        const relationshipGroup = await knex.select({
+            nomenclatorId: 'ID_NOMENCLADOR',
+            groupId: 'ID_AGRUPACION',
+            nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+            nomenclatureId: 'ID_NOMENCLATURA'
+        })
+            .from('AGRUPACIONES_RELACION')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'ID_NOMENCLATURA_AGRUPACION', order: 'asc'}]);
+        data.relationshipGroup = relationshipGroup;
+        return data;
+    }
     static async getSources(data) {
         const sources = await knex.select({
             id: 'ID_FUENTE',
@@ -171,6 +211,76 @@ class StaticDataService {
         data.operatives = operatives;
         return operatives;
     }
+    static async getLevels(data, filters){
+        data.levels = {nomenclators: [], digits: []};
+        if(filters.nomenclators) {
+            data.levels.nomenclators = await NomenclatorService.fetchIfExist(
+                {tableName: 'NIVEL'},
+                'ID_NOMENCLADOR',
+                {FECHA_BAJA: null}
+            );
+        }
+        if(filters.digits) {
+            const { nomenclatorId } = filters;
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId};
+            }
+            data.levels.digits = await knex.select({
+                amountOfDigits: 'ID_CANTIDAD_DIGITOS',
+                description: 'DESCRIPCION'
+            })
+                .from('NIVEL')
+                .where(whereFilter);
+        }
+        return data;
+    }
+
+    static async getRelationshipAutophrasesLetter(data, filters){
+        data.relationshipAutophrasesLetter = {nomenclators: [], nomenclatorGrouping: [], nomenclatureGrouping: []};
+        if(filters.nomenclators) {
+            data.relationshipAutophrasesLetter.nomenclators = await NomenclatorService.fetchIfExist(
+                {tableName: 'RELACION_AGRUPACIONES_AUTOFRASES'},
+                'ID_NOMENCLADOR',
+                {FECHA_BAJA: null}
+            );
+        }
+        if(filters.nomenclatorGrouping) {
+            const { nomenclatorId } = filters;
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId};
+            }
+            data.relationshipAutophrasesLetter.nomenclatorGrouping = await knex.select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                description: 'DESCRIPCION'
+            })
+                .from('AGRUPACIONES_NOMENCLADOR')
+                .where(whereFilter);
+        }
+        if(filters.nomenclatureGrouping) {
+            const { nomenclatorId, groupId } = filters;
+            console.log(nomenclatorId);
+            console.log(groupId);
+            let whereFilter = {FECHA_BAJA: null};
+            if (nomenclatorId && groupId) {
+                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
+            }
+            data.relationshipAutophrasesLetter.nomenclatureGrouping = await knex.select({
+                nomenclatorId: 'ID_NOMENCLADOR',
+                groupId: 'ID_AGRUPACION',
+                nomenclatureGroupId: 'ID_NOMENCLATURA_AGRUPACION',
+                description: 'DESCRIPCION',
+                abbreviation: 'ABREVIATURA'
+            })
+                .from('AGRUPACIONES_NOMENCLATURA')
+                .where(whereFilter);
+        }
+        console.log(data.relationshipAutophrasesLetter.nomenclatureGrouping);
+        return data;
+    }
+
     static async getEntryFieldsNames(data){
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'
@@ -206,6 +316,26 @@ class StaticDataService {
             .from('TIPOS_DE_DATOS')
             .orderBy([{column: 'ABREVIATURA', order: 'asc'}]);
         data.datatypes = datatypes;
+        return data;
+    }
+    static async getLinguisticFieldProcesses(data){
+        const linguisticFieldProcesses = await knex.select({
+            id: 'ID_NOMBRE_CAMPO_LINGUISTICO',
+            dataType: 'TIPO_DATO'
+        })
+            .from('PROCESOS_LINGUISTICOS_CAMPOS')
+            .orderBy([{column: 'ID_NOMBRE_CAMPO_LINGUISTICO', order: 'asc'}]);
+        data.linguisticFieldProcesses = linguisticFieldProcesses;
+        return data;
+    }
+    static async getMicroprocessesLists(data){
+        const microprocessesLists = await knex.select({
+            id: 'ID_LISTAS',
+            description: 'DESCRIPCION'
+        })
+            .from('MICROPROCESOS_LISTAS_IF')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.microprocessesLists = microprocessesLists;
         return data;
     }
 }

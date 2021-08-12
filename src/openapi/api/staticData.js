@@ -16,6 +16,18 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'levels',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
+                    name: 'relationshipAutophrasesLetter',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
                     name: 'ticketTypes',
                     required: false,
                     schema: {type: 'boolean'}
@@ -65,6 +77,24 @@ module.exports = {
                 {
                     in: 'query',
                     name: 'autoPhrase',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'nomenclaturesGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'nomenclatorsGroup',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'relationshipGroup',
                     required: false,
                     schema: {type: 'boolean'}
                 },
@@ -156,6 +186,18 @@ module.exports = {
                 {
                     in: 'query',
                     name: 'datatypes',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'linguisticFieldProcesses',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'microprocessesLists',
                     required: false,
                     schema: {type: 'boolean'}
                 }

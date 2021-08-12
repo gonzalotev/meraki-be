@@ -150,6 +150,25 @@ class DictionaryTypeService {
         return resourceArrayWithDictionaryType;
     }
 
+    static async getDictionaryTypeData(resources, field='dictionaryTypologyId'){
+        const dictionaryTypesIds = uniq(map(resources, resource => resource[field]));
+        let dictionaryTypes = await dictionaryTypeModel.knex.select()
+            .from(dictionaryTypeModel.tableName)
+            .whereIn('ID_TIPOLOGIA_DE_DICCIONARIO', dictionaryTypesIds);
+        dictionaryTypes = map(dictionaryTypes, dictionaryType => ({
+            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+            description: dictionaryType.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.dictionaryType =
+            find(dictionaryTypes, dictionaryType => dictionaryType.id === resource[field]);
+            return resource;
+        });
+    }
+
     static getCsv(){
         return new Promise((resolve, reject) => {
             let csvString = '';

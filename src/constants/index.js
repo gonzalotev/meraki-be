@@ -261,7 +261,8 @@ const nomenclatorsAttrib = [
     'CLASIFICADOR_NACIONAL',
     'CLASIFICADOR_INTERNACIONAL',
     'CLASIFICADOR_EXTERNO',
-    'COEFICIENTE',
+    'ID_TIPO_ORGANIZACION',
+    'TIENE_COEFICIENTE',
     'EN_CONSTRUCCION',
     'PRUEBA_PILOTO',
     'USO_INTERNO',
@@ -269,7 +270,11 @@ const nomenclatorsAttrib = [
     'IDIOMA_CASTELLANO',
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'VALIDAR_CONCATENADO'
 ];
 
 const ticketTypeTableName = 'TIPOS_DE_CHAT';
@@ -289,6 +294,40 @@ const questionTypeTableName = 'TIPOS_DE_PREGUNTA';
 const questionTypeAttrib = [
     'ID_ABIERTA_CERRADA',
     'DESCRIPCION'
+];
+
+const nomenclatorsGroupingsTableName = 'AGRUPACIONES_NOMENCLADOR';
+const nomenclatorsGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'DESCRIPCION',
+    'DOMINIO',
+    'TOTAL_DE_DIGITOS',
+    'CANTIDAD_DE_NIVELES',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'OBSERVACION'
+];
+
+const nomenclaturesGroupingsTableName = 'AGRUPACIONES_NOMENCLATURA';
+const nomenclaturesGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ABREVIATURA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_PADRE_NOMENCLADOR',
+    'ID_PADRE_AGRUPACION',
+    'ID_PADRE_NOMENCLATURA_AGRUPACION',
+    'FRACCIONADO_DE_PALABRAS',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
 ];
 
 const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
@@ -479,6 +518,21 @@ const wordsDictionaryAttrib = [
     'FAMILIA'
 ];
 
+const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
+const relationshipAutoPhraseLetterAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ID_AUTOFRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'SUPERVISADO'
+];
+
 const relationshipAutoPhraseNomenclatureTableName = 'RELACION_NOMENCLATURA_AUTOFRASE';
 const relationshipAutoPhraseNomenclatureAttrib = [
     'ID_NOMENCLADOR',
@@ -638,6 +692,19 @@ const stepsEncodingProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
+const microprocessesListsIfWordsAttrib = [
+    'ID_LISTAS',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
 const operativeStructureAttrib = [
     'ID_OPERATIVO',
@@ -666,6 +733,60 @@ const operativeStructureAttrib = [
     'FECHA_BAJA'
 ];
 
+const microprocessDefinitionTableName = 'MICROPROCESOS';
+const microprocessDefinitionAttrib = [
+    'ID_MICROPROCESO',
+    'ID_VARIABLE',
+    'ORDEN',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'ID_NOMENCLADOR',
+    'ID_CANTIDAD_DIGITOS',
+    'CARGADO_COMPLETO_SI_NO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const stepsLinguisticProcessesTableName = 'PASOS_PROCESOS_LINGUISTICOS';
+const stepsLinguisticProcessesAttrib = [
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'ORDEN',
+    'ID_NOMBRE_CAMPO_LINGUISTICO',
+    'SE_MUESTRA_EN_PANTALLA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
+];
+
+const linguisticFieldProcessesTableName = 'PROCESOS_LINGUISTICOS_CAMPOS';
+const linguisticFieldProcessesAttrib = [
+    'ID_NOMBRE_CAMPO_LINGUISTICO',
+    'TIPO_DATO'
+];
+
+const microprocessesListIfTablename = 'MICROPROCESOS_LISTAS_IF';
+const microprocessesListIfAttrib = [
+    'ID_LISTAS',
+    'ID_VARIABLE',
+    'DESCRIPCION',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -690,6 +811,10 @@ module.exports = {
     assignmentRoleOperativeVariableAttrib,
     nomenclatorsAttrib,
     nomenclatorsTableName,
+    nomenclatorsGroupingsTableName,
+    nomenclatorsGroupingsAttrib,
+    nomenclaturesGroupingsTableName,
+    nomenclaturesGroupingsAttrib,
     ticketTypeAttrib,
     ticketTypeTableName,
     specialPhraseTypeTableName,
@@ -730,12 +855,16 @@ module.exports = {
     relationshipAutoPhraseNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
+    relationshipAutoPhraseLetterTableName,
+    relationshipAutoPhraseLetterAttrib,
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,
     nomenclaturesAttrib,
     operativeFontsTableName,
     operativeFontsAttrib,
+    microprocessesListsIfWordsTableName,
+    microprocessesListsIfWordsAttrib,
     questionsAttrib,
     questionsTableName,
     chatTableName,
@@ -745,5 +874,13 @@ module.exports = {
     stepsEncodingProcessesTableName,
     stepsEncodingProcessesAttrib,
     operativeStructureTableName,
-    operativeStructureAttrib
+    operativeStructureAttrib,
+    microprocessDefinitionTableName,
+    microprocessDefinitionAttrib,
+    stepsLinguisticProcessesTableName,
+    stepsLinguisticProcessesAttrib,
+    linguisticFieldProcessesTableName,
+    linguisticFieldProcessesAttrib,
+    microprocessesListIfTablename,
+    microprocessesListIfAttrib
 };

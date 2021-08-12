@@ -1,6 +1,10 @@
 const fetch = require('node-fetch');
 const {stringify} = require('querystring');
+const {buildArchQuery} = include('util');
 const Errors = include('helpers/error');
+const uniq = require('lodash/uniq');
+const map = require('lodash/map');
+const find = require('lodash/find');
 
 const {AUTH_ENDPOINT, AUTH_CLIENT_ID, AUTH} = process.env;
 
@@ -185,6 +189,21 @@ class ArqService {
             throw Error(err);
         }
 
+    }
+
+    async getUserData(resources, token){
+        const usersIds = uniq(map(resources, resource => resource.userId));
+        const archUsers = await this.fetchUsers(
+            buildArchQuery({ ids: usersIds }),
+            token
+        );
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.user = find(archUsers, user => user.id === resource.userId);
+            return resource;
+        });
     }
 }
 
