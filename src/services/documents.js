@@ -1,11 +1,11 @@
-const { document: documentModel } = include('models');
+const { documents: documentsModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 
 class DocumentsService {
     static async fetch() {
-        const documents = await documentModel.find({FECHA_BAJA: null});
-        return documents.map(documents => ({
+        const documentss = await documentsModel.find({FECHA_BAJA: null});
+        return documentss.map(documents => ({
             documentId: documents.ID_DOCUMENTO,
             documentTypeId: documents.ID_TIPO_DOCUMENTO,
             title: documents.TITULO,
@@ -48,7 +48,7 @@ class DocumentsService {
             ID_USUARIO_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const document = await documentModel.insertOne(formattedDocument);
+        const document = await documentsModel.insertOne(formattedDocument);
 
         return {
             documentId: document.ID_DOCUMENTO,
@@ -73,7 +73,7 @@ class DocumentsService {
     }
 
     static async findOne(filters){
-        const document = await documentModel.findById({ID_DOCUMENTO: filters.documentId});
+        const document = await documentsModel.findById({ID_DOCUMENTO: filters.documentId});
         return {
             documentId: document.ID_DOCUMENTO,
             documentTypeId: document.ID_TIPO_DOCUMENTO,
@@ -126,7 +126,7 @@ class DocumentsService {
 
     static async delete(filters, userDeleted){
         const formattedFilters = {ID_DOCUMENTO: filters.documentId};
-        const success = await documentModel.deleteOne(formattedFilters, {
+        const success = await documentsModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
@@ -162,8 +162,8 @@ class DocumentsService {
             const fileHeaders = map(fieldNames, field => field.nameInFile);
             const headers = arrayToCsvFormat(fileHeaders);
             csvString += headers;
-            const stream = documentModel.knex.select(tableHeaders)
-                .from(documentModel.tableName)
+            const stream = documentsModel.knex.select(tableHeaders)
+                .from(documentsModel.tableName)
                 .orderBy([{column: 'ID_TIPO_DOCUMENTO', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {

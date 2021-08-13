@@ -3,8 +3,8 @@ const { DocumentsService } = include('services');
 class DocumentsController {
     static async fetch(req, res, next) {
         try {
-            const documents = await DocumentsService.fetch();
-            res.send({ documents });
+            const documentss = await DocumentsService.fetch();
+            res.send({ documentss });
         } catch(error) {
             next(error);
         }
