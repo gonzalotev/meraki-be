@@ -1,4 +1,5 @@
 const { MicroprocessDefinitionService } = include('services');
+const isEmpty = require('lodash/isEmpty');
 
 class MicroprocessDefinitionController {
     static async fetch(req, res, next) {
@@ -23,6 +24,11 @@ class MicroprocessDefinitionController {
 
     static async create(req, res, next){
         try {
+            const foundMicroprocess= await MicroprocessDefinitionService.findOne({id: req.body.id});
+            console.log(foundMicroprocess);
+            if (!isEmpty(foundMicroprocess)) {
+                throw Error('Ya existe ese ID MICROPROCESO para una Definición de Microproceso. Por favor verifíquelo.');
+            }
             const microprocess = await MicroprocessDefinitionService.create(req.body, req.user.id);
             res.status(201);
             res.send({ microprocess });
