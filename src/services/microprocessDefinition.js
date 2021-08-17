@@ -29,7 +29,8 @@ class MicroprocessDefinitionService {
     }
 
     static async findOne({id}){
-        const ids = {ID_MICROPROCESO: id};
+        console.log(id);
+        const ids = {ID_MICROPROCESO: toUpper(id)};
         const microprocess = await MicroprocessDefinition.findById(ids);
         return microprocess ? MicroprocessDefinitionService.rebaseFormat(microprocess) : {};
     }
@@ -91,7 +92,7 @@ class MicroprocessDefinitionService {
 
     static formatData(microprocess) {
         return {
-            ID_MICROPROCESO: microprocess.id,
+            ID_MICROPROCESO: toUpper(microprocess.id),
             ID_VARIABLE: microprocess.variableId,
             ORDEN: microprocess.order,
             DESCRIPCION: toUpper(microprocess.description),

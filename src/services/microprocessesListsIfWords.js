@@ -1,6 +1,8 @@
 const { microprocessesListsIfWords: microprocessesListsIfWordsModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const map = require('lodash/map');
 const trim = require('lodash/trim');
+const toUpper = require('lodash/toUpper');
 
 class MicroprocessesListsIfWordService {
     static async fetch({ page, search }) {
@@ -113,6 +115,59 @@ class MicroprocessesListsIfWordService {
             result = await microprocessesListsIfWordsModel.countTotal();
         }
         return result.total;
+    }
+
+    static getCsv(){
+        return new Promise((resolve, reject) => {
+            let csvString = '';
+            const fieldNames = [
+                {
+                    nameInTable: 'ID_LISTAS',
+                    nameInFile: 'ID LISTAS'
+                },
+                {
+                    nameInTable: 'ID_ORDEN',
+                    nameInFile: 'ORDEN'
+                },
+                {
+                    nameInTable: 'PALABRA_O_FRASE',
+                    nameInFile: 'PALABRA/FRASE'
+                },
+                {
+                    nameInTable: 'ES_PALABRA_O_FRASE',
+                    nameInFile: 'Es PALABRA O FRASE'
+                },
+                {
+                    nameInTable: 'OBSERVACION',
+                    nameInFile: 'OBSERVACION'
+                },
+                {
+                    nameInTable: 'DOMINIO',
+                    nameInFile: 'DOMINIO'
+                },
+                {
+                    nameInTable: 'SUPERVISADO',
+                    nameInFile: 'SUPERVISADO'
+                }
+            ];
+            const tableHeaders = map(fieldNames, field => field.nameInTable);
+            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(fileHeaders);
+            csvString += headers;
+            const stream = microprocessesListsIfWordsModel.knex.select(tableHeaders)
+                .from(microprocessesListsIfWordsModel.tableName)
+                .orderBy([{column: 'ID_LISTAS', order: 'asc'}])
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                csvString += arrayToCsvFormat(data);
+            });
+            stream.on('end', function() {
+                resolve(csvString);
+            });
+        });
     }
 }
 
