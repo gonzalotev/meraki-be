@@ -787,6 +787,28 @@ const microprocessesListIfAttrib = [
     'FECHA_ALTA'
 ];
 
+const documentsTableName = 'DOCUMENTOS';
+const documentsAttrib = [
+    'ID_DOCUMENTO',
+    'ID_TIPO_DOCUMENTO',
+    'TITULO',
+    'AUTOR',
+    'INSTITUCION',
+    'AREA',
+    'FECHA_DOCUMENTO',
+    'ISBN',
+    'ID_EDITOR',
+    'UBICACION_ARCHIVO',
+    'RESUMEN',
+    'URL',
+    'COMENTARIO',
+    'CANTIDAD_VISITAS',
+    'ID_USUARIO_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -882,5 +904,7 @@ module.exports = {
     linguisticFieldProcessesTableName,
     linguisticFieldProcessesAttrib,
     microprocessesListIfTablename,
-    microprocessesListIfAttrib
+    microprocessesListIfAttrib,
+    documentsTableName,
+    documentsAttrib
 };
