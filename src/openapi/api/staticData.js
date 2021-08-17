@@ -22,6 +22,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'relationshipAutophrasesLetter',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
                     name: 'ticketTypes',
                     required: false,
                     schema: {type: 'boolean'}
@@ -186,6 +192,12 @@ module.exports = {
                 {
                     in: 'query',
                     name: 'linguisticFieldProcesses',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'microprocessesLists',
                     required: false,
                     schema: {type: 'boolean'}
                 }

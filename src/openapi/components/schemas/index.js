@@ -16,6 +16,7 @@ const RelationshipTypes = require('./relationshipTypes');
 const AutoPhrase = require('./autoPhrase');
 const AutoPhraseClosedQuestion = require('./autoPhraseClosedQuestion');
 const AutoPhraseNomenclatureRelation = require('./autoPhraseNomenclatureRelation');
+const MicroprocessesListsIfWords = require('./microprocessesListsIfWords');
 const WordCorrector = require('./wordCorrector');
 const SourceQuestionRelation = require('./sourceQuestionRelation');
 const OperativeSources = require('./operativeSources');
@@ -24,6 +25,7 @@ const StepsEncodingProcesses = require('./stepsEncodingProcesses');
 const OperativeStructure = require('./operativeStructure');
 const MicroprocessDefinition = require('./microprocessDefinition');
 const StepsLinguisticProcesses = require('./stepsLinguisticProcesses');
+const Documents = require('./documents');
 
 module.exports = {
     ArrayString: {
@@ -77,11 +79,13 @@ module.exports = {
     AutoPhraseClosedQuestion,
     AutoPhraseNomenclatureRelation,
     WordCorrector,
+    MicroprocessesListsIfWords,
     SourceQuestionRelation,
     OperativeSources,
     RelationshipAutophraseQuestionClosed,
     StepsEncodingProcesses,
     OperativeStructure,
     MicroprocessDefinition,
-    StepsLinguisticProcesses
+    StepsLinguisticProcesses,
+    Documents
 };

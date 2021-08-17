@@ -261,6 +261,8 @@ const nomenclatorsAttrib = [
     'CLASIFICADOR_NACIONAL',
     'CLASIFICADOR_INTERNACIONAL',
     'CLASIFICADOR_EXTERNO',
+    'ID_TIPO_ORGANIZACION',
+    'TIENE_COEFICIENTE',
     'EN_CONSTRUCCION',
     'PRUEBA_PILOTO',
     'USO_INTERNO',
@@ -268,7 +270,11 @@ const nomenclatorsAttrib = [
     'IDIOMA_CASTELLANO',
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'ID_USUARIO_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'VALIDAR_CONCATENADO'
 ];
 
 const ticketTypeTableName = 'TIPOS_DE_CHAT';
@@ -288,6 +294,40 @@ const questionTypeTableName = 'TIPOS_DE_PREGUNTA';
 const questionTypeAttrib = [
     'ID_ABIERTA_CERRADA',
     'DESCRIPCION'
+];
+
+const nomenclatorsGroupingsTableName = 'AGRUPACIONES_NOMENCLADOR';
+const nomenclatorsGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'DESCRIPCION',
+    'DOMINIO',
+    'TOTAL_DE_DIGITOS',
+    'CANTIDAD_DE_NIVELES',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA',
+    'OBSERVACION'
+];
+
+const nomenclaturesGroupingsTableName = 'AGRUPACIONES_NOMENCLATURA';
+const nomenclaturesGroupingsAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ABREVIATURA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_PADRE_NOMENCLADOR',
+    'ID_PADRE_AGRUPACION',
+    'ID_PADRE_NOMENCLATURA_AGRUPACION',
+    'FRACCIONADO_DE_PALABRAS',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_USUARIO_BAJA',
+    'FECHA_BAJA'
 ];
 
 const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
@@ -652,6 +692,19 @@ const stepsEncodingProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
+const microprocessesListsIfWordsAttrib = [
+    'ID_LISTAS',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const operativeStructureTableName = 'ESTRUCTURA_OPERATIVO';
 const operativeStructureAttrib = [
     'ID_OPERATIVO',
@@ -721,6 +774,41 @@ const linguisticFieldProcessesAttrib = [
     'TIPO_DATO'
 ];
 
+const microprocessesListIfTablename = 'MICROPROCESOS_LISTAS_IF';
+const microprocessesListIfAttrib = [
+    'ID_LISTAS',
+    'ID_VARIABLE',
+    'DESCRIPCION',
+    'ID_TIPOLOGIA_DE_DICCIONARIO',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
+const documentsTableName = 'DOCUMENTOS';
+const documentsAttrib = [
+    'ID_DOCUMENTO',
+    'ID_TIPO_DOCUMENTO',
+    'TITULO',
+    'AUTOR',
+    'INSTITUCION',
+    'AREA',
+    'FECHA_DOCUMENTO',
+    'ISBN',
+    'ID_EDITOR',
+    'UBICACION_ARCHIVO',
+    'RESUMEN',
+    'URL',
+    'COMENTARIO',
+    'CANTIDAD_VISITAS',
+    'ID_USUARIO_ALTA',
+    'FECHA_BAJA',
+    'ID_USUARIO_BAJA',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -745,6 +833,10 @@ module.exports = {
     assignmentRoleOperativeVariableAttrib,
     nomenclatorsAttrib,
     nomenclatorsTableName,
+    nomenclatorsGroupingsTableName,
+    nomenclatorsGroupingsAttrib,
+    nomenclaturesGroupingsTableName,
+    nomenclaturesGroupingsAttrib,
     ticketTypeAttrib,
     ticketTypeTableName,
     specialPhraseTypeTableName,
@@ -793,6 +885,8 @@ module.exports = {
     nomenclaturesAttrib,
     operativeFontsTableName,
     operativeFontsAttrib,
+    microprocessesListsIfWordsTableName,
+    microprocessesListsIfWordsAttrib,
     questionsAttrib,
     questionsTableName,
     chatTableName,
@@ -808,5 +902,9 @@ module.exports = {
     stepsLinguisticProcessesTableName,
     stepsLinguisticProcessesAttrib,
     linguisticFieldProcessesTableName,
-    linguisticFieldProcessesAttrib
+    linguisticFieldProcessesAttrib,
+    microprocessesListIfTablename,
+    microprocessesListIfAttrib,
+    documentsTableName,
+    documentsAttrib
 };

@@ -1,7 +1,8 @@
 const { relationshipAutophrasesLetter: relationshipAutophrasesLetterModel } = include('models');
 const AutoPhraseService = require('./autoPhrase');
-const StaticDataService = require('./staticData');
+const NomenclaturesGroupingService = require('./nomenclaturesGroupings');
 const NomenclatorsService = require('./nomenclators');
+const NomenclatorsGroupingService = require('./nomenclatorsGroupings');
 const { dateToString, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
@@ -24,9 +25,8 @@ class RelationshipAutophrasesLetterService {
         }));
         await AutoPhraseService.getAutoPhrase(relationshipsLetter);
         await NomenclatorsService.getNomenclatorData(relationshipsLetter);
-        await StaticDataService.getNomenclaturesGroup(relationshipsLetter);
-        await StaticDataService.getNomenclatorsGroup(relationshipsLetter);
-
+        await NomenclatorsGroupingService.getNomenclatorsGroupingsData(relationshipsLetter);
+        await NomenclaturesGroupingService.getNomenclaturesGroupingsData(relationshipsLetter);
         return relationshipsLetter;
 
     }
@@ -57,7 +57,7 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    static async findOne({nomenclatorId, groupId, nomenclatureGroupId, autophraseId}){
+    static async findOne({ nomenclatorId, groupId, nomenclatureGroupId, autophraseId }) {
         const ids = {
             ID_NOMENCLADOR: nomenclatorId,
             ID_AGRUPACION: groupId,
@@ -79,8 +79,8 @@ class RelationshipAutophrasesLetterService {
             deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
         } : {};
         await NomenclatorsService.getNomenclatorData([relationshipAutophrasesLetter]);
-        await StaticDataService.getNomenclaturesGroup([relationshipAutophrasesLetter]);
-        await StaticDataService.getNomenclatorsGroup(relationshipAutophrasesLetter);
+        await NomenclatorsGroupingService.getNomenclatorsGroupingsData([relationshipAutophrasesLetter]);
+        await NomenclaturesGroupingService.getNomenclaturesGroupingsData([relationshipAutophrasesLetter]);
         return relationshipAutophrasesLetter;
     }
 
