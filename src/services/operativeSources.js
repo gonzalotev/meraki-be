@@ -40,9 +40,9 @@ class OperativeSourcesService {
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            FECHA_ALTA: new Date(),
+            ID_USUARIO_BAJA: null,
+            FECHA_BAJA: null
         };
         const operativeId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
         const operative = await OperativeSourcesService.findOne({sourceId: operativeId});
