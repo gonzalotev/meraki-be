@@ -1,18 +1,20 @@
 const { microprocessesListIf: microprocessesListIfModel } = include('models');
 const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
+const StaticalVariableService = require('./staticalVariable');
+const DictionaryTypeService = require('./dictionaryType');
 const map = require('lodash/map');
 const trim = require('lodash/trim');
 const toUpper = require('lodash/toUpper');
 
 class microprocessesListIfService {
     static async fetch(query) {
-        const microprocessesListIfTypes = await microprocessesListIfModel.findByPage(
+        let microprocessesListIfTypes = await microprocessesListIfModel.findByPage(
             query.page,
             {},
             microprocessesListIfModel.selectableProps,
             [{ column: 'ID_LISTAS', order: 'asc' }]
         );
-        return microprocessesListIfTypes.map(microprocessesListIf => ({
+        microprocessesListIfTypes = microprocessesListIfTypes.map(microprocessesListIf => ({
             id: microprocessesListIf.ID_LISTAS,
             variableId: microprocessesListIf.ID_VARIABLE,
             description: microprocessesListIf.DESCRIPCION,
@@ -23,6 +25,9 @@ class microprocessesListIfService {
             userCreator: microprocessesListIf.ID_USUARIO_ALTA,
             createdAt: dateToString(microprocessesListIf.FECHA_ALTA)
         }));
+        await StaticalVariableService.getVariableData(microprocessesListIfTypes);
+        await DictionaryTypeService.getDictionaryTypeData(microprocessesListIfTypes, 'diccionaryTypologyId');
+        return microprocessesListIfTypes;
     }
     static async getTotal(filters) {
         const total = await microprocessesListIfModel.countDocuments(filters);
@@ -58,7 +63,7 @@ class microprocessesListIfService {
             diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGIA_DE_DICCIONARIO,
             observation: microprocessesListIf.OBSERVACION,
             domain: microprocessesListIf.OBSERVACION,
-            approved: microprocessesListIf.SUPERVISADO,
+            approved: !!microprocessesListIf.SUPERVISADO,
             userCreator: microprocessesListIf.ID_USUARIO_ALTA,
             createdAt: dateToString(microprocessesListIf.FECHA_ALTA)
         };
@@ -76,21 +81,10 @@ class microprocessesListIfService {
             ID_USUARIO_ALTA: params.userCreator,
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const microprocessesListIf = await microprocessesListIfModel.updateOne(
-            { ID_LISTAS: filters.id },
-            formattedmicroprocessesListIf
-        );
-        return {
-            id: microprocessesListIf.ID_LISTAS,
-            variableId: microprocessesListIf.ID_VARIABLE,
-            description: microprocessesListIf.DESCRIPCION,
-            diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGIA_DE_DICCIONARIO,
-            observation: microprocessesListIf.OBSERVACION,
-            domain: microprocessesListIf.OBSERVACION,
-            approved: microprocessesListIf.SUPERVISADO,
-            userCreator: microprocessesListIf.ID_USUARIO_ALTA,
-            createdAt: dateToString(microprocessesListIf.FECHA_ALTA)
-        };
+        const microprocessesListIfId = await microprocessesListIfModel.updateOne({ ID_LISTAS: filters.id },
+            formattedmicroprocessesListIf, ['ID_LISTAS']);
+        const microprocessesListIf = await microprocessesListIfService.findOne({id: microprocessesListIfId});
+        return microprocessesListIf;
     }
 
     static getCsv(){
