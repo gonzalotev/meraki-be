@@ -2,6 +2,9 @@ const { editor: editorModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
+const isEmpty = require('lodash/isEmpty');
 const toUpper = require('lodash/toUpper');
 
 class EditorService {
@@ -76,6 +79,28 @@ class EditorService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getEditorData(resources){
+        const editorsIds = uniq(map(resources, resource => resource.editorId));
+        if(isEmpty(editorsIds)){
+            return resources;
+        }
+        let editors = await editorModel.findByValues('ID_EDITOR', editorsIds);
+        editors = map(editors, editor => ({
+            editorId: editor.ID_EDITOR,
+            description: editor.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.editor = find(
+                editors,
+                editor => editor.editorId === resource.editorId
+            );
+            return resource;
+        });
     }
 
     static getCsv(){

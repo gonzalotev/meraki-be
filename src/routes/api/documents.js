@@ -5,7 +5,7 @@ module.exports = router => {
         .get(DocumentsController.fetch)
         .post(DocumentsController.create);
     router.route('/downloadCsv').get(DocumentsController.downloadCsv);
-    router.route('/:documentId')
+    router.route('/:documentId/:documentTypeId/:editorId')
         .get(DocumentsController.find)
         .put(DocumentsController.update)
         .delete(DocumentsController.delete);

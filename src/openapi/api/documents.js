@@ -16,7 +16,7 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                documentId: {type: 'integer'},
+                                                documentId: {type: 'string'},
                                                 documentTypeId: {type: 'string'},
                                                 title: {type: 'string'},
                                                 author: {type: 'string'},
@@ -24,12 +24,12 @@ module.exports = {
                                                 area: {type: 'string'},
                                                 documentDate: {type: 'string'},
                                                 isbn: {type: 'string'},
-                                                editorId: {type: 'integer'},
+                                                editorId: {type: 'number'},
                                                 fileLocation: {type: 'string'},
                                                 summary: {type: 'string'},
                                                 url: {type: 'string'},
                                                 commentary: {type: 'string'},
-                                                numberOfVisits: {type: 'integer'},
+                                                numberOfVisits: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 userDeleted: {type: 'string'},
@@ -59,7 +59,6 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                documentId: {type: 'integer'},
                                 documentTypeId: {type: 'string'},
                                 title: {type: 'string'},
                                 author: {type: 'string'},
@@ -67,12 +66,12 @@ module.exports = {
                                 area: {type: 'string'},
                                 documentDate: {type: 'string'},
                                 isbn: {type: 'string'},
-                                editorId: {type: 'integer'},
+                                editorId: {type: 'number'},
                                 fileLocation: {type: 'string'},
                                 summary: {type: 'string'},
                                 url: {type: 'string'},
                                 commentary: {type: 'string'},
-                                numberOfVisits: {type: 'integer'},
+                                numberOfVisits: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -93,7 +92,7 @@ module.exports = {
                                     document: {
                                         type: 'object',
                                         properties: {
-                                            documentId: {type: 'integer'},
+                                            documentId: {type: 'string'},
                                             documentTypeId: {type: 'string'},
                                             title: {type: 'string'},
                                             author: {type: 'string'},
@@ -101,12 +100,12 @@ module.exports = {
                                             area: {type: 'string'},
                                             documentDate: {type: 'string'},
                                             isbn: {type: 'string'},
-                                            editorId: {type: 'integer'},
+                                            editorId: {type: 'number'},
                                             fileLocation: {type: 'string'},
                                             summary: {type: 'string'},
                                             url: {type: 'string'},
                                             commentary: {type: 'string'},
-                                            numberOfVisits: {type: 'integer'},
+                                            numberOfVisits: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -125,7 +124,7 @@ module.exports = {
             }
         }
     },
-    '/api/documents/{documentId}': {
+    '/api/documents/{documentId}/{documentTypeId}/{editorId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Documents'],
@@ -133,6 +132,20 @@ module.exports = {
                 {
                     in: 'path',
                     name: 'documentId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'documentTypeId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'editorId',
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
@@ -146,7 +159,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                documentId: {type: 'integer'},
+                                documentId: {type: 'string'},
                                 documentTypeId: {type: 'string'},
                                 title: {type: 'string'},
                                 author: {type: 'string'},
@@ -154,12 +167,12 @@ module.exports = {
                                 area: {type: 'string'},
                                 documentDate: {type: 'string'},
                                 isbn: {type: 'string'},
-                                editorId: {type: 'integer'},
+                                editorId: {type: 'number'},
                                 fileLocation: {type: 'string'},
                                 summary: {type: 'string'},
                                 url: {type: 'string'},
                                 commentary: {type: 'string'},
-                                numberOfVisits: {type: 'integer'},
+                                numberOfVisits: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userDeleted: {type: 'string'},
@@ -180,7 +193,7 @@ module.exports = {
                                     document: {
                                         type: 'object',
                                         properties: {
-                                            documentId: {type: 'integer'},
+                                            documentId: {type: 'string'},
                                             documentTypeId: {type: 'string'},
                                             title: {type: 'string'},
                                             author: {type: 'string'},
@@ -188,12 +201,12 @@ module.exports = {
                                             area: {type: 'string'},
                                             documentDate: {type: 'string'},
                                             isbn: {type: 'string'},
-                                            editorId: {type: 'integer'},
+                                            editorId: {type: 'number'},
                                             fileLocation: {type: 'string'},
                                             summary: {type: 'string'},
                                             url: {type: 'string'},
                                             commentary: {type: 'string'},
-                                            numberOfVisits: {type: 'integer'},
+                                            numberOfVisits: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},
@@ -221,6 +234,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'documentTypeId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'editorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -241,6 +268,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'documentTypeId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'editorId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -254,7 +295,7 @@ module.exports = {
                                     document: {
                                         type: 'object',
                                         properties: {
-                                            documentId: {type: 'integer'},
+                                            documentId: {type: 'string'},
                                             documentTypeId: {type: 'string'},
                                             title: {type: 'string'},
                                             author: {type: 'string'},
@@ -262,12 +303,12 @@ module.exports = {
                                             area: {type: 'string'},
                                             documentDate: {type: 'string'},
                                             isbn: {type: 'string'},
-                                            editorId: {type: 'integer'},
+                                            editorId: {type: 'number'},
                                             fileLocation: {type: 'string'},
                                             summary: {type: 'string'},
                                             url: {type: 'string'},
                                             commentary: {type: 'string'},
-                                            numberOfVisits: {type: 'integer'},
+                                            numberOfVisits: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userDeleted: {type: 'string'},

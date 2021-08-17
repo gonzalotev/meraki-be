@@ -139,6 +139,28 @@ class StaticDataService {
         data.sources = sources;
         return data;
     }
+    static async getEditors(data) {
+        const editors = await knex.select({
+            editorId: 'ID_EDITOR',
+            description: 'DESCRIPCION'
+        })
+            .from('EDITORES')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.editors = editors;
+        return data;
+    }
+    static async getDocumentsTypes(data) {
+        const documentsTypes = await knex.select({
+            documentTypeId: 'ID_TIPO_DOCUMENTO',
+            description: 'DESCRIPCION'
+        })
+            .from('TIPOS_DE_DOCUMENTOS')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.documentsTypes = documentsTypes;
+        return data;
+    }
     static async getQuestions(data) {
         const questions = await knex.select({
             id: 'ID_PREGUNTA',
@@ -261,8 +283,6 @@ class StaticDataService {
         }
         if(filters.nomenclatureGrouping) {
             const { nomenclatorId, groupId } = filters;
-            console.log(nomenclatorId);
-            console.log(groupId);
             let whereFilter = {FECHA_BAJA: null};
             if (nomenclatorId && groupId) {
                 whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
@@ -275,9 +295,9 @@ class StaticDataService {
                 abbreviation: 'ABREVIATURA'
             })
                 .from('AGRUPACIONES_NOMENCLATURA')
-                .where(whereFilter);
+                .where(whereFilter)
+                .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         }
-        console.log(data.relationshipAutophrasesLetter.nomenclatureGrouping);
         return data;
     }
 

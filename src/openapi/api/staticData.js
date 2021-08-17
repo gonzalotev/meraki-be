@@ -173,6 +173,18 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'editors',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'documentsTypes',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'originalAuxiliariesFields',
                     required: false,
                     schema: {type: 'boolean'}

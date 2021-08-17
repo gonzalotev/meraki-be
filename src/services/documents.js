@@ -1,11 +1,12 @@
 const { documents: documentsModel } = include('models');
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const EditorService = require ('./editor.js');
 const map = require('lodash/map');
 
 class DocumentsService {
     static async fetch() {
-        const documentss = await documentsModel.find({FECHA_BAJA: null});
-        return documentss.map(documents => ({
+        let documentss = await documentsModel.find({FECHA_BAJA: null});
+        documentss = documentss.map(documents => ({
             documentId: documents.ID_DOCUMENTO,
             documentTypeId: documents.ID_TIPO_DOCUMENTO,
             title: documents.TITULO,
@@ -25,11 +26,14 @@ class DocumentsService {
             userDeleted: documents.ID_USUARIO_BAJA,
             deletedAt: dateToString(documents.FECHA_BAJA)
         }));
+
+        await EditorService.getEditorData(documentss);
+        return (documentss);
     }
 
     static async create(params, userCreator) {
         const formattedDocument = {
-            ID_DOCUMENTO: params.documentId,
+            ID_DOCUMENTO: null,
             ID_TIPO_DOCUMENTO: params.documentTypeId,
             TITULO: params.title,
             AUTOR: params.author,
@@ -98,13 +102,12 @@ class DocumentsService {
 
     static async update(filters, params) {
         const formattedDocument = {
-            ID_DOCUMENTO: params.documentId,
             ID_TIPO_DOCUMENTO: params.documentTypeId,
             TITULO: params.title,
             AUTOR: params.author,
             INSTITUCION: params.institution,
             AREA: params.area,
-            FECHA_DOCUMENTO: params.documentDate,
+            FECHA_DOCUMENTO: stringToDate(params.documentDate),
             ISBN: params.isbn,
             ID_EDITOR: params.editorId,
             UBICACION_ARCHIVO: params.fileLocation,
@@ -118,7 +121,7 @@ class DocumentsService {
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
         // eslint-disable-next-line no-use-before-define
-        const documentId = await document.updateOne({ ID_DOCUMENTO: filters.documentId },
+        const documentId = await documentsModel.updateOne({ ID_DOCUMENTO: filters.documentId },
             formattedDocument, ['ID_DOCUMENTO']);
         const document = await DocumentsService.findOne({ documentId: documentId });
         return document;

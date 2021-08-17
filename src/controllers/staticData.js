@@ -27,6 +27,8 @@ class StaticDataController {
                 nomenclatorsGroup,
                 relationshipGroup,
                 sources,
+                documentsTypes,
+                editors,
                 questions,
                 questionsTypes,
                 operativeType,
@@ -101,6 +103,12 @@ class StaticDataController {
             }
             if (sources) {
                 await StaticDataService.getSources(data);
+            }
+            if (editors) {
+                await StaticDataService.getEditors(data);
+            }
+            if (documentsTypes) {
+                await StaticDataService.getDocumentsTypes(data);
             }
             if (questions) {
                 await StaticDataService.getQuestions(data);
