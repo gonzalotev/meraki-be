@@ -1,118 +1,87 @@
-const { stepsLinguisticProcesses } = include('models');
-const OperativeSourcesService = require('./operativeSources');
-const QuestionsService = require('./questions');
-const DictionaryTypeService = require('./dictionaryType');
+const { microprocessesStepsOption } = include('models');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
 
-class StepsLinguisticProcessesService {
+class MicroprocessesStepsOption {
     static async fetch() {
-        let stepsLinguisticProcessesList = await stepsLinguisticProcesses.find({FECHA_BAJA: null});
-        stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
-            sourceId: operative.ID_FUENTE,
-            questionId: operative.ID_PREGUNTA,
-            dictionaryTypologyId: operative.ID_TIPOLOGIA_DE_DICCIONARIO,
-            order: operative.ORDEN,
-            linguisticFieldNameId: operative.ID_NOMBRE_CAMPO_LINGUISTICO,
-            showOnScreen: !!operative.SE_MUESTRA_EN_PANTALLA,
-            observation: operative.OBSERVACION,
-            domain: operative.DOMINIO,
-            userCreator: operative.ID_USUARIO_ALTA,
-            createdAt: dateToString(operative.FECHA_ALTA),
-            userDeleted: operative.ID_USUARIO_BAJA,
-            deletedAt: dateToString(operative.FECHA_BAJA)
+        let microprocessesStepsOptionList = await microprocessesStepsOption.find({FECHA_BAJA: null});
+        microprocessesStepsOptionList = microprocessesStepsOptionList.map(microprocesses => ({
+            microprocessId: microprocesses.ID_MICROPROCESO,
+            orderId: microprocesses.ID_ORDEN,
+            sourceId: microprocesses.ID_FUENTE,
+            questionId: microprocesses.ID_PREGUNTA,
+            order: microprocesses.ORDEN,
+            abbreviation: microprocesses.ABREVIATURA,
+            observation: microprocesses.OBSERVACION,
+            userCreator: microprocesses.ID_USUARIO_ALTA,
+            createdAt: microprocesses.FECHA_ALTA
         }));
-        await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
-        await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
-        await DictionaryTypeService.getDictionaryTypeData(stepsLinguisticProcessesList);
-        return stepsLinguisticProcessesList;
+        return microprocessesStepsOptionList;
     }
 
     static async create(params, userCreator) {
-        const formattedStepLinguisticProcess = {
+        const formattedMicroprocessesStepsOption = {
+            ID_MICROPROCESO: params.microprocessId,
+            ID_ORDEN: params.orderId,
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
-            ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypologyId,
             ORDEN: params.order,
-            ID_NOMBRE_CAMPO_LINGUISTICO: params.linguisticFieldNameId,
-            SE_MUESTRA_EN_PANTALLA: params.showOnScreen,
+            ABREVIATURA: params.abbreviation,
             OBSERVACION: params.observation,
-            DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            FECHA_ALTA: new Date()
         };
-        const operativeId = await stepsLinguisticProcesses.insertOne(formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
-        const operative = await StepsLinguisticProcessesService.findOne(
-            {sourceId: operativeId.ID_FUENTE,
-                questionId: operativeId.ID_PREGUNTA,
-                dictionaryTypologyId: operativeId.ID_TIPOLOGIA_DE_DICCIONARIO,
-                order: operativeId.ORDEN
+        const microprocess = await microprocessesStepsOption.insertOne(formattedMicroprocessesStepsOption, ['ID_MICROPROCESO']);
+        const operative = await MicroprocessesStepsOption.findOne(
+            {microprocessId: microprocess.ID_MICROPROCESO
             });
         return operative;
     }
 
     static async findOne(filters){
         const formattedFilters = {
-            ID_FUENTE: filters.sourceId,
-            ID_PREGUNTA: filters.questionId,
-            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
-            ORDEN: filters.order
+            ID_MICROPROCESO: filters.microprocessId
         };
-        const stepLinguisticProcess = await stepsLinguisticProcesses.findById(formattedFilters);
+        const microprocesses = await microprocessesStepsOption.findById(formattedFilters);
         return {
-            sourceId: stepLinguisticProcess.ID_FUENTE,
-            questionId: stepLinguisticProcess.ID_PREGUNTA,
-            dictionaryTypologyId: stepLinguisticProcess.ID_TIPOLOGIA_DE_DICCIONARIO,
-            order: stepLinguisticProcess.ORDEN,
-            linguisticFieldNameId: stepLinguisticProcess.ID_NOMBRE_CAMPO_LINGUISTICO,
-            showOnScreen: !!stepLinguisticProcess.SE_MUESTRA_EN_PANTALLA,
-            observation: stepLinguisticProcess.OBSERVACION,
-            domain: stepLinguisticProcess.DOMINIO,
-            userCreator: stepLinguisticProcess.ID_USUARIO_ALTA,
-            createdAt: dateToString(stepLinguisticProcess.FECHA_ALTA),
-            userDeleted: stepLinguisticProcess.ID_USUARIO_BAJA,
-            deletedAt: dateToString(stepLinguisticProcess.FECHA_BAJA)
+            microprocessId: microprocesses.ID_MICROPROCESO,
+            orderId: microprocesses.ID_ORDEN,
+            sourceId: microprocesses.ID_FUENTE,
+            questionId: microprocesses.ID_PREGUNTA,
+            order: microprocesses.ORDEN,
+            abbreviation: microprocesses.ABREVIATURA,
+            observation: microprocesses.OBSERVACION,
+            userCreator: microprocesses.ID_USUARIO_ALTA,
+            createdAt: dateToString(microprocesses.FECHA_ALTA)
         };
     }
 
     static async update(filters, params){
-        const formattedStepLinguisticProcess = {
-            ID_FUENTE: toNumber(params.sourceId),
-            ID_PREGUNTA: toNumber(params.questionId),
-            ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypologyId,
-            ORDEN: toNumber(params.order),
-            ID_NOMBRE_CAMPO_LINGUISTICO: params.linguisticFieldNameId,
-            SE_MUESTRA_EN_PANTALLA: params.showOnScreen,
+        const formattedMicroprocessesStepsOption = {
+            ID_MICROPROCESO: params.microprocessId,
+            ID_ORDEN: params.orderId,
+            ID_FUENTE: params.sourceId,
+            ID_PREGUNTA: params.questionId,
+            ORDEN: params.order,
+            ABREVIATURA: params.abbreviation,
             OBSERVACION: params.observation,
-            DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator
         };
         const formattedFilters = {
-            ID_FUENTE: toNumber(filters.sourceId),
-            ID_PREGUNTA: toNumber(filters.questionId),
-            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
-            ORDEN: toNumber(filters.order)
+            ID_MICROPROCESO: toNumber(filters.microprocessId)
         };
-        const stepLinguisticProcessId = await stepsLinguisticProcesses.updateOne(formattedFilters, formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
-        const stepLinguisticProcess =
-        await StepsLinguisticProcessesService.findOne({
-            sourceId: stepLinguisticProcessId.ID_FUENTE,
-            questionId: stepLinguisticProcessId.ID_PREGUNTA,
-            dictionaryTypologyId: stepLinguisticProcessId.ID_TIPOLOGIA_DE_DICCIONARIO,
-            order: stepLinguisticProcessId.ORDEN
+        const microprocessesId = await microprocessesStepsOption.updateOne(formattedFilters, formattedMicroprocessesStepsOption, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
+        const microprocessStepOption =
+        await MicroprocessesStepsOption.findOne({
+            microprocessId: microprocessesId.ID_MICROPROCESO
         });
-        return stepLinguisticProcess;
+        return microprocessStepOption;
     }
 
     static async delete(filters, userDeleted){
-        const success = await stepsLinguisticProcesses.deleteOne({
-            ID_FUENTE: filters.sourceId,
-            ID_PREGUNTA: filters.questionId,
-            ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
-            ORDEN: filters.order
+        const success = await microprocessesStepsOption.deleteOne({
+            ID_MICROPROCESO: filters.microprocessId
         },
         {
             FECHA_BAJA: new Date(),
@@ -126,6 +95,14 @@ class StepsLinguisticProcessesService {
             let csvString = '';
             const fieldNames = [
                 {
+                    nameInTable: 'ID_MICROPROCESO',
+                    nameInFile: 'MICROPROCESO'
+                },
+                {
+                    nameInTable: 'ID_ORDEN',
+                    nameInFile: 'ID ORDEN'
+                },
+                {
                     nameInTable: 'ID_FUENTE',
                     nameInFile: 'FUENTE'
                 },
@@ -134,37 +111,25 @@ class StepsLinguisticProcessesService {
                     nameInFile: 'PREGUNTA'
                 },
                 {
-                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                    nameInFile: 'TIPOLOGIA DE DICCIONARIO'
-                },
-                {
                     nameInTable: 'ORDEN',
                     nameInFile: 'ORDEN'
                 },
                 {
-                    nameInTable: 'ID_NOMBRE_CAMPO_LINGUISTICO',
-                    nameInFile: 'NOMBRE CAMPO LINGUISTICO'
-                },
-                {
-                    nameInTable: 'SE_MUESTRA_EN_PANTALLA',
-                    nameInFile: 'SE MUESTRA EN PANTALLA'
+                    nameInTable: 'ABREVIATURA',
+                    nameInFile: 'ABREVIATURA'
                 },
                 {
                     nameInTable: 'OBSERVACION',
                     nameInFile: 'OBSERVACION'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
                 }
             ];
 
-            const stepsLinguiticProcessesTableHeaders = map(fieldNames, field => field.nameInTable);
-            const stepsLinguisticProcessesFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(stepsLinguisticProcessesFileHeaders);
+            const microprocessesStepsOptionTableHeaders = map(fieldNames, field => field.nameInTable);
+            const microprocessesStepsOptionFileHeaders = map(fieldNames, field => field.nameInFile);
+            const headers = arrayToCsvFormat(microprocessesStepsOptionFileHeaders);
             csvString += headers;
-            const stream = stepsLinguisticProcesses.knex.select(stepsLinguiticProcessesTableHeaders)
-                .from(stepsLinguisticProcesses.tableName)
+            const stream = microprocessesStepsOption.knex.select(microprocessesStepsOptionTableHeaders)
+                .from(microprocessesStepsOption.tableName)
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
@@ -179,4 +144,4 @@ class StepsLinguisticProcessesService {
     }
 }
 
-module.exports = StepsLinguisticProcessesService;
+module.exports = MicroprocessesStepsOption;
