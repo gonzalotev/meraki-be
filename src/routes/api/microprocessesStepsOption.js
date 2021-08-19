@@ -1,13 +1,13 @@
-const {StepsLinguisticProcessesController} = include('controllers');
+const {MicroprocessesStepsOptionController} = include('controllers');
 
 module.exports = router => {
     router.route('/')
-        .get(StepsLinguisticProcessesController.fetch)
-        .post(StepsLinguisticProcessesController.create);
-    router.route('/downloadCsv').get(StepsLinguisticProcessesController.downloadCsv);
+        .get(MicroprocessesStepsOptionController.fetch)
+        .post(MicroprocessesStepsOptionController.create);
+    router.route('/downloadCsv').get(MicroprocessesStepsOptionController.downloadCsv);
     router.route('/:sourceId/:questionId/:dictionaryTypologyId/:order')
-        .get(StepsLinguisticProcessesController.find)
-        .delete(StepsLinguisticProcessesController.delete)
-        .put(StepsLinguisticProcessesController.update);
+        .get(MicroprocessesStepsOptionController.find)
+        .delete(MicroprocessesStepsOptionController.delete)
+        .put(MicroprocessesStepsOptionController.update);
     return router;
 };
