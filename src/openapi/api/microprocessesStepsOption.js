@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/stepsLinguisticProcesses': {
+    '/api/microprocessesStepsOption': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Linguistic Processes'],
+            tags: ['Microprocesses Steps Option'],
             responses: {
                 200: {
                     description: 'ok',
@@ -11,7 +11,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    stepsLinguisticProcesses: {
+                                    microprocessesStepsOption: {
                                         type: 'array',
                                         items: {}
                                     }
@@ -28,7 +28,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Linguistic Processes'],
+            tags: ['Microprocesses Steps Option'],
             requestBody: {
                 description: 'The new step Linguistic process to create',
                 required: true,
@@ -37,17 +37,15 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
+                                microprocessId: {type: 'string'},
+                                orderId: {type: 'string'},
                                 sourceId: {type: 'string'},
                                 questionId: {type: 'string'},
-                                dictionaryTypologyId: {type: 'string'},
                                 order: {type: 'string'},
-                                linguisticFieldNameId: {type: 'string'},
-                                showOnScreen: {type: 'boolean'},
+                                abbreviation: {type: 'string'},
                                 observation: {type: 'string'},
-                                domain: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'}
-
                             }
                         }
                     }
@@ -65,18 +63,15 @@ module.exports = {
                                     stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
+                                            microprocessId: {type: 'string'},
+                                            orderId: {type: 'string'},
                                             sourceId: {type: 'string'},
                                             questionId: {type: 'string'},
-                                            dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'string'},
-                                            linguisticFieldNameId: {type: 'string'},
-                                            showOnScreen: {type: 'boolean'},
+                                            abbreviation: {type: 'string'},
                                             observation: {type: 'string'},
-                                            domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -91,10 +86,10 @@ module.exports = {
             }
         }
     },
-    '/api/stepsLinguisticProcesses/{sourceId}/{questionId}/{dictionaryTypologyId}/{order}': {
+    '/api/microprocessesStepsOption/{sourceId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Linguistic Processes'],
+            tags: ['Microprocesses Steps Option'],
             parameters: [
                 {
                     in: 'path',
@@ -102,27 +97,6 @@ module.exports = {
                     required: true,
                     schema: {type: 'string'},
                     description: 'sourceId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'dictionaryTypologyId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'order',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to update'
                 }
             ],
             requestBody: {
@@ -133,18 +107,15 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
+                                microprocessId: {type: 'string'},
+                                orderId: {type: 'string'},
                                 sourceId: {type: 'string'},
                                 questionId: {type: 'string'},
-                                dictionaryTypologyId: {type: 'string'},
                                 order: {type: 'string'},
-                                linguisticFieldNameId: {type: 'string'},
-                                showOnScreen: {type: 'boolean'},
+                                abbreviation: {type: 'string'},
                                 observation: {type: 'string'},
-                                domain: {type: 'string'},
                                 userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                createdAt: {type: 'string'}
                             }
                         }
                     }
@@ -162,18 +133,15 @@ module.exports = {
                                     stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
+                                            microprocessId: {type: 'string'},
+                                            orderId: {type: 'string'},
                                             sourceId: {type: 'string'},
                                             questionId: {type: 'string'},
-                                            dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'string'},
-                                            linguisticFieldNameId: {type: 'string'},
-                                            showOnScreen: {type: 'boolean'},
+                                            abbreviation: {type: 'string'},
                                             observation: {type: 'string'},
-                                            domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -189,7 +157,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Linguistic Processes'],
+            tags: ['Microprocesses Steps Option'],
             parameters: [
                 {
                     in: 'path',
@@ -197,27 +165,6 @@ module.exports = {
                     required: true,
                     schema: {type: 'string'},
                     description: 'sourceId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'dictionaryTypologyId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'dictionaryTypologyId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'order',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'order to update'
                 }
             ],
             responses: {
@@ -233,7 +180,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Linguistic Processes'],
+            tags: ['Microprocesses Steps Option'],
             parameters: [
                 {
                     in: 'path',
@@ -241,27 +188,6 @@ module.exports = {
                     required: true,
                     schema: {type: 'string'},
                     description: 'sourceId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'dictionaryTypologyId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'dictionaryTypologyId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'order',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'order to update'
                 }
             ],
             responses: {
@@ -275,18 +201,15 @@ module.exports = {
                                     stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
+                                            microprocessId: {type: 'string'},
+                                            orderId: {type: 'string'},
                                             sourceId: {type: 'string'},
                                             questionId: {type: 'string'},
-                                            dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'string'},
-                                            linguisticFieldNameId: {type: 'string'},
-                                            showOnScreen: {type: 'boolean'},
+                                            abbreviation: {type: 'string'},
                                             observation: {type: 'string'},
-                                            domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -301,10 +224,10 @@ module.exports = {
             }
         }
     },
-    '/api/stepsLinguisticProcesses/downloadCsv': {
+    '/api/microprocessesStepsOption/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Steps Linguistic Processes'],
+            tags: ['Microprocesses Steps Option'],
             parameters: [
                 {
                     in: 'query',
