@@ -41,6 +41,7 @@ const microprocessDefinition = require('./microprocessDefinition');
 const stepsLinguisticProcesses = require('./stepsLinguisticProcesses');
 const microprocessesListIf = require('./microprocessesListIf');
 const documents = require('./documents');
+const microprocessesStepsOptions = require('./microprocessesStepsOption');
 
 module.exports = {
     ...assignments,
@@ -85,5 +86,6 @@ module.exports = {
     ...microprocessDefinition,
     ...stepsLinguisticProcesses,
     ...microprocessesListIf,
-    ...documents
+    ...documents,
+    ...microprocessesStepsOptions
 };

@@ -26,6 +26,7 @@ const OperativeStructure = require('./operativeStructure');
 const MicroprocessDefinition = require('./microprocessDefinition');
 const StepsLinguisticProcesses = require('./stepsLinguisticProcesses');
 const Documents = require('./documents');
+const MicroprocessesStepsOption = require('./microprocessesStepsOptions');
 
 module.exports = {
     ArrayString: {
@@ -87,5 +88,6 @@ module.exports = {
     OperativeStructure,
     MicroprocessDefinition,
     StepsLinguisticProcesses,
-    Documents
+    Documents,
+    MicroprocessesStepsOption
 };

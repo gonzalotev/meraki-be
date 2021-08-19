@@ -2,7 +2,6 @@ const { microprocessesListsIfWords: microprocessesListsIfWordsModel } = include(
 const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const trim = require('lodash/trim');
-const toUpper = require('lodash/toUpper');
 
 class MicroprocessesListsIfWordService {
     static async fetch({ page, search }) {
