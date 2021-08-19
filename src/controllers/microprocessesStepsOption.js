@@ -1,9 +1,9 @@
-const { StepsLinguisticProcessesService } = include('services');
-class StepsLinguisticProcessesController {
+const { MicroprocessesStepsOptionService } = include('services');
+class MicroprocessesStepsOptionController {
     static async fetch(req, res, next) {
         try {
-            const linguisticProcesses = await StepsLinguisticProcessesService.fetch();
-            res.send({ linguisticProcesses });
+            const microprocesses = await MicroprocessesStepsOptionService.fetch();
+            res.send({ microprocesses });
         } catch(error) {
             next(error);
         }
@@ -11,8 +11,8 @@ class StepsLinguisticProcessesController {
 
     static async find(req, res, next){
         try {
-            const linguisticProcess = await StepsLinguisticProcessesService.findOne(req.params);
-            res.send({linguisticProcess});
+            const microprocessStepOption = await MicroprocessesStepsOptionService.findOne(req.params);
+            res.send({microprocessStepOption});
         } catch(err) {
             next(err);
         }
@@ -20,9 +20,9 @@ class StepsLinguisticProcessesController {
 
     static async create(req, res, next) {
         try{
-            const linguisticProcess = await StepsLinguisticProcessesService.create(req.body, req.user.id);
+            const microprocessStepOption = await MicroprocessesStepsOptionService.create(req.body, req.user.id);
             res.status(201);
-            res.send({ linguisticProcess });
+            res.send({ microprocessStepOption });
         } catch(err) {
             next(err);
         }
@@ -30,8 +30,8 @@ class StepsLinguisticProcessesController {
 
     static async update(req, res, next){
         try{
-            const linguisticProcess = await StepsLinguisticProcessesService.update(req.params, req.body);
-            res.send({ success: true, linguisticProcess });
+            const microprocessStepOption = await MicroprocessesStepsOptionService.update(req.params, req.body);
+            res.send({ success: true, microprocessStepOption });
         } catch(error) {
             next(error);
         }
@@ -39,7 +39,7 @@ class StepsLinguisticProcessesController {
 
     static async delete(req, res, next){
         try{
-            const result = await StepsLinguisticProcessesService.delete(req.params, req.user.id);
+            const result = await MicroprocessesStepsOptionService.delete(req.params, req.user.id);
             if(result){
                 res.sendStatus(204);
             }else{
@@ -52,8 +52,8 @@ class StepsLinguisticProcessesController {
 
     static async fetchOne(req, res, next){
         try{
-            const linguisticProcess = await StepsLinguisticProcessesService.findById(req.params);
-            res.send({ linguisticProcess });
+            const microprocessStepOption = await MicroprocessesStepsOptionService.findById(req.params);
+            res.send({ microprocessStepOption });
         } catch(error) {
             next(error);
         }
@@ -61,7 +61,7 @@ class StepsLinguisticProcessesController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await StepsLinguisticProcessesService.getCsv();
+            const stream = await MicroprocessesStepsOptionService.getCsv();
             const buf = Buffer.from(stream, 'utf-8');
             res.send(buf);
         } catch(err) {
@@ -70,4 +70,4 @@ class StepsLinguisticProcessesController {
     }
 }
 
-module.exports = StepsLinguisticProcessesController;
+module.exports = MicroprocessesStepsOptionController;
