@@ -86,17 +86,38 @@ module.exports = {
             }
         }
     },
-    '/api/microprocessesStepsOption/{sourceId}': {
+    '/api/microprocessesStepsOption/{microprocessId}/{orderId}/{sourceId}/{questionId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Microprocesses Steps Option'],
             parameters: [
                 {
                     in: 'path',
+                    name: 'microprocessId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'microprocessId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'orderId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'orderId to update'
+                },
+                {
+                    in: 'path',
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'sourceId to update'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to update'
                 }
             ],
             requestBody: {
@@ -161,10 +182,31 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
+                    name: 'microprocessId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'microprocessId to delete'
+                },
+                {
+                    in: 'path',
+                    name: 'orderId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'orderId to delete'
+                },
+                {
+                    in: 'path',
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'sourceId to update'
+                    description: 'sourceId to delete'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to delete'
                 }
             ],
             responses: {
@@ -184,10 +226,31 @@ module.exports = {
             parameters: [
                 {
                     in: 'path',
+                    name: 'microprocessId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'microprocessId to get'
+                },
+                {
+                    in: 'path',
+                    name: 'orderId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'orderId to get'
+                },
+                {
+                    in: 'path',
                     name: 'sourceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'sourceId to update'
+                    description: 'sourceId to get'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'questionId to get'
                 }
             ],
             responses: {

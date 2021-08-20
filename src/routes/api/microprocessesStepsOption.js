@@ -5,7 +5,7 @@ module.exports = router => {
         .get(MicroprocessesStepsOptionController.fetch)
         .post(MicroprocessesStepsOptionController.create);
     router.route('/downloadCsv').get(MicroprocessesStepsOptionController.downloadCsv);
-    router.route('/:sourceId')
+    router.route('/:microprocessId/:orderId/:sourceId/:questionId')
         .get(MicroprocessesStepsOptionController.find)
         .delete(MicroprocessesStepsOptionController.delete)
         .put(MicroprocessesStepsOptionController.update);
