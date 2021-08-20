@@ -5,7 +5,7 @@ const toNumber = require('lodash/toNumber');
 
 class MicroprocessesStepsOption {
     static async fetch() {
-        let microprocessesStepsOptionList = await microprocessesStepsOption.find({FECHA_BAJA: null});
+        let microprocessesStepsOptionList = await microprocessesStepsOption.find();
         microprocessesStepsOptionList = microprocessesStepsOptionList.map(microprocesses => ({
             microprocessId: microprocesses.ID_MICROPROCESO,
             orderId: microprocesses.ID_ORDEN,
