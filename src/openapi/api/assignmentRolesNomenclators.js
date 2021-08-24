@@ -30,6 +30,7 @@ module.exports = {
                                                 id: {type: 'string'},
                                                 description: {type: 'string'},
                                                 domain: {type: 'string'},
+                                                nomenclatorId: {type: 'number'},
                                                 observation: {type: 'string'},
                                                 userId: {type: 'string'},
                                                 userName: {type: 'string'},
@@ -63,6 +64,7 @@ module.exports = {
                                 id: {type: 'string'},
                                 description: {type: 'string'},
                                 domain: {type: 'string'},
+                                nomenclatorId: {type: 'number'},
                                 observation: {type: 'string'},
                                 userId: {type: 'string'},
                                 userName: {type: 'string'},
@@ -88,6 +90,7 @@ module.exports = {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
                                             domain: {type: 'string'},
+                                            nomenclatorId: {type: 'number'},
                                             observation: {type: 'string'},
                                             userId: {type: 'string'},
                                             userName: {type: 'string'},
@@ -107,7 +110,7 @@ module.exports = {
             }
         }
     },
-    '/api/assignmentRolesNomenclators/{id}': {
+    '/api/assignmentRolesNomenclators/{id}/{userId}/{nomenclatorId}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles Nomenclators'],
@@ -115,6 +118,20 @@ module.exports = {
                 {
                     in: 'path',
                     name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'userId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
@@ -131,6 +148,7 @@ module.exports = {
                                 id: {type: 'string'},
                                 description: {type: 'string'},
                                 domain: {type: 'string'},
+                                nomenclatorId: {type: 'number'},
                                 observation: {type: 'string'},
                                 userId: {type: 'string'},
                                 userName: {type: 'string'},
@@ -156,6 +174,7 @@ module.exports = {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
                                             domain: {type: 'string'},
+                                            nomenclatorId: {type: 'number'},
                                             observation: {type: 'string'},
                                             userId: {type: 'string'},
                                             userName: {type: 'string'},
@@ -184,6 +203,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'userId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -207,6 +240,20 @@ module.exports = {
                     required: true,
                     schema: {type: 'string'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'userId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -223,6 +270,7 @@ module.exports = {
                                             id: {type: 'string'},
                                             description: {type: 'string'},
                                             domain: {type: 'string'},
+                                            nomenclatorId: {type: 'number'},
                                             observation: {type: 'string'},
                                             userId: {type: 'string'},
                                             userName: {type: 'string'},
@@ -265,6 +313,60 @@ module.exports = {
                                     dictionaryLinguistics: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/DictionaryLinguistic'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/assignmentRolesNomenclators/roles': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Assignment Roles Nomenclators'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'userId',
+                    required: false,
+                    schema: {type: 'string'}
+                },
+                {
+                    in: 'query',
+                    name: 'assigned',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'nomenclatorId',
+                    required: false,
+                    schema: {type: 'number'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    roles: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: { type: 'string' },
+                                                description: { type: 'string' }
+                                            }
+                                        }
                                     }
                                 }
                             }

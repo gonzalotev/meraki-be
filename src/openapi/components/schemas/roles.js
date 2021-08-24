@@ -22,8 +22,7 @@ module.exports = {
             nullable: true
         },
         createdAt: {
-            type: 'string',
-            format: 'date'
+            type: 'string'
         },
         userCreator: {type: 'string'},
         userDeleted: {

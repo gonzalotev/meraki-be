@@ -5,7 +5,8 @@ module.exports = router => {
         .get(AssignmentRolesNomenclatorController.fetch)
         .post(AssignmentRolesNomenclatorController.create);
     router.route('/downloadCsv').get(AssignmentRolesNomenclatorController.downloadCsv);
-    router.route('/:id')
+    router.route('/roles').get(AssignmentRolesNomenclatorController.getRoles);
+    router.route('/:id/:userId/:nomenclatorId')
         .get(AssignmentRolesNomenclatorController.find)
         .put(AssignmentRolesNomenclatorController.update)
         .delete(AssignmentRolesNomenclatorController.delete);
