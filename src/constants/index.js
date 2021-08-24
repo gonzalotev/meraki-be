@@ -787,6 +787,18 @@ const microprocessesListIfAttrib = [
     'FECHA_ALTA'
 ];
 
+const microprocessesOptionTablename = 'MICROPROCESOS_OPCION';
+const microprocessesOptionAttrib = [
+    'ID_MICROPROCESO',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ORDEN',
+    'ABREVIATURA',
+    'OBSERVACION',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const documentsTableName = 'DOCUMENTOS';
 const documentsAttrib = [
     'ID_DOCUMENTO',
@@ -918,6 +930,8 @@ module.exports = {
     linguisticFieldProcessesAttrib,
     microprocessesListIfTablename,
     microprocessesListIfAttrib,
+    microprocessesOptionTablename,
+    microprocessesOptionAttrib,
     documentsTableName,
     documentsAttrib,
     microprocessesStepsOptionTableName,

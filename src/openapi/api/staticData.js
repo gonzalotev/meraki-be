@@ -191,6 +191,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'microprocesses',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'finalAuxiliariesFields',
                     required: false,
                     schema: {type: 'boolean'}

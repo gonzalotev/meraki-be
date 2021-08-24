@@ -140,6 +140,23 @@ class MicroprocessDefinitionService {
             return resource;
         });
     }
+
+    static async getMicroprocessesData(resources){
+        const microprocessesIds = uniq(map(resources, resource => resource.id));
+        let microprocessesData = await MicroprocessDefinition.findByValues('ID_MICROPROCESO', microprocessesIds);
+        microprocessesData = map(microprocessesData, microprocesse => ({
+            id: microprocesse.ID_MICROPROCESO,
+            description: microprocesse.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.microprocesse = find(
+                microprocessesData, microprocesse => microprocesse.id === resource.id);
+            return resource;
+        });
+    }
 }
 
 module.exports = MicroprocessDefinitionService;

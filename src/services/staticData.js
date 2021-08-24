@@ -338,6 +338,16 @@ class StaticDataService {
         data.datatypes = datatypes;
         return data;
     }
+    static async getMicroprocesses(data){
+        const microprocesses = await knex.select({
+            id: 'ID_MICROPROCESO',
+            description: 'DESCRIPCION'
+        })
+            .from('MICROPROCESOS')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.microprocesses = microprocesses;
+        return data;
+    }
     static async getLinguisticFieldProcesses(data){
         const linguisticFieldProcesses = await knex.select({
             id: 'ID_NOMBRE_CAMPO_LINGUISTICO',

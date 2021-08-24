@@ -40,6 +40,7 @@ class StaticDataController {
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
+                microprocesses,
                 linguisticFieldProcesses,
                 levels,
                 relationshipAutophrasesLetter
@@ -142,6 +143,9 @@ class StaticDataController {
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
+            }
+            if (microprocesses) {
+                await StaticDataService.getMicroprocesses(data);
             }
             if (linguisticFieldProcesses) {
                 await StaticDataService.getLinguisticFieldProcesses(data);
