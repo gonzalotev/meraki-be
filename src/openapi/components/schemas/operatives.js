@@ -6,7 +6,6 @@ module.exports = {
         description: {type: 'string'},
         arrivalDate: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         observation: {
