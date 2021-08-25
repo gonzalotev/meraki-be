@@ -127,11 +127,16 @@ class DocumentsService {
         return document;
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_DOCUMENTO: filters.documentId};
-        const success = await documentsModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
+    // static async delete(filters){
+    //     const formattedFilters = {ID_DOCUMENTO: filters.documentId};
+    //     const success = await documentsModel.delete(formattedFilters, {
+    //     });
+    //     return !!success;
+    // }
+
+    static async delete( filters ) {
+        const formattedFilters = { ID_DOCUMENTO: filters.documentId };
+        const success = await documentsModel.delete(formattedFilters, {
         });
         return !!success;
     }
@@ -141,24 +146,60 @@ class DocumentsService {
             let csvString = '';
             const fieldNames = [
                 {
+                    nameInTable: 'ID_DOCUMENTO',
+                    nameInFile: 'ID_DOCUMENTO'
+                },
+                {
                     nameInTable: 'ID_TIPO_DOCUMENTO',
-                    nameInFile: 'ID'
+                    nameInFile: 'ID_TIPO_DOCUMENTO'
                 },
                 {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
+                    nameInTable: 'TÍTULO',
+                    nameInFile: 'TÍTULO'
                 },
                 {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
+                    nameInTable: 'AUTOR',
+                    nameInFile: 'AUTOR'
                 },
                 {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
+                    nameInTable: 'INSTITUCIÓN',
+                    nameInFile: 'INSTITUCIÓN'
                 },
                 {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
+                    nameInTable: 'AREA',
+                    nameInFile: 'AREA'
+                },
+                {
+                    nameInTable: 'FECHA_DOCUMENTO',
+                    nameInFile: 'FECHA_DOCUMENTO'
+                },
+                {
+                    nameInTable: 'ISBN',
+                    nameInFile: 'ISBN'
+                },
+                {
+                    nameInTable: 'ID_EDITOR',
+                    nameInFile: 'ID_EDITOR'
+                },
+                {
+                    nameInTable: 'UBICACIÓN_ARCHIVO',
+                    nameInFile: 'UBICACIÓN_ARCHIVO'
+                },
+                {
+                    nameInTable: 'RESUMEN',
+                    nameInFile: 'RESUMEN'
+                },
+                {
+                    nameInTable: 'URL',
+                    nameInFile: 'URL'
+                },
+                {
+                    nameInTable: 'COMENTARIO',
+                    nameInFile: 'COMENTARIO'
+                },
+                {
+                    nameInTable: 'CANTIDAD_VISITAS',
+                    nameInFile: 'CANTIDAD_VISITAS'
                 }
             ];
             const tableHeaders = map(fieldNames, field => field.nameInTable);
@@ -167,7 +208,7 @@ class DocumentsService {
             csvString += headers;
             const stream = documentsModel.knex.select(tableHeaders)
                 .from(documentsModel.tableName)
-                .orderBy([{column: 'ID_TIPO_DOCUMENTO', order: 'asc'}])
+                .orderBy([{column: 'ID_DOCUMENTO', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
