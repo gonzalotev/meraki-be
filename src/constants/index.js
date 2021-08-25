@@ -834,6 +834,23 @@ const microprocessesStepsOptionAttrib = [
     'FECHA_ALTA'
 ];
 
+const microprocessStepsTableName = 'MICROPROCESOS_PASOS';
+const microprocessStepsAttrib = [
+    'ID_MICROPROCESO',
+    'ID_ORDEN',
+    'ESTOY_EN',
+    'ID_NOMENCLADOR_NO',
+    'ID_NOMENCLATURA_NO',
+    'ID_LISTAS',
+    'ID_PREGUNTA_CERRADA',
+    'ID_NOMENCLADOR_SI',
+    'ID_NOMENCLATURA_SI',
+    'VOY_A',
+    'VOY_A_DESTINO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -935,5 +952,7 @@ module.exports = {
     documentsTableName,
     documentsAttrib,
     microprocessesStepsOptionTableName,
-    microprocessesStepsOptionAttrib
+    microprocessesStepsOptionAttrib,
+    microprocessStepsTableName,
+    microprocessStepsAttrib
 };

@@ -43,6 +43,7 @@ const microprocessesListIf = require('./microprocessesListIf');
 const microprocessesOption = require('./microprocessesOption');
 const documents = require('./documents');
 const microprocessesStepsOptions = require('./microprocessesStepsOption');
+const microprocessSteps = require('./microprocessSteps');
 
 module.exports = {
     ...assignments,
@@ -89,5 +90,6 @@ module.exports = {
     ...microprocessesListIf,
     ...microprocessesOption,
     ...documents,
-    ...microprocessesStepsOptions
+    ...microprocessesStepsOptions,
+    ...microprocessSteps
 };

@@ -15,8 +15,8 @@ class NomenclatureService {
             description: nomenclature.DESCRIPCION
         }));
     }
-    static async getNomenclatureData(resources){
-        const nomenclaturesIds = compact(uniq(map(resources, resource => resource.nomenclatureId)));
+    static async getNomenclatureData(resources, key='nomenclatureId', foreign='nomenclature'){
+        const nomenclaturesIds = compact(uniq(map(resources, resource => resource[key])));
         if(isEmpty(nomenclaturesIds)){
             return resources;
         }
@@ -30,9 +30,9 @@ class NomenclatureService {
             if (!resource.foreignData) {
                 resource.foreignData = {};
             }
-            resource.foreignData.nomenclature = find(
+            resource.foreignData[foreign] = find(
                 nomenclatures,
-                nomenclature => nomenclature.id === resource.nomenclatureId
+                nomenclature => nomenclature.id === resource[key]
             );
             return resource;
         });
