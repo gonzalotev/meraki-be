@@ -55,10 +55,11 @@ class AssignmentRolesNomenclatorService {
         };
     }
 
-    static async findOne({ id, userId }) {
+    static async findOne({ id, userId, nomenclatorId }) {
         const assignmentRolesNomenclator = await assignmentRolesNomenclatorModel.findById({
             ID_ROL_USUARIO: id,
-            ID_USUARIO: userId
+            ID_USUARIO: userId,
+            ID_NOMENCLADOR: nomenclatorId
         });
 
         return {
@@ -94,7 +95,7 @@ class AssignmentRolesNomenclatorService {
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const assignmentRolesNomenclator = await assignmentRolesNomenclatorModel.updateOne(
-            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.userId },
+            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.userId, ID_NOMENCLADOR: params.nomenclatorId },
             formattedAssignmentRolesNomenclator
         );
         return {
@@ -112,7 +113,8 @@ class AssignmentRolesNomenclatorService {
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_ROL_USUARIO: filters.id };
+        const formattedFilters = { ID_ROL_USUARIO: filters.id, ID_NOMENCLADOR: filters.nomenclatorId,
+            ID_USUARIO: filters.userId };
         const success = await assignmentRolesNomenclatorModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date()
         });
