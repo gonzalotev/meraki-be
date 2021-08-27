@@ -150,6 +150,18 @@ class StaticDataService {
         data.editors = editors;
         return data;
     }
+
+    static async getMicroprocessQuestionsClosedData(data) {
+        const microprocessQuestionsClosed = await knex.select({
+            id: 'ID_PREGUNTA_CERRADA',
+            description: 'DESCRIPCION'
+        })
+            .from('MICROPROCESOS_PREGUNTA_CERRADA_IF')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.microprocessQuestionsClosed = microprocessQuestionsClosed;
+        return data;
+    }
+
     static async getDocumentsTypes(data) {
         const documentsTypes = await knex.select({
             documentTypeId: 'ID_TIPO_DOCUMENTO',

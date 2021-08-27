@@ -29,7 +29,6 @@ class MicroprocessDefinitionService {
     }
 
     static async findOne({id}){
-        console.log(id);
         const ids = {ID_MICROPROCESO: toUpper(id)};
         const microprocess = await MicroprocessDefinition.findById(ids);
         return microprocess ? MicroprocessDefinitionService.rebaseFormat(microprocess) : {};
@@ -141,19 +140,19 @@ class MicroprocessDefinitionService {
         });
     }
 
-    static async getMicroprocessesData(resources){
-        const microprocessesIds = uniq(map(resources, resource => resource.id));
+    static async getMicroprocessesData(resources, key='microprocessId'){
+        const microprocessesIds = uniq(map(resources, resource => resource[key]));
         let microprocessesData = await MicroprocessDefinition.findByValues('ID_MICROPROCESO', microprocessesIds);
-        microprocessesData = map(microprocessesData, microprocesse => ({
-            id: microprocesse.ID_MICROPROCESO,
-            description: microprocesse.DESCRIPCION
+        microprocessesData = map(microprocessesData, microprocess => ({
+            id: microprocess.ID_MICROPROCESO,
+            description: microprocess.DESCRIPCION
         }));
         return map(resources, resource => {
             if (!resource.foreignData) {
                 resource.foreignData = {};
             }
-            resource.foreignData.microprocesse = find(
-                microprocessesData, microprocesse => microprocesse.id === resource.id);
+            resource.foreignData.microprocess = find(
+                microprocessesData, microprocess => microprocess.id === resource[key]);
             return resource;
         });
     }

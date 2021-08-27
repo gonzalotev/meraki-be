@@ -120,9 +120,6 @@ class AssignmentRolesNomenclatorService {
     }
 
     static async fetchRoles({ userId, assigned, nomenclatorId }) {
-        console.log(userId);
-        console.log(assigned);
-        console.log(nomenclatorId);
         let roles = [];
         const filters = { FECHA_BAJA: null };
         if (nomenclatorId) {
