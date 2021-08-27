@@ -46,18 +46,18 @@ class microprocessesOptionService {
             FECHA_ALTA: new Date()
         };
         const microprocessesOptionId = await microprocessesOptionModel.insertOne(
-            formattedmicroprocessesOption, ['ID_MICROPROCESO', 'ID_FUENTE', 'ID_PREGUNTA']);
+            formattedmicroprocessesOption, ['ID_MICROPROCESO', 'ID_FUENTE', 'ID_PREGUNTA', 'ORDEN']);
         const microprocessesOption = await microprocessesOptionService.findOne(
             { id: microprocessesOptionId.ID_MICROPROCESO, sourceId: microprocessesOptionId.ID_FUENTE,
-                questionId: microprocessesOptionId.ID_PREGUNTA });
+                questionId: microprocessesOptionId.ID_PREGUNTA, orden: microprocessesOptionId.ORDEN });
         return microprocessesOption;
 
     }
 
     static async findOne(filters) {
         const microprocessesOption = await microprocessesOptionModel.findById({
-            ID_MICROPROCESO: filters.id
-        });
+            ID_MICROPROCESO: filters.id, ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId, ORDEN: filters.orden });
         return {
             id: microprocessesOption.ID_MICROPROCESO,
             sourceId: microprocessesOption.ID_FUENTE,
@@ -82,16 +82,17 @@ class microprocessesOptionService {
             FECHA_ALTA: new Date()
         };
         const microprocessesOptionId = await microprocessesOptionModel.updateOne(
-            { ID_MICROPROCESO: filters.id, ID_FUENTE: filters.sourceId, ID_PREGUNTA: filters.questionId },
-            formattedmicroprocessesOption, ['ID_MICROPROCESO', 'ID_FUENTE', 'ID_PREGUNTA']);
+            { ID_MICROPROCESO: filters.id, ID_FUENTE: filters.sourceId,
+                ID_PREGUNTA: filters.questionId, ORDEN: filters.orden },
+            formattedmicroprocessesOption, ['ID_MICROPROCESO', 'ID_FUENTE', 'ID_PREGUNTA', 'ORDEN']);
         const microprocessesOption = await microprocessesOptionService.findOne(
             { id: microprocessesOptionId.ID_MICROPROCESO, sourceId: microprocessesOptionId.ID_FUENTE,
-                questionId: microprocessesOptionId.ID_PREGUNTA });
+                questionId: microprocessesOptionId.ID_PREGUNTA, orden: microprocessesOptionId.ORDEN });
         return microprocessesOption;
     }
 
-    static async delete({ id, sourceId, questionId }) {
-        const ids = { ID_MICROPROCESO: id, ID_FUENTE: sourceId, ID_PREGUNTA: questionId };
+    static async delete({ id, sourceId, questionId, orden }) {
+        const ids = { ID_MICROPROCESO: id, ID_FUENTE: sourceId, ID_PREGUNTA: questionId, ORDEN: orden };
         const success = await microprocessesOptionModel.delete(ids, {
         });
         return !!success;

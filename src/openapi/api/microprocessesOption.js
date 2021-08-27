@@ -106,7 +106,7 @@ module.exports = {
             }
         }
     },
-    '/api/microprocessesOption/{id}/{sourceId}/{questionId}': {
+    '/api/microprocessesOption/{id}/{sourceId}/{questionId}/{orden}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Microprocesses Option'],
@@ -130,6 +130,13 @@ module.exports = {
                     name: 'questionId',
                     required: true,
                     schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'orden',
+                    required: true,
+                    schema: {type: 'number'},
                     description: 'User id of assignment'
                 }
             ],
@@ -210,6 +217,13 @@ module.exports = {
                     required: true,
                     schema: {type: 'integer'},
                     description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'orden',
+                    required: true,
+                    schema: {type: 'number'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -267,6 +281,13 @@ module.exports = {
                     name: 'questionId',
                     required: true,
                     schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'orden',
+                    required: true,
+                    schema: {type: 'number'},
                     description: 'User id of assignment'
                 }
             ],
