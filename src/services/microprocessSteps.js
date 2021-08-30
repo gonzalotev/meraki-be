@@ -1,6 +1,7 @@
 const { MicroprocessSteps } = include('models');
 const { dateToString, stringToDate } = include('util');
 const NomenclatureService = require('./nomenclatures');
+const MicroprocessDefinitionService = require('./microprocessDefinition');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
@@ -22,6 +23,7 @@ class MicroprocessStepsService {
         steps = steps.map(step => MicroprocessStepsService.rebaseFormat(step));
         await NomenclatureService.getNomenclatureData(steps, 'nomenclatureIdNo', 'nomenclatureNo');
         await NomenclatureService.getNomenclatureData(steps, 'nomenclatureIdYes', 'nomenclatureYes');
+        await MicroprocessDefinitionService.getMicroprocessesData(steps);
         return steps;
     }
 

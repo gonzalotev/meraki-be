@@ -57,7 +57,6 @@ class AssignmentRolesNomenclatorController {
         try {
             const { userId, assigned, nomenclatorId } = req.query;
             const roles = await AssignmentRolesNomenclatorService.fetchRoles({ userId, assigned, nomenclatorId });
-            console.log(roles);
             res.send({ roles });
         } catch(err) {
             next(err);
