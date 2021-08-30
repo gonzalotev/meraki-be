@@ -2,11 +2,13 @@ const { microprocessesStepsOption } = include('models');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
+const MicroprocessStepsService = require('./microprocessSteps');
 
 class MicroprocessesStepsOption {
     static async fetch() {
         let microprocessesStepsOptionList = await microprocessesStepsOption.find();
         microprocessesStepsOptionList = microprocessesStepsOptionList.map(microprocesses => ({
+            id: microprocesses.ID_MICROPROCESO,
             microprocessId: microprocesses.ID_MICROPROCESO,
             orderId: microprocesses.ID_ORDEN,
             sourceId: microprocesses.ID_FUENTE,
@@ -17,6 +19,7 @@ class MicroprocessesStepsOption {
             userCreator: microprocesses.ID_USUARIO_ALTA,
             createdAt: microprocesses.FECHA_ALTA
         }));
+        await MicroprocessStepsService.getMicroprocessesData(microprocessesStepsOptionList);
         return microprocessesStepsOptionList;
     }
 
