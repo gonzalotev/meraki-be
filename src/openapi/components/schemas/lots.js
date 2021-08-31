@@ -124,7 +124,7 @@ module.exports = {
         },
         createdAt: {
             type: 'string',
-            format: 'date'
+            nullable: false
         },
         userDeleted: {
             type: 'string',
@@ -133,7 +133,6 @@ module.exports = {
         },
         deletedAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         }
     }

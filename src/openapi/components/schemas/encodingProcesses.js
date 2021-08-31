@@ -29,7 +29,6 @@ module.exports = {
         },
         createdAt: {
             type: 'string',
-            format: 'date',
             nullable: false
         },
         userDeleted: {
@@ -39,7 +38,6 @@ module.exports = {
         },
         deletedAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         }
     }

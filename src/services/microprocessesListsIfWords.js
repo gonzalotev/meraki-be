@@ -9,7 +9,6 @@ class MicroprocessesListsIfWordService {
         const filterBy = {};
         const columnsToSelect = microprocessesListsIfWordsModel.selectableProps;
         let microprocessesListsIfWordss = [];
-        console.log(microprocessesListsIfWordss);
         if (page && search) {
             microprocessesListsIfWordss = await microprocessesListsIfWordsModel.findByMatch(
                 page,

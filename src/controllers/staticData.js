@@ -40,10 +40,15 @@ class StaticDataController {
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
+                microprocesses,
                 linguisticFieldProcesses,
                 levels,
-                relationshipAutophrasesLetter
+                relationshipAutophrasesLetter,
+                microprocessQuestionsClosed
             } = req.query;
+            if(microprocessQuestionsClosed) {
+                await StaticDataService.getMicroprocessQuestionsClosedData(data);
+            }
             if(levels) {
                 const formattedLevels = JSON.parse(decodeURIComponent(levels));
                 await StaticDataService.getLevels(data, formattedLevels);
@@ -142,6 +147,9 @@ class StaticDataController {
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
+            }
+            if (microprocesses) {
+                await StaticDataService.getMicroprocesses(data);
             }
             if (linguisticFieldProcesses) {
                 await StaticDataService.getLinguisticFieldProcesses(data);

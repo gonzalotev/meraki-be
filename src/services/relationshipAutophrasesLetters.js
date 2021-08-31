@@ -84,29 +84,6 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    // static async findOne(filters) {
-    //     const relationshipAutophrasesLetter = await relationshipAutophrasesLetterModel.findById(
-    //         {
-    //             ID_NOMENCLADOR: filters.nomenclatorId,
-    //             ID_AGRUPACION: filters.groupId,
-    //             ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
-    //             ID_AUTOFRASE: filters.autophraseId
-    //         });
-    //     return {
-    //         nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
-    //         groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
-    //         nomenclatureGroupId: relationshipAutophrasesLetter.ID_NOMENCLATURA_AGRUPACION,
-    //         autophraseId: relationshipAutophrasesLetter.ID_AUTOFRASE,
-    //         observation: relationshipAutophrasesLetter.OBSERVACION,
-    //         domain: relationshipAutophrasesLetter.DOMINIO,
-    //         approved: !!relationshipAutophrasesLetter.SUPERVISADO,
-    //         createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
-    //         userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA,
-    //         userDeleted: relationshipAutophrasesLetter.ID_USUARIO_BAJA,
-    //         deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
-    //     };
-    // }
-
     static async update(filters, params, userCreator) {
         const formattedRelationshipAutophrasesLetter = {
             ID_NOMENCLADOR: params.nomenclatorId,
@@ -134,17 +111,10 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    static async delete(filters, userDeleted) {
-        const formattedFilters = {
-            ID_NOMENCLADOR: filters.nomenclatorId,
-            ID_AGRUPACION: filters.groupId,
-            ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
-            ID_AUTOFRASE: filters.autophraseId
-        };
-
-        const success = await relationshipAutophrasesLetterModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
+    static async delete({ nomenclatorId, groupId, nomenclatureGroupId, autophraseId }) {
+        const ids = { ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId,
+            ID_NOMENCLATURA_AGRUPACION: nomenclatureGroupId, ID_AUTOFRASE: autophraseId };
+        const success = await relationshipAutophrasesLetterModel.delete(ids, {
         });
         return !!success;
     }

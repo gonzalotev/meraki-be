@@ -52,12 +52,10 @@ module.exports = {
         },
         createdAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         deletedAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         }
     }

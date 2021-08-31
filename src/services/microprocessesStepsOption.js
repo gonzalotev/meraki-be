@@ -32,9 +32,12 @@ class MicroprocessesStepsOption {
             ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: new Date()
         };
-        const microprocess = await microprocessesStepsOption.insertOne(formattedMicroprocessesStepsOption, ['ID_MICROPROCESO']);
+        const microprocess = await microprocessesStepsOption.insertOne(formattedMicroprocessesStepsOption, ['ID_MICROPROCESO', 'ID_ORDEN', 'ID_FUENTE', 'ID_PREGUNTA']);
         const operative = await MicroprocessesStepsOption.findOne(
-            {microprocessId: microprocess.ID_MICROPROCESO
+            {microprocessId: microprocess.ID_MICROPROCESO,
+                orderId: microprocess.ID_ORDEN,
+                sourceId: microprocess.ID_FUENTE,
+                questionId: microprocess.ID_PREGUNTA
             });
         return operative;
     }
@@ -46,10 +49,10 @@ class MicroprocessesStepsOption {
         const microprocesses = await microprocessesStepsOption.findById(formattedFilters);
         return {
             microprocessId: microprocesses.ID_MICROPROCESO,
-            orderId: microprocesses.ID_ORDEN,
-            sourceId: microprocesses.ID_FUENTE,
-            questionId: microprocesses.ID_PREGUNTA,
-            order: microprocesses.ORDEN,
+            orderId: toNumber(microprocesses.ID_ORDEN),
+            sourceId: toNumber(microprocesses.ID_FUENTE),
+            questionId: toNumber(microprocesses.ID_PREGUNTA),
+            order: toNumber(microprocesses.ORDEN),
             abbreviation: microprocesses.ABREVIATURA,
             observation: microprocesses.OBSERVACION,
             userCreator: microprocesses.ID_USUARIO_ALTA,
@@ -60,21 +63,27 @@ class MicroprocessesStepsOption {
     static async update(filters, params){
         const formattedMicroprocessesStepsOption = {
             ID_MICROPROCESO: params.microprocessId,
-            ID_ORDEN: params.orderId,
-            ID_FUENTE: params.sourceId,
-            ID_PREGUNTA: params.questionId,
-            ORDEN: params.order,
+            ID_ORDEN: toNumber(params.orderId),
+            ID_FUENTE: toNumber(params.sourceId),
+            ID_PREGUNTA: toNumber(params.questionId),
+            ORDEN: toNumber(params.order),
             ABREVIATURA: params.abbreviation,
             OBSERVACION: params.observation,
             ID_USUARIO_ALTA: params.userCreator
         };
         const formattedFilters = {
-            ID_MICROPROCESO: toNumber(filters.microprocessId)
+            ID_MICROPROCESO: filters.microprocessId,
+            ID_ORDEN: filters.orderId,
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId
         };
-        const microprocessesId = await microprocessesStepsOption.updateOne(formattedFilters, formattedMicroprocessesStepsOption, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
+        const microprocessesId = await microprocessesStepsOption.updateOne(formattedFilters, formattedMicroprocessesStepsOption, ['ID_MICROPROCESO', 'ID_ORDEN', 'ID_FUENTE', 'ID_PREGUNTA']);
         const microprocessStepOption =
         await MicroprocessesStepsOption.findOne({
-            microprocessId: microprocessesId.ID_MICROPROCESO
+            microprocessId: microprocessesId.ID_MICROPROCESO,
+            orderId: microprocessesId.ID_ORDEN,
+            sourceId: microprocessesId.ID_FUENTE,
+            questionId: microprocessesId.ID_PREGUNTA
         });
         return microprocessStepOption;
     }

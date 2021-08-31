@@ -79,6 +79,7 @@ class AssignmentRoleService {
     }
 
     static async update({ userId, roleId }, params) {
+        console.log(params);
         const formattedAssignmentRole = {
             ID_ROL_USUARIO: params.id,
             DESCRIPCION: trim(params.description),
