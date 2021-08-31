@@ -15,7 +15,6 @@ class MicroprocessesClosedQuestionIfController {
 
     static async find(req, res, next) {
         try {
-            console.log(req.params);
             const microprocessesClosedQuestionIf = await MicroprocessesClosedQuestionIfService.findOne(req.params);
             res.send({ microprocessesClosedQuestionIf });
         } catch(error) {

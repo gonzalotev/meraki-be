@@ -5,7 +5,6 @@ const trim = require('lodash/trim');
 
 class microprocessesClosedQuestionIfService {
     static async fetch(query) {
-        console.log (query);
         const microprocessesClosedQuestionIfTypes = await microprocessesClosedQuestionIfModel.findByPage(
             query.page,
             {ID_PREGUNTA_CERRADA: query.id},
@@ -35,7 +34,6 @@ class microprocessesClosedQuestionIfService {
     }
 
     static async create(params, userCreator) {
-        console.log(userCreator);
         const formattedMicroprocessesClosedQuestionIf = {
             ID_PREGUNTA_CERRADA: null,
             ID_FUENTE: params.sourceId,
