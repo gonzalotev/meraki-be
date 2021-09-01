@@ -3,6 +3,7 @@ const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
 const MicroprocessStepsService = require('./microprocessSteps');
+const staticalVariableService = require('./staticalVariable');
 
 class MicroprocessesStepsOption {
     static async fetch() {
@@ -20,6 +21,7 @@ class MicroprocessesStepsOption {
             createdAt: microprocesses.FECHA_ALTA
         }));
         await MicroprocessStepsService.getMicroprocessesData(microprocessesStepsOptionList);
+        await staticalVariableService.getVariableId(microprocessesStepsOptionList);
         return microprocessesStepsOptionList;
     }
 
