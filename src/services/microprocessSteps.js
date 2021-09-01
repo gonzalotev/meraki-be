@@ -45,9 +45,7 @@ class MicroprocessStepsService {
     }
 
     static async update({microprocessId, order}, params) {
-        console.log(params);
         const formattedStep = MicroprocessStepsService.formatData({...params});
-        console.log(formattedStep);
         const ids = {ID_MICROPROCESO: toUpper(microprocessId), ID_ORDEN: order};
         const returnData = ['ID_MICROPROCESO', 'ID_ORDEN'];
         const id = await MicroprocessSteps.updateOne(ids, formattedStep, returnData);
@@ -56,7 +54,7 @@ class MicroprocessStepsService {
 
     static async delete({microprocessId, order}){
         const ids = {ID_MICROPROCESO: toUpper(microprocessId), ID_ORDEN: order};
-        const success = await MicroprocessSteps.deleteOne(ids);
+        const success = await MicroprocessSteps.delete(ids);
         return !!success;
     }
 
