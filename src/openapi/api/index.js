@@ -44,6 +44,7 @@ const microprocessesClosedQuestionIf = require('./microprocessesClosedQuestionIf
 const microprocessesOption = require('./microprocessesOption');
 const documents = require('./documents');
 const microprocessesStepsOptions = require('./microprocessesStepsOption');
+const microprocessesWords = require('./microprocessesWords');
 const microprocessSteps = require('./microprocessSteps');
 
 module.exports = {
@@ -93,5 +94,6 @@ module.exports = {
     ...microprocessesOption,
     ...documents,
     ...microprocessesStepsOptions,
+    ...microprocessesWords,
     ...microprocessSteps
 };

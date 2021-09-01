@@ -39,10 +39,10 @@ class StaticDataController {
                 ticketTypes,
                 entryFieldsNames,
                 microprocessesLists,
+                microprocesses,
                 originalAuxiliariesFields,
                 finalAuxiliariesFields,
                 datatypes,
-                microprocesses,
                 linguisticFieldProcesses,
                 levels,
                 relationshipAutophrasesLetter,
@@ -140,6 +140,9 @@ class StaticDataController {
             } else if (microprocessesLists && isString(microprocessesLists)) {
                 const formattedLists = JSON.parse(decodeURIComponent(microprocessesLists));
                 await StaticDataService.getMicroprocessesLists(data, formattedLists);
+            }
+            if (microprocesses) {
+                await StaticDataService.getMicroprocesses(data);
             }
             if (support) {
                 await StaticDataService.getSupport(data);

@@ -852,6 +852,17 @@ const microprocessesStepsOptionAttrib = [
     'FECHA_ALTA'
 ];
 
+const microprocessesWordsTableName = 'MICROPROCESOS_PALABRAS';
+const microprocessesWordsAttrib = [
+    'ID_MICROPROCESO',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO'
+];
+
 const microprocessStepsTableName = 'MICROPROCESOS_PASOS';
 const microprocessStepsAttrib = [
     'ID_MICROPROCESO',
@@ -971,6 +982,8 @@ module.exports = {
     documentsAttrib,
     microprocessesStepsOptionTableName,
     microprocessesStepsOptionAttrib,
+    microprocessesWordsTableName,
+    microprocessesWordsAttrib,
     microprocessesClosedQuestionIfTablename,
     microprocessesClosedQuestionIfAttrib,
     microprocessStepsTableName,
