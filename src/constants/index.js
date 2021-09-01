@@ -787,6 +787,24 @@ const microprocessesListIfAttrib = [
     'FECHA_ALTA'
 ];
 
+const microprocessesClosedQuestionIfTablename = 'MICROPROCESOS_PREGUNTA_CERRADA_IF';
+const microprocessesClosedQuestionIfAttrib = [
+    'ID_PREGUNTA_CERRADA',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_OPERADOR',
+    'SIGNO_PLSQL',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SIGNO_JS'
+];
+
 const microprocessesOptionTablename = 'MICROPROCESOS_OPCION';
 const microprocessesOptionAttrib = [
     'ID_MICROPROCESO',
@@ -953,6 +971,8 @@ module.exports = {
     documentsAttrib,
     microprocessesStepsOptionTableName,
     microprocessesStepsOptionAttrib,
+    microprocessesClosedQuestionIfTablename,
+    microprocessesClosedQuestionIfAttrib,
     microprocessStepsTableName,
     microprocessStepsAttrib
 };
