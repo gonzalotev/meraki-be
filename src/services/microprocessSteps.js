@@ -54,7 +54,7 @@ class MicroprocessStepsService {
 
     static async delete({microprocessId, order}){
         const ids = {ID_MICROPROCESO: toUpper(microprocessId), ID_ORDEN: order};
-        const success = await MicroprocessSteps.deleteOne(ids);
+        const success = await MicroprocessSteps.delete(ids);
         return !!success;
     }
 
