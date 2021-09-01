@@ -4,6 +4,8 @@ const {
     StaticalVariableService,
     StaticDataService
 } = include('services');
+const isBoolean = require('lodash/isBoolean');
+const isString = require('lodash/isString');
 
 class StaticDataController {
     static async fetch(req, res, next) {
@@ -94,8 +96,11 @@ class StaticDataController {
             if (fonts) {
                 await StaticDataService.getFont(data);
             }
-            if (nomenclatures) {
+            if (nomenclatures && isBoolean(nomenclatures)) {
                 await StaticDataService.getNomenclatures(data);
+            } else if (nomenclatures && isString(nomenclatures)) {
+                const formattedNomenclatures = JSON.parse(decodeURIComponent(nomenclatures));
+                await StaticDataService.getNomenclatures(data, formattedNomenclatures);
             }
             if (nomenclaturesGroup) {
                 await StaticDataService.getNomenclaturesGroup(data);
@@ -130,8 +135,11 @@ class StaticDataController {
             if (frequency) {
                 await StaticDataService.getFrequency(data);
             }
-            if (microprocessesLists) {
+            if (microprocessesLists && isBoolean(microprocessesLists)) {
                 await StaticDataService.getMicroprocessesLists(data);
+            } else if (microprocessesLists && isString(microprocessesLists)) {
+                const formattedLists = JSON.parse(decodeURIComponent(microprocessesLists));
+                await StaticDataService.getMicroprocessesLists(data, formattedLists);
             }
             if (support) {
                 await StaticDataService.getSupport(data);

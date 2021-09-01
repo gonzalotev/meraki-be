@@ -11,19 +11,42 @@ module.exports = {
         },
         in: {
             type: 'string',
-            example: 'AA'
+            example: 'AA',
+            nullable: true
         },
-        nomenclatorIdNo: {type: 'string'},
-        nomenclatureIdNo: {type: 'number'},
-        listId: {type: 'number'},
-        questionClosedId: {type: 'number'},
-        nomenclatorIdYes: {type: 'number'},
-        nomenclatureIdYes: {type: 'string'},
+        nomenclatorIdNo: {
+            type: 'number',
+            nullable: true
+        },
+        nomenclatureIdNo: {
+            type: 'string',
+            nullable: true
+        },
+        listId: {
+            type: 'number',
+            nullable: true
+        },
+        questionClosedId: {
+            type: 'number',
+            nullable: true
+        },
+        nomenclatorIdYes: {
+            type: 'number',
+            nullable: true
+        },
+        nomenclatureIdYes: {
+            type: 'string',
+            nullable: true
+        },
         to: {
             type: 'string',
-            example: 'BB'
+            example: 'BB',
+            nullable: true
         },
-        toDestiny: {type: 'string'},
+        toDestiny: {
+            type: 'string',
+            nullable: true
+        },
         createdAt: {
             type: 'string',
             example: '20-08-2021'
