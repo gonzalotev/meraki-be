@@ -51,15 +51,15 @@ module.exports = {
                             properties: {
                                 microprocessId: {type: 'string'},
                                 order: {type: 'number'},
-                                in: {type: 'string'},
-                                nomenclatorIdNo: {type: 'number'},
-                                nomenclatureIdNo: {type: 'string'},
-                                listId: {type: 'number'},
-                                questionClosedId: {type: 'number'},
-                                nomenclatorIdYes: {type: 'number'},
-                                nomenclatureIdYes: {type: 'string'},
-                                to: {type: 'string'},
-                                toDestiny: {type: 'string'}
+                                in: {type: 'string', nullable: true},
+                                nomenclatorIdNo: {type: 'number', nullable: true},
+                                nomenclatureIdNo: {type: 'string', nullable: true},
+                                listId: {type: 'number', nullable: true},
+                                questionClosedId: {type: 'number', nullable: true},
+                                nomenclatorIdYes: {type: 'number', nullable: true},
+                                nomenclatureIdYes: {type: 'string', nullable: true},
+                                to: {type: 'string', nullable: true},
+                                toDestiny: {type: 'string', nullable: true}
                             }
                         }
                     }
@@ -84,7 +84,7 @@ module.exports = {
             }
         }
     },
-    '/api/microprocessDefinition/{microprocessId}/{order}': {
+    '/api/microprocessSteps/{microprocessId}/{order}': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Microprocess Steps'],
@@ -147,15 +147,15 @@ module.exports = {
                             properties: {
                                 microprocessId: {type: 'string'},
                                 order: {type: 'number'},
-                                in: {type: 'string'},
-                                nomenclatorIdNo: {type: 'number'},
-                                nomenclatureIdNo: {type: 'string'},
-                                listId: {type: 'number'},
-                                questionClosedId: {type: 'number'},
-                                nomenclatorIdYes: {type: 'number'},
-                                nomenclatureIdYes: {type: 'string'},
-                                to: {type: 'string'},
-                                toDestiny: {type: 'string'}
+                                in: {type: 'string', nullable: true},
+                                nomenclatorIdNo: {type: 'number', nullable: true},
+                                nomenclatureIdNo: {type: 'string', nullable: true},
+                                listId: {type: 'number', nullable: true},
+                                questionClosedId: {type: 'number', nullable: true},
+                                nomenclatorIdYes: {type: 'number', nullable: true},
+                                nomenclatureIdYes: {type: 'string', nullable: true},
+                                to: {type: 'string', nullable: true},
+                                toDestiny: {type: 'string', nullable: true}
                             }
                         }
                     }

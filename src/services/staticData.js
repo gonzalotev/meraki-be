@@ -77,12 +77,19 @@ class StaticDataService {
             .from('RELACION_FUENTE_PREGUNTAS');
         return (data.fonts = fonts);
     }
-    static async getNomenclatures(data) {
+    static async getNomenclatures(data, filter=null) {
         const nomenclatures = await knex
             .select({
                 id: 'ID_NOMENCLATURA',
                 nomenclatorId: 'ID_NOMENCLADOR',
                 description: 'DESCRIPCION'
+            })
+            .where(function() {
+                if(filter && filter.nomenclatorId && filter.amountOfDigits) {
+                    this
+                        .where('ID_NOMENCLADOR', filter.nomenclatorId)
+                        .andWhereRaw(`LENGTH(ID_NOMENCLATURA) = ${filter.amountOfDigits}`);
+                }
             })
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
@@ -353,7 +360,11 @@ class StaticDataService {
     static async getMicroprocesses(data){
         const microprocesses = await knex.select({
             id: 'ID_MICROPROCESO',
-            description: 'DESCRIPCION'
+            description: 'DESCRIPCION',
+            nomenclatorId: 'ID_NOMENCLADOR',
+            amountOfDigits: 'ID_CANTIDAD_DIGITOS',
+            variableId: 'ID_VARIABLE',
+            dictionaryTypologyId: 'ID_TIPOLOGIA_DE_DICCIONARIO'
         })
             .from('MICROPROCESOS')
             .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
@@ -370,12 +381,19 @@ class StaticDataService {
         data.linguisticFieldProcesses = linguisticFieldProcesses;
         return data;
     }
-    static async getMicroprocessesLists(data){
+    static async getMicroprocessesLists(data, filter = null){
         const microprocessesLists = await knex.select({
             id: 'ID_LISTAS',
             description: 'DESCRIPCION'
         })
             .from('MICROPROCESOS_LISTAS_IF')
+            .where(function() {
+                if(filter && filter.variableId && filter.dictionaryTypologyId) {
+                    this
+                        .where('ID_VARIABLE', filter.variableId)
+                        .andWhere('ID_TIPOLOGIA_DE_DICCIONARIO', filter.dictionaryTypologyId);
+                }
+            })
             .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.microprocessesLists = microprocessesLists;
         return data;
