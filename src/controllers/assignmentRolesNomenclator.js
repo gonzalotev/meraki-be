@@ -3,7 +3,8 @@ const { AssignmentRolesNomenclatorService } = include('services');
 class AssignmentRolesNomenclatorController {
     static async fetch(req, res, next) {
         try {
-            const assignmentsRolesNomenclators = await AssignmentRolesNomenclatorService.fetch(req.query);
+            const { page } = req.query;
+            const assignmentsRolesNomenclators = await AssignmentRolesNomenclatorService.fetch({ page });
             const total = await AssignmentRolesNomenclatorService.getTotal({});
             res.send({ assignmentsRolesNomenclators, total });
         } catch(error) {
@@ -47,6 +48,16 @@ class AssignmentRolesNomenclatorController {
             } else {
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    static async getRoles(req, res, next){
+        try {
+            const { userId, assigned, nomenclatorId } = req.query;
+            const roles = await AssignmentRolesNomenclatorService.fetchRoles({ userId, assigned, nomenclatorId });
+            res.send({ roles });
         } catch(err) {
             next(err);
         }

@@ -17,7 +17,7 @@ class AssignmentRolesNomenclatorService {
             nomenclator: assignmentRolesNomenclator.CLASIFICADOR,
             domain: assignmentRolesNomenclator.DOMINIO,
             observation: assignmentRolesNomenclator.OBSERVACION,
-            idUser: assignmentRolesNomenclator.ID_USUARIO,
+            userId: assignmentRolesNomenclator.ID_USUARIO,
             yes_no: !!assignmentRolesNomenclator.SI_NO,
             userName: assignmentRolesNomenclator.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRolesNomenclator.FECHA_ALTA),
@@ -32,14 +32,14 @@ class AssignmentRolesNomenclatorService {
             CLASIFICADOR: trim(params.nomenclator),
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
-            ID_USUARIO: trim(params.idUser),
+            ID_USUARIO: trim(params.userId),
             SI_NO: params.yes_no,
             NOMBRE_USUARIO: trim(params.userName),
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const assignmentRolesNomenclator = await assignmentRolesNomenclatorModel.
-            insertOne(formattedAssignmentRolesNomenclator);
+        const assignmentRolesNomenclator = await assignmentRolesNomenclatorModel.insertOne(
+            formattedAssignmentRolesNomenclator);
 
         return {
             id: assignmentRolesNomenclator.ID_ROL_USUARIO,
@@ -47,7 +47,7 @@ class AssignmentRolesNomenclatorService {
             nomenclator: assignmentRolesNomenclator.CLASIFICADOR,
             domain: assignmentRolesNomenclator.DOMINIO,
             observation: assignmentRolesNomenclator.OBSERVACION,
-            idUser: assignmentRolesNomenclator.ID_USUARIO,
+            userId: assignmentRolesNomenclator.ID_USUARIO,
             yes_no: !!assignmentRolesNomenclator.SI_NO,
             userName: assignmentRolesNomenclator.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRolesNomenclator.FECHA_ALTA),
@@ -55,17 +55,20 @@ class AssignmentRolesNomenclatorService {
         };
     }
 
-    static async findOne(filters) {
+    static async findOne({ id, userId, nomenclatorId }) {
         const assignmentRolesNomenclator = await assignmentRolesNomenclatorModel.findById({
-            ID_ROL_USUARIO: filters.id
+            ID_ROL_USUARIO: id,
+            ID_USUARIO: userId,
+            ID_NOMENCLADOR: nomenclatorId
         });
+
         return {
             id: assignmentRolesNomenclator.ID_ROL_USUARIO,
             nomenclatorId: assignmentRolesNomenclator.ID_NOMENCLADOR,
             nomenclator: assignmentRolesNomenclator.CLASIFICADOR,
             domain: assignmentRolesNomenclator.DOMINIO,
             observation: assignmentRolesNomenclator.OBSERVACION,
-            idUser: assignmentRolesNomenclator.ID_USUARIO,
+            userId: assignmentRolesNomenclator.ID_USUARIO,
             yes_no: !!assignmentRolesNomenclator.SI_NO,
             userName: assignmentRolesNomenclator.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRolesNomenclator.FECHA_ALTA),
@@ -85,14 +88,14 @@ class AssignmentRolesNomenclatorService {
             CLASIFICADOR: trim(params.nomenclator),
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
-            ID_USUARIO: trim(params.idUser),
+            ID_USUARIO: trim(params.userId),
             SI_NO: params.yes_no,
             NOMBRE_USUARIO: trim(params.userName),
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const assignmentRolesNomenclator = await assignmentRolesNomenclatorModel.updateOne(
-            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.idUser},
+            { ID_ROL_USUARIO: params.id, ID_USUARIO: params.userId, ID_NOMENCLADOR: params.nomenclatorId },
             formattedAssignmentRolesNomenclator
         );
         return {
@@ -101,7 +104,7 @@ class AssignmentRolesNomenclatorService {
             nomenclator: assignmentRolesNomenclator.CLASIFICADOR,
             domain: assignmentRolesNomenclator.DOMINIO,
             observation: assignmentRolesNomenclator.OBSERVACION,
-            idUser: assignmentRolesNomenclator.ID_USUARIO,
+            userId: assignmentRolesNomenclator.ID_USUARIO,
             yes_no: !!assignmentRolesNomenclator.SI_NO,
             userName: assignmentRolesNomenclator.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRolesNomenclator.FECHA_ALTA),
@@ -110,14 +113,48 @@ class AssignmentRolesNomenclatorService {
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_ROL_USUARIO: filters.id };
+        const formattedFilters = { ID_ROL_USUARIO: filters.id, ID_NOMENCLADOR: filters.nomenclatorId,
+            ID_USUARIO: filters.userId };
         const success = await assignmentRolesNomenclatorModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date()
         });
         return !!success;
     }
 
-    static getCsv(){
+    static async fetchRoles({ userId, assigned, nomenclatorId }) {
+        let roles = [];
+        const filters = { FECHA_BAJA: null };
+        if (nomenclatorId) {
+            filters.ID_NOMENCLADOR = nomenclatorId;
+        }
+        if (assigned) {
+            roles = await assignmentRolesNomenclatorModel.knex('ROLES_SICI')
+                .whereExists(function () {
+                    this.select('*').from(assignmentRolesNomenclatorModel.tableName)
+                        .whereRaw(`ROLES_SICI.ID_ROL_USUARIO = ${assignmentRolesNomenclatorModel.tableName}.ID_ROL_USUARIO`)
+                        .andWhereRaw(`ROLES_SICI.ID_USUARIO = ${assignmentRolesNomenclatorModel.tableName}.ID_USUARIO`)
+                        .andWhere('RELACION_ROLES_USUARIOS_NOMENCLADORES.ID_NOMENCLADOR', '=', nomenclatorId);
+                })
+                .orderBy([{ column: 'ID_ROL_USUARIO', order: 'asc' }])
+                .andWhere({ ID_USUARIO: userId });
+        } else {
+            roles = await assignmentRolesNomenclatorModel.knex('ROLES_SICI')
+                .whereNotExists(function () {
+                    this.select('*').from(assignmentRolesNomenclatorModel.tableName)
+                        .whereRaw(`ROLES_SICI.ID_ROL_USUARIO = ${assignmentRolesNomenclatorModel.tableName}.ID_ROL_USUARIO`)
+                        .andWhereRaw(`ROLES_SICI.ID_USUARIO = ${assignmentRolesNomenclatorModel.tableName}.ID_USUARIO`)
+                        .andWhere('RELACION_ROLES_USUARIOS_NOMENCLADORES.ID_NOMENCLADOR', '=', nomenclatorId);
+                })
+                .orderBy([{ column: 'ID_ROL_USUARIO', order: 'asc' }])
+                .andWhere({ ID_USUARIO: userId });
+        }
+        return roles.map(role => ({
+            id: role.ID_ROL_USUARIO,
+            description: role.DESCRIPCION
+        }));
+    }
+
+    static getCsv() {
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
@@ -156,15 +193,15 @@ class AssignmentRolesNomenclatorService {
             csvString += headers;
             const stream = assignmentRolesNomenclatorModel.knex.select(tableHeaders)
                 .from(assignmentRolesNomenclatorModel.tableName)
-                .orderBy([{column: 'NOMBRE_USUARIO', order: 'asc'}])
+                .orderBy([{ column: 'NOMBRE_USUARIO', order: 'asc' }])
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
+            stream.on('data', function (data) {
                 csvString += arrayToCsvFormat(data);
             });
-            stream.on('end', function() {
+            stream.on('end', function () {
                 resolve(csvString);
             });
         });

@@ -24,7 +24,6 @@ module.exports = {
         approved: {type: 'boolean'},
         createdAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         },
         userCreator: {
@@ -38,7 +37,6 @@ module.exports = {
         },
         deletedAt: {
             type: 'string',
-            format: 'date',
             nullable: true
         }
     }

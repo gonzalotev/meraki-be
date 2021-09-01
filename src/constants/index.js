@@ -787,6 +787,36 @@ const microprocessesListIfAttrib = [
     'FECHA_ALTA'
 ];
 
+const microprocessesClosedQuestionIfTablename = 'MICROPROCESOS_PREGUNTA_CERRADA_IF';
+const microprocessesClosedQuestionIfAttrib = [
+    'ID_PREGUNTA_CERRADA',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_OPERADOR',
+    'SIGNO_PLSQL',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SIGNO_JS'
+];
+
+const microprocessesOptionTablename = 'MICROPROCESOS_OPCION';
+const microprocessesOptionAttrib = [
+    'ID_MICROPROCESO',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'ORDEN',
+    'ABREVIATURA',
+    'OBSERVACION',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const documentsTableName = 'DOCUMENTOS';
 const documentsAttrib = [
     'ID_DOCUMENTO',
@@ -830,7 +860,22 @@ const microprocessesWordsAttrib = [
     'ES_PALABRA_O_FRASE',
     'OBSERVACION',
     'DOMINIO',
-    'SUPERVISADO',
+    'SUPERVISADO'
+];
+
+const microprocessStepsTableName = 'MICROPROCESOS_PASOS';
+const microprocessStepsAttrib = [
+    'ID_MICROPROCESO',
+    'ID_ORDEN',
+    'ESTOY_EN',
+    'ID_NOMENCLADOR_NO',
+    'ID_NOMENCLATURA_NO',
+    'ID_LISTAS',
+    'ID_PREGUNTA_CERRADA',
+    'ID_NOMENCLADOR_SI',
+    'ID_NOMENCLATURA_SI',
+    'VOY_A',
+    'VOY_A_DESTINO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA'
 ];
@@ -931,10 +976,16 @@ module.exports = {
     linguisticFieldProcessesAttrib,
     microprocessesListIfTablename,
     microprocessesListIfAttrib,
+    microprocessesOptionTablename,
+    microprocessesOptionAttrib,
     documentsTableName,
     documentsAttrib,
     microprocessesStepsOptionTableName,
     microprocessesStepsOptionAttrib,
     microprocessesWordsTableName,
-    microprocessesWordsAttrib
+    microprocessesWordsAttrib,
+    microprocessesClosedQuestionIfTablename,
+    microprocessesClosedQuestionIfAttrib,
+    microprocessStepsTableName,
+    microprocessStepsAttrib
 };

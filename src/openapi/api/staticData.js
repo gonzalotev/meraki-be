@@ -16,6 +16,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'microprocessQuestionsClosed',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'levels',
                     required: false,
                     schema: {type: 'string'}
@@ -127,7 +133,12 @@ module.exports = {
                     in: 'query',
                     name: 'nomenclatures',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: {
+                        oneOf: [
+                            { type: 'boolean' },
+                            { type: 'string' }
+                        ]
+                    }
                 },
                 {
                     in: 'query',
@@ -191,6 +202,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'microprocesses',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'finalAuxiliariesFields',
                     required: false,
                     schema: {type: 'boolean'}
@@ -210,12 +227,6 @@ module.exports = {
                 {
                     in: 'query',
                     name: 'microprocessesLists',
-                    required: false,
-                    schema: {type: 'boolean'}
-                },
-                {
-                    in: 'query',
-                    name: 'microprocesses',
                     required: false,
                     schema: {type: 'boolean'}
                 }

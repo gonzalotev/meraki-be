@@ -4,6 +4,8 @@ const {
     StaticalVariableService,
     StaticDataService
 } = include('services');
+const isBoolean = require('lodash/isBoolean');
+const isString = require('lodash/isString');
 
 class StaticDataController {
     static async fetch(req, res, next) {
@@ -43,8 +45,12 @@ class StaticDataController {
                 datatypes,
                 linguisticFieldProcesses,
                 levels,
-                relationshipAutophrasesLetter
+                relationshipAutophrasesLetter,
+                microprocessQuestionsClosed
             } = req.query;
+            if(microprocessQuestionsClosed) {
+                await StaticDataService.getMicroprocessQuestionsClosedData(data);
+            }
             if(levels) {
                 const formattedLevels = JSON.parse(decodeURIComponent(levels));
                 await StaticDataService.getLevels(data, formattedLevels);
@@ -90,8 +96,11 @@ class StaticDataController {
             if (fonts) {
                 await StaticDataService.getFont(data);
             }
-            if (nomenclatures) {
+            if (nomenclatures && isBoolean(nomenclatures)) {
                 await StaticDataService.getNomenclatures(data);
+            } else if (nomenclatures && isString(nomenclatures)) {
+                const formattedNomenclatures = JSON.parse(decodeURIComponent(nomenclatures));
+                await StaticDataService.getNomenclatures(data, formattedNomenclatures);
             }
             if (nomenclaturesGroup) {
                 await StaticDataService.getNomenclaturesGroup(data);
@@ -126,8 +135,11 @@ class StaticDataController {
             if (frequency) {
                 await StaticDataService.getFrequency(data);
             }
-            if (microprocessesLists) {
+            if (microprocessesLists && isBoolean(microprocessesLists)) {
                 await StaticDataService.getMicroprocessesLists(data);
+            } else if (microprocessesLists && isString(microprocessesLists)) {
+                const formattedLists = JSON.parse(decodeURIComponent(microprocessesLists));
+                await StaticDataService.getMicroprocessesLists(data, formattedLists);
             }
             if (microprocesses) {
                 await StaticDataService.getMicroprocesses(data);
@@ -146,6 +158,9 @@ class StaticDataController {
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);
+            }
+            if (microprocesses) {
+                await StaticDataService.getMicroprocesses(data);
             }
             if (linguisticFieldProcesses) {
                 await StaticDataService.getLinguisticFieldProcesses(data);

@@ -1,19 +1,42 @@
 module.exports = {
-    '/api/microprocessesStepsOption': {
+    '/api/microprocessesOption': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Microprocesses Steps Option'],
+            tags: ['Microprocesses Option'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                }
+            ],
             responses: {
                 200: {
-                    description: 'ok',
+                    description: 'Success',
                     content: {
                         'application/json': {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    microprocessesStepsOption: {
+                                    tickets: {
                                         type: 'array',
-                                        items: {}
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                id: {type: 'string'},
+                                                sourceId: {type: 'number'},
+                                                questionId: {type: 'number'},
+                                                orden: {type: 'number'},
+                                                observation: {type: 'string'},
+                                                abbreviature: {type: 'string'},
+                                                userCreator: {type: 'string'},
+                                                createdAt: {type: 'string'}
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -28,22 +51,21 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Microprocesses Steps Option'],
+            tags: ['Microprocesses Option'],
             requestBody: {
-                description: 'The new step Linguistic process to create',
+                description: 'The new  List of Microprocesses If to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                microprocessId: {type: 'string'},
-                                orderId: {type: 'string'},
-                                sourceId: {type: 'string'},
-                                questionId: {type: 'string'},
-                                order: {type: 'string'},
-                                abbreviation: {type: 'string'},
+                                id: {type: 'string'},
+                                sourceId: {type: 'number'},
+                                questionId: {type: 'number'},
+                                orden: {type: 'number'},
                                 observation: {type: 'string'},
+                                abbreviature: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'}
                             }
@@ -59,17 +81,15 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    stepLinguisticProcess: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
-                                            microprocessId: {type: 'string'},
-                                            orderId: {type: 'string'},
-                                            sourceId: {type: 'string'},
-                                            questionId: {type: 'string'},
-                                            order: {type: 'string'},
-                                            abbreviation: {type: 'string'},
+                                            id: {type: 'string'},
+                                            sourceId: {type: 'number'},
+                                            questionId: {type: 'number'},
+                                            orden: {type: 'number'},
                                             observation: {type: 'string'},
+                                            abbreviature: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'}
                                         }
@@ -86,55 +106,54 @@ module.exports = {
             }
         }
     },
-    '/api/microprocessesStepsOption/{microprocessId}/{orderId}/{sourceId}/{questionId}': {
+    '/api/microprocessesOption/{id}/{sourceId}/{questionId}/{orden}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Microprocesses Steps Option'],
+            tags: ['Microprocesses Option'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'microprocessId',
+                    name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'microprocessId to update'
-                },
-                {
-                    in: 'path',
-                    name: 'orderId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'orderId to update'
+                    description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'sourceId to update'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to update'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'orden',
+                    required: true,
+                    schema: {type: 'number'},
+                    description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'Changes to save',
+                description: 'The new type of Microprocesses Option to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                microprocessId: {type: 'string'},
-                                orderId: {type: 'string'},
-                                sourceId: {type: 'string'},
-                                questionId: {type: 'string'},
-                                order: {type: 'string'},
-                                abbreviation: {type: 'string'},
+                                id: {type: 'string'},
+                                sourceId: {type: 'number'},
+                                questionId: {type: 'number'},
+                                orden: {type: 'number'},
                                 observation: {type: 'string'},
+                                abbreviature: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'}
                             }
@@ -150,17 +169,80 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    stepLinguisticProcess: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
-                                            microprocessId: {type: 'string'},
-                                            orderId: {type: 'string'},
-                                            sourceId: {type: 'string'},
-                                            questionId: {type: 'string'},
-                                            order: {type: 'string'},
-                                            abbreviation: {type: 'string'},
+                                            id: {type: 'string'},
+                                            sourceId: {type: 'number'},
+                                            questionId: {type: 'number'},
+                                            orden: {type: 'number'},
                                             observation: {type: 'string'},
+                                            abbreviature: {type: 'string'},
+                                            userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Microprocesses Option'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'sourceId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'orden',
+                    required: true,
+                    schema: {type: 'number'},
+                    description: 'User id of assignment'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    ticketType: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'string'},
+                                            sourceId: {type: 'number'},
+                                            questionId: {type: 'number'},
+                                            orden: {type: 'number'},
+                                            observation: {type: 'string'},
+                                            abbreviature: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'}
                                         }
@@ -178,108 +260,39 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Microprocesses Steps Option'],
+            tags: ['Microprocess Option'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'microprocessId',
+                    name: 'id',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'microprocessId to delete'
-                },
-                {
-                    in: 'path',
-                    name: 'orderId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'orderId to delete'
+                    description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'sourceId to delete'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'questionId',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to delete'
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'orden',
+                    required: true,
+                    schema: {type: 'number'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
-                204: {
-                    description: 'The resource was deleted successfully',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Microprocesses Steps Option'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'microprocessId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'microprocessId to get'
-                },
-                {
-                    in: 'path',
-                    name: 'orderId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'orderId to get'
-                },
-                {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'sourceId to get'
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'questionId to get'
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    stepLinguisticProcess: {
-                                        type: 'object',
-                                        properties: {
-                                            microprocessId: {type: 'string'},
-                                            orderId: {type: 'string'},
-                                            sourceId: {type: 'string'},
-                                            questionId: {type: 'string'},
-                                            order: {type: 'string'},
-                                            abbreviation: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -287,16 +300,31 @@ module.exports = {
             }
         }
     },
-    '/api/microprocessesStepsOption/downloadCsv': {
+    '/api/microprocessesOption/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Microprocesses Steps Option'],
+            tags: ['Microprocesses Option'],
             parameters: [
                 {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'sourceId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'questionId',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
                 }
             ],
             responses: {
@@ -309,7 +337,7 @@ module.exports = {
                                 properties: {
                                     dictionaryLinguistics: {
                                         type: 'array',
-                                        items: {$ref: '#/components/schemas/StepsLinguisticProcesses'}
+                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
                                     }
                                 }
                             }

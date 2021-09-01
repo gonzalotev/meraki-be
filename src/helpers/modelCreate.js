@@ -265,6 +265,33 @@ class ModelCreate {
         }
     }
 
+    delete(id, deletionData) {
+        if (deletionData == null) {
+            if (this.transaction) {
+                return this.transaction(this.tableName)
+                    .where(id)
+                    .del()
+                    .timeout(this.timeout);
+            }
+            return this.knex(this.tableName)
+                .where(id)
+                .del()
+                .timeout(this.timeout);
+        }
+        else {
+            if (this.transaction) {
+                return this.transaction(this.tableName)
+                    .delete(deletionData)
+                    .where(id)
+                    .timeout(this.timeout);
+            }
+            return this.knex.delete(deletionData)
+                .from(this.tableName)
+                .where(id)
+                .timeout(this.timeout);
+        }
+    }
+
     deleteMany(ids) {
         if (isArray(ids) && String instanceof head(ids)) {
             if (this.transaction) {

@@ -1,15 +1,24 @@
 module.exports = {
-    '/api/assignmentRolesNomenclators': {
+    '/api/microprocessesClosedQuestionIf': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
+            tags: ['Microprocesses Closed Questions'],
             parameters: [
                 {
                     in: 'query',
                     name: 'page',
                     required: false,
                     schema: {
-                        type: 'string',
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'id',
+                    required: false,
+                    schema: {
+                        type: 'number',
                         default: 1
                     }
                 }
@@ -22,20 +31,24 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    roles: {
+                                    tickets: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'string'},
+                                                id: {type: 'integer'},
+                                                sourceId: {type: 'string'},
+                                                questionId: {type: 'string'},
                                                 description: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                nomenclatorId: {type: 'number'},
                                                 observation: {type: 'string'},
-                                                userId: {type: 'string'},
-                                                userName: {type: 'string'},
+                                                domain: {type: 'string'},
+                                                operatorId: {type: 'string'},
+                                                signPlsql: {type: 'string'},
+                                                nomenclatorId: {type: 'string'},
+                                                nomenclatureId: {type: 'string'},
+                                                approved: {type: 'boolean'},
                                                 createdAt: {type: 'string'},
-                                                deletedAt: {type: 'string'}
+                                                signJs: {type: 'string'}
                                             }
                                         }
                                     }
@@ -52,24 +65,28 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
+            tags: ['Microprocesses Closed Questions'],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new List of Microprocesses Closed Questions to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                id: {type: 'integer'},
+                                sourceId: {type: 'string'},
+                                questionId: {type: 'string'},
                                 description: {type: 'string'},
-                                domain: {type: 'string'},
-                                nomenclatorId: {type: 'number'},
                                 observation: {type: 'string'},
-                                userId: {type: 'string'},
-                                userName: {type: 'string'},
+                                domain: {type: 'string'},
+                                operatorId: {type: 'string'},
+                                signPlsql: {type: 'string'},
+                                nomenclatorId: {type: 'string'},
+                                nomenclatureId: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                signJs: {type: 'string'}
                             }
                         }
                     }
@@ -83,19 +100,22 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    role: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            id: {type: 'integer'},
+                                            sourceId: {type: 'string'},
+                                            questionId: {type: 'string'},
                                             description: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            nomenclatorId: {type: 'number'},
                                             observation: {type: 'string'},
-                                            userId: {type: 'string'},
-                                            userName: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            operatorId: {type: 'string'},
+                                            signPlsql: {type: 'string'},
+                                            nomenclatorId: {type: 'string'},
+                                            nomenclatureId: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            signJs: {type: 'string'}
                                         }
                                     }
                                 }
@@ -110,50 +130,40 @@ module.exports = {
             }
         }
     },
-    '/api/assignmentRolesNomenclators/{id}/{userId}/{nomenclatorId}': {
+    '/api/microprocessesClosedQuestionIf/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
+            tags: ['Microprocesses Closed Questions'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'userId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatorId',
-                    required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new autophrase to create',
+                description: 'The new type of Microprocesses List If to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                id: {type: 'integer'},
+                                sourceId: {type: 'string'},
+                                questionId: {type: 'string'},
                                 description: {type: 'string'},
-                                domain: {type: 'string'},
-                                nomenclatorId: {type: 'number'},
                                 observation: {type: 'string'},
-                                userId: {type: 'string'},
-                                userName: {type: 'string'},
+                                domain: {type: 'string'},
+                                operatorId: {type: 'string'},
+                                signPlsql: {type: 'string'},
+                                nomenclatorId: {type: 'string'},
+                                nomenclatureId: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                signJs: {type: 'string'}
                             }
                         }
                     }
@@ -167,19 +177,71 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    role: {
+                                    ticketType: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'string'},
+                                            id: {type: 'integer'},
+                                            sourceId: {type: 'string'},
+                                            questionId: {type: 'string'},
                                             description: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            nomenclatorId: {type: 'number'},
                                             observation: {type: 'string'},
-                                            userId: {type: 'string'},
-                                            userName: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            operatorId: {type: 'string'},
+                                            signPlsql: {type: 'string'},
+                                            nomenclatorId: {type: 'string'},
+                                            nomenclatureId: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            signJs: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Microprocesses Closed Questions'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'integer'},
+                    description: 'User id of assignment'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    ticketType: {
+                                        type: 'object',
+                                        properties: {
+                                            id: {type: 'integer'},
+                                            sourceId: {type: 'string'},
+                                            questionId: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            domain: {type: 'string'},
+                                            operatorId: {type: 'string'},
+                                            signPlsql: {type: 'string'},
+                                            nomenclatorId: {type: 'string'},
+                                            nomenclatureId: {type: 'string'},
+                                            approved: {type: 'boolean'},
+                                            createdAt: {type: 'string'},
+                                            signJs: {type: 'string'}
                                         }
                                     }
                                 }
@@ -195,105 +257,30 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
+            tags: ['Microprocesses Closed Questions'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'userId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatorId',
-                    required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'integer'},
                     description: 'User id of assignment'
                 }
             ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        },
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'id',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'userId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'nomenclatorId',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    role: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            description: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            nomenclatorId: {type: 'number'},
-                                            observation: {type: 'string'},
-                                            userId: {type: 'string'},
-                                            userName: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }
+
     },
-    '/api/assignmentRolesNomenclators/downloadCsv': {
+    '/api/microprocessesClosedQuestionIf/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
+            tags: ['Microprocesses Closed Questions'],
             parameters: [
                 {
                     in: 'query',
@@ -313,60 +300,6 @@ module.exports = {
                                     dictionaryLinguistics: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/DictionaryLinguistic'}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/assignmentRolesNomenclators/roles': {
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Assignment Roles Nomenclators'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'userId',
-                    required: false,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'query',
-                    name: 'assigned',
-                    required: false,
-                    schema: {type: 'boolean'}
-                },
-                {
-                    in: 'query',
-                    name: 'nomenclatorId',
-                    required: false,
-                    schema: {type: 'number'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    roles: {
-                                        type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                id: { type: 'string' },
-                                                description: { type: 'string' }
-                                            }
-                                        }
                                     }
                                 }
                             }

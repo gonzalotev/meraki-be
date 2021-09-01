@@ -31,7 +31,6 @@ module.exports = {
         },
         createdAt: {
             type: 'string',
-            format: 'date',
             nullable: false
         }
     }
