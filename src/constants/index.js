@@ -822,6 +822,19 @@ const microprocessesStepsOptionAttrib = [
     'FECHA_ALTA'
 ];
 
+const microprocessesWordsTableName = 'MICROPROCESOS_PALABRAS';
+const microprocessesWordsAttrib = [
+    'ID_MICROPROCESO',
+    'ID_ORDEN',
+    'PALABRA_O_FRASE',
+    'ES_PALABRA_O_FRASE',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -921,5 +934,7 @@ module.exports = {
     documentsTableName,
     documentsAttrib,
     microprocessesStepsOptionTableName,
-    microprocessesStepsOptionAttrib
+    microprocessesStepsOptionAttrib,
+    microprocessesWordsTableName,
+    microprocessesWordsAttrib
 };

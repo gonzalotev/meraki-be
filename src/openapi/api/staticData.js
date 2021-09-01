@@ -212,6 +212,12 @@ module.exports = {
                     name: 'microprocessesLists',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'microprocesses',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {

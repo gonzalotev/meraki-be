@@ -358,6 +358,16 @@ class StaticDataService {
         data.microprocessesLists = microprocessesLists;
         return data;
     }
+    static async getMicroprocesses(data){
+        const microprocesses = await knex.select({
+            id: 'ID_MICROPROCESO',
+            description: 'DESCRIPCION'
+        })
+            .from('MICROPROCESOS')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.microprocesses = microprocesses;
+        return data;
+    }
 }
 
 module.exports = StaticDataService;
