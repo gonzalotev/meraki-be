@@ -101,10 +101,12 @@ class QuestionService {
 
     static async fetchIfExist(Model, id, filters = {}){
         const questions = await questionsModel.knex(questionsModel.tableName).whereExists(function() {
-            this.select('*').from(Model.tableName)
+            this.select('*')
+                .from(Model.tableName)
                 .whereRaw(`${questionsModel.tableName}.${id} = ${Model.tableName}.${id}`)
                 .andWhere(filters);
-        });
+        })
+            .orderBy([{column: 'PREGUNTA', order: 'asc'}]);
         return questions.map(question => ({
             id: question.ID_PREGUNTA,
             question: question.PREGUNTA,

@@ -133,12 +133,7 @@ module.exports = {
                     in: 'query',
                     name: 'nomenclatures',
                     required: false,
-                    schema: {
-                        oneOf: [
-                            { type: 'boolean' },
-                            { type: 'string' }
-                        ]
-                    }
+                    schema: {type: 'boolean'}
                 },
                 {
                     in: 'query',
