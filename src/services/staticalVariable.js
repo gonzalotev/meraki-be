@@ -131,6 +131,24 @@ class StaticalVariableService {
             return resource;
         });
     }
+    static async getVariableId(resources){
+        console.log(resources);
+        const abbreviationIds = uniq(map(resources, resource => resource.abbreviation));
+        let variables = await staticalVariableModel.findByValues('ABREVIATURA', abbreviationIds);
+        variables = map(variables, variable => ({
+            id: variable.ID_VARIABLE,
+            name: variable.NOMBRE,
+            abbreviation: variable.ABREVIATURA
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.variable =
+            find(variables, variable => variable.abbreviation === resource.abbreviation);
+            return resource;
+        });
+    }
     static async getVariableAbbreviationData(resources){
         const variablesIds = uniq(map(resources, resource => resource.abbreviation));
         let variables = await staticalVariableModel.findByValues('ABREVIATURA', variablesIds);

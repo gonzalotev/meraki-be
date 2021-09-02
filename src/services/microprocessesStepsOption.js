@@ -2,11 +2,16 @@ const { microprocessesStepsOption } = include('models');
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
+const MicroprocessStepsService = require('./microprocessSteps');
+const staticalVariableService = require('./staticalVariable');
+const OperativeSourcesService = require('./operativeSources');
+const QuestionsService = require('./questions');
 
 class MicroprocessesStepsOption {
     static async fetch() {
         let microprocessesStepsOptionList = await microprocessesStepsOption.find();
         microprocessesStepsOptionList = microprocessesStepsOptionList.map(microprocesses => ({
+            id: microprocesses.ID_MICROPROCESO,
             microprocessId: microprocesses.ID_MICROPROCESO,
             orderId: microprocesses.ID_ORDEN,
             sourceId: microprocesses.ID_FUENTE,
@@ -17,6 +22,10 @@ class MicroprocessesStepsOption {
             userCreator: microprocesses.ID_USUARIO_ALTA,
             createdAt: microprocesses.FECHA_ALTA
         }));
+        await MicroprocessStepsService.getMicroprocessesData(microprocessesStepsOptionList);
+        await staticalVariableService.getVariableId(microprocessesStepsOptionList);
+        await OperativeSourcesService.getSourceData(microprocessesStepsOptionList);
+        await QuestionsService.getQuestionData(microprocessesStepsOptionList);
         return microprocessesStepsOptionList;
     }
 
@@ -44,7 +53,10 @@ class MicroprocessesStepsOption {
 
     static async findOne(filters){
         const formattedFilters = {
-            ID_MICROPROCESO: filters.microprocessId
+            ID_MICROPROCESO: filters.microprocessId,
+            ID_ORDEN: filters.orderId,
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId
         };
         const microprocesses = await microprocessesStepsOption.findById(formattedFilters);
         return {
