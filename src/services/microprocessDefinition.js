@@ -9,8 +9,9 @@ const find = require('lodash/find');
 const toUpper = require('lodash/toUpper');
 
 class MicroprocessDefinitionService {
-    static async fetch({page}) {
+    static async fetch(filter = {}) {
         let microprocesses=[];
+        const {page} = filter;
         if(page){
             microprocesses = await MicroprocessDefinition.findByPage(
                 page,
@@ -19,7 +20,8 @@ class MicroprocessDefinitionService {
                 [{column: 'ID_MICROPROCESO', order: 'asc'}]
             );
         } else {
-            microprocesses = await MicroprocessDefinition.find({FECHA_BAJA: null});
+            const originalColumns = map(MicroprocessDefinitionService.getColumns(), column => column.original);
+            return await MicroprocessDefinition.find({FECHA_BAJA: null}, originalColumns);
         }
         microprocesses = microprocesses.map(microprocess => MicroprocessDefinitionService.rebaseFormat(microprocess));
         await MicroprocessDefinitionService.getLevelData(microprocesses);
@@ -155,6 +157,73 @@ class MicroprocessDefinitionService {
                 microprocessesData, microprocess => microprocess.id === resource[key]);
             return resource;
         });
+    }
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = MicroprocessDefinition.knex.select(columns)
+                .from(MicroprocessDefinition.tableName)
+                .where({FECHA_BAJA: null})
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                if(data[0] === 'PC199') {
+                    worksheet.addRow(data);
+                    const row = worksheet.getRow(1);
+                    row.height = 42.5;
+                } else {
+                    worksheet.addRow(data);
+                }
+            });
+            stream.on('end', function() {
+                resolve(worksheet);
+            });
+        });
+    }
+    static getColumns(){
+        return [
+            {
+                original: 'ID_MICROPROCESO',
+                modified: 'id'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'variableId'
+            },
+            {
+                original: 'ORDEN',
+                modified: 'order'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'description'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                modified: 'dictionaryTypeId'
+            },
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'nomenclatorId'
+            },
+            {
+                original: 'ID_CANTIDAD_DIGITOS',
+                modified: 'amountOfDigits'
+            },
+            {
+                original: 'CARGADO_COMPLETO_SI_NO',
+                modified: 'isFullyCharged'
+            }
+        ];
     }
 }
 
