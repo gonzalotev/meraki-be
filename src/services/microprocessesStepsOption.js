@@ -101,8 +101,11 @@ class MicroprocessesStepsOption {
     }
 
     static async delete(filters, userDeleted){
-        const success = await microprocessesStepsOption.deleteOne({
-            ID_MICROPROCESO: filters.microprocessId
+        const success = await microprocessesStepsOption.delete({
+            ID_MICROPROCESO: filters.microprocessId,
+            ID_ORDEN: filters.orderId,
+            ID_FUENTE: filters.sourceId,
+            ID_PREGUNTA: filters.questionId
         },
         {
             FECHA_BAJA: new Date(),
