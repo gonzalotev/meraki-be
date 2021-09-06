@@ -1,4 +1,6 @@
 const { MicroprocessDefinitionService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 const isEmpty = require('lodash/isEmpty');
 
 class MicroprocessDefinitionController {
@@ -53,6 +55,25 @@ class MicroprocessDefinitionController {
             } else {
                 res.sendStatus(400);
             }
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    static async downloadCsv(req, res, next){
+        try {
+            const originalColumns = map(MicroprocessDefinitionService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('microprocesos');
+            const sheetColums = map(
+                MicroprocessDefinitionService.getColumns(),
+                column => ({key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await MicroprocessDefinitionService.exportToFile(worksheet, originalColumns);
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + 'microprocesos.csv');
+            await workbook.csv.write(res, {sheetName: 'microprocesos', formatterOptions: {delimiter: ';'}});
         } catch(err) {
             next(err);
         }

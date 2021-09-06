@@ -238,5 +238,27 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/microprocessDefinition/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            operationId: 'downloadMicroprocessCSV',
+            description: 'Returns microprocess in csv format',
+            tags: ['Microprocess Definition'],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
     }
 };
