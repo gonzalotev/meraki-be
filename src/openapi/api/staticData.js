@@ -70,6 +70,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'operators',
+                    required: false,
+                    schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
                     name: 'variablesNewsWords',
                     required: false,
                     schema: {type: 'boolean'}

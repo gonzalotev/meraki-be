@@ -2,16 +2,17 @@ const { microprocessesClosedQuestionIf: microprocessesClosedQuestionIfModel } = 
 const { dateToString, arrayToCsvFormat } = include('util');
 const map = require('lodash/map');
 const trim = require('lodash/trim');
+const OperativeSourcesService = require('./operativeSources');
+const QuestionsService = require('./questions');
+const NomenclatureService = require('./nomenclatures');
+const NomenclatorService = require('./nomenclators');
 
 class microprocessesClosedQuestionIfService {
     static async fetch(query) {
-        const microprocessesClosedQuestionIfTypes = await microprocessesClosedQuestionIfModel.findByPage(
-            query.page,
-            {ID_PREGUNTA_CERRADA: query.id},
-            microprocessesClosedQuestionIfModel.selectableProps,
-            [{ column: 'ID_PREGUNTA_CERRADA', order: 'asc' }]
+        let microprocessesClosedQuestionIfTypes = await microprocessesClosedQuestionIfModel.findByPage(
+            query.page
         );
-        return microprocessesClosedQuestionIfTypes.map(microprocessesClosedQuestionIf => ({
+        microprocessesClosedQuestionIfTypes=microprocessesClosedQuestionIfTypes.map(microprocessesClosedQuestionIf => ({
             id: microprocessesClosedQuestionIf.ID_PREGUNTA_CERRADA,
             sourceId: microprocessesClosedQuestionIf.ID_FUENTE,
             questionId: microprocessesClosedQuestionIf.ID_PREGUNTA,
@@ -22,14 +23,19 @@ class microprocessesClosedQuestionIfService {
             signPlsql: microprocessesClosedQuestionIf.SIGNO_PLSQL,
             nomenclatorId: microprocessesClosedQuestionIf.ID_NOMENCLADOR,
             nomenclatureId: microprocessesClosedQuestionIf.ID_NOMENCLATURA,
-            approved: microprocessesClosedQuestionIf.SUPERVISADO,
+            approved: !!microprocessesClosedQuestionIf.SUPERVISADO,
             userCreator: microprocessesClosedQuestionIf.ID_USUARIO_ALTA,
             createdAt: dateToString(microprocessesClosedQuestionIf.FECHA_ALTA),
             signJs: microprocessesClosedQuestionIf.SIGNO_JS
         }));
+        await OperativeSourcesService.getSourceData(microprocessesClosedQuestionIfTypes);
+        await QuestionsService.getQuestionData(microprocessesClosedQuestionIfTypes);
+        await NomenclatureService.getNomenclatureData(microprocessesClosedQuestionIfTypes);
+        await NomenclatorService.getNomenclatorData(microprocessesClosedQuestionIfTypes);
+        return microprocessesClosedQuestionIfTypes;
     }
-    static async getTotal(filters) {
-        const total = await microprocessesClosedQuestionIfModel.countDocuments({ID_PREGUNTA_CERRADA: filters.id});
+    static async getTotal() {
+        const total = await microprocessesClosedQuestionIfModel.countDocuments();
         return total['COUNT(*)'];
     }
 
@@ -74,7 +80,7 @@ class microprocessesClosedQuestionIfService {
             signPlsql: microprocessesClosedQuestionIf.SIGNO_PLSQL,
             nomenclatorId: microprocessesClosedQuestionIf.ID_NOMENCLADOR,
             nomenclatureId: microprocessesClosedQuestionIf.ID_NOMENCLATURA,
-            approved: microprocessesClosedQuestionIf.SUPERVISADO,
+            approved: !!microprocessesClosedQuestionIf.SUPERVISADO,
             userCreator: microprocessesClosedQuestionIf.ID_USUARIO_ALTA,
             createdAt: dateToString(microprocessesClosedQuestionIf.FECHA_ALTA),
             signJs: microprocessesClosedQuestionIf.SIGNO_JS
@@ -83,6 +89,7 @@ class microprocessesClosedQuestionIfService {
     }
 
     static async update(filters, params) {
+        console.log(params);
         const formattedMicroprocessesClosedQuestionIf = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,

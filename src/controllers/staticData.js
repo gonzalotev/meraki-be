@@ -34,6 +34,7 @@ class StaticDataController {
                 questions,
                 questionsTypes,
                 operativeType,
+                operators,
                 frequency,
                 support,
                 ticketTypes,
@@ -74,6 +75,9 @@ class StaticDataController {
             }
             if (operatives) {
                 await StaticDataService.getOperatives(data);
+            }
+            if (operators) {
+                await StaticDataService.getOperators(data);
             }
             if (variablesNewsWords) {
                 await StaticDataService.getVariablesNewsWords(data);

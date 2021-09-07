@@ -3,10 +3,10 @@ const { MicroprocessesClosedQuestionIfService } = include('services');
 class MicroprocessesClosedQuestionIfController {
     static async fetch(req, res, next) {
         try {
-            const {page, id} = req.query;
+            const {page} = req.query;
             // eslint-disable-next-line max-len
-            const microprocessesClosedQuestionIf = await MicroprocessesClosedQuestionIfService.fetch({page, id});
-            const total = await MicroprocessesClosedQuestionIfService.getTotal({id});
+            const microprocessesClosedQuestionIf = await MicroprocessesClosedQuestionIfService.fetch({page});
+            const total = await MicroprocessesClosedQuestionIfService.getTotal();
             res.send({ microprocessesClosedQuestionIf, total });
         } catch(error) {
             next(error);
