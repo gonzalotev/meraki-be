@@ -48,14 +48,14 @@ class StaticDataController {
                 relationshipAutophrasesLetter,
                 microprocessQuestionsClosed
             } = req.query;
-            if(microprocessQuestionsClosed) {
+            if (microprocessQuestionsClosed) {
                 await StaticDataService.getMicroprocessQuestionsClosedData(data);
             }
-            if(levels) {
+            if (levels) {
                 const formattedLevels = JSON.parse(decodeURIComponent(levels));
                 await StaticDataService.getLevels(data, formattedLevels);
             }
-            if(relationshipAutophrasesLetter) {
+            if (relationshipAutophrasesLetter) {
                 const formattedRelationshipAutophrasesLetter = JSON.parse(decodeURIComponent(
                     relationshipAutophrasesLetter));
                 await StaticDataService.getRelationshipAutophrasesLetter(data, formattedRelationshipAutophrasesLetter);
@@ -96,6 +96,7 @@ class StaticDataController {
             if (fonts) {
                 await StaticDataService.getFont(data);
             }
+
             if (nomenclatures && isBoolean(nomenclatures)) {
                 await StaticDataService.getNomenclatures(data);
             } else if (nomenclatures && isString(nomenclatures)) {

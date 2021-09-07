@@ -2,7 +2,7 @@ module.exports = {
     '/api/documents': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Documents'],
+            tags: ['Documentos'],
             responses: {
                 200: {
                     description: 'Success',
@@ -50,7 +50,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Documents'],
+            tags: ['Documentos'],
             requestBody: {
                 description: 'The new  document to create',
                 required: true,
@@ -127,7 +127,7 @@ module.exports = {
     '/api/documents/{documentId}/{documentTypeId}/{editorId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Documents'],
+            tags: ['Documentos'],
             parameters: [
                 {
                     in: 'path',
@@ -226,7 +226,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Documents'],
+            tags: ['Documentos'],
             parameters: [
                 {
                     in: 'path',
@@ -260,7 +260,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Documents'],
+            tags: ['Documentos'],
             parameters: [
                 {
                     in: 'path',
@@ -317,6 +317,28 @@ module.exports = {
                                     }
                                 }
                             }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/documents/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            operationId: 'downloadDocumentsCSV',
+            description: 'Returns documents in csv format',
+            tags: ['Documentos'],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

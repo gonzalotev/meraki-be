@@ -37,6 +37,53 @@ class NomenclatureService {
             return resource;
         });
     }
+
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = Nomenclatures.knex.select(columns)
+                .from(Nomenclatures.tableName)
+                .where({FECHA_BAJA: null})
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
+            });
+            stream.on('end', function() {
+                resolve(worksheet);
+            });
+        });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_NOMENCLATURA',
+                modified: 'id'
+            }
+            // {
+            //     original: 'DESCRIPCION',
+            //     modified: 'description'
+            // },
+            // {
+            //     original: 'AUTOMATICO_SI_NO',
+            //     modified: 'automatic_yes_no'
+            // },
+            // {
+            //     original: 'DOMINIO',
+            //     modified: 'domain'
+            // },
+            // {
+            //     original: 'OBSERVACION',
+            //     modified: 'observation'
+            // },
+            // {
+            //     original: 'SUPERVISADO',
+            //     modified: 'approved'
+            // }
+        ];
+    }
 }
 
 module.exports = NomenclatureService;

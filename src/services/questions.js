@@ -119,6 +119,49 @@ class QuestionService {
             deletedAt: dateToString(question.FECHA_BAJA)
         }));
     }
+
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = questionsModel.knex.select(columns)
+                .from(questionsModel.tableName)
+                .where({FECHA_BAJA: null})
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
+            });
+            stream.on('end', function() {
+                resolve(worksheet);
+            });
+        });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'id'
+            },
+            {
+                original: 'PREGUNTA',
+                modified: 'question'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
+            }
+        ];
+    }
 }
 
 module.exports = QuestionService;

@@ -1,7 +1,7 @@
 module.exports = {
     '/api/staticData': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['Static Data'],
             summary: 'Get static values',
             description: `**Get** all the basic data of the application, *eg*: role types.
@@ -12,218 +12,219 @@ module.exports = {
                     in: 'query',
                     name: 'roles',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'microprocessQuestionsClosed',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'levels',
                     required: false,
-                    schema: {type: 'string'}
+                    schema: { type: 'string' }
                 },
                 {
                     in: 'query',
                     name: 'relationshipAutophrasesLetter',
                     required: false,
-                    schema: {type: 'string'}
+                    schema: { type: 'string' }
                 },
                 {
                     in: 'query',
                     name: 'ticketTypes',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'dictionaryTypes',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'words',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'variables',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'genders',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'operatives',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'variablesNewsWords',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'newWoord',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'autoPhrase',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'nomenclaturesGroup',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'nomenclatorsGroup',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'relationshipGroup',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'newPhrases',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'nomenclators',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'lots',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'fonts',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 }
                 ,
                 {
                     in: 'query',
                     name: 'nomenclatures',
                     required: false,
-                    schema: {type: 'boolean'}
+                    // eslint-disable
+                    schema: { type: 'boolean', type: 'string' }
                 },
                 {
                     in: 'query',
                     name: 'sources',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'questions',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'questionsTypes',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'operativeType',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'frequency',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'support',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'entryFieldsNames',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'editors',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'documentsTypes',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'originalAuxiliariesFields',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'microprocesses',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'finalAuxiliariesFields',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'datatypes',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'linguisticFieldProcesses',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 },
                 {
                     in: 'query',
                     name: 'microprocessesLists',
                     required: false,
-                    schema: {type: 'boolean'}
+                    schema: { type: 'boolean' }
                 }
             ],
             responses: {
@@ -236,7 +237,7 @@ module.exports = {
                                 properties: {
                                     roles: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Roles'}
+                                        items: { $ref: '#/components/schemas/Roles' }
                                     },
                                     dictionaries: {
                                         type: 'array',
@@ -273,14 +274,14 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }
     },
     '/api/staticData/shortDescription': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['Static Data'],
             summary: 'Get static nomenclatorsvalues',
             responses: {
@@ -293,7 +294,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Nomenclators'}
+                                        items: { $ref: '#/components/schemas/Nomenclators' }
                                     }
                                 }
                             }
@@ -302,14 +303,14 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }
     },
     '/api/staticData/lots': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['Static Data'],
             summary: 'Get static lots values',
             responses: {
@@ -322,7 +323,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Lots'}
+                                        items: { $ref: '#/components/schemas/Lots' }
                                     }
                                 }
                             }
@@ -331,14 +332,14 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }
     },
     '/api/staticData/roles': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['Static Data'],
             summary: 'Get static roles values',
             responses: {
@@ -351,7 +352,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/Roles'}
+                                        items: { $ref: '#/components/schemas/Roles' }
                                     }
                                 }
                             }
@@ -360,14 +361,14 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }
     },
     '/api/staticData/staticalVariables': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['Static Data'],
             summary: 'Get static roles values',
             responses: {
@@ -380,7 +381,7 @@ module.exports = {
                                 properties: {
                                     nomenclators: {
                                         type: 'array',
-                                        items: { $ref: '#/components/schemas/StatisticalVariable'}
+                                        items: { $ref: '#/components/schemas/StatisticalVariable' }
                                     }
                                 }
                             }
@@ -389,14 +390,14 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }
     },
     '/api/staticData/newWords': {
         get: {
-            security: [{bearerAuth: []}],
+            security: [{ bearerAuth: [] }],
             tags: ['Static Data'],
             summary: 'Get operatives with their variables',
             responses: {
@@ -418,7 +419,7 @@ module.exports = {
                 },
                 default: {
                     description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
         }

@@ -2,7 +2,7 @@ module.exports = {
     '/api/encodingProcesses': {
         get: {
             security: [{ bearerAuth: [] }],
-            tags: ['EncodingProcesses'],
+            tags: ['Procesos de Codificacion'],
             responses: {
                 200: {
                     description: 'Success',
@@ -44,7 +44,7 @@ module.exports = {
         },
         post: {
             security: [{ bearerAuth: [] }],
-            tags: ['EncodingProcesses'],
+            tags: ['Procesos de Codificacion'],
             requestBody: {
                 description: 'The new  Encoding Processes to create',
                 required: true,
@@ -111,7 +111,7 @@ module.exports = {
     '/api/encodingProcesses/{id}': {
         put: {
             security: [{ bearerAuth: [] }],
-            tags: ['EncodingProcesses'],
+            tags: ['Procesos de Codificacion'],
             parameters: [
                 {
                     in: 'path',
@@ -185,7 +185,7 @@ module.exports = {
         },
         delete: {
             security: [{ bearerAuth: [] }],
-            tags: ['EncodingProcesses'],
+            tags: ['Procesos de Codificacion'],
             parameters: [
                 {
                     in: 'path',
@@ -208,7 +208,7 @@ module.exports = {
         },
         get: {
             security: [{ bearerAuth: [] }],
-            tags: ['EncodingProcesses'],
+            tags: ['Procesos de Codificacion'],
             parameters: [
                 {
                     in: 'path',
@@ -251,6 +251,28 @@ module.exports = {
                 default: {
                     description: 'Error',
                     content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        }
+    },
+    '/api/encodingProcesses/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            operationId: 'downloadencodingProcessesCSV',
+            description: 'Returns encodingProcesses in csv format',
+            tags: ['Procesos de Codificacion'],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }

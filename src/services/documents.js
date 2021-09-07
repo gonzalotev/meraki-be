@@ -154,59 +154,59 @@ class DocumentsService {
     static getColumns(){
         return [
             {
-                nameInTable: 'ID_DOCUMENTO',
+                original: 'ID_DOCUMENTO',
                 modified: 'ID_DOCUMENTO'
             },
             {
-                nameInTable: 'ID_TIPO_DOCUMENTO',
+                original: 'ID_TIPO_DOCUMENTO',
                 modified: 'ID_TIPO_DOCUMENTO'
             },
             {
-                nameInTable: 'TÍTULO',
-                modified: 'TÍTULO'
+                original: 'TITULO',
+                modified: 'TITULO'
             },
             {
-                nameInTable: 'AUTOR',
+                original: 'AUTOR',
                 modified: 'AUTOR'
             },
             {
-                nameInTable: 'INSTITUCIÓN',
-                modified: 'INSTITUCIÓN'
+                original: 'INSTITUCION',
+                modified: 'INSTITUCION'
             },
             {
-                nameInTable: 'AREA',
+                original: 'AREA',
                 modified: 'AREA'
             },
             {
-                nameInTable: 'FECHA_DOCUMENTO',
+                original: 'FECHA_DOCUMENTO',
                 modified: 'FECHA_DOCUMENTO'
             },
             {
-                nameInTable: 'ISBN',
+                original: 'ISBN',
                 modified: 'ISBN'
             },
             {
-                nameInTable: 'ID_EDITOR',
+                original: 'ID_EDITOR',
                 modified: 'ID_EDITOR'
             },
             {
-                nameInTable: 'UBICACIÓN_ARCHIVO',
-                modified: 'UBICACIÓN_ARCHIVO'
+                original: 'UBICACION_ARCHIVO',
+                modified: 'UBICACION_ARCHIVO'
             },
             {
-                nameInTable: 'RESUMEN',
+                original: 'RESUMEN',
                 modified: 'RESUMEN'
             },
             {
-                nameInTable: 'URL',
+                original: 'URL',
                 modified: 'URL'
             },
             {
-                nameInTable: 'COMENTARIO',
+                original: 'COMENTARIO',
                 modified: 'COMENTARIO'
             },
             {
-                nameInTable: 'CANTIDAD_VISITAS',
+                original: 'CANTIDAD_VISITAS',
                 modified: 'CANTIDAD_VISITAS'
             }
         ];

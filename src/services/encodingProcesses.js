@@ -112,6 +112,53 @@ class EncodingProcessService {
             return resource;
         });
     }
+
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = encodingProcessesModel.knex.select(columns)
+                .from(encodingProcessesModel.tableName)
+                .where({FECHA_BAJA: null})
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
+            });
+            stream.on('end', function() {
+                resolve(worksheet);
+            });
+        });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_PROCESO_CODIFICACION',
+                modified: 'id'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'description'
+            },
+            {
+                original: 'AUTOMATICO_SI_NO',
+                modified: 'automatic_yes_no'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
+            }
+        ];
+    }
 }
 
 module.exports = EncodingProcessService;

@@ -89,6 +89,9 @@ class StaticDataService {
                     this
                         .where('ID_NOMENCLADOR', filter.nomenclatorId)
                         .andWhereRaw(`LENGTH(ID_NOMENCLATURA) = ${filter.amountOfDigits}`);
+                } else if (filter && filter.nomenclatorId) {
+                    this
+                        .where('ID_NOMENCLADOR', filter.nomenclatorId);
                 }
             })
             .from('NOMENCLATURAS');

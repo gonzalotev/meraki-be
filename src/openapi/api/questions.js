@@ -2,7 +2,7 @@ module.exports = {
     '/api/questions': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Questions'],
+            tags: ['Preguntas'],
             responses: {
                 200: {
                     description: 'Success',
@@ -16,7 +16,7 @@ module.exports = {
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: {type: 'integer'},
+                                                id: {type: 'string'},
                                                 question: {type: 'string'},
                                                 approved: {type: 'boolean'},
                                                 observation: {type: 'string'},
@@ -41,7 +41,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Questions'],
+            tags: ['Preguntas'],
             requestBody: {
                 description: 'The new  question to create',
                 required: true,
@@ -75,7 +75,7 @@ module.exports = {
                                     question: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             question: {type: 'string'},
                                             approved: {type: 'boolean'},
                                             observation: {type: 'string'},
@@ -101,13 +101,13 @@ module.exports = {
     '/api/questions/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Questions'],
+            tags: ['Preguntas'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -119,7 +119,7 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'integer'},
+                                id: {type: 'string'},
                                 question: {type: 'string'},
                                 approved: {type: 'boolean'},
                                 observation: {type: 'string'},
@@ -145,7 +145,7 @@ module.exports = {
                                     question: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             question: {type: 'string'},
                                             approved: {type: 'boolean'},
                                             observation: {type: 'string'},
@@ -169,13 +169,13 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Questions'],
+            tags: ['Preguntas'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -192,13 +192,13 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Questions'],
+            tags: ['Preguntas'],
             parameters: [
                 {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -213,7 +213,7 @@ module.exports = {
                                     question: {
                                         type: 'object',
                                         properties: {
-                                            id: {type: 'integer'},
+                                            id: {type: 'string'},
                                             question: {type: 'string'},
                                             approved: {type: 'boolean'},
                                             observation: {type: 'string'},
@@ -226,6 +226,28 @@ module.exports = {
                                     }
                                 }
                             }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/quiestions/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            operationId: 'downloadQuestionsCSV',
+            description: 'Returns questions in csv format',
+            tags: ['Preguntas'],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

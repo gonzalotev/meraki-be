@@ -1,10 +1,8 @@
 const { staticalVariable: staticalVariableModel } = include('models');
 const { dateToString } = include('util');
-const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const find = require('lodash/find');
-const toUpper = require('lodash/toUpper');
 
 class StaticalVariableService {
     static async fetch() {
@@ -39,14 +37,14 @@ class StaticalVariableService {
     }
     static async create(params, userCreator) {
         const formattedStaticalVariable = {
-            ID_VARIABLE: trim(params.id),
-            NOMBRE: toUpper(trim(params.name)),
-            ABREVIATURA: trim(params.abbreviation),
+            ID_VARIABLE: params.id,
+            NOMBRE: params.name,
+            ABREVIATURA: params.abbreviation,
             DIGITOS: params.digits,
-            OBSERVACION: trim(params.observation),
-            DOMINIO: trim(params.domain),
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
             SUPERVISADO: params.approved,
-            ID_PADRE: trim(params.id_father),
+            ID_PADRE: params.id_father,
             ID_USUARIO_ALTA: userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
@@ -77,14 +75,14 @@ class StaticalVariableService {
 
     static async update(filters, params){
         const formattedStaticalVariable = {
-            ID_VARIABLE: trim(params.id),
-            NOMBRE: toUpper(trim(params.name)),
-            ABREVIATURA: trim(params.abbreviation),
+            ID_VARIABLE: params.id,
+            NOMBRE: params.name,
+            ABREVIATURA: params.abbreviation,
             DIGITOS: params.digits,
-            OBSERVACION: trim(params.observation),
-            DOMINIO: trim(params.domain),
+            OBSERVACION: params.observation,
+            DOMINIO: params.domain,
             SUPERVISADO: params.approved,
-            ID_PADRE: trim(params.id_father),
+            ID_PADRE: params.id_father,
             ID_USUARIO_ALTA: params.userCreator,
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null,
