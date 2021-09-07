@@ -93,6 +93,10 @@ class StaticDataService {
                     this
                         .where('ID_NOMENCLADOR', filter.nomenclatorId);
                 }
+                if(filter && filter.nomenclatorId) {
+                    this
+                        .where('ID_NOMENCLADOR', filter.nomenclatorId);
+                }
             })
             .from('NOMENCLATURAS');
         return (data.nomenclatures = nomenclatures);
@@ -213,6 +217,18 @@ class StaticDataService {
             .orderBy([{column: 'ID_TIPO_OPERATIVO', order: 'asc'}]);
         data.operativeType = operativeType;
         return operativeType;
+    }
+    static async getOperators(data){
+        const operators = await knex.select({
+            id: 'ID_OPERADOR',
+            description: 'DESCRIPCION',
+            plSqlSign: 'SIGNO_PLSQL',
+            jsSign: 'SIGNO_JS'
+        })
+            .from('OPERADORES')
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+        data.operators = operators;
+        return operators;
     }
     static async getFrequency(data){
         const frequency = await knex.select({

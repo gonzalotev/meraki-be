@@ -12,15 +12,6 @@ module.exports = {
                         type: 'number',
                         default: 1
                     }
-                },
-                {
-                    in: 'query',
-                    name: 'id',
-                    required: false,
-                    schema: {
-                        type: 'number',
-                        default: 1
-                    }
                 }
             ],
             responses: {
