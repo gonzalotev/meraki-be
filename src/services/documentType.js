@@ -1,11 +1,10 @@
 const { documentType: documentTypeModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class DocumentTypeService {
     static async fetch() {
-        const documentsTypes = await documentTypeModel.find({FECHA_BAJA: null});
+        const documentsTypes = await documentTypeModel.find({ FECHA_BAJA: null });
         return documentsTypes.map(documentType => ({
             id: documentType.ID_TIPO_DOCUMENTO,
             description: documentType.DESCRIPCION,
@@ -46,8 +45,8 @@ class DocumentTypeService {
         };
     }
 
-    static async findOne(filters){
-        const documentType = await documentTypeModel.findById({ID_TIPO_DOCUMENTO: filters.id});
+    static async findOne(filters) {
+        const documentType = await documentTypeModel.findById({ ID_TIPO_DOCUMENTO: filters.id });
         return {
             id: documentType.ID_TIPO_DOCUMENTO,
             description: documentType.DESCRIPCION,
@@ -61,7 +60,7 @@ class DocumentTypeService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedDocumentType = {
             ID_TIPO_DOCUMENTO: trim(params.id),
             DESCRIPCION: trim(params.description),
@@ -73,7 +72,8 @@ class DocumentTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const documentType = await documentTypeModel.updateOne({ID_TIPO_DOCUMENTO: filters.id}, formattedDocumentType);
+        const documentType = await documentTypeModel.updateOne({ ID_TIPO_DOCUMENTO: filters.id },
+            formattedDocumentType);
         return {
             id: documentType.ID_TIPO_DOCUMENTO,
             description: documentType.DESCRIPCION,
@@ -87,8 +87,8 @@ class DocumentTypeService {
         };
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_TIPO_DOCUMENTO: filters.id};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_TIPO_DOCUMENTO: filters.id };
         const success = await documentTypeModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
@@ -96,49 +96,47 @@ class DocumentTypeService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_TIPO_DOCUMENTO',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = documentTypeModel.knex.select(tableHeaders)
+            const stream = documentTypeModel.knex.select(columns)
                 .from(documentTypeModel.tableName)
-                .orderBy([{column: 'ID_TIPO_DOCUMENTO', order: 'asc'}])
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function() {
-                resolve(csvString);
+            stream.on('end', function () {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_TIPO_DOCUMENTO',
+                modified: 'ID'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            }
+        ];
     }
 }
 

@@ -1,7 +1,6 @@
 const { assignmentRolesOperativeVariable: AssignmentRolesOperativeVariableModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class AssignmentRolesOperativeVariableService {
     static async fetch(query) {
@@ -141,73 +140,71 @@ class AssignmentRolesOperativeVariableService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'NOMBRE_USUARIO',
-                    nameInFile: 'USUARIO'
-                },
-                {
-                    nameInTable: 'ID_ROL_USUARIO',
-                    nameInFile: 'ROL'
-                },
-                {
-                    nameInTable: 'ID_OPERATIVO',
-                    nameInFile: 'ID DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'OPERATIVO',
-                    nameInFile: 'OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_LOTE',
-                    nameInFile: 'ID DE LOTE'
-                },
-                {
-                    nameInTable: 'LOTE',
-                    nameInFile: 'LOTE'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'VARIABLE',
-                    nameInFile: 'VARIABLE'
-                },
-                {
-                    nameInTable: 'SI_NO',
-                    nameInFile: 'SI_NO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = AssignmentRolesOperativeVariableModel.knex.select(tableHeaders)
+            const stream = AssignmentRolesOperativeVariableModel.knex.select(columns)
                 .from(AssignmentRolesOperativeVariableModel.tableName)
-                .orderBy([{column: 'NOMBRE_USUARIO', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'NOMBRE_USUARIO',
+                modified: 'USUARIO'
+            },
+            {
+                original: 'ID_ROL_USUARIO',
+                modified: 'ROL'
+            },
+            {
+                original: 'ID_OPERATIVO',
+                modified: 'ID DE OPERATIVO'
+            },
+            {
+                original: 'OPERATIVO',
+                modified: 'OPERATIVO'
+            },
+            {
+                original: 'ID_LOTE',
+                modified: 'ID DE LOTE'
+            },
+            {
+                original: 'LOTE',
+                modified: 'LOTE'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'ID DE VARIABLE'
+            },
+            {
+                original: 'VARIABLE',
+                modified: 'VARIABLE'
+            },
+            {
+                original: 'SI_NO',
+                modified: 'SI_NO'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

@@ -1,15 +1,17 @@
 const { WordsDictionaryService } = include('services');
 const toUpper = require('lodash/toUpper');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class WordsDictionaryController {
     static async fetch(req, res, next) {
         try {
-            const {page, search} = req.query;
+            const { page, search } = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const words = await WordsDictionaryService.fetch({page, search: searchValue});
-            const total = await WordsDictionaryService.getTotal({search: searchValue});
+            const words = await WordsDictionaryService.fetch({ page, search: searchValue });
+            const total = await WordsDictionaryService.getTotal({ search: searchValue });
             res.send({ words, total });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
@@ -18,7 +20,7 @@ class WordsDictionaryController {
         try {
             const matchWords = await WordsDictionaryService.findMatching(req.params);
             res.send({ matchWords });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
@@ -27,48 +29,58 @@ class WordsDictionaryController {
         try {
             const word = await WordsDictionaryService.findOne(req.params);
             res.send({ word });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async create(req, res, next){
+    static async create(req, res, next) {
         try {
             const word = await WordsDictionaryService.create(req.body, req.user.id);
             res.send({ success: true, word });
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async update(req, res, next){
-        try{
+    static async update(req, res, next) {
+        try {
             const word = await WordsDictionaryService.update(req.params, req.body);
-            res.send({success: true, word});
-        } catch(err){
+            res.send({ success: true, word });
+        } catch (err) {
             next(err);
         }
     }
 
-    static async delete(req, res, next){
+    static async delete(req, res, next) {
         try {
             const success = await WordsDictionaryService.delete(req.params, req.user.id);
-            if (success){
+            if (success) {
                 res.sendStatus(204);
-            }else{
+            } else {
                 res.sendStatus(400);
             }
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next) {
         try {
-            const stream = await WordsDictionaryService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
+            const originalColumns = map(WordsDictionaryService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Diccionario_de_Palabras');
+            const sheetColums = map(
+                WordsDictionaryService.getColumns(),
+                column => ({ key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await WordsDictionaryService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=Diccionario_de_Palabras.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, { sheetName: 'Diccionario_de_Palabras', formatterOptions: { delimiter: ';' } });
+        } catch (err) {
             next(err);
         }
     }

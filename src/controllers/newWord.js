@@ -1,13 +1,15 @@
 const { NewWordService, NewPhraseService, WordsDictionaryService, WordCorrectorService } = include('services');
 const knex = include('helpers/database');
 const isEmpty = require('lodash/isEmpty');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class NewWordController {
     static async fetch(req, res, next) {
         try {
             const newsWords = await NewWordService.fetch();
             const uniqueOperativeVariable =
-        await NewWordService.fetchOperativeVariables();
+                await NewWordService.fetchOperativeVariables();
             res.send({ newsWords, uniqueOperativeVariable });
         } catch (error) {
             next(error);
@@ -25,38 +27,38 @@ class NewWordController {
 
     static async create(req, res, next) {
         try {
-            const {newWord, dictionary, corrector} = req.body;
+            const { newWord, dictionary, corrector } = req.body;
             const response = {};
-            const {frequency, abc, word} = newWord;
+            const { frequency, abc, word } = newWord;
             const transaction = await knex.transaction();
-            if(dictionary){
+            if (dictionary) {
                 const createdDictionary = await WordsDictionaryService.create(
-                    {...dictionary, frequency, abc, word},
+                    { ...dictionary, frequency, abc, word },
                     req.user.id,
                     transaction
                 );
-                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: true}, transaction);
+                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: true }, transaction);
                 response.dictionary = createdDictionary;
                 response.newWord = updatedNewWord;
                 res.status(201);
-            } else if(corrector){
+            } else if (corrector) {
                 const createdCorrector = await WordCorrectorService.create(
-                    {...corrector, frequency, wrong: word},
+                    { ...corrector, frequency, wrong: word },
                     req.user.id,
                     transaction
                 );
-                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: true}, transaction);
+                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: true }, transaction);
                 response.corrector = createdCorrector;
                 response.newWord = updatedNewWord;
                 res.status(201);
             } else {
-                const updatedNewWord = await NewWordService.updateOne({...newWord, corrected: false}, transaction);
+                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: false }, transaction);
                 response.newWord = updatedNewWord;
                 res.status(200);
             }
             await transaction.commit();
             res.send(response);
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
@@ -95,7 +97,7 @@ class NewWordController {
         try {
             let phrases = [];
             const newWord = await NewWordService.findFirst(req.params);
-            if(!isEmpty(newWord)){
+            if (!isEmpty(newWord)) {
                 phrases = await NewPhraseService.fetch({ word: newWord.word });
             }
             res.send({ newWord, phrases });
@@ -104,12 +106,22 @@ class NewWordController {
         }
     }
 
-    static async downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next) {
         try {
-            const stream = await NewWordService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
+            const originalColumns = map(NewWordService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Nuevas_Palabras');
+            const sheetColums = map(
+                NewWordService.getColumns(),
+                column => ({ key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await NewWordService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=Nuevas_Palabras.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, { sheetName: 'Nuevas_Palabras', formatterOptions: { delimiter: ';' } });
+        } catch (err) {
             next(err);
         }
     }

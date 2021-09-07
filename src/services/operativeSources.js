@@ -1,5 +1,5 @@
 const { operativeSources } = include('models');
-const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
+const { dateToString, stringToDate } = include('util');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
 const find = require('lodash/find');
@@ -103,69 +103,67 @@ class OperativeSourcesService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'NOMBRE',
-                    nameInFile: 'NOMBRE'
-                },
-                {
-                    nameInTable: 'SIGLA',
-                    nameInFile: 'SIGLA'
-                },
-                {
-                    nameInTable: 'ID_TIPO_OPERATIVO',
-                    nameInFile: 'TIPO DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_FRECUENCIA',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'FECHA_DESDE',
-                    nameInFile: 'DESDE'
-                },
-                {
-                    nameInTable: 'FECHA_HASTA',
-                    nameInFile: 'HASTA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-
-            const operativeSourcesTableHeaders = map(fieldNames, field => field.nameInTable);
-            const operativeSourcesFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(operativeSourcesFileHeaders);
-            csvString += headers;
-            const stream = operativeSources.knex.select(operativeSourcesTableHeaders)
+            const stream = operativeSources.knex.select(columns)
                 .from(operativeSources.tableName)
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_FUENTE',
+                modified: 'ID'
+            },
+            {
+                original: 'NOMBRE',
+                modified: 'NOMBRE'
+            },
+            {
+                original: 'SIGLA',
+                modified: 'SIGLA'
+            },
+            {
+                original: 'ID_TIPO_OPERATIVO',
+                modified: 'TIPO DE OPERATIVO'
+            },
+            {
+                original: 'ID_FRECUENCIA',
+                modified: 'FRECUENCIA'
+            },
+            {
+                original: 'FECHA_DESDE',
+                modified: 'DESDE'
+            },
+            {
+                original: 'FECHA_HASTA',
+                modified: 'HASTA'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            }
+        ];
     }
 
     static async fetchIfExist(Model, id, filters = {}){

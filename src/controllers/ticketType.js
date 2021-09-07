@@ -1,4 +1,6 @@
 const { TicketTypeService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class TicketTypeController {
     static async fetch(req, res, next) {
@@ -6,7 +8,7 @@ class TicketTypeController {
             const ticketsTypes = await TicketTypeService.fetch(req.query);
             const total = await TicketTypeService.getTotal({});
             res.send({ ticketsTypes, total });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
@@ -15,49 +17,59 @@ class TicketTypeController {
         try {
             const ticketType = await TicketTypeService.findOne(req.params);
             res.send({ ticketType });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async create(req, res, next){
+    static async create(req, res, next) {
         try {
             const ticketType = await TicketTypeService.create(req.body, req.user.id);
             res.status(201);
             res.send({ ticketType });
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async update(req, res, next){
+    static async update(req, res, next) {
         try {
             const ticketType = await TicketTypeService.update(req.params, req.body);
-            res.send({ticketType});
-        } catch(err){
+            res.send({ ticketType });
+        } catch (err) {
             next(err);
         }
     }
 
-    static async delete(req, res, next){
+    static async delete(req, res, next) {
         try {
             const success = await TicketTypeService.delete(req.params, req.user.id);
-            if(success){
+            if (success) {
                 res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next) {
         try {
-            const stream = await TicketTypeService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
+            const originalColumns = map(TicketTypeService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Tipos_Ticket');
+            const sheetColums = map(
+                TicketTypeService.getColumns(),
+                column => ({ key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await TicketTypeService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=Tipos_Ticket.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, { sheetName: 'Tipos_Ticket', formatterOptions: { delimiter: ';' } });
+        } catch (err) {
             next(err);
         }
     }

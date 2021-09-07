@@ -1,5 +1,5 @@
 const { newWord: newWordModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 
@@ -16,11 +16,11 @@ class NewWordService {
             createdAt: dateToString(newWord.FECHA_ALTA)
         }));
     }
-    static async fetchOperativeVariables(){
+    static async fetchOperativeVariables() {
         const operatives = await newWordModel.getOperatives();
         const operativeVariables = await Promise.all(map(operatives, async operative => {
             const variables = await newWordModel.getVariables(operative.id);
-            return {...operative, variables};
+            return { ...operative, variables };
         }));
         return operativeVariables;
     }
@@ -39,7 +39,7 @@ class NewWordService {
         }));
         return data.words = words;
     }
-    static async find(filters){
+    static async find(filters) {
         const newWord = await newWordModel.findById({
             ID_OPERATIVO: filters.operativeId,
             ID_VARIABLE: filters.variableId
@@ -54,7 +54,7 @@ class NewWordService {
             createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
-    static async findFirst(filters){
+    static async findFirst(filters) {
         const newWord = await newWordModel.findOne({
             ID_OPERATIVO: filters.operative,
             ID_VARIABLE: filters.variable,
@@ -94,7 +94,7 @@ class NewWordService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedNewWord = {
             ID_OPERATIVO: trim(params.operativeId),
             ID_VARIABLE: trim(params.variableId),
@@ -105,7 +105,7 @@ class NewWordService {
             FECHA_ALTA: new Date()
         };
         const newWord = await newWordModel.updateOne(
-            {ID_OPERATIVO: filters.operativeId, ID_VARIABLE: filters.variableId},
+            { ID_OPERATIVO: filters.operativeId, ID_VARIABLE: filters.variableId },
             formattedNewWord);
         return {
             operativeId: newWord.ID_OPERATIVO,
@@ -117,7 +117,7 @@ class NewWordService {
             createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
-    static async updateOne(params){
+    static async updateOne(params) {
         const formattedNewWord = {
             FRECUENCIAS: trim(params.frecuency),
             ABC: params.abc,
@@ -139,8 +139,8 @@ class NewWordService {
             createdAt: dateToString(newWord.FECHA_ALTA)
         };
     }
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_OPERATIVO: filters.operativeId, ID_VARIABLE: filters.variableId};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_OPERATIVO: filters.operativeId, ID_VARIABLE: filters.variableId };
         const success = await newWordModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
@@ -148,57 +148,55 @@ class NewWordService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_OPERATIVO',
-                    nameInFile: 'ID DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'NUEVAS_PALABRAS',
-                    nameInFile: 'PALABRA NUEVA'
-                },
-                {
-                    nameInTable: 'FRECUENCIAS',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'ABC',
-                    nameInFile: 'CURVA ABC'
-                },
-                {
-                    nameInTable: 'CORREGIDA',
-                    nameInFile: 'CORREGIDA'
-                },
-                {
-                    nameInTable: 'FECHA_ALTA',
-                    nameInFile: 'FECHA DE ALTA'
-                }
-            ];
-            const newWordTableHeaders = map(fieldNames, field => field.nameInTable);
-            const newWordFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(newWordFileHeaders);
-            csvString += headers;
-            const stream = newWordModel.knex.select(newWordTableHeaders)
+            const stream = newWordModel.knex.select(columns)
                 .from(newWordModel.tableName)
-                .orderBy([{column: 'NUEVAS_PALABRAS', order: 'asc'}])
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function() {
-                resolve(csvString);
+            stream.on('end', function () {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_OPERATIVO',
+                modified: 'ID DE OPERATIVO'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'ID DE VARIABLE'
+            },
+            {
+                original: 'NUEVAS_PALABRAS',
+                modified: 'PALABRA NUEVA'
+            },
+            {
+                original: 'FRECUENCIAS',
+                modified: 'FRECUENCIA'
+            },
+            {
+                original: 'ABC',
+                modified: 'CURVA ABC'
+            },
+            {
+                original: 'CORREGIDA',
+                modified: 'CORREGIDA'
+            },
+            {
+                original: 'FECHA_ALTA',
+                modified: 'FECHA DE ALTA'
+            }
+        ];
     }
 }
 

@@ -1,7 +1,6 @@
 const { OperativeStructure } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class OperativeStructureService {
     static async fetch({page, operative}) {
@@ -82,97 +81,9 @@ class OperativeStructureService {
         return result.total;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_OPERATIVO',
-                    nameInFile: 'ID DE OPERATIVO'
-                },
-                {
-                    nameInTable: 'ID_ESTRUCTURA',
-                    nameInFile: 'ID DE ESTRUCTURA'
-                },
-                {
-                    nameInTable: 'NOMBRE_ORIGINAL',
-                    nameInFile: 'NOMBRE ORIGINAL'
-                },
-                {
-                    nameInTable: 'ID_NOMBRE_CAMPO_ENTRADA',
-                    nameInFile: 'CAMPO DE ENTRADA'
-                },
-                {
-                    nameInTable: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL',
-                    nameInFile: 'CAMPO AUXILIAR ORIGINAL'
-                },
-                {
-                    nameInTable: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL',
-                    nameInFile: 'CAMPO AUXILIAR FINAL'
-                },
-                {
-                    nameInTable: 'DESCRIPCION_VARIABLE',
-                    nameInFile: 'DESCRIPCION DE VARIABLE'
-                },
-                {
-                    nameInTable: 'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
-                    nameInFile: 'SE MUESTRA EN PANTALLA'
-                },
-                {
-                    nameInTable: 'ES_PARTE_DEL_ID',
-                    nameInFile: 'ES PARTE DEL ID'
-                },
-                {
-                    nameInTable: 'ID_TIPO_DE_DATO',
-                    nameInFile: 'TIPO DE DATO'
-                },
-                {
-                    nameInTable: 'TAMANIO_DATO',
-                    nameInFile: 'TAMAÑO DE DATO'
-                },
-                {
-                    nameInTable: 'TIENE_DECIMALES',
-                    nameInFile: 'TIENE DECIMALES'
-                },
-                {
-                    nameInTable: 'DECIMALES',
-                    nameInFile: 'DECIMALES'
-                },
-                {
-                    nameInTable: 'POSICION_INICIAL',
-                    nameInFile: 'POSICION INICIAL'
-                },
-                {
-                    nameInTable: 'POSICION_FINAL',
-                    nameInFile: 'POSICION FINAL'
-                },
-                {
-                    nameInTable: 'HAY_CONVERSION_DATO',
-                    nameInFile: 'HAY CONVERSION DE DATO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACION'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID DE FUENTE'
-                },
-                {
-                    nameInTable: 'ID_PREGUNTA',
-                    nameInFile: 'ID DE PREGUNTA'
-                }
-            ];
-
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = OperativeStructure.knex.select(tableHeaders)
+            const stream = OperativeStructure.knex.select(columns)
                 .from(OperativeStructure.tableName)
                 .where({FECHA_BAJA: null})
                 .stream();
@@ -180,12 +91,97 @@ class OperativeStructureService {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_OPERATIVO',
+                modified: 'ID DE OPERATIVO'
+            },
+            {
+                original: 'ID_ESTRUCTURA',
+                modified: 'ID DE ESTRUCTURA'
+            },
+            {
+                original: 'NOMBRE_ORIGINAL',
+                modified: 'NOMBRE ORIGINAL'
+            },
+            {
+                original: 'ID_NOMBRE_CAMPO_ENTRADA',
+                modified: 'CAMPO DE ENTRADA'
+            },
+            {
+                original: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL',
+                modified: 'CAMPO AUXILIAR ORIGINAL'
+            },
+            {
+                original: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL',
+                modified: 'CAMPO AUXILIAR FINAL'
+            },
+            {
+                original: 'DESCRIPCION_VARIABLE',
+                modified: 'DESCRIPCION DE VARIABLE'
+            },
+            {
+                original: 'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
+                modified: 'SE MUESTRA EN PANTALLA'
+            },
+            {
+                original: 'ES_PARTE_DEL_ID',
+                modified: 'ES PARTE DEL ID'
+            },
+            {
+                original: 'ID_TIPO_DE_DATO',
+                modified: 'TIPO DE DATO'
+            },
+            {
+                original: 'TAMANIO_DATO',
+                modified: 'TAMAÑO DE DATO'
+            },
+            {
+                original: 'TIENE_DECIMALES',
+                modified: 'TIENE DECIMALES'
+            },
+            {
+                original: 'DECIMALES',
+                modified: 'DECIMALES'
+            },
+            {
+                original: 'POSICION_INICIAL',
+                modified: 'POSICION INICIAL'
+            },
+            {
+                original: 'POSICION_FINAL',
+                modified: 'POSICION FINAL'
+            },
+            {
+                original: 'HAY_CONVERSION_DATO',
+                modified: 'HAY CONVERSION DE DATO'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACION'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'ID_FUENTE',
+                modified: 'ID DE FUENTE'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'ID DE PREGUNTA'
+            }
+        ];
     }
 
     static rebaseFormat(structure) {

@@ -1,7 +1,6 @@
 const { dictionaryLinguistic } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 const toUpper = require('lodash/toUpper');
 
 class DictionaryLinguisticService {
@@ -147,57 +146,55 @@ class DictionaryLinguisticService {
         return total;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'DESCRIPCION_ORIGINAL',
-                    nameInFile: 'DESCRIPCIÓN ORIGINAL'
-                },
-                {
-                    nameInTable: 'DESCRIPCION_DESTINO',
-                    nameInFile: 'DESCRIPCIÓN DESTINO'
-                },
-                {
-                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                    nameInFile: 'ID DE TIPOLOGÍA DICCIONARIO'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = dictionaryLinguistic.knex.select(tableHeaders)
+            const stream = dictionaryLinguistic.knex.select(columns)
                 .from(dictionaryLinguistic.tableName)
-                .orderBy([{column: 'DESCRIPCION_ORIGINAL', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'DESCRIPCION_ORIGINAL',
+                modified: 'DESCRIPCIÓN ORIGINAL'
+            },
+            {
+                original: 'DESCRIPCION_DESTINO',
+                modified: 'DESCRIPCIÓN DESTINO'
+            },
+            {
+                original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                modified: 'ID DE TIPOLOGÍA DICCIONARIO'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'ID DE VARIABLE'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

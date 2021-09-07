@@ -1,7 +1,6 @@
 const { operativeLot: operativeLotModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class OperativeLotService {
     static async fetch() {
@@ -79,49 +78,47 @@ class OperativeLotService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_TIPO_FRASE_ESPECIAL',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = operativeLotModel.knex.select(tableHeaders)
+            const stream = operativeLotModel.knex.select(columns)
                 .from(operativeLotModel.tableName)
-                .orderBy([{column: 'ID_TIPO_FRASE_ESPECIAL', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_TIPO_FRASE_ESPECIAL',
+                modified: 'ID'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            }
+        ];
     }
 }
 

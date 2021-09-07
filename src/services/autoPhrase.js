@@ -1,5 +1,5 @@
 const { autoPhrase: autoPhraseModel } = include('models');
-const { dateToString, arrayToCsvFormat, stringToDate, dateTimeToStrings } = include('util');
+const { dateToString, stringToDate, dateTimeToStrings } = include('util');
 const StaticalVariableService = require('./staticalVariable');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
@@ -144,65 +144,55 @@ class AutoPhraseService {
         });
     }
 
-    static getCsv() {
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_AUTOFRASE',
-                    nameInFile: 'ID DE AUTOFRASE'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'FRASE_FINAL',
-                    nameInFile: 'FRASE FINAL'
-                },
-                {
-                    nameInTable: 'ID_DEPENDE_ID_AUTOFRASE',
-                    nameInFile: 'DEPENDE AUTOFRASE'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'FECHA_RETROALIMENTACION',
-                    nameInFile: 'FECHA DE RETROALIMENTACIÓN'
-                },
-                {
-                    nameInTable: 'FRASE_RETROALIMENTADA_SI_NO',
-                    nameInFile: 'FRASE_RETROALIMENTADA_SI_NO'
-                }
-            ];
-            const autoPhraseTableHeaders = map(fieldNames, field => field.nameInTable);
-            const autoPhraseFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(autoPhraseFileHeaders);
-            csvString += headers;
-            const stream = autoPhraseModel.knex.select(autoPhraseTableHeaders)
+            const stream = autoPhraseModel.knex.select(columns)
                 .from(autoPhraseModel.tableName)
-                .orderBy([{ column: 'FRASE_FINAL', order: 'asc' }])
+                .where({FECHA_BAJA: null})
                 .stream();
-            stream.on('error', function (err) {
+            stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function (data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function () {
-                resolve(csvString);
+            stream.on('end', function() {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_AUTOFRASE',
+                modified: 'id'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'variableId'
+            },
+            {
+                original: 'FRASE_FINAL',
+                modified: 'finalPhrase'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'ID_DEPENDE_ID_AUTOFRASE',
+                modified: 'dependId'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
+            }
+        ];
     }
 }
 

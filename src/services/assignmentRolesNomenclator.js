@@ -1,7 +1,6 @@
 const { assignmentRolesNomenclator: assignmentRolesNomenclatorModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class AssignmentRolesNomenclatorService {
     static async fetch(query) {
@@ -154,57 +153,55 @@ class AssignmentRolesNomenclatorService {
         }));
     }
 
-    static getCsv() {
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'NOMBRE_USUARIO',
-                    nameInFile: 'USUARIO'
-                },
-                {
-                    nameInTable: 'ID_ROL_USUARIO',
-                    nameInFile: 'ROL'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE CLASIFICADOR'
-                },
-                {
-                    nameInTable: 'CLASIFICADOR',
-                    nameInFile: 'CLASIFICADOR'
-                },
-                {
-                    nameInTable: 'SI_NO',
-                    nameInFile: 'SI_NO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = assignmentRolesNomenclatorModel.knex.select(tableHeaders)
+            const stream = assignmentRolesNomenclatorModel.knex.select(columns)
                 .from(assignmentRolesNomenclatorModel.tableName)
-                .orderBy([{ column: 'NOMBRE_USUARIO', order: 'asc' }])
+                .where({FECHA_BAJA: null})
                 .stream();
-            stream.on('error', function (err) {
+            stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function (data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function () {
-                resolve(csvString);
+            stream.on('end', function() {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_ROL_USUARIO',
+                modified: 'id'
+            },
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'nomenclatorId'
+            },
+            {
+                original: 'CLASIFICADOR',
+                modified: 'nomenclator'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'ID_USUARIO',
+                modified: 'userId'
+            },
+            {
+                original: 'SI_NO',
+                modified: 'yes_no'
+            },
+            {
+                original: 'NOMBRE_USUARIO',
+                modified: 'userName'
+            }
+        ];
     }
 }
 

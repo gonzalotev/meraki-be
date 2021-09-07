@@ -231,28 +231,12 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Editors'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

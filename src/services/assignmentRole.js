@@ -1,8 +1,7 @@
 const { assignmentRole: assignmentRoleModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const ArqService = require('./arq');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class AssignmentRoleService {
     static async fetch({ page, token }) {
@@ -73,8 +72,8 @@ class AssignmentRoleService {
         };
     }
 
-    static async getTotal(){
-        const { total } = await assignmentRoleModel.countTotal({FECHA_BAJA: null});
+    static async getTotal() {
+        const { total } = await assignmentRoleModel.countTotal({ FECHA_BAJA: null });
         return total;
     }
 
@@ -91,7 +90,7 @@ class AssignmentRoleService {
         };
         const returnValues = ['ID_ROL_USUARIO', 'ID_USUARIO'];
         const assignmentIds = await assignmentRoleModel.updateOne(
-            { ID_ROL_USUARIO: roleId, ID_USUARIO: userId},
+            { ID_ROL_USUARIO: roleId, ID_USUARIO: userId },
             formattedAssignmentRole,
             returnValues
         );
@@ -102,7 +101,7 @@ class AssignmentRoleService {
     }
 
     static async delete({ userId, roleId }) {
-        const formattedFilters = { ID_ROL_USUARIO: roleId, ID_USUARIO: userId};
+        const formattedFilters = { ID_ROL_USUARIO: roleId, ID_USUARIO: userId };
         const success = await assignmentRoleModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date()
         });
@@ -113,21 +112,21 @@ class AssignmentRoleService {
         let roles = [];
         if (assigned) {
             roles = await assignmentRoleModel.knex('TIPOS_DE_ROLES')
-                .whereExists(function() {
+                .whereExists(function () {
                     this.select('*').from(assignmentRoleModel.tableName)
                         .whereRaw(`TIPOS_DE_ROLES.ID_ROL_USUARIO = ${assignmentRoleModel.tableName}.ID_ROL_USUARIO`)
                         .andWhere('ROLES_SICI.ID_USUARIO', '=', userId)
-                        .andWhere({ID_USUARIO: userId, FECHA_BAJA: null});
+                        .andWhere({ ID_USUARIO: userId, FECHA_BAJA: null });
                 })
-                .orderBy([{column: 'ID_ROL_USUARIO', order: 'asc'}]);
+                .orderBy([{ column: 'ID_ROL_USUARIO', order: 'asc' }]);
         } else {
             roles = await assignmentRoleModel.knex('TIPOS_DE_ROLES')
-                .whereNotExists(function() {
+                .whereNotExists(function () {
                     this.select('*').from(assignmentRoleModel.tableName)
                         .whereRaw(`TIPOS_DE_ROLES.ID_ROL_USUARIO = ${assignmentRoleModel.tableName}.ID_ROL_USUARIO`)
-                        .andWhere({ID_USUARIO: userId, FECHA_BAJA: null});
+                        .andWhere({ ID_USUARIO: userId, FECHA_BAJA: null });
                 })
-                .orderBy([{column: 'ID_ROL_USUARIO', order: 'asc'}]);
+                .orderBy([{ column: 'ID_ROL_USUARIO', order: 'asc' }]);
         }
         return roles.map(role => ({
             id: role.ID_ROL_USUARIO,
@@ -135,49 +134,51 @@ class AssignmentRoleService {
         }));
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'NOMBRE_USUARIO',
-                    nameInFile: 'USUARIO'
-                },
-                {
-                    nameInTable: 'ID_ROL_USUARIO',
-                    nameInFile: 'ROL'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = assignmentRoleModel.knex.select(tableHeaders)
+            const stream = assignmentRoleModel.knex.select(columns)
                 .from(assignmentRoleModel.tableName)
-                .orderBy([{column: 'NOMBRE_USUARIO', order: 'asc'}])
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function() {
-                resolve(csvString);
+            stream.on('end', function () {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_ROL_USUARIO',
+                modified: 'id'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'description'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'ID_USUARIO',
+                modified: 'userId'
+            },
+            {
+                original: 'NOMBRE_USUARIO',
+                modified: 'userName'
+            }
+        ];
     }
 }
 

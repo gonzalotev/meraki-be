@@ -4,9 +4,8 @@ const NomenclatorsService = require('./nomenclators');
 const QuestionsTypeService = require('./questionType');
 const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 const toNumber = require('lodash/toNumber');
 
 class SourceQuestionRelationService {
@@ -164,85 +163,84 @@ class SourceQuestionRelationService {
         }
         return result.total;
     }
-    static getCsv(){
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID DE FUENTE'
-                },
-                {
-                    nameInTable: 'ID_PREGUNTA',
-                    nameInFile: 'ID DE PREGUNTA'
-                },
-                {
-                    nameInTable: 'CODIGO_PREGUNTA',
-                    nameInFile: 'CODIGO DE PREGUNTA'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE NOMENCLADOR'
-                },
-                {
-                    nameInTable: 'ID_ABIERTA_CERRADA',
-                    nameInFile: 'PREGUNTA ABIERTA O CERRADA'
-                },
-                {
-                    nameInTable: 'ES_OBLIGATORIA_SI_NO',
-                    nameInFile: 'ES OBLIGATORIA'
-                },
-                {
-                    nameInTable: 'SE_CODIFICA_SI_NO',
-                    nameInFile: 'SE CODIFICA'
-                },
-                {
-                    nameInTable: 'ES_AUXILIAR_SI_NO',
-                    nameInFile: 'ES AUXILIAR'
-                },
-                {
-                    nameInTable: 'PASAR_A_PROCESAMIENTO_SI_NO',
-                    nameInFile: 'SE PROCESA'
-                },
-                {
-                    nameInTable: 'NECESITA_AUXILIARES_SI_NO',
-                    nameInFile: 'NECESITA AUXILIAR'
-                },
-                {
-                    nameInTable: 'AUTOFRASE_LEER_SI_NO',
-                    nameInFile: 'LEER AUTOFRASE'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
 
-            const sourceQuestionRelationTableHeaders = map(fieldNames, field => field.nameInTable);
-            const sourceQuestionRelationFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(sourceQuestionRelationFileHeaders);
-            csvString += headers;
-            const stream = sourceQuestionRelation.knex.select(sourceQuestionRelationTableHeaders)
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = sourceQuestionRelation.knex.select(columns)
                 .from(sourceQuestionRelation.tableName)
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_FUENTE',
+                modified: 'ID DE FUENTE'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'ID DE PREGUNTA'
+            },
+            {
+                original: 'CODIGO_PREGUNTA',
+                modified: 'CODIGO DE PREGUNTA'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'ID DE VARIABLE'
+            },
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'ID DE NOMENCLADOR'
+            },
+            {
+                original: 'ID_ABIERTA_CERRADA',
+                modified: 'PREGUNTA ABIERTA O CERRADA'
+            },
+            {
+                original: 'ES_OBLIGATORIA_SI_NO',
+                modified: 'ES OBLIGATORIA'
+            },
+            {
+                original: 'SE_CODIFICA_SI_NO',
+                modified: 'SE CODIFICA'
+            },
+            {
+                original: 'ES_AUXILIAR_SI_NO',
+                modified: 'ES AUXILIAR'
+            },
+            {
+                original: 'PASAR_A_PROCESAMIENTO_SI_NO',
+                modified: 'SE PROCESA'
+            },
+            {
+                original: 'NECESITA_AUXILIARES_SI_NO',
+                modified: 'NECESITA AUXILIAR'
+            },
+            {
+                original: 'AUTOFRASE_LEER_SI_NO',
+                modified: 'LEER AUTOFRASE'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

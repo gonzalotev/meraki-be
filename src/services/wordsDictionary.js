@@ -1,15 +1,14 @@
 const { wordsDictionary } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
-const map = require('lodash/map');
-const trim = require ('lodash/trim');
+const { dateToString } = include('util');
+const trim = require('lodash/trim');
 
 class WordsDictionaryService {
-    static async fetch({page, search}) {
-        const orderBy = [{column: 'PALABRA', order: 'asc'}];
-        const filterBy = {FECHA_BAJA: null};
+    static async fetch({ page, search }) {
+        const orderBy = [{ column: 'PALABRA', order: 'asc' }];
+        const filterBy = { FECHA_BAJA: null };
         const columnsToSelect = wordsDictionary.selectableProps;
-        let words=[];
-        if(page && search) {
+        let words = [];
+        if (page && search) {
             words = await wordsDictionary.findByMatch(
                 page,
                 search,
@@ -17,7 +16,7 @@ class WordsDictionaryService {
                 filterBy,
                 orderBy
             );
-        } else if(page){
+        } else if (page) {
             words = await wordsDictionary.findByPage(
                 page,
                 filterBy,
@@ -85,12 +84,12 @@ class WordsDictionaryService {
             FAMILIA: trim(params.family)
         };
         const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
-        const word = await WordsDictionaryService.findOne({word: wordId});
+        const word = await WordsDictionaryService.findOne({ word: wordId });
         return word;
     }
 
-    static async findOne(filters){
-        const formattedFilters = {PALABRA: filters.word};
+    static async findOne(filters) {
+        const formattedFilters = { PALABRA: filters.word };
         const word = await wordsDictionary.findById(formattedFilters);
         return {
             word: word.PALABRA,
@@ -121,8 +120,8 @@ class WordsDictionaryService {
         };
     }
 
-    static async findMatching(filters){
-        const formattedFilters = {PALABRA: filters.word, FECHA_BAJA: null};
+    static async findMatching(filters) {
+        const formattedFilters = { PALABRA: filters.word, FECHA_BAJA: null };
         const matchWords = await wordsDictionary.findByMatch(formattedFilters);
         return matchWords.map(words => ({
             word: words.PALABRA,
@@ -153,7 +152,7 @@ class WordsDictionaryService {
         }));
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedWord = {
             PALABRA: params.word,
             TRUNCADO: params.truncate,
@@ -177,128 +176,126 @@ class WordsDictionaryService {
             ABC: params.abc,
             FAMILIA: params.family
         };
-        const wordId = await wordsDictionary.updateOne({PALABRA: filters.word}, formattedWord, ['PALABRA']);
-        const word = await WordsDictionaryService.findOne({id: wordId});
+        const wordId = await wordsDictionary.updateOne({ PALABRA: filters.word }, formattedWord, ['PALABRA']);
+        const word = await WordsDictionaryService.findOne({ id: wordId });
         return word;
     }
 
-    static async delete(filters, userDeleted){
-        const success = await wordsDictionary.deleteOne({PALABRA: filters.word}, {
+    static async delete(filters, userDeleted) {
+        const success = await wordsDictionary.deleteOne({ PALABRA: filters.word }, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
     }
 
-    static async checkIfAllWordsExist(words){
+    static async checkIfAllWordsExist(words) {
         const wordsFound = await wordsDictionary.findWords(words);
         return { wordsFound };
     }
 
-    static async getTotal({search}){
-        const { total } = await wordsDictionary.countTotal({FECHA_BAJA: null}, search, ['PALABRA']);
+    static async getTotal({ search }) {
+        const { total } = await wordsDictionary.countTotal({ FECHA_BAJA: null }, search, ['PALABRA']);
         return total;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'PALABRA',
-                    nameInFile: 'PALABRA'
-                },
-                {
-                    nameInTable: 'TRUNCADO',
-                    nameInFile: 'TRUNCADO'
-                },
-                {
-                    nameInTable: 'ACRONIMO',
-                    nameInFile: 'ACRÓNIMO'
-                },
-                {
-                    nameInTable: 'VERBO',
-                    nameInFile: 'VERBO'
-                },
-                {
-                    nameInTable: 'SUSTANTIVO',
-                    nameInFile: 'SUSTANTIVO'
-                },
-                {
-                    nameInTable: 'ADJETIVO',
-                    nameInFile: 'ADJETIVO'
-                },
-                {
-                    nameInTable: 'ADVERBIO',
-                    nameInFile: 'ADVERBIO'
-                },
-                {
-                    nameInTable: 'PRONOMBRE',
-                    nameInFile: 'PRONOMBRE'
-                },
-                {
-                    nameInTable: 'ARTICULO',
-                    nameInFile: 'ARTÍCULO'
-                },
-                {
-                    nameInTable: 'PREPOSICION',
-                    nameInFile: 'PREPOSICIÓN'
-                },
-                {
-                    nameInTable: 'PALABRA_DUDOSA',
-                    nameInFile: 'PALABRA DUDOSA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'ID_GENERO_NUMERO',
-                    nameInFile: 'ID GENERO Y NÚMERO'
-                },
-                {
-                    nameInTable: 'ID_NUMERO',
-                    nameInFile: 'ID NUMERO'
-                },
-                {
-                    nameInTable: 'FRECUENCIA',
-                    nameInFile: 'FRECUENCIA'
-                },
-                {
-                    nameInTable: 'ABC',
-                    nameInFile: 'CURVA ABC'
-                },
-                {
-                    nameInTable: 'FAMILIA',
-                    nameInFile: 'FAMILIA'
-                }
-            ];
-            const wordsDictionaryTableHeaders = map(fieldNames, field => field.nameInTable);
-            const wordsDictionaryFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(wordsDictionaryFileHeaders);
-            csvString += headers;
-            const stream = wordsDictionary.knex.select(wordsDictionaryTableHeaders)
+            const stream = wordsDictionary.knex.select(columns)
                 .from(wordsDictionary.tableName)
-                .orderBy([{column: 'PALABRA', order: 'asc'}])
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function() {
-                resolve(csvString);
+            stream.on('end', function () {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'PALABRA',
+                modified: 'PALABRA'
+            },
+            {
+                original: 'TRUNCADO',
+                modified: 'TRUNCADO'
+            },
+            {
+                original: 'ACRONIMO',
+                modified: 'ACRÓNIMO'
+            },
+            {
+                original: 'VERBO',
+                modified: 'VERBO'
+            },
+            {
+                original: 'SUSTANTIVO',
+                modified: 'SUSTANTIVO'
+            },
+            {
+                original: 'ADJETIVO',
+                modified: 'ADJETIVO'
+            },
+            {
+                original: 'ADVERBIO',
+                modified: 'ADVERBIO'
+            },
+            {
+                original: 'PRONOMBRE',
+                modified: 'PRONOMBRE'
+            },
+            {
+                original: 'ARTICULO',
+                modified: 'ARTÍCULO'
+            },
+            {
+                original: 'PREPOSICION',
+                modified: 'PREPOSICIÓN'
+            },
+            {
+                original: 'PALABRA_DUDOSA',
+                modified: 'PALABRA DUDOSA'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            },
+            {
+                original: 'ID_GENERO_NUMERO',
+                modified: 'ID GENERO Y NÚMERO'
+            },
+            {
+                original: 'ID_NUMERO',
+                modified: 'ID NUMERO'
+            },
+            {
+                original: 'FRECUENCIA',
+                modified: 'FRECUENCIA'
+            },
+            {
+                original: 'ABC',
+                modified: 'CURVA ABC'
+            },
+            {
+                original: 'FAMILIA',
+                modified: 'FAMILIA'
+            }
+        ];
     }
 }
 

@@ -241,52 +241,12 @@ module.exports = {
         delete: {
             security: [{bearerAuth: []}],
             tags: ['Relationship Autophrase Question Closed'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'autophraseId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                }
-            ],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    relationship: {
-                                        type: 'object',
-                                        properties: {
-                                            autophraseId: {type: 'integer'},
-                                            sourceId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
-                                            abreviation: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

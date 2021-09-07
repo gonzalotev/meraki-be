@@ -261,29 +261,15 @@ module.exports = {
     '/api/assignmentRoles/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
+            operationId: 'downloadAssignmentRoles',
+            description: 'Returns assignment roles in csv format',
             tags: ['Assignment Roles'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

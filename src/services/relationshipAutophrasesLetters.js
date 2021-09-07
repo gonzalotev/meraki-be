@@ -3,9 +3,8 @@ const AutoPhraseService = require('./autoPhrase');
 const NomenclaturesGroupingService = require('./nomenclaturesGroupings');
 const NomenclatorsService = require('./nomenclators');
 const NomenclatorsGroupingService = require('./nomenclatorsGroupings');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class RelationshipAutophrasesLetterService {
     static async fetch() {
@@ -130,56 +129,55 @@ class RelationshipAutophrasesLetterService {
         return result.total;
     }
 
-    static getCsv() {
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE NOMENCLADOR'
-                },
-                {
-                    nameInTable: 'ID_AGRUPACION',
-                    nameInFile: 'ID AGRUPACION'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLATURA_AGRUPACION',
-                    nameInFile: 'ID NOMENCLATURA AGRUPACION'
-                },
-                {
-                    nameInTable: 'ID_AUTOFRASE',
-                    nameInFile: 'ID DE AUTOFRASE'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = relationshipAutophrasesLetterModel.knex.select(tableHeaders)
+            const stream = relationshipAutophrasesLetterModel.knex.select(columns)
                 .from(relationshipAutophrasesLetterModel.tableName)
+                .where({FECHA_BAJA: null})
                 .stream();
-            stream.on('error', function (err) {
+            stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function (data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function () {
-                resolve(csvString);
+            stream.on('end', function() {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'ID DE NOMENCLADOR'
+            },
+            {
+                original: 'ID_AGRUPACION',
+                modified: 'ID AGRUPACION'
+            },
+            {
+                original: 'ID_NOMENCLATURA_AGRUPACION',
+                modified: 'ID NOMENCLATURA AGRUPACION'
+            },
+            {
+                original: 'ID_AUTOFRASE',
+                modified: 'ID DE AUTOFRASE'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            }
+        ];
     }
 }
 

@@ -1,7 +1,6 @@
 const { organizationType: organizationTypeModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class OrganizationTypeService {
     static async fetch() {
@@ -103,53 +102,51 @@ class OrganizationTypeService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_TIPO_ORGANIZACION',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = organizationTypeModel.knex.select(tableHeaders)
+            const stream = organizationTypeModel.knex.select(columns)
                 .from(organizationTypeModel.tableName)
-                .orderBy([{column: 'ID_TIPO_ORGANIZACION', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_TIPO_ORGANIZACION',
+                modified: 'ID'
+            },
+            {
+                original: 'ABREVIATURA',
+                modified: 'ABREVIATURA'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

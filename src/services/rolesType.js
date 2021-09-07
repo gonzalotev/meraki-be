@@ -1,11 +1,10 @@
 const { rolesType: rolesTypeModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
 
 class RolesTypeService {
     static async fetch() {
-        const rolessTypes = await rolesTypeModel.find({FECHA_BAJA: null});
+        const rolessTypes = await rolesTypeModel.find({ FECHA_BAJA: null });
         return rolessTypes.map(rolesType => ({
             id: rolesType.ID_ROL_USUARIO,
             description: rolesType.DESCRIPCION,
@@ -46,8 +45,8 @@ class RolesTypeService {
         };
     }
 
-    static async findOne(filters){
-        const rolesType = await rolesTypeModel.findById({ID_ROL_USUARIO: filters.id});
+    static async findOne(filters) {
+        const rolesType = await rolesTypeModel.findById({ ID_ROL_USUARIO: filters.id });
         return {
             id: rolesType.ID_ROL_USUARIO,
             description: rolesType.DESCRIPCION,
@@ -61,7 +60,7 @@ class RolesTypeService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedRolesType = {
             ID_ROL_USUARIO: trim(params.id),
             DESCRIPCION: trim(params.description),
@@ -73,7 +72,7 @@ class RolesTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const rolesType = await rolesTypeModel.updateOne({ID_ROL_USUARIO: filters.id},
+        const rolesType = await rolesTypeModel.updateOne({ ID_ROL_USUARIO: filters.id },
             formattedRolesType);
         return {
             id: rolesType.ID_ROL_USUARIO,
@@ -88,8 +87,8 @@ class RolesTypeService {
         };
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_ROL_USUARIO: filters.id};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_ROL_USUARIO: filters.id };
         const success = await rolesTypeModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
@@ -97,45 +96,43 @@ class RolesTypeService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_ROL_USUARIO',
-                    nameInFile: 'ID_ROL'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = rolesTypeModel.knex.select(tableHeaders)
+            const stream = rolesTypeModel.knex.select(columns)
                 .from(rolesTypeModel.tableName)
-                .orderBy([{column: 'ID_ROL_USUARIO', order: 'asc'}])
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function() {
-                resolve(csvString);
+            stream.on('end', function () {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_ROL_USUARIO',
+                modified: 'ID_ROL'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

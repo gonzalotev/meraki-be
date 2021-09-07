@@ -133,7 +133,7 @@ module.exports = {
     '/api/autoPhrases/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['AutoPhrases'],
             parameters: [
                 {
                     in: 'path',
@@ -209,7 +209,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['AutoPhrases'],
             parameters: [
                 {
                     in: 'path',
@@ -232,7 +232,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['AutoPhrases'],
             parameters: [
                 {
                     in: 'path',
@@ -283,29 +283,15 @@ module.exports = {
     '/api/autoPhrases/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Auto Phrases'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
+            operationId: 'downloadAutophrasesCSV',
+            description: 'Returns autophrases in csv format',
+            tags: ['AutoPhrases'],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

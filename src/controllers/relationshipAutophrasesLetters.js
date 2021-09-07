@@ -1,15 +1,18 @@
 const { RelationshipAutophrasesLettersService } = include('services');
 const toUpper = require('lodash/toUpper');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class RelationshipAutophrasesLetterController {
     static async fetch(req, res, next) {
         try {
-            const {page, search} = req.query;
+            const { page, search } = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const relationshipsLetter = await RelationshipAutophrasesLettersService.fetch({page, search: searchValue});
-            const total = await RelationshipAutophrasesLettersService.getTotal({search: searchValue});
+            const relationshipsLetter = await RelationshipAutophrasesLettersService.fetch(
+                { page, search: searchValue });
+            const total = await RelationshipAutophrasesLettersService.getTotal({ search: searchValue });
             res.send({ relationshipsLetter, total });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
@@ -19,60 +22,70 @@ class RelationshipAutophrasesLetterController {
             const relationshipAutophrasesLetter = await RelationshipAutophrasesLettersService.
                 findOne(req.params);
             res.send({ relationshipAutophrasesLetter });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async create(req, res, next){
+    static async create(req, res, next) {
         try {
             const relationshipAutophrasesLetter = await RelationshipAutophrasesLettersService.
                 create(req.body, req.user.id);
             res.status(201);
             res.send({ relationshipAutophrasesLetter });
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async update(req, res, next){
+    static async update(req, res, next) {
         try {
             const relationshipAutophrasesLetter = await RelationshipAutophrasesLettersService.
                 update(req.params, req.body);
-            res.send({relationshipAutophrasesLetter});
-        } catch(err){
+            res.send({ relationshipAutophrasesLetter });
+        } catch (err) {
             next(err);
         }
     }
 
-    static async delete(req, res, next){
+    static async delete(req, res, next) {
         try {
             const success = await RelationshipAutophrasesLettersService.delete(req.params, req.user.id);
-            if(success){
+            if (success) {
                 res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async fetchOne(req, res, next){
-        try{
+    static async fetchOne(req, res, next) {
+        try {
             const relationshipAutophrasesLetter = await RelationshipAutophrasesLettersService.findById(req.params);
             res.send({ relationshipAutophrasesLetter });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next) {
         try {
-            const stream = await RelationshipAutophrasesLettersService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
+            const originalColumns = map(RelationshipAutophrasesLettersService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Relacion_Autofrases_Letras');
+            const sheetColums = map(
+                RelationshipAutophrasesLettersService.getColumns(),
+                column => ({ key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await RelationshipAutophrasesLettersService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=Relacion_Autofrases_Letras.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, { sheetName: 'Relacion_Autofrases_Letras', formatterOptions: { delimiter: ';' } });
+        } catch (err) {
             next(err);
         }
     }

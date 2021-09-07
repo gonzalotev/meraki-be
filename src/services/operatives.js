@@ -1,5 +1,5 @@
 const { operatives } = include('models');
-const { dateToString, stringToDate, dateTimeToString, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate, dateTimeToString } = include('util');
 const OperativeSourcesService = require('./operativeSources');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
@@ -171,53 +171,52 @@ class OperativesService {
         }
         return result.total;
     }
-    static getCsv(){
+
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCION'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACION'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'CONTACTO_OPERATIVO',
-                    nameInFile: 'CONTACTO OPERATIVO'
-                },
-                {
-                    nameInTable: 'MAIL_CONTACTO',
-                    nameInFile: 'MAIL CONTACTO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = operatives.knex.select(tableHeaders)
+            const stream = operatives.knex.select(columns)
                 .from(operatives.tableName)
-                .orderBy([{column: 'ID_FUENTE', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_FUENTE',
+                modified: 'ID'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCION'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACION'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'CONTACTO_OPERATIVO',
+                modified: 'CONTACTO OPERATIVO'
+            },
+            {
+                original: 'MAIL_CONTACTO',
+                modified: 'MAIL CONTACTO'
+            }
+        ];
     }
 }
 

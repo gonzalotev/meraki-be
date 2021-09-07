@@ -6,8 +6,6 @@ const OperativeSourcesService = require('./operativeSources');
 const NomenclatureService = require('./nomenclatures');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
-const map = require('lodash/map');
-const { arrayToCsvFormat } = include('util');
 
 class RelationshipAutophraseQuestionClosedService {
     static async fetch({ page, source }) {
@@ -142,50 +140,52 @@ class RelationshipAutophraseQuestionClosedService {
         }
         return result.total;
     }
-    static getCsv() {
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID DE FUENTE'
-                },
-                {
-                    nameInTable: 'ID_PREGUNTA',
-                    nameInFile: 'ID DE PREGUNTA'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE NOMENCLADOR'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
 
-            const relationshipAutophraseQuestionClosedTableHeaders = map(fieldNames, field => field.nameInTable);
-            const relationshipAutophraseQuestionClosedFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(relationshipAutophraseQuestionClosedFileHeaders);
-            csvString += headers;
-            const stream = relationshipAutophraseQuestionClosed.knex
-                .select(relationshipAutophraseQuestionClosedTableHeaders)
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = relationshipAutophraseQuestionClosed.knex.select(columns)
                 .from(relationshipAutophraseQuestionClosed.tableName)
+                .where({FECHA_BAJA: null})
                 .stream();
-            stream.on('error', function (err) {
+            stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function (data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function () {
-                resolve(csvString);
+            stream.on('end', function() {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_AUTOFRASE',
+                modified: 'ID AUTOFRASE'
+            },
+            {
+                original: 'ID_FUENTE',
+                modified: 'ID DE FUENTE'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'ID DE PREGUNTA'
+            },
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'ID DE NOMENCLADOR'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

@@ -1,11 +1,13 @@
 const { NomenclatorSubtypesService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class NomenclatorSubtypeController {
     static async fetch(req, res, next) {
         try {
             const nomenclators = await NomenclatorSubtypesService.fetch();
             res.send({ nomenclators });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
@@ -14,48 +16,58 @@ class NomenclatorSubtypeController {
         try {
             const nomeclator = await NomenclatorSubtypesService.findOne(req.params);
             res.send({ nomeclator });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async create(req, res, next){
+    static async create(req, res, next) {
         try {
             const nomeclator = await NomenclatorSubtypesService.create(req.body, req.user.id);
             res.send({ success: true, nomeclator });
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async update(req, res, next){
-        try{
+    static async update(req, res, next) {
+        try {
             const nomeclator = await NomenclatorSubtypesService.update(req.params, req.body);
-            res.send({success: true, nomeclator});
-        } catch(err){
+            res.send({ success: true, nomeclator });
+        } catch (err) {
             next(err);
         }
     }
 
-    static async delete(req, res, next){
+    static async delete(req, res, next) {
         try {
             const success = await NomenclatorSubtypesService.delete(req.params, req.user.id);
-            if (success){
+            if (success) {
                 res.sendStatus(204);
-            }else{
+            } else {
                 res.sendStatus(400);
             }
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next) {
         try {
-            const stream = await NomenclatorSubtypesService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
+            const originalColumns = map(NomenclatorSubtypesService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Subtipo_Clasificador');
+            const sheetColums = map(
+                NomenclatorSubtypesService.getColumns(),
+                column => ({ key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await NomenclatorSubtypesService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=Subtipo_Clasificador.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, { sheetName: 'Subtipo_Clasificador', formatterOptions: { delimiter: ';' } });
+        } catch (err) {
             next(err);
         }
     }

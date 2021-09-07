@@ -1,5 +1,5 @@
 const { staticalVariable: staticalVariableModel } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -167,62 +167,59 @@ class StaticalVariableService {
         });
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'NOMBRE',
-                    nameInFile: 'NOMBRE'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                },
-                {
-                    nameInTable: 'DIGITOS',
-                    nameInFile: 'DÍGITOS'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                },
-                {
-                    nameInTable: 'ID_PADRE',
-                    nameInFile: 'ID_PADRE'
-                }
-            ];
-
-            const staticalVariableTableHeaders = map(fieldNames, field => field.nameInTable);
-            const staticalVariableFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(staticalVariableFileHeaders);
-            csvString += headers;
-            const stream = staticalVariableModel.knex.select(staticalVariableTableHeaders)
+            const stream = staticalVariableModel.knex.select(columns)
                 .from(staticalVariableModel.tableName)
-                .orderBy([{column: 'ID_VARIABLE', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_VARIABLE',
+                modified: 'ID'
+            },
+            {
+                original: 'NOMBRE',
+                modified: 'NOMBRE'
+            },
+            {
+                original: 'ABREVIATURA',
+                modified: 'ABREVIATURA'
+            },
+            {
+                original: 'DIGITOS',
+                modified: 'DÍGITOS'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            },
+            {
+                original: 'ID_PADRE',
+                modified: 'ID_PADRE'
+            }
+        ];
     }
 }
 

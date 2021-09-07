@@ -305,28 +305,12 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Steps Linguistic Processes'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/StepsLinguisticProcesses'}
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

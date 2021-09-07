@@ -1,70 +1,82 @@
 const { StepsEncodingProcessesService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 class StepsEncodingProcessesController {
     static async fetch(req, res, next) {
         try {
             const encodingProcesses = await StepsEncodingProcessesService.fetch();
             res.send({ encodingProcesses });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async find(req, res, next){
+    static async find(req, res, next) {
         try {
             const stepEncodingProcess = await StepsEncodingProcessesService.findOne(req.params);
-            res.send({stepEncodingProcess});
-        } catch(err) {
+            res.send({ stepEncodingProcess });
+        } catch (err) {
             next(err);
         }
     }
 
     static async create(req, res, next) {
-        try{
+        try {
             const stepEncodingProcess = await StepsEncodingProcessesService.create(req.body, req.user.id);
             res.status(201);
             res.send({ stepEncodingProcess });
-        } catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    static async update(req, res, next){
-        try{
+    static async update(req, res, next) {
+        try {
             const stepEncodingProcess = await StepsEncodingProcessesService.update(req.params, req.body);
             res.send({ success: true, stepEncodingProcess });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async delete(req, res, next){
-        try{
+    static async delete(req, res, next) {
+        try {
             const result = await StepsEncodingProcessesService.delete(req.params, req.user.id);
-            if(result){
+            if (result) {
                 res.sendStatus(204);
-            }else{
+            } else {
                 res.sendStatus(400);
             }
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async fetchOne(req, res, next){
-        try{
+    static async fetchOne(req, res, next) {
+        try {
             const stepEncodingProcess = await StepsEncodingProcessesService.findById(req.params);
             res.send({ stepEncodingProcess });
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     }
 
-    static async downloadCsv(req, res, next){
+    static async downloadCsv(req, res, next) {
         try {
-            const stream = await StepsEncodingProcessesService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch(err) {
+            const originalColumns = map(StepsEncodingProcessesService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Pasos_Procesos_Codificacion');
+            const sheetColums = map(
+                StepsEncodingProcessesService.getColumns(),
+                column => ({ key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await StepsEncodingProcessesService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=Pasos_Procesos_Codificacion.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, { sheetName: 'Pasos_Procesos_Codificacion', formatterOptions: { delimiter: ';' } });
+        } catch (err) {
             next(err);
         }
     }

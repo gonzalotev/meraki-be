@@ -1,5 +1,5 @@
 const { editor: editorModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
@@ -9,7 +9,7 @@ const toUpper = require('lodash/toUpper');
 
 class EditorService {
     static async fetch() {
-        const editorsss = await editorModel.find({FECHA_BAJA: null});
+        const editorsss = await editorModel.find({ FECHA_BAJA: null });
         return editorsss.map(editor => ({
             id: editor.ID_EDITOR,
             description: editor.DESCRIPCION,
@@ -36,12 +36,12 @@ class EditorService {
             FECHA_ALTA: new Date()
         };
         const editorId = await editorModel.insertOne(formattedEditor, ['ID_EDITOR']);
-        const editor = await EditorService.findOne({id: editorId});
+        const editor = await EditorService.findOne({ id: editorId });
         return editor;
     }
 
-    static async findOne(filters){
-        const editor = await editorModel.findById({ID_EDITOR: filters.id});
+    static async findOne(filters) {
+        const editor = await editorModel.findById({ ID_EDITOR: filters.id });
         return {
             id: editor.ID_EDITOR,
             description: editor.DESCRIPCION,
@@ -55,7 +55,7 @@ class EditorService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedEditor = {
             ID_EDITOR: params.id,
             DESCRIPCION: toUpper(trim(params.description)),
@@ -67,13 +67,13 @@ class EditorService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const editorId = await editorModel.updateOne({ID_EDITOR: filters.id}, formattedEditor, ['ID_EDITOR']);
-        const editor = await EditorService.findOne({id: editorId});
+        const editorId = await editorModel.updateOne({ ID_EDITOR: filters.id }, formattedEditor, ['ID_EDITOR']);
+        const editor = await EditorService.findOne({ id: editorId });
         return editor;
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_EDITOR: filters.id};
+    static async delete(filters, userDeleted) {
+        const formattedFilters = { ID_EDITOR: filters.id };
         const success = await editorModel.deleteOne(formattedFilters, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
@@ -81,9 +81,9 @@ class EditorService {
         return !!success;
     }
 
-    static async getEditorData(resources){
+    static async getEditorData(resources) {
         const editorsIds = uniq(map(resources, resource => resource.editorId));
-        if(isEmpty(editorsIds)){
+        if (isEmpty(editorsIds)) {
             return resources;
         }
         let editors = await editorModel.findByValues('ID_EDITOR', editorsIds);
@@ -103,49 +103,47 @@ class EditorService {
         });
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_EDITOR',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = editorModel.knex.select(tableHeaders)
+            const stream = editorModel.knex.select(columns)
                 .from(editorModel.tableName)
-                .orderBy([{column: 'ID_EDITOR', order: 'asc'}])
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function() {
-                resolve(csvString);
+            stream.on('end', function () {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_EDITOR',
+                modified: 'ID'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            }
+        ];
     }
 }
 

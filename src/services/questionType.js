@@ -1,5 +1,4 @@
 const { questionType: questionTypeModel } = include('models');
-const { arrayToCsvFormat } = include('util');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -93,37 +92,35 @@ class QuestionTypeService {
         return resources;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_ABIERTA_CERRADA',
-                    nameInFile: 'ID'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                }
-            ];
-            const TableHeaders = map(fieldNames, field => field.nameInTable);
-            const FileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(FileHeaders);
-            csvString += headers;
-            const stream = questionTypeModel.knex.select(TableHeaders)
+            const stream = questionTypeModel.knex.select(columns)
                 .from(questionTypeModel.tableName)
-                .orderBy([{column: 'ID_ABIERTA_CERRADA', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_ABIERTA_CERRADA',
+                modified: 'ID'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            }
+        ];
     }
 }
 

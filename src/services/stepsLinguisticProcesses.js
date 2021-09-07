@@ -2,8 +2,7 @@ const { stepsLinguisticProcesses } = include('models');
 const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
 const DictionaryTypeService = require('./dictionaryType');
-const { dateToString, arrayToCsvFormat } = include('util');
-const map = require('lodash/map');
+const { dateToString } = include('util');
 const toNumber = require('lodash/toNumber');
 
 class StepsLinguisticProcessesService {
@@ -121,61 +120,59 @@ class StepsLinguisticProcessesService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'FUENTE'
-                },
-                {
-                    nameInTable: 'ID_PREGUNTA',
-                    nameInFile: 'PREGUNTA'
-                },
-                {
-                    nameInTable: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                    nameInFile: 'TIPOLOGIA DE DICCIONARIO'
-                },
-                {
-                    nameInTable: 'ORDEN',
-                    nameInFile: 'ORDEN'
-                },
-                {
-                    nameInTable: 'ID_NOMBRE_CAMPO_LINGUISTICO',
-                    nameInFile: 'NOMBRE CAMPO LINGUISTICO'
-                },
-                {
-                    nameInTable: 'SE_MUESTRA_EN_PANTALLA',
-                    nameInFile: 'SE MUESTRA EN PANTALLA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACION'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                }
-            ];
-
-            const stepsLinguiticProcessesTableHeaders = map(fieldNames, field => field.nameInTable);
-            const stepsLinguisticProcessesFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(stepsLinguisticProcessesFileHeaders);
-            csvString += headers;
-            const stream = stepsLinguisticProcesses.knex.select(stepsLinguiticProcessesTableHeaders)
+            const stream = stepsLinguisticProcesses.knex.select(columns)
                 .from(stepsLinguisticProcesses.tableName)
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_FUENTE',
+                modified: 'FUENTE'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'PREGUNTA'
+            },
+            {
+                original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                modified: 'TIPOLOGIA DE DICCIONARIO'
+            },
+            {
+                original: 'ORDEN',
+                modified: 'ORDEN'
+            },
+            {
+                original: 'ID_NOMBRE_CAMPO_LINGUISTICO',
+                modified: 'NOMBRE CAMPO LINGUISTICO'
+            },
+            {
+                original: 'SE_MUESTRA_EN_PANTALLA',
+                modified: 'SE MUESTRA EN PANTALLA'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACION'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            }
+        ];
     }
 }
 

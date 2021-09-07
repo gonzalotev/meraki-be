@@ -1,7 +1,6 @@
 const { documents: documentsModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
+const { dateToString, stringToDate } = include('util');
 const EditorService = require ('./editor.js');
-const map = require('lodash/map');
 
 class DocumentsService {
     static async fetch() {
@@ -127,13 +126,6 @@ class DocumentsService {
         return document;
     }
 
-    // static async delete(filters){
-    //     const formattedFilters = {ID_DOCUMENTO: filters.documentId};
-    //     const success = await documentsModel.delete(formattedFilters, {
-    //     });
-    //     return !!success;
-    // }
-
     static async delete( filters ) {
         const formattedFilters = { ID_DOCUMENTO: filters.documentId };
         const success = await documentsModel.delete(formattedFilters, {
@@ -141,85 +133,83 @@ class DocumentsService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_DOCUMENTO',
-                    nameInFile: 'ID_DOCUMENTO'
-                },
-                {
-                    nameInTable: 'ID_TIPO_DOCUMENTO',
-                    nameInFile: 'ID_TIPO_DOCUMENTO'
-                },
-                {
-                    nameInTable: 'TÍTULO',
-                    nameInFile: 'TÍTULO'
-                },
-                {
-                    nameInTable: 'AUTOR',
-                    nameInFile: 'AUTOR'
-                },
-                {
-                    nameInTable: 'INSTITUCIÓN',
-                    nameInFile: 'INSTITUCIÓN'
-                },
-                {
-                    nameInTable: 'AREA',
-                    nameInFile: 'AREA'
-                },
-                {
-                    nameInTable: 'FECHA_DOCUMENTO',
-                    nameInFile: 'FECHA_DOCUMENTO'
-                },
-                {
-                    nameInTable: 'ISBN',
-                    nameInFile: 'ISBN'
-                },
-                {
-                    nameInTable: 'ID_EDITOR',
-                    nameInFile: 'ID_EDITOR'
-                },
-                {
-                    nameInTable: 'UBICACIÓN_ARCHIVO',
-                    nameInFile: 'UBICACIÓN_ARCHIVO'
-                },
-                {
-                    nameInTable: 'RESUMEN',
-                    nameInFile: 'RESUMEN'
-                },
-                {
-                    nameInTable: 'URL',
-                    nameInFile: 'URL'
-                },
-                {
-                    nameInTable: 'COMENTARIO',
-                    nameInFile: 'COMENTARIO'
-                },
-                {
-                    nameInTable: 'CANTIDAD_VISITAS',
-                    nameInFile: 'CANTIDAD_VISITAS'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = documentsModel.knex.select(tableHeaders)
+            const stream = documentsModel.knex.select(columns)
                 .from(documentsModel.tableName)
-                .orderBy([{column: 'ID_DOCUMENTO', order: 'asc'}])
+                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns(){
+        return [
+            {
+                nameInTable: 'ID_DOCUMENTO',
+                modified: 'ID_DOCUMENTO'
+            },
+            {
+                nameInTable: 'ID_TIPO_DOCUMENTO',
+                modified: 'ID_TIPO_DOCUMENTO'
+            },
+            {
+                nameInTable: 'TÍTULO',
+                modified: 'TÍTULO'
+            },
+            {
+                nameInTable: 'AUTOR',
+                modified: 'AUTOR'
+            },
+            {
+                nameInTable: 'INSTITUCIÓN',
+                modified: 'INSTITUCIÓN'
+            },
+            {
+                nameInTable: 'AREA',
+                modified: 'AREA'
+            },
+            {
+                nameInTable: 'FECHA_DOCUMENTO',
+                modified: 'FECHA_DOCUMENTO'
+            },
+            {
+                nameInTable: 'ISBN',
+                modified: 'ISBN'
+            },
+            {
+                nameInTable: 'ID_EDITOR',
+                modified: 'ID_EDITOR'
+            },
+            {
+                nameInTable: 'UBICACIÓN_ARCHIVO',
+                modified: 'UBICACIÓN_ARCHIVO'
+            },
+            {
+                nameInTable: 'RESUMEN',
+                modified: 'RESUMEN'
+            },
+            {
+                nameInTable: 'URL',
+                modified: 'URL'
+            },
+            {
+                nameInTable: 'COMENTARIO',
+                modified: 'COMENTARIO'
+            },
+            {
+                nameInTable: 'CANTIDAD_VISITAS',
+                modified: 'CANTIDAD_VISITAS'
+            }
+        ];
     }
 }
 

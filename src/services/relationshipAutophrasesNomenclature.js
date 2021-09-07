@@ -55,9 +55,11 @@ class RelationshipAutophrasesNomenclatureService {
         const relationshipAutophrasesNomenclatureId = await relationshipAutophrasesNomenclatureModel.
             insertOne(formattedRelationshipAutophrasesNomenclature, ['ID_AUTOFRASE', 'ID_NOMENCLADOR', 'ID_NOMENCLATURA']);
         const relationshipAutophrasesNomenclature = await RelationshipAutophrasesNomenclatureService.findOne(
-            { autophraseId: relationshipAutophrasesNomenclatureId.ID_AUTOFRASE,
+            {
+                autophraseId: relationshipAutophrasesNomenclatureId.ID_AUTOFRASE,
                 nomenclatorId: relationshipAutophrasesNomenclatureId.ID_NOMENCLADOR,
-                nomenclatureId: relationshipAutophrasesNomenclatureId.ID_NOMENCLATURA});
+                nomenclatureId: relationshipAutophrasesNomenclatureId.ID_NOMENCLATURA
+            });
         return relationshipAutophrasesNomenclature;
     }
 
@@ -108,9 +110,11 @@ class RelationshipAutophrasesNomenclatureService {
             { ID_AUTOFRASE: filters.autophraseId },
             formattedRelationshipAutophrasesNomenclature, ['ID_AUTOFRASE', 'ID_NOMENCLADOR', 'ID_NOMENCLATURA']);
         const relationshipAutophrasesNomenclature = await RelationshipAutophrasesNomenclatureService.findOne(
-            { autophraseId: relationshipAutophrasesNomenclatureId.ID_AUTOFRASE,
+            {
+                autophraseId: relationshipAutophrasesNomenclatureId.ID_AUTOFRASE,
                 nomenclatorId: relationshipAutophrasesNomenclatureId.ID_NOMENCLADOR,
-                nomenclatureId: relationshipAutophrasesNomenclatureId.ID_NOMENCLATURA});
+                nomenclatureId: relationshipAutophrasesNomenclatureId.ID_NOMENCLATURA
+            });
         return relationshipAutophrasesNomenclature;
     }
 
@@ -126,57 +130,81 @@ class RelationshipAutophrasesNomenclatureService {
         return !!success;
     }
 
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = relationshipAutophrasesNomenclatureModel.knex.select(columns)
+                .from(relationshipAutophrasesNomenclatureModel.tableName)
+                .where({ FECHA_BAJA: null })
+                .stream();
+            stream.on('error', function (err) {
+                reject(err);
+            });
+            stream.on('data', function (data) {
+                worksheet.addRow(data);
+            });
+            stream.on('end', function () {
+                resolve(worksheet);
+            });
+        });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_AUTOFRASE',
+                modified: 'ID DE AUTOFRASE'
+            },
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'ID DE NOMENCLADOR'
+            },
+            {
+                original: 'ID_NOMENCLATURA',
+                modified: 'ID DE NOMENCLATURA'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'ID DE VARIABLE'
+            },
+            {
+                original: 'VARIABLE_ESTADISTICA',
+                modified: 'VARIABLE'
+            },
+            {
+                original: 'ABREVIATURA',
+                modified: 'ABREVIATURA'
+            },
+            {
+                original: 'NOMENCLATURA',
+                modified: 'NOMENCLATURA'
+            },
+            {
+                original: 'AUTOFRASE',
+                modified: 'AUTOFRASE'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
+            }
+        ];
+    }
+
     static getCsv() {
         return new Promise((resolve, reject) => {
             let csvString = '';
             const fieldNames = [
-                {
-                    nameInTable: 'ID_AUTOFRASE',
-                    nameInFile: 'ID DE AUTOFRASE'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLADOR',
-                    nameInFile: 'ID DE NOMENCLADOR'
-                },
-                {
-                    nameInTable: 'ID_NOMENCLATURA',
-                    nameInFile: 'ID DE NOMENCLATURA'
-                },
-                {
-                    nameInTable: 'ID_VARIABLE',
-                    nameInFile: 'ID DE VARIABLE'
-                },
-                {
-                    nameInTable: 'VARIABLE_ESTADISTICA',
-                    nameInFile: 'VARIABLE'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                },
-                {
-                    nameInTable: 'NOMENCLATURA',
-                    nameInFile: 'NOMENCLATURA'
-                },
-                {
-                    nameInTable: 'AUTOFRASE',
-                    nameInFile: 'AUTOFRASE'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
+
             ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
+            const tableHeaders = map(fieldNames, field => field.original);
+            const fileHeaders = map(fieldNames, field => field.modified);
             const headers = arrayToCsvFormat(fileHeaders);
             csvString += headers;
             const stream = relationshipAutophrasesNomenclatureModel.knex.select(tableHeaders)
