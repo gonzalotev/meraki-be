@@ -133,7 +133,7 @@ module.exports = {
                     in: 'query',
                     name: 'nomenclatures',
                     required: false,
-                    // eslint-disable
+                    /* eslint-disable */ 
                     schema: { type: 'boolean', type: 'string' }
                 },
                 {

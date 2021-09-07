@@ -35,7 +35,7 @@ module.exports = {
                                             properties: {
                                                 autophraseId: {type: 'integer'},
                                                 sourceId: {type: 'integer'},
-                                                questionId: {type: 'integer'},
+                                                questionId: {type: 'string'},
                                                 abreviation: {type: 'string'},
                                                 createdAt: {type: 'string'},
                                                 userCreator: {type: 'string'},
@@ -68,7 +68,7 @@ module.exports = {
                             properties: {
                                 autophraseId: {type: 'integer'},
                                 sourceId: {type: 'integer'},
-                                questionId: {type: 'integer'},
+                                questionId: {type: 'string'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
@@ -93,7 +93,7 @@ module.exports = {
                                         properties: {
                                             autophraseId: {type: 'integer'},
                                             sourceId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
+                                            questionId: {type: 'string'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
@@ -150,7 +150,7 @@ module.exports = {
                             properties: {
                                 autophraseId: {type: 'integer'},
                                 sourceId: {type: 'integer'},
-                                questionId: {type: 'integer'},
+                                questionId: {type: 'string'},
                                 abreviation: {type: 'string'},
                                 createdAt: {type: 'string'},
                                 userCreator: {type: 'string'},
@@ -175,7 +175,7 @@ module.exports = {
                                         properties: {
                                             autophraseId: {type: 'integer'},
                                             sourceId: {type: 'integer'},
-                                            questionId: {type: 'integer'},
+                                            questionId: {type: 'string'},
                                             abreviation: {type: 'string'},
                                             createdAt: {type: 'string'},
                                             userCreator: {type: 'string'},
