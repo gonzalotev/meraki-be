@@ -32,7 +32,6 @@ class DocumentsService {
 
     static async create(params, userCreator) {
         const formattedDocument = {
-            ID_DOCUMENTO: null,
             ID_TIPO_DOCUMENTO: params.documentTypeId,
             TITULO: params.title,
             AUTOR: params.author,
@@ -51,28 +50,17 @@ class DocumentsService {
             ID_USUARIO_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const document = await documentsModel.insertOne(formattedDocument);
-
-        return {
-            documentId: document.ID_DOCUMENTO,
-            documentTypeId: document.ID_TIPO_DOCUMENTO,
-            title: document.TITULO,
-            author: document.AUTOR,
-            institution: document.INSTITUCION,
-            area: document.AREA,
-            documentDate: dateToString(document.FECHA_DOCUMENTO),
-            isbn: document.ISBN,
-            editorId: document.ID_EDITOR,
-            fileLocation: document.UBICACION_ARCHIVO,
-            summary: document.RESUMEN,
-            url: document.URL,
-            commentary: document.COMENTARIO,
-            numberOfVisits: document.CANTIDAD_VISITAS,
-            userCreator: document.ID_USUARIO_ALTA,
-            createdAt: dateToString(document.FECHA_ALTA),
-            userDeleted: document.ID_USUARIO_BAJA,
-            deletedAt: dateToString(document.FECHA_BAJA)
-        };
+        const document = await documentsModel.insertOne(formattedDocument, ['ID_DOCUMENTO', 'ID_TIPO_DOCUMENTO', 'TITULO', 'AUTOR', 'ID_EDITOR']);
+        const docu = await DocumentsService.findOne(
+            {
+                documentId: document.ID_DOCUMENTO,
+                documentTypeId: document.ID_TIPO_DOCUMENTO,
+                title: document.TITULO,
+                author: document.AUTOR,
+                editorId: document.ID_EDITOR
+            }
+        );
+        return docu;
     }
 
     static async findOne(filters){
