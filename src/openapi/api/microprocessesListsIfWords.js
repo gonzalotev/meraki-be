@@ -277,22 +277,14 @@ module.exports = {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    microprocessesListsIfWords: {
-                                        type: 'array',
-                                        items: { $ref: '#/components/schemas/DictionaryLinguistic' }
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },
                 default: {
                     description: 'Error',
-                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
         }

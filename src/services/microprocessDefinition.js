@@ -168,13 +168,7 @@ class MicroprocessDefinitionService {
                 reject(err);
             });
             stream.on('data', function(data) {
-                if(data[0] === 'PC199') {
-                    worksheet.addRow(data);
-                    const row = worksheet.getRow(1);
-                    row.height = 42.5;
-                } else {
-                    worksheet.addRow(data);
-                }
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
                 resolve(worksheet);
@@ -222,6 +216,10 @@ class MicroprocessDefinitionService {
             {
                 original: 'CARGADO_COMPLETO_SI_NO',
                 modified: 'isFullyCharged'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
             }
         ];
     }

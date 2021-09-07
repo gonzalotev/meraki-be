@@ -1,6 +1,5 @@
 const { microprocessesWords: microprocessesWordsModel } = include('models');
-const { dateToString, stringToDate, arrayToCsvFormat } = include('util');
-const map = require('lodash/map');
+const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
 
 class MicroprocessesWordService {
@@ -116,57 +115,54 @@ class MicroprocessesWordService {
         return result.total;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_MICROPROCESO',
-                    nameInFile: 'ID MICROPROCESO'
-                },
-                {
-                    nameInTable: 'ID_ORDEN',
-                    nameInFile: 'ORDEN'
-                },
-                {
-                    nameInTable: 'PALABRA_O_FRASE',
-                    nameInFile: 'PALABRA/FRASE'
-                },
-                {
-                    nameInTable: 'ES_PALABRA_O_FRASE',
-                    nameInFile: 'Es PALABRA O FRASE'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACION'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = microprocessesWordsModel.knex.select(tableHeaders)
+            const stream = microprocessesWordsModel.knex.select(columns)
                 .from(microprocessesWordsModel.tableName)
-                .orderBy([{column: 'ID_MICROPROCESO', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_MICROPROCESO',
+                modified: 'idMicroprocess'
+            },
+            {
+                original: 'ID_ORDEN',
+                modified: 'idOrder'
+            },
+            {
+                original: 'PALABRA_O_FRASE',
+                modified: 'wordOrPhrase'
+            },
+            {
+                original: 'ES_PALABRA_O_FRASE',
+                modified: 'isWordOrPhrase'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
+            }
+        ];
     }
 }
 
