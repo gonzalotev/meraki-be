@@ -115,6 +115,70 @@ class MicroprocessStepsService {
             return resource;
         });
     }
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = MicroprocessSteps.knex.select(columns)
+                .from(MicroprocessSteps.tableName)
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
+            });
+            stream.on('end', function() {
+                resolve(worksheet);
+            });
+        });
+    }
+    static getColumns() {
+        return [
+            {
+                original: 'ID_MICROPROCESO',
+                modified: 'microprocessId'
+            },
+            {
+                original: 'ID_ORDEN',
+                modified: 'order'
+            },
+            {
+                original: 'ESTOY_EN',
+                modified: 'in'
+            },
+            {
+                original: 'ID_NOMENCLADOR_NO',
+                modified: 'nomenclatorIdNo'
+            },
+            {
+                original: 'ID_NOMENCLATURA_NO',
+                modified: 'nomenclatureIdNo'
+            },
+            {
+                original: 'ID_LISTAS',
+                modified: 'listId'
+            },
+            {
+                original: 'ID_PREGUNTA_CERRADA',
+                modified: 'questionClosedId'
+            },
+            {
+                original: 'ID_NOMENCLADOR_SI',
+                modified: 'nomenclatorIdYes'
+            },
+            {
+                original: 'ID_NOMENCLATURA_SI',
+                modified: 'nomenclatureIdYes'
+            },
+            {
+                original: 'VOY_A',
+                modified: 'to'
+            },
+            {
+                original: 'VOY_A_DESTINO',
+                modified: 'toDestiny'
+            }
+        ];
+    }
 }
 
 module.exports = MicroprocessStepsService;

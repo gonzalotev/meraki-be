@@ -1,8 +1,7 @@
 const { microprocessesOption: microprocessesOptionModel } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const QuestionService = require('./questions');
 const OperativeSourcesService = require('./operativeSources');
-const map = require('lodash/map');
 const trim = require('lodash/trim');
 const StaticalVariableService = require('./staticalVariable');
 
@@ -98,49 +97,50 @@ class microprocessesOptionService {
         return !!success;
     }
 
-    static getCsv() {
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_MICROPROCESO',
-                    nameInFile: 'ID MICROPROCESO'
-                },
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'ID FUENTE'
-                },
-                {
-                    nameInTable: 'ID_PREGUNTA',
-                    nameInFile: 'ID PREGUNTA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = microprocessesOptionModel.knex.select(tableHeaders)
+            const stream = microprocessesOptionModel.knex.select(columns)
                 .from(microprocessesOptionModel.tableName)
-                .orderBy([{ column: 'ID_MICROPROCESO', order: 'asc' }])
                 .stream();
-            stream.on('error', function (err) {
+            stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function (data) {
-                csvString += arrayToCsvFormat(data);
+            stream.on('data', function(data) {
+                worksheet.addRow(data);
             });
-            stream.on('end', function () {
-                resolve(csvString);
+            stream.on('end', function() {
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_MICROPROCESO',
+                modified: 'id'
+            },
+            {
+                original: 'ID_FUENTE',
+                modified: 'sourceId'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'questionId'
+            },
+            {
+                original: 'ORDEN',
+                modified: 'orden'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'ABREVIATURA',
+                modified: 'abbreviation'
+            }
+        ];
     }
 }
 

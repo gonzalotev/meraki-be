@@ -1,6 +1,5 @@
 const { microprocessesStepsOption } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
-const map = require('lodash/map');
+const { dateToString } = include('util');
 const toNumber = require('lodash/toNumber');
 const MicroprocessStepsService = require('./microprocessSteps');
 const staticalVariableService = require('./staticalVariable');
@@ -114,57 +113,54 @@ class MicroprocessesStepsOption {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_MICROPROCESO',
-                    nameInFile: 'MICROPROCESO'
-                },
-                {
-                    nameInTable: 'ID_ORDEN',
-                    nameInFile: 'ID ORDEN'
-                },
-                {
-                    nameInTable: 'ID_FUENTE',
-                    nameInFile: 'FUENTE'
-                },
-                {
-                    nameInTable: 'ID_PREGUNTA',
-                    nameInFile: 'PREGUNTA'
-                },
-                {
-                    nameInTable: 'ORDEN',
-                    nameInFile: 'ORDEN'
-                },
-                {
-                    nameInTable: 'ABREVIATURA',
-                    nameInFile: 'ABREVIATURA'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACION'
-                }
-            ];
-
-            const microprocessesStepsOptionTableHeaders = map(fieldNames, field => field.nameInTable);
-            const microprocessesStepsOptionFileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(microprocessesStepsOptionFileHeaders);
-            csvString += headers;
-            const stream = microprocessesStepsOption.knex.select(microprocessesStepsOptionTableHeaders)
+            const stream = microprocessesStepsOption.knex.select(columns)
                 .from(microprocessesStepsOption.tableName)
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_MICROPROCESO',
+                modified: 'microprocessId'
+            },
+            {
+                original: 'ID_ORDEN',
+                modified: 'orderId'
+            },
+            {
+                original: 'ID_FUENTE',
+                modified: 'sourceId'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'questionId'
+            },
+            {
+                original: 'ORDEN',
+                modified: 'order'
+            },
+            {
+                original: 'ABREVIATURA',
+                modified: 'abbreviation'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            }
+        ];
     }
 }
 

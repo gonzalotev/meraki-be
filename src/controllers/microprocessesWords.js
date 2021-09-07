@@ -1,5 +1,7 @@
 const { MicroprocessesWordsService } = include('services');
 const toUpper = require('lodash/toUpper');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class MicroprocessesWordsController {
     static async fetch(req, res, next) {
@@ -65,12 +67,22 @@ class MicroprocessesWordsController {
         }
     }
 
-    static async downloadCsv(req, res, next) {
+    static async downloadCsv(req, res, next){
         try {
-            const stream = await MicroprocessesWordsService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch (err) {
+            const originalColumns = map(MicroprocessesWordsService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('microprocesos_palabras');
+            const sheetColums = map(
+                MicroprocessesWordsService.getColumns(),
+                column => ({key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await MicroprocessesWordsService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=microprocesos_palabras.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, {sheetName: 'microprocesos_palabras', formatterOptions: {delimiter: ';'}});
+        } catch(err) {
             next(err);
         }
     }

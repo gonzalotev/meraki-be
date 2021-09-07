@@ -1,4 +1,6 @@
 const { MicroprocessesListIfService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class MicroprocessesListIfController {
     static async fetch(req, res, next) {
@@ -42,9 +44,19 @@ class MicroprocessesListIfController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await MicroprocessesListIfService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
+            const originalColumns = map(MicroprocessesListIfService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('microprocesos_listas_if');
+            const sheetColums = map(
+                MicroprocessesListIfService.getColumns(),
+                column => ({key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await MicroprocessesListIfService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=microprocesos_listas_if.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, {sheetName: 'microprocesos_listas_if', formatterOptions: {delimiter: ';'}});
         } catch(err) {
             next(err);
         }

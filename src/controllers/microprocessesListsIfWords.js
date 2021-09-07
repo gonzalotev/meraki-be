@@ -1,5 +1,7 @@
 const { MicroprocessesListsIfWordsService } = include('services');
 const toUpper = require('lodash/toUpper');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class MicroprocessesListsIfWordsController {
     static async fetch(req, res, next) {
@@ -65,12 +67,22 @@ class MicroprocessesListsIfWordsController {
         }
     }
 
-    static async downloadCsv(req, res, next) {
+    static async downloadCsv(req, res, next){
         try {
-            const stream = await MicroprocessesListsIfWordsService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
-        } catch (err) {
+            const originalColumns = map(MicroprocessesListsIfWordsService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('micro_lista_if_pala');
+            const sheetColums = map(
+                MicroprocessesListsIfWordsService.getColumns(),
+                column => ({key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await MicroprocessesListsIfWordsService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=micro_lista_if_pala.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, {sheetName: 'micro_lista_if_pala', formatterOptions: {delimiter: ';'}});
+        } catch(err) {
             next(err);
         }
     }
