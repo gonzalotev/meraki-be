@@ -303,16 +303,8 @@ module.exports = {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/StepsLinguisticProcesses'}
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

@@ -1,4 +1,6 @@
 const { MicroprocessesOptionService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class MicroprocessesOptionController {
     static async fetch(req, res, next) {
@@ -55,9 +57,19 @@ class MicroprocessesOptionController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await MicroprocessesOptionService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
+            const originalColumns = map(MicroprocessesOptionService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('microprocesos_opcion');
+            const sheetColums = map(
+                MicroprocessesOptionService.getColumns(),
+                column => ({key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await MicroprocessesOptionService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=microprocesos_opcion.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, {sheetName: 'microprocesos_opcion', formatterOptions: {delimiter: ';'}});
         } catch(err) {
             next(err);
         }

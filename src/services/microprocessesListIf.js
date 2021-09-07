@@ -1,8 +1,7 @@
 const { microprocessesListIf: microprocessesListIfModel } = include('models');
-const { dateToString, arrayToCsvFormat, stringToDate } = include('util');
+const { dateToString, stringToDate } = include('util');
 const StaticalVariableService = require('./staticalVariable');
 const DictionaryTypeService = require('./dictionaryType');
-const map = require('lodash/map');
 const trim = require('lodash/trim');
 const toUpper = require('lodash/toUpper');
 
@@ -87,49 +86,54 @@ class microprocessesListIfService {
         return microprocessesListIf;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID_LISTAS',
-                    nameInFile: 'ID LISTAS'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = microprocessesListIfModel.knex.select(tableHeaders)
+            const stream = microprocessesListIfModel.knex.select(columns)
                 .from(microprocessesListIfModel.tableName)
-                .orderBy([{column: 'ID_LISTAS', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_LISTAS',
+                modified: 'id'
+            },
+            {
+                original: 'ID_VARIABLE',
+                modified: 'variableId'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'description'
+            },
+            {
+                original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
+                modified: 'diccionaryTypologyId'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
+            }
+        ];
     }
 }
 

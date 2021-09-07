@@ -304,43 +304,12 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Microprocesses Option'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'id',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'sourceId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                },
-                {
-                    in: 'path',
-                    name: 'questionId',
-                    required: true,
-                    schema: {type: 'integer'},
-                    description: 'User id of assignment'
-                }
-            ],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/DictionaryLinguistic'}
-                                    }
-                                }
-                            }
+                        'text/csv': {
+                            schema: {type: 'string', format: 'binary'}
                         }
                     }
                 },

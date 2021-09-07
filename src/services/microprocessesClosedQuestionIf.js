@@ -1,6 +1,5 @@
 const { microprocessesClosedQuestionIf: microprocessesClosedQuestionIfModel } = include('models');
-const { dateToString, arrayToCsvFormat } = include('util');
-const map = require('lodash/map');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
 
 class microprocessesClosedQuestionIfService {
@@ -111,49 +110,74 @@ class microprocessesClosedQuestionIfService {
         return !!success;
     }
 
-    static getCsv(){
+    static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-                {
-                    nameInTable: 'ID PREGUNTA CERRADA',
-                    nameInFile: 'ID PREGUNTA CERRADA'
-                },
-                {
-                    nameInTable: 'DESCRIPCION',
-                    nameInFile: 'DESCRIPCIÓN'
-                },
-                {
-                    nameInTable: 'OBSERVACION',
-                    nameInFile: 'OBSERVACIÓN'
-                },
-                {
-                    nameInTable: 'DOMINIO',
-                    nameInFile: 'DOMINIO'
-                },
-                {
-                    nameInTable: 'SUPERVISADO',
-                    nameInFile: 'SUPERVISADO'
-                }
-            ];
-            const tableHeaders = map(fieldNames, field => field.nameInTable);
-            const fileHeaders = map(fieldNames, field => field.nameInFile);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = microprocessesClosedQuestionIfModel.knex.select(tableHeaders)
+            const stream = microprocessesClosedQuestionIfModel.knex.select(columns)
                 .from(microprocessesClosedQuestionIfModel.tableName)
-                .orderBy([{column: 'ID_PREGUNTA_CERRADA', order: 'asc'}])
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
             });
             stream.on('data', function(data) {
-                csvString += arrayToCsvFormat(data);
+                worksheet.addRow(data);
             });
             stream.on('end', function() {
-                resolve(csvString);
+                resolve(worksheet);
             });
         });
+    }
+
+    static getColumns() {
+        return [
+            {
+                original: 'ID_PREGUNTA_CERRADA',
+                modified: 'id'
+            },
+            {
+                original: 'ID_FUENTE',
+                modified: 'sourceId'
+            },
+            {
+                original: 'ID_PREGUNTA',
+                modified: 'questionId'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'description'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'observation'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
+                original: 'ID_OPERADOR',
+                modified: 'operatorId'
+            },
+            {
+                original: 'SIGNO_PLSQL',
+                modified: 'signPlsql'
+            },
+            {
+                original: 'SIGNO_JS',
+                modified: 'signJs'
+            },
+            {
+                original: 'ID_NOMENCLADOR',
+                modified: 'nomenclatorId'
+            },
+            {
+                original: 'ID_NOMENCLATURA',
+                modified: 'nomenclatureId'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'approved'
+            }
+        ];
     }
 }
 

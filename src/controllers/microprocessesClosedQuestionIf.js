@@ -1,4 +1,6 @@
 const { MicroprocessesClosedQuestionIfService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
 
 class MicroprocessesClosedQuestionIfController {
     static async fetch(req, res, next) {
@@ -45,9 +47,19 @@ class MicroprocessesClosedQuestionIfController {
 
     static async downloadCsv(req, res, next){
         try {
-            const stream = await MicroprocessesClosedQuestionIfService.getCsv();
-            const buf = Buffer.from(stream, 'utf-8');
-            res.send(buf);
+            const originalColumns = map(MicroprocessesClosedQuestionIfService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('micro_preg_cerr_if');
+            const sheetColums = map(
+                MicroprocessesClosedQuestionIfService.getColumns(),
+                column => ({key: column.original, header: column.original })
+            );
+            worksheet.columns = sheetColums;
+            await MicroprocessesClosedQuestionIfService.exportToFile(worksheet, originalColumns);
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=micro_preg_cerr_if.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
+            await workbook.csv.write(res, {sheetName: 'micro_preg_cerr_if', formatterOptions: {delimiter: ';'}});
         } catch(err) {
             next(err);
         }

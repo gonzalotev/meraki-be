@@ -71,8 +71,9 @@ class MicroprocessDefinitionController {
             );
             worksheet.columns = sheetColums;
             await MicroprocessDefinitionService.exportToFile(worksheet, originalColumns);
-            res.setHeader('Content-Type', 'text/csv');
-            res.setHeader('Content-Disposition', 'attachment; filename=' + 'microprocesos.csv');
+            res.header('Content-type', 'text/csv; charset=utf-8');
+            res.header('Content-disposition', 'attachment; filename=microprocesos.csv');
+            res.write(Buffer.from('EFBBBF', 'hex'));
             await workbook.csv.write(res, {sheetName: 'microprocesos', formatterOptions: {delimiter: ';'}});
         } catch(err) {
             next(err);
