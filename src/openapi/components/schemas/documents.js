@@ -30,7 +30,7 @@ module.exports = {
             nullable: true
         },
         isbn: {
-            type: 'integer',
+            type: 'string',
             nullable: true
         },
         editorId: {
