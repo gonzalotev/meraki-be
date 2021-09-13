@@ -177,15 +177,12 @@ class WordsDictionaryService {
             FAMILIA: params.family
         };
         const wordId = await wordsDictionary.updateOne({ PALABRA: filters.word }, formattedWord, ['PALABRA']);
-        const word = await WordsDictionaryService.findOne({ id: wordId });
+        const word = await WordsDictionaryService.findOne({ word: wordId });
         return word;
     }
 
-    static async delete(filters, userDeleted) {
-        const success = await wordsDictionary.deleteOne({ PALABRA: filters.word }, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+    static async delete(filters) {
+        const success = await wordsDictionary.delete({ PALABRA: filters.word });
         return !!success;
     }
 
