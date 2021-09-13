@@ -146,6 +146,14 @@ class EncodingProcessService {
                 modified: 'automatic_yes_no'
             },
             {
+                original: 'PORCENTAJE_PARA_AUDITAR',
+                modified: 'PORCENTAJE DE MUESTA A AUDITAR'
+            },
+            {
+                original: 'NIVEL_DE_ERROR_ACEPTABLE',
+                modified: 'PORCENTAJE NIVEL DE ERROR DE LA MUESTRA'
+            },
+            {
                 original: 'DOMINIO',
                 modified: 'domain'
             },
