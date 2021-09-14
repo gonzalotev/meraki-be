@@ -1,6 +1,10 @@
 const { documentType: documentTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
+const isEmpty = require('lodash/isEmpty');
 
 class DocumentTypeService {
     static async fetch() {
@@ -95,6 +99,51 @@ class DocumentTypeService {
         });
         return !!success;
     }
+
+    static async getDocumentTypeData(resources) {
+        const documentTypesIds = uniq(map(resources, resource => resource.documentTypeId));
+        if (isEmpty(documentTypesIds)) {
+            return resources;
+        }
+        let documentTypes = await documentTypeModel.findByValues('ID_TIPO_DOCUMENTO', documentTypesIds);
+        documentTypes = map(documentTypes, documentType => ({
+            documentTypeId: documentType.ID_TIPO_DOCUMENTO,
+            description: documentType.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.documentType = find(
+                documentTypes,
+                documentType => documentType.documentTypeId === resource.documentTypeId
+            );
+            console.log(resource);
+            return resource;
+        });
+    }
+
+    /*static async getEditorData(resources) {
+        const editorsIds = uniq(map(resources, resource => resource.editorId));
+        if (isEmpty(editorsIds)) {
+            return resources;
+        }
+        let editors = await editorModel.findByValues('ID_EDITOR', editorsIds);
+        editors = map(editors, editor => ({
+            editorId: editor.ID_EDITOR,
+            description: editor.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.editor = find(
+                editors,
+                editor => editor.editorId === resource.editorId
+            );
+            return resource;
+        });
+    }*/
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
