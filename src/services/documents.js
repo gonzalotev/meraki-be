@@ -1,6 +1,7 @@
 const { documents: documentsModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const EditorService = require ('./editor.js');
+const DocumentTypeService = require ('./documentType.js');
 
 class DocumentsService {
     static async fetch() {
@@ -27,6 +28,7 @@ class DocumentsService {
         }));
 
         await EditorService.getEditorData(documentss);
+        await DocumentTypeService.getDocumentTypeData(documentss);
         return (documentss);
     }
 
