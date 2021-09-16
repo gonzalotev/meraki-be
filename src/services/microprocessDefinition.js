@@ -57,12 +57,9 @@ class MicroprocessDefinitionService {
         return MicroprocessDefinitionService.findOne({id: createdId});
     }
 
-    static async delete({id}, userDeleted){
+    static async delete({id}){
         const ids = {ID_MICROPROCESO: id};
-        const success = await MicroprocessDefinition.deleteOne(ids, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+        const success = await MicroprocessDefinition.delete(ids);
         return !!success;
     }
 
