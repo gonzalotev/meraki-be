@@ -49,7 +49,7 @@ class MicroprocessDefinitionController {
 
     static async delete(req, res, next){
         try {
-            const success = await MicroprocessDefinitionService.delete(req.params, req.user.id);
+            const success = await MicroprocessDefinitionService.delete(req.params);
             if(success){
                 res.sendStatus(204);
             } else {
