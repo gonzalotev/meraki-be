@@ -87,62 +87,10 @@ module.exports = {
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
-        }
-    },
-    '/api/wordCorrectors/downloadCsv': {
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Words Correctors'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'search',
-                    required: false,
-                    schema: {type: 'string'}
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'Success',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    dictionaryLinguistics: {
-                                        type: 'array',
-                                        items: {$ref: '#/components/schemas/WordCorrector'}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/wordCorrectors/{wrong}/{right}': {
+        },
         put: {
             security: [{bearerAuth: []}],
             tags: ['Words Correctors'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'wrong',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'right',
-                    required: true,
-                    schema: {type: 'string'}
-                }
-            ],
             requestBody: {
                 description: 'The new  word to create',
                 required: true,
@@ -151,6 +99,13 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
+                                current: {
+                                    type: 'object',
+                                    properties: {
+                                        wrong: {type: 'string'},
+                                        right: {type: 'string'}
+                                    }
+                                },
                                 corrector: {
                                     type: 'object',
                                     properties: {
@@ -204,20 +159,26 @@ module.exports = {
         delete: {
             security: [{bearerAuth: []}],
             tags: ['Words Correctors'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'wrong',
-                    required: true,
-                    schema: {type: 'string'}
-                },
-                {
-                    in: 'path',
-                    name: 'right',
-                    required: true,
-                    schema: {type: 'string'}
+            requestBody: {
+                description: 'The new  word to create',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                current: {
+                                    type: 'object',
+                                    properties: {
+                                        wrong: {type: 'string'},
+                                        right: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            ],
+            },
             responses: {
                 204: {description: 'The resource was deleted successfully.'},
                 default: {
@@ -225,7 +186,45 @@ module.exports = {
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
                 }
             }
-        },
+        }
+    },
+    '/api/wordCorrectors/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Words Correctors'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {type: 'string'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    dictionaryLinguistics: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/WordCorrector'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/wordCorrectors/{wrong}/{right}': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Words Correctors'],
