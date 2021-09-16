@@ -42,20 +42,9 @@ class WordCorrectorService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, transaction);
+        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, ['INCORRECTA', 'CORRECTA'], transaction);
 
-        return {
-            wrong: wordCorrector.INCORRECTA,
-            right: wordCorrector.CORRECTA,
-            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
-            observation: wordCorrector.OBSERVACION,
-            approved: !!wordCorrector.SUPERVISADO,
-            frequency: wordCorrector.FRECUENCIA,
-            createdAt: dateToString(wordCorrector.FECHA_ALTA),
-            userCreator: wordCorrector.ID_USUARIO_ALTA,
-            userDeleted: wordCorrector.ID_USUARIO_BAJA,
-            deletedAt: dateToString(wordCorrector.FECHA_BAJA)
-        };
+        return WordCorrectorService.findOne({wrong: wordCorrector.INCORRECTA, right: wordCorrector.CORRECTA});
     }
 
     static async findOne(filters) {
@@ -89,20 +78,10 @@ class WordCorrectorService {
         };
         const wordCorrector = await wordCorrectorModel.updateOne(
             { INCORRECTA: filters.wrong, CORRECTA: filters.right },
-            formattedWordCorrector
+            formattedWordCorrector,
+            ['INCORRECTA', 'CORRECTA']
         );
-        return {
-            wrong: wordCorrector.INCORRECTA,
-            right: wordCorrector.CORRECTA,
-            isAWord: !!wordCorrector.DESTINO_PALABRA_FRASE_SI_NO,
-            observation: wordCorrector.OBSERVACION,
-            approved: !!wordCorrector.SUPERVISADO,
-            frequency: wordCorrector.FRECUENCIA,
-            createdAt: dateToString(wordCorrector.FECHA_ALTA),
-            userCreator: wordCorrector.ID_USUARIO_ALTA,
-            userDeleted: wordCorrector.ID_USUARIO_BAJA,
-            deletedAt: dateToString(wordCorrector.FECHA_BAJA)
-        };
+        return WordCorrectorService.findOne({wrong: wordCorrector.INCORRECTA, right: wordCorrector.CORRECTA});
     }
 
     static async delete(filters, userDeleted) {
