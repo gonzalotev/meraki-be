@@ -2,6 +2,7 @@
 node_modules/
 dist/
 coverage
+public/lots
 *.log
 .env
 .env-prod

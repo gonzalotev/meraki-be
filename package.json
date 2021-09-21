@@ -7,7 +7,8 @@
     "ignore": [
       "test/**/*.js",
       "seeds/**/*.js",
-      "node_modules/**/node_modules"
+      "node_modules/**/node_modules",
+      "public/lots"
     ],
     "restartable": "rs",
     "delay": "3500",
