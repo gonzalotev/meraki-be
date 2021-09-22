@@ -34,19 +34,9 @@ class DocumentTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const documentType = await documentTypeModel.insertOne(formattedDocumentType);
-
-        return {
-            id: documentType.ID_TIPO_DOCUMENTO,
-            description: documentType.DESCRIPCION,
-            observation: documentType.OBSERVACION,
-            domain: documentType.DOMINIO,
-            approved: !!documentType.SUPERVISADO,
-            createdAt: dateToString(documentType.FECHA_ALTA),
-            userCreator: documentType.ID_USUARIO_ALTA,
-            userDeleted: documentType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(documentType.FECHA_BAJA)
-        };
+        const documentTypeId = await documentTypeModel.insertOne(formattedDocumentType, ['ID_TIPO_DOCUMENTO']);
+        const documentType = await documentTypeModel.findOne({ ID_TIPO_DOCUMENTO: documentTypeId });
+        return documentType;
     }
 
     static async findOne(filters) {

@@ -61,7 +61,7 @@ class microprocessesListIfService {
             description: microprocessesListIf.DESCRIPCION,
             diccionaryTypologyId: microprocessesListIf.ID_TIPOLOGIA_DE_DICCIONARIO,
             observation: microprocessesListIf.OBSERVACION,
-            domain: microprocessesListIf.OBSERVACION,
+            domain: microprocessesListIf.DOMINIO,
             approved: !!microprocessesListIf.SUPERVISADO,
             userCreator: microprocessesListIf.ID_USUARIO_ALTA,
             createdAt: dateToString(microprocessesListIf.FECHA_ALTA)
