@@ -18,6 +18,7 @@ class WordCorrectorController {
 
     static async find(req, res, next) {
         try {
+            console.log(req.params);
             const wordCorrector = await WordCorrectorService.findOne(req.params);
             res.send({ wordCorrector });
         } catch (error) {
@@ -37,7 +38,8 @@ class WordCorrectorController {
 
     static async update(req, res, next) {
         try {
-            const wordCorrector = await WordCorrectorService.update(req.params, req.body.corrector);
+            const {corrector, current} = req.body;
+            const wordCorrector = await WordCorrectorService.update(current, corrector);
             res.send({ wordCorrector });
         } catch (err) {
             next(err);
@@ -46,7 +48,8 @@ class WordCorrectorController {
 
     static async delete(req, res, next) {
         try {
-            const success = await WordCorrectorService.delete(req.params, req.user.id);
+            const {current} = req.body;
+            const success = await WordCorrectorService.delete(current, req.user.id);
             if (success) {
                 res.sendStatus(204);
             } else {
