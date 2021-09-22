@@ -15,6 +15,8 @@ class OperativeStructureService {
                     {column: 'ID_ESTRUCTURA', order: 'asc'}
                 ]
             );
+        } else if (operative) {
+            structures = await OperativeStructure.find({ID_OPERATIVO: operative, FECHA_BAJA: null});
         } else if(page){
             structures = await OperativeStructure.findByPage(
                 page,

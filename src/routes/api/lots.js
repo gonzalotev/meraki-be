@@ -1,75 +1,57 @@
 const {LotsController} = include('controllers');
-const { LotsService } = include('services');
+const { LotsService, OperativeStructureService } = include('services');
 const DBF = require('stream-dbf');
 const knex = include('helpers/database');
 const head = require('lodash/head');
+const forEach = require('lodash/forEach');
+const toUpper = require('lodash/toUpper');
 
 module.exports = router => {
     router.route('/')
         .get(LotsController.fetch)
         .post(LotsController.create);
-    router.route('/loadData').post(async function(req, res){
+    router.route('/loadData').post(async function(req, res, next){
+        let inserts = [];
+        const batches = [];
         const {lot} = req.body;
         const foundLot = await LotsService.findOne({ ...lot });
+        const operativeStructure = await OperativeStructureService.fetch({operative: lot.operativeId});
         const file = `${foundLot.fileName}.${foundLot.fileFormat}`;
         const parser = new DBF(`${abs_root_path('public')}/lots/${file}`);
         const stream = parser.stream;
-        let count = 0;
-        let inserts = [];
-        const batches = [];
         const transaction = await knex.transaction();
-        const { totalbefore } = head(await transaction('PRUEBA').count('* as totalbefore'));
         stream.on('data', function(record) {
-            console.log(record);
-            count++;
-            inserts.push({
-                ID: count, LOTID: lot.lotId, OPERATIVEID: lot.operativeId
-            });
+            const valueToInset = {
+                ID_LOTE: lot.lotId,
+                ID_OPERATIVO: lot.operativeId
+            };
+            forEach(
+                operativeStructure,
+                structure => valueToInset[toUpper(structure.entryFieldNameId)] = record[structure.originalName]
+            );
+            inserts.push(valueToInset);
             if(inserts.length === 1000) {
-                //batches.push(transaction.batchInsert('PRUEBA', [...inserts], 100).returning('ID'));
-                batches.push(transaction('PRUEBA').insert([...inserts]));
+                batches.push(transaction('DATOS_ENTRADA').insert([...inserts]));
                 inserts = [];
             }
-            res.write('adsdd');
-            /*if(count < 5) {
-                inserts.push({
-                    ID: count, LOTID: lot.lotId, OPERATIVEID: lot.operativeId
-                });
-            } else if (count === 5) {
-                //batches.push(transaction.batchInsert('PRUEBA', [...inserts], 100));
-                batches.push(transaction('PRUEBA').insert([...inserts]))
-                inserts = [];
-            }*/
         });
         stream.on('end', async function() {
-            batches.push(transaction('PRUEBA').insert([...inserts]));
-            console.log('finish :)');
-            await Promise.all(batches);
-            console.log('finish Promise');
-            const { total } = head(await transaction('PRUEBA').count('* as total'));
-            console.log('finish total');
-            if(foundLot.numberOfRecords === total) {
-                console.log('es igual');
-                await transaction.commit();
-            } else {
-                console.log('nop es igual');
-                await transaction.rollback();
+            try{
+                batches.push(transaction('DATOS_ENTRADA').insert([...inserts]));
+                await Promise.all(batches);
+                const { totalRecord } = head(await transaction('DATOS_ENTRADA').count('* as totalRecord').where({
+                    ID_LOTE: lot.lotId,
+                    ID_OPERATIVO: lot.operativeId
+                }));
+                if(foundLot.numberOfRecords === totalRecord) {
+                    await transaction.commit();
+                } else {
+                    await transaction.rollback();
+                }
+                res.send({ file });
+            } catch(error) {
+                next(error);
             }
-            console.log('finish commit');
-            console.log({
-                count,
-                total,
-                totalEsperado: foundLot.numberOfRecords,
-                totalbefore
-            });
-            /* res.send({
-                file,
-                count,
-                total,
-                totalEsperado: foundLot.numberOfRecords,
-                totalbefore,
-                foundLot
-            });*/
         });
     });
     router.route('/:id')
