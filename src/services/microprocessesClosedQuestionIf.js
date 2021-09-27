@@ -88,7 +88,6 @@ class microprocessesClosedQuestionIfService {
     }
 
     static async update(filters, params) {
-        console.log(params);
         const formattedMicroprocessesClosedQuestionIf = {
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,

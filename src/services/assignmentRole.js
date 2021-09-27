@@ -46,7 +46,6 @@ class AssignmentRoleService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        console.log(formattedAssignmentRole);
         const returnValues = ['ID_ROL_USUARIO', 'ID_USUARIO'];
         const assignmentIds = await assignmentRoleModel.insertOne(formattedAssignmentRole, returnValues);
         return await AssignmentRoleService.findOne({
@@ -60,7 +59,6 @@ class AssignmentRoleService {
             ID_ROL_USUARIO: roleId,
             ID_USUARIO: userId
         });
-        console.log(assignmentRole);
         return assignmentRole ? {
             roleId: assignmentRole.ID_ROL_USUARIO,
             description: assignmentRole.DESCRIPCION,
@@ -96,8 +94,6 @@ class AssignmentRoleService {
             formattedAssignmentRole,
             returnValues
         );
-        console.log('estoy en el update');
-        console.log(assignmentIds);
         return await AssignmentRoleService.findOne({
             roleId: assignmentIds.ID_ROL_USUARIO,
             userId: assignmentIds.ID_USUARIO

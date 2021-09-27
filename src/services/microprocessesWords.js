@@ -8,7 +8,6 @@ class MicroprocessesWordService {
         const filterBy = {};
         const columnsToSelect = microprocessesWordsModel.selectableProps;
         let microprocessesWordss = [];
-        console.log(microprocessesWordss);
         if (page && search) {
             microprocessesWordss = await microprocessesWordsModel.findByMatch(
                 page,
