@@ -296,6 +296,12 @@ module.exports = {
                     name: 'assigned',
                     required: false,
                     schema: {type: 'boolean'}
+                },
+                {
+                    in: 'query',
+                    name: 'notAssigned',
+                    required: false,
+                    schema: {type: 'boolean'}
                 }
             ],
             responses: {
