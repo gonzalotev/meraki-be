@@ -27,7 +27,6 @@ class AssignmentRoleController {
 
     static async create(req, res, next) {
         try {
-            console.log(req.body);
             const assignmentRoleFound = await AssignmentRoleService.findOne(req.body);
             if (assignmentRoleFound) {
                 const { roleId, userId } = req.body;

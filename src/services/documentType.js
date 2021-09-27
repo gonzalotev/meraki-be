@@ -108,7 +108,6 @@ class DocumentTypeService {
                 documentTypes,
                 documentType => documentType.documentTypeId === resource.documentTypeId
             );
-            console.log(resource);
             return resource;
         });
     }

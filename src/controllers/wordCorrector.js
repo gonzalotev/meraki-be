@@ -18,7 +18,6 @@ class WordCorrectorController {
 
     static async find(req, res, next) {
         try {
-            console.log(req.params);
             const wordCorrector = await WordCorrectorService.findOne(req.params);
             res.send({ wordCorrector });
         } catch (error) {
