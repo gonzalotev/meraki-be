@@ -351,5 +351,48 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/lots/loadData': {
+        post: {
+            security: [{bearerAuth: []}],
+            tags: ['Lots'],
+            requestBody: {
+                description: 'The new lot to create',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                lot: {
+                                    type: 'object',
+                                    properties: {
+                                        operativeId: {type: 'integer'},
+                                        lotId: {type: 'integer'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {message: {type: 'string'}}
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
     }
 };
