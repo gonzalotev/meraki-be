@@ -9,7 +9,7 @@ const toUpper = require('lodash/toUpper');
 module.exports = router => {
     router.route('/')
         .get(LotsController.fetch)
-        .post(LotsController.create);
+        .post(LotsController.validateFile, LotsController.create, LotsController.saveLotFile);
     router.route('/loadData').post(async function(req, res, next){
         let inserts = [];
         const batches = [];
@@ -56,7 +56,7 @@ module.exports = router => {
     });
     router.route('/:id')
         .get(LotsController.fetchOne)
-        .put(LotsController.update)
+        .put(LotsController.validateFile, LotsController.update, LotsController.saveLotFile)
         .delete(LotsController.delete);
     return router;
 };

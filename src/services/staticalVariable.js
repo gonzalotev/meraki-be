@@ -130,7 +130,6 @@ class StaticalVariableService {
         });
     }
     static async getVariableId(resources){
-        console.log(resources);
         const abbreviationIds = uniq(map(resources, resource => resource.abbreviation));
         let variables = await staticalVariableModel.findByValues('ABREVIATURA', abbreviationIds);
         variables = map(variables, variable => ({

@@ -27,9 +27,20 @@ class AssignmentRoleController {
 
     static async create(req, res, next) {
         try {
-            const assignmentRole = await AssignmentRoleService.create(req.body);
-            res.status(201);
-            res.send({ assignmentRole });
+            const assignmentRoleFound = await AssignmentRoleService.findOne(req.body);
+            if (assignmentRoleFound) {
+                const { roleId, userId } = req.body;
+                const assignmentRole = await AssignmentRoleService.update(
+                    { roleId, userId },
+                    {...req.body, createdAt: new Date, deletedAt: null}
+                );
+                res.status(201);
+                res.send({ assignmentRole });
+            } else {
+                const assignmentRole = await AssignmentRoleService.create(req.body);
+                res.status(201);
+                res.send({ assignmentRole });
+            }
         } catch (err) {
             next(err);
         }
@@ -82,9 +93,9 @@ class AssignmentRoleController {
 
     static async getRoles(req, res, next) {
         try {
-            const { userId, assigned } = req.query;
-            const roles = await AssignmentRoleService.fetchRoles({ userId, assigned });
-            res.send({ roles });
+            const { userId, assigned, notAssigned } = req.query;
+            const roles = await AssignmentRoleService.fetchRoles({ userId, assigned, notAssigned });
+            res.send({ ...roles });
         } catch (err) {
             next(err);
         }

@@ -59,8 +59,7 @@ class AssignmentRoleService {
             ID_ROL_USUARIO: roleId,
             ID_USUARIO: userId
         });
-
-        return {
+        return assignmentRole ? {
             roleId: assignmentRole.ID_ROL_USUARIO,
             description: assignmentRole.DESCRIPCION,
             domain: assignmentRole.DOMINIO,
@@ -69,7 +68,7 @@ class AssignmentRoleService {
             userName: assignmentRole.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRole.FECHA_ALTA),
             deletedAt: dateToString(assignmentRole.FECHA_BAJA)
-        };
+        } : null;
     }
 
     static async getTotal() {
@@ -79,15 +78,16 @@ class AssignmentRoleService {
 
     static async update({ userId, roleId }, params) {
         const formattedAssignmentRole = {
-            ID_ROL_USUARIO: params.id,
+            ID_ROL_USUARIO: params.roleId,
             DESCRIPCION: trim(params.description),
             DOMINIO: trim(params.domain),
             OBSERVACION: trim(params.observation),
-            ID_USUARIO: params.idUser,
+            ID_USUARIO: params.userId,
             NOMBRE_USUARIO: params.userName,
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
+
         const returnValues = ['ID_ROL_USUARIO', 'ID_USUARIO'];
         const assignmentIds = await assignmentRoleModel.updateOne(
             { ID_ROL_USUARIO: roleId, ID_USUARIO: userId },
@@ -108,30 +108,40 @@ class AssignmentRoleService {
         return !!success;
     }
 
-    static async fetchRoles({ userId, assigned }) {
-        let roles = [];
+    static async fetchRoles({ userId, assigned, notAssigned }) {
+        let assignedRoles = [];
+        let notAssignedRoles = [];
+        const result = {};
         if (assigned) {
-            roles = await assignmentRoleModel.knex('TIPOS_DE_ROLES')
+            assignedRoles = await assignmentRoleModel.knex('TIPOS_DE_ROLES')
                 .whereExists(function () {
                     this.select('*').from(assignmentRoleModel.tableName)
                         .whereRaw(`TIPOS_DE_ROLES.ID_ROL_USUARIO = ${assignmentRoleModel.tableName}.ID_ROL_USUARIO`)
                         .andWhere('ROLES_SICI.ID_USUARIO', '=', userId)
                         .andWhere({ ID_USUARIO: userId, FECHA_BAJA: null });
                 })
+                .where({ FECHA_BAJA: null })
                 .orderBy([{ column: 'ID_ROL_USUARIO', order: 'asc' }]);
-        } else {
-            roles = await assignmentRoleModel.knex('TIPOS_DE_ROLES')
+            result.assignedRoles = assignedRoles.map(role => ({
+                id: role.ID_ROL_USUARIO,
+                description: role.DESCRIPCION
+            }));
+        }
+        if(notAssigned) {
+            notAssignedRoles = await assignmentRoleModel.knex('TIPOS_DE_ROLES')
                 .whereNotExists(function () {
                     this.select('*').from(assignmentRoleModel.tableName)
                         .whereRaw(`TIPOS_DE_ROLES.ID_ROL_USUARIO = ${assignmentRoleModel.tableName}.ID_ROL_USUARIO`)
                         .andWhere({ ID_USUARIO: userId, FECHA_BAJA: null });
                 })
+                .where({ FECHA_BAJA: null })
                 .orderBy([{ column: 'ID_ROL_USUARIO', order: 'asc' }]);
+            result.notAssignedRoles = notAssignedRoles.map(role => ({
+                id: role.ID_ROL_USUARIO,
+                description: role.DESCRIPCION
+            }));
         }
-        return roles.map(role => ({
-            id: role.ID_ROL_USUARIO,
-            description: role.DESCRIPCION
-        }));
+        return result;
     }
 
     static exportToFile(worksheet, columns) {

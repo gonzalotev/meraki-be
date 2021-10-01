@@ -168,11 +168,11 @@ class DictionaryLinguisticService {
         return [
             {
                 original: 'DESCRIPCION_ORIGINAL',
-                modified: 'DESCRIPCIÓN ORIGINAL'
+                modified: 'PALABRA/FRASE ORIGEN'
             },
             {
                 original: 'DESCRIPCION_DESTINO',
-                modified: 'DESCRIPCIÓN DESTINO'
+                modified: 'PALABRA/FRASE DESTINO'
             },
             {
                 original: 'ID_TIPOLOGIA_DE_DICCIONARIO',

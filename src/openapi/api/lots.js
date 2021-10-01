@@ -70,14 +70,19 @@ module.exports = {
                 description: 'The new  lot to create',
                 required: true,
                 content: {
-                    'application/json': {
+                    'multipart/form-data': {
                         schema: {
                             type: 'object',
                             properties: {
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                approved: {type: 'boolean'}
+                                approved: {type: 'boolean'},
+                                lotFile: {
+                                    type: 'string',
+                                    format: 'binary',
+                                    nullable: true
+                                }
                             }
                         }
                     }

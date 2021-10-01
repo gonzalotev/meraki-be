@@ -5,6 +5,7 @@ coverage
 public/lots
 *.log
 .env
+public/lots/
 .env-prod
 .env-uat
 .nyc_output
