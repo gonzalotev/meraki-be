@@ -15,6 +15,7 @@ const isString = require('lodash/isString');
 const { getOffset, getPageSize } = require('./getOffset');
 const standarText = require('./standarText');
 const arrayToCsvFormat = require('./arrayToCsvFormat');
+const splitFileName = require('./splitFileName');
 const excelFileManager = require('./excelFileManager');
 const dynamicQueryExecutor = require('./dynamicTableQueries');
 
@@ -106,6 +107,7 @@ module.exports = {
     standarText,
     arrayToCsvFormat,
     dateTimeToStrings,
+    splitFileName,
     excelFileManager,
     dynamicQueryExecutor
 };
