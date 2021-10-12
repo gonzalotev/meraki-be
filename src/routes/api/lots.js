@@ -10,6 +10,7 @@ module.exports = router => {
     router.route('/')
         .get(LotsController.fetch)
         .post(LotsController.validateFile, LotsController.create, LotsController.saveLotFile);
+    router.route('/runLinguisticProcess').post(LotsController.runLinguisticProcess);
     router.route('/loadData').post(async function(req, res, next){
         let inserts = [];
         const batches = [];

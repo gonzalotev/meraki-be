@@ -108,6 +108,15 @@ class LotsController {
             next(err);
         }
     }
+
+    static async runLinguisticProcess(req, res, next){
+        try{
+            const plSqlresponse = await LotsService.runLinguisticProcess(req.body);
+            res.send({plSqlresponse});
+        }catch(error){
+            next(error);
+        }
+    }
 }
 
 module.exports = LotsController;
