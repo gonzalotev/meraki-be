@@ -1,4 +1,5 @@
 const OperativesService = require('./operatives');
+const Oracle = include('helpers/oracle');
 const { lots } = include('models');
 const { lotsAttrib } = include('constants/staticData');
 const { dateToString, stringToDate, dateTimeToString } = include('util');
@@ -14,6 +15,20 @@ class LotsService {
             observation: lot.OBSERVACION,
             domain: lot.DOMINIO
         }));
+    }
+
+    static async runLinguisticProcess(body) {
+        const oracle = new Oracle();
+        const dataTypes = oracle.getOutBinds();
+        return await oracle.executePlSql(
+            `BEGIN
+                L_SP_TEST(:nombre, :saludo);
+            END;`,
+            {
+                nombre: body.nombre,
+                saludo: dataTypes.varchar
+            }
+        );
     }
 
     static async fetch() {
