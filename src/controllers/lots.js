@@ -111,7 +111,8 @@ class LotsController {
 
     static async runLinguisticProcess(req, res, next){
         try{
-            const plSqlresponse = await LotsService.runLinguisticProcess(req.body);
+            const { lotId, operativeId } = req.body.lot;
+            const plSqlresponse = await LotsService.runLinguisticProcess({ lotId, operativeId }, req.user.id);
             res.send({plSqlresponse});
         }catch(error){
             next(error);

@@ -17,16 +17,19 @@ class LotsService {
         }));
     }
 
-    static async runLinguisticProcess(body) {
+    static async runLinguisticProcess(lotOperative, userCreator) {
         const oracle = new Oracle();
         const dataTypes = oracle.getOutBinds();
         return await oracle.executePlSql(
             `BEGIN
-                L_SP_TEST(:nombre, :saludo);
+                G_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId, :sal);
+                commit;
             END;`,
             {
-                nombre: body.nombre,
-                saludo: dataTypes.varchar
+                operativeId: lotOperative.operativeId,
+                lotId: lotOperative.lotId,
+                userId: userCreator,
+                sal: dataTypes.varchar
             }
         );
     }
