@@ -407,8 +407,12 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                nombre: {
-                                    type: 'string'
+                                lot: {
+                                    type: 'object',
+                                    properties: {
+                                        operativeId: {type: 'integer'},
+                                        lotId: {type: 'integer'}
+                                    }
                                 }
                             }
                         }
