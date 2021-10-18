@@ -24,6 +24,8 @@ class LotsService {
             `BEGIN
                 G_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId, :sal);
                 commit;
+                L_NORMALIZADO_ESTANDAR(:operativeId, :lotId, :sal);
+                commit;
             END;`,
             {
                 operativeId: lotOperative.operativeId,
