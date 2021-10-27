@@ -25,10 +25,14 @@ class LotsService {
         const dataTypes = oracle.getOutBinds();
         return await oracle.executePlSql(
             `BEGIN
-                G_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId, :sal);
-                commit;
-                L_NORMALIZADO_ESTANDAR(:operativeId, :lotId, :sal);
-                commit;
+                LIN_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId, :sal);
+                COMMIT;
+                LIN_NORMALIZADO_ESTANDAR(:operativeId, :lotId, :sal);
+                COMMIT;
+                LIN_CORRECTOR_PALABRAS(:operativeId, :lotId);
+                COMMIT;
+                LIN_CORRER_PASOS_LINGUISTICOS(:operativeId, :lotId);
+                COMMIT;
             END;`,
             {
                 operativeId: lotOperative.operativeId,
