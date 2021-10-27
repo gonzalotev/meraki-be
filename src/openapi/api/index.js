@@ -35,6 +35,7 @@ const ticket = require ('./ticket');
 const microprocessesListsIfWords = require('./microprocessesListsIfWords');
 const encodingProcesses = require('./encodingProcesses');
 const stepsEncodingProcesses = require('./stepsEncodingProcesses');
+const runEncodingProcesses = require('./runEncodingProcesses');
 const operativeStructure = require('./operativeStructure');
 const lots = require('./lots');
 const microprocessDefinition = require('./microprocessDefinition');
@@ -85,6 +86,7 @@ module.exports = {
     ...ticket,
     ...encodingProcesses,
     ...stepsEncodingProcesses,
+    ...runEncodingProcesses,
     ...operativeStructure,
     ...lots,
     ...microprocessDefinition,

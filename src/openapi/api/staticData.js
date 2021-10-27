@@ -150,6 +150,12 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'lot',
+                    required: false,
+                    schema: { type: 'boolean' }
+                },
+                {
+                    in: 'query',
                     name: 'questions',
                     required: false,
                     schema: { type: 'boolean' }

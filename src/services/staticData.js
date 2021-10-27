@@ -153,6 +153,17 @@ class StaticDataService {
         data.sources = sources;
         return data;
     }
+    static async getLot(data) {
+        const lot = await knex.select({
+            id: 'ID_LOTE',
+            description: 'DESCRIPCION'
+        })
+            .from('LOTES')
+            .where({FECHA_BAJA: null})
+            .orderBy([{column: 'ID_LOTE', order: 'asc'}]);
+        data.lot = lot;
+        return data;
+    }
     static async getEditors(data) {
         const editors = await knex.select({
             editorId: 'ID_EDITOR',

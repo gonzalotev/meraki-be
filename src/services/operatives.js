@@ -151,6 +151,7 @@ class OperativesService {
         let operativesData = await operatives.findByValues('ID_OPERATIVO', operativesIds);
         operativesData = map(operativesData, operative => ({
             id: operative.ID_OPERATIVO,
+            sourceId: operative.ID_FUENTE,
             description: operative.DESCRIPCION
         }));
         return map(resources, resource => {

@@ -54,24 +54,9 @@ class DictionaryTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const dictionaryType = await dictionaryTypeModel.insertOne(formattedDictionaryType);
-
-        return {
-            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionaryType.DESCRIPCION,
-            isOriginAWord: !!dictionaryType.SI_PALABRA_NO_FRASE_ORIGEN,
-            haveDesnityDescription: !!dictionaryType.SI_DESCRIPCION_DESTINO,
-            isDestinyAWord: !!dictionaryType.SI_PALABRA_NO_FRASE_DESTINO,
-            haveRegex: !!dictionaryType.EXPRESION_REGULAR,
-            validation: dictionaryType.VALIDACION,
-            observation: dictionaryType.OBSERVACION,
-            domain: dictionaryType.DOMINIO,
-            approved: !!dictionaryType.SUPERVISADO,
-            createdAt: dateToString(dictionaryType.FECHA_ALTA),
-            userCreator: dictionaryType.ID_USUARIO_ALTA,
-            userDeleted: dictionaryType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
-        };
+        const dictionaryTypeId = await dictionaryTypeModel.insertOne(formattedDictionaryType, ['ID_TIPOLOGIA_DE_DICCIONARIO']);
+        const dictionaryType = await DictionaryTypeService.findOne({ id: dictionaryTypeId });
+        return dictionaryType;
     }
 
     static async findOne(filters) {
@@ -111,24 +96,11 @@ class DictionaryTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const dictionaryType = await dictionaryTypeModel.updateOne({ ID_TIPOLOGIA_DE_DICCIONARIO: filters.id },
-            formattedDictionaryType);
-        return {
-            id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
-            description: dictionaryType.DESCRIPCION,
-            isOriginAWord: !!dictionaryType.SI_PALABRA_NO_FRASE_ORIGEN,
-            haveDesnityDescription: !!dictionaryType.SI_DESCRIPCION_DESTINO,
-            isDestinyAWord: !!dictionaryType.SI_PALABRA_NO_FRASE_DESTINO,
-            haveRegex: !!dictionaryType.EXPRESION_REGULAR,
-            validation: dictionaryType.VALIDACION,
-            observation: dictionaryType.OBSERVACION,
-            domain: dictionaryType.DOMINIO,
-            approved: !!dictionaryType.SUPERVISADO,
-            createdAt: dateToString(dictionaryType.FECHA_ALTA),
-            userCreator: dictionaryType.ID_USUARIO_ALTA,
-            userDeleted: dictionaryType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
-        };
+
+        const dictionaryTypeId = await dictionaryTypeModel.updateOne({ID_TIPOLOGIA_DE_DICCIONARIO: filters.id},
+            formattedDictionaryType, ['ID_TIPOLOGIA_DE_DICCIONARIO']);
+        const dictionaryType = await DictionaryTypeService.findOne({ id: dictionaryTypeId });
+        return dictionaryType;
     }
 
     static async delete(filters, userDeleted) {

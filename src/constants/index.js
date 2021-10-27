@@ -692,6 +692,36 @@ const stepsEncodingProcessesAttrib = [
     'FECHA_BAJA'
 ];
 
+const runEncodingProcessesTableName = 'LOTES_VARIABLES';
+const runEncodingProcessesAttrib = [
+    'ID_OPERATIVO',
+    'ID_LOTE',
+    'ID_VARIABLE',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'FECHA_INICIO_LINGUISTICO',
+    'FECHA_FIN_LINGUISTICO',
+    'FECHA_INICIO_FRASES_UNICAS',
+    'FECHA_FIN_FRASES_UNICAS',
+    'FECHA_INICIO_CODIFICACION_AUTOMATICA',
+    'FECHA_FIN_CODIFICACION_AUTOMATICA',
+    'FECHA_INICIO_CODIFICACION_MANUAL',
+    'FECHA_FIN_CODIFICACION_MANUAL',
+    'FECHA_INICIO_SUPERVISADO_AUTOMATICO',
+    'FECHA_FIN_SUPERVISADO_AUTOMATICO',
+    'FECHA_INICIO_SUPERVISADO_MANUAL',
+    'FECHA_FIN_SUPERVISADO_MANUAL',
+    'TOTAL_REGISTROS_AUTOMATICO',
+    'TOTAL_REGISTROS_MANUAL',
+    'CALIDAD_CODIFICACION_AUTOMATICA',
+    'CALIDAD_CODIFICACION_MANUAL',
+    'LOTE_VARIABLE_RECHAZADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SE_CODIFICA_SI_NO'
+];
+
 const microprocessesListsIfWordsTableName = 'MICROPROCESOS_LISTAS_IF_PALABRAS';
 const microprocessesListsIfWordsAttrib = [
     'ID_LISTAS',
@@ -972,6 +1002,8 @@ module.exports = {
     microprocessDefinitionAttrib,
     stepsLinguisticProcessesTableName,
     stepsLinguisticProcessesAttrib,
+    runEncodingProcessesTableName,
+    runEncodingProcessesAttrib,
     linguisticFieldProcessesTableName,
     linguisticFieldProcessesAttrib,
     microprocessesListIfTablename,

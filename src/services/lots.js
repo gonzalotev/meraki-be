@@ -4,6 +4,9 @@ const { lots } = include('models');
 const { lotsAttrib } = include('constants/staticData');
 const { dateToString, stringToDate, dateTimeToString } = include('util');
 const toNumber = require('lodash/toNumber');
+const map = require('lodash/map');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
 
 class LotsService {
     static async fetchStaticLots() {
@@ -209,6 +212,22 @@ class LotsService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static async getLots(resources){
+        const lotsIds = uniq(map(resources, resource => resource.lotId));
+        let lotsData = await lots.findByValues('ID_LOTE', lotsIds);
+        lotsData = map(lotsData, lots => ({
+            id: lots.ID_LOTE,
+            description: lots.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.lots = find(lotsData, lots => lots.id === resource.lotId);
+            return resource;
+        });
     }
 }
 

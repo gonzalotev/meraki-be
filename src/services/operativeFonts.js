@@ -37,6 +37,24 @@ class OperativeFontService {
             return resource;
         });
     }
+
+    static async getOperativesData(resources){
+        const operativesIds = uniq(map(resources, resource => resource.operativeId));
+        let operativesData = await OperativeFonts.findByValues('ID_FUENTE', operativesIds);
+        operativesData = map(operativesData, operativeFont => ({
+            id: operativeFont.ID_FUENTE,
+            initial: operativeFont.SIGLA,
+            name: operativeFont.NOMBRE
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.operativeFont = find(operativesData,
+                operative => operative.id === resource.operativeId);
+            return resource;
+        });
+    }
 }
 
 module.exports = OperativeFontService;

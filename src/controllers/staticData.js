@@ -23,6 +23,7 @@ class StaticDataController {
                 newPhrases,
                 nomenclators,
                 lots,
+                lot,
                 fonts,
                 nomenclatures,
                 nomenclaturesGroup,
@@ -97,6 +98,7 @@ class StaticDataController {
             if (lots) {
                 await StaticDataService.getLots(data);
             }
+
             if (fonts) {
                 await StaticDataService.getFont(data);
             }
@@ -118,6 +120,9 @@ class StaticDataController {
             }
             if (sources) {
                 await StaticDataService.getSources(data);
+            }
+            if (lot) {
+                await StaticDataService.getLot(data);
             }
             if (editors) {
                 await StaticDataService.getEditors(data);

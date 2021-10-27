@@ -189,6 +189,14 @@ class AutoPhraseService {
                 modified: 'dependId'
             },
             {
+                original: 'FECHA_RETROALIMENTACION',
+                modified: 'dateRetro'
+            },
+            {
+                original: 'FRASE_RETROALIMENTADA_SI_NO',
+                modified: 'prhaseRetro'
+            },
+            {
                 original: 'SUPERVISADO',
                 modified: 'approved'
             }
