@@ -1,9 +1,9 @@
 const {NewWordController} = include('controllers');
-const {validateWords} = include('routes/middlewares');
+
 module.exports = router => {
     router.route('/')
         .get(NewWordController.fetch)
-        .post(validateWords, NewWordController.create);
+        .post(NewWordController.create);
     router.route('/downloadCsv').get(NewWordController.downloadCsv);
     router.route('/:operative/:variable').get(NewWordController.findFirst);
     router.route('/:id')
