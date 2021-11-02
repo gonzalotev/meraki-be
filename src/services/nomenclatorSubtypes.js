@@ -24,7 +24,7 @@ class NomenclatorSubtypeService {
             ID_SUBTIPO: trim(params.id),
             ID_TIPO: trim(params.typeId),
             DESCRIPCION: trim(params.description),
-            SUPERVISADO: trim(params.approved),
+            SUPERVISADO: params.approved,
             DOMINIO: trim(params.domain),
             OBSERVACION: params.observation,
             ID_USUARIO_ALTA: userCreator,
