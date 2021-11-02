@@ -32,20 +32,13 @@ class NomenclatorSubtypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const nomenclator = await nomenclatorSubtypes.insertOne(formattedNomenclator);
+        const nomenclator = await nomenclatorSubtypes.insertOne(formattedNomenclator, ['ID_SUBTIPO', 'ID_TIPO', 'DESCRIPCION']);
+        const nomenclatorSubtype = await NomenclatorSubtypeService.findOne(
+            {id: nomenclator.ID_SUBTIPO,
+                typeId: nomenclator.ID_TIPO,
+                description: nomenclator.DESCRIPCION});
 
-        return {
-            id: nomenclator.ID_SUBTIPO,
-            typeId: nomenclator.ID_TIPO,
-            description: nomenclator.DESCRIPCION,
-            approved: !!nomenclator.SUPERVISADO,
-            domain: nomenclator.DOMINIO,
-            observation: nomenclator.OBSERVACION,
-            createdAt: dateToString(nomenclator.FECHA_ALTA),
-            userCreator: nomenclator.ID_USUARIO_ALTA,
-            userDeleted: nomenclator.ID_USUARIO_BAJA,
-            deletedAt: dateToString(nomenclator.FECHA_BAJA)
-        };
+        return nomenclatorSubtype;
     }
 
     static async findOne(filters){
@@ -72,19 +65,13 @@ class NomenclatorSubtypeService {
             OBSERVACION: trim(params.observation)
         };
         const formattedFilters = {ID_SUBTIPO: filters.id, ID_TIPO: filters.typeId};
-        const nomenclator = await nomenclatorSubtypes.updateOne(formattedFilters, formattedNomenclator);
-        return {
-            id: nomenclator.ID_SUBTIPO,
-            typeId: nomenclator.ID_TIPO,
-            description: nomenclator.DESCRIPCION,
-            approved: !!nomenclator.SUPERVISADO,
-            domain: nomenclator.DOMINIO,
-            observation: nomenclator.OBSERVACION,
-            createdAt: dateToString(nomenclator.FECHA_ALTA),
-            userCreator: nomenclator.ID_USUARIO_ALTA,
-            userDeleted: nomenclator.ID_USUARIO_BAJA,
-            deletedAt: dateToString(nomenclator.FECHA_BAJA)
-        };
+        const nomenclator = await nomenclatorSubtypes.updateOne(formattedFilters, formattedNomenclator, ['ID_TIPO', 'ID_SUBTIPO', 'DESCRIPCION']);
+        const nomenclatorSubtype = await NomenclatorSubtypeService.findOne(
+            {id: nomenclator.ID_TIPO,
+                typeId: nomenclator.ID_SUBTIPO,
+                description: nomenclator.DESCRIPCION});
+
+        return nomenclatorSubtype;
     }
 
     static async delete(filters, userDeleted){
