@@ -64,7 +64,6 @@ class NomenclatorTypesService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        console.log(formattedNomenclatorType);
         const formattedFilters = {ID_TIPO: filters.id};
         const nomenclatorTypeId = await nomenclatorTypes.updateOne(formattedFilters, formattedNomenclatorType, ['ID_TIPO']);
         const nomenclatorType = await NomenclatorTypesService.findOne({id: nomenclatorTypeId});
