@@ -27,6 +27,10 @@ class OrganizationTypeController {
             res.status(201);
             res.send({ organizationType });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }
@@ -36,6 +40,10 @@ class OrganizationTypeController {
             const organizationType = await OrganizationTypeService.update(req.params, req.body);
             res.send({ organizationType });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }
