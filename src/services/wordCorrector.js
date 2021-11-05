@@ -29,7 +29,7 @@ class WordCorrectorService {
         }));
     }
 
-    static async create(params, userCreator, transaction) {
+    static async create(params, userCreator) {
         const formattedWordCorrector = {
             INCORRECTA: trim(params.wrong),
             CORRECTA: params.right,
@@ -42,7 +42,7 @@ class WordCorrectorService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, ['INCORRECTA', 'CORRECTA'], transaction);
+        const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, ['INCORRECTA', 'CORRECTA']);
 
         return WordCorrectorService.findOne({wrong: wordCorrector.INCORRECTA, right: wordCorrector.CORRECTA});
     }

@@ -30,8 +30,12 @@ class LotsController {
             res.status(201);
             res.json({ lot });
             next();
-        } catch (error) {
-            next(error);
+        } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
+            next(err);
         }
     }
 
@@ -40,8 +44,12 @@ class LotsController {
             const lot = await LotsService.update(req.params, req.body);
             res.json({ success: true, lot });
             next();
-        } catch (error) {
-            next(error);
+        } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
+            next(err);
         }
     }
 

@@ -9,7 +9,7 @@ class AssignmentRoleService {
         if (page) {
             assignmentsRoles = await assignmentRoleModel.findByPage(
                 page,
-                {},
+                {FECHA_BAJA: null},
                 assignmentRoleModel.selectableProps,
                 [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
             );

@@ -8,7 +8,7 @@ class NomenclatorTypesService {
         return nomenclatorTypeGet.map(nomenclatorType => ({
             id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,
-            supervised: nomenclatorType.SUPERVISADO,
+            supervised: !!nomenclatorType.SUPERVISADO,
             observation: nomenclatorType.OBSERVACION,
             domain: nomenclatorType.DOMINIO,
             createdAt: dateToString(nomenclatorType.FECHA_ALTA),
@@ -24,7 +24,7 @@ class NomenclatorTypesService {
         return {
             id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,
-            supervised: nomenclatorType.SUPERVISADO,
+            supervised: !!nomenclatorType.SUPERVISADO,
             observation: nomenclatorType.OBSERVACION,
             domain: nomenclatorType.DOMINIO,
             createdAt: dateToString(nomenclatorType.FECHA_ALTA),
@@ -38,7 +38,7 @@ class NomenclatorTypesService {
         const formattedNomenclatorType = {
             ID_TIPO: trim(params.id),
             DESCRIPCION: trim(params.description),
-            SUPERVISADO: params.supervised,
+            SUPERVISADO: !!params.supervised,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: userCreator,
@@ -46,18 +46,9 @@ class NomenclatorTypesService {
             ID_USUARIO_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const nomenclatorType = await nomenclatorTypes.insertOne(formattedNomenclatorType);
-        return {
-            id: nomenclatorType.ID_TIPO,
-            description: nomenclatorType.DESCRIPCION,
-            supervised: !!nomenclatorType.SUPERVISADO,
-            observation: nomenclatorType.OBSERVACION,
-            domain: nomenclatorType.DOMINIO,
-            userId: nomenclatorType.ID_USUARIO_ALTA,
-            deletedAt: dateToString(nomenclatorType.FECHA_BAJA),
-            deletedBy: nomenclatorType.ID_USUARIO_BAJA,
-            createdAt: dateToString(nomenclatorType.FECHA_ALTA)
-        };
+        const nomenclatorTypeId = await nomenclatorTypes.insertOne(formattedNomenclatorType, ['ID_TIPO']);
+        const nomenclatorTypeReturn = await NomenclatorTypesService.findOne({id: nomenclatorTypeId});
+        return nomenclatorTypeReturn;
 
     }
 
@@ -65,7 +56,7 @@ class NomenclatorTypesService {
         const formattedNomenclatorType = {
             ID_TIPO: trim(params.id),
             DESCRIPCION: trim(params.description),
-            SUPERVISADO: params.supervised,
+            SUPERVISADO: !!params.supervised,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: params.userCreator,
@@ -74,18 +65,9 @@ class NomenclatorTypesService {
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const formattedFilters = {ID_TIPO: filters.id};
-        const nomenclatorType = await nomenclatorTypes.updateOne(formattedFilters, formattedNomenclatorType);
-        return {
-            id: nomenclatorType.ID_TIPO,
-            description: nomenclatorType.DESCRIPCION,
-            supervised: !!nomenclatorType.SUPERVISADO,
-            observation: nomenclatorType.OBSERVACION,
-            domain: nomenclatorType.DOMINIO,
-            userId: nomenclatorType.ID_USUARIO_ALTA,
-            deletedAt: dateToString(nomenclatorType.FECHA_BAJA),
-            deletedBy: nomenclatorType.ID_USUARIO_BAJA,
-            createdAt: dateToString(nomenclatorType.FECHA_ALTA)
-        };
+        const nomenclatorTypeId = await nomenclatorTypes.updateOne(formattedFilters, formattedNomenclatorType, ['ID_TIPO']);
+        const nomenclatorType = await NomenclatorTypesService.findOne({id: nomenclatorTypeId});
+        return nomenclatorType;
     }
 
     static async deleteOne(filters, userDeleted){

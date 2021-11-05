@@ -27,6 +27,10 @@ class RolesTypeController {
             res.status(201);
             res.send({ rolesType });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }
@@ -36,6 +40,10 @@ class RolesTypeController {
             const rolesType = await RolesTypeService.update(req.params, req.body);
             res.send({ rolesType });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }

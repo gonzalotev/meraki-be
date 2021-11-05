@@ -30,19 +30,9 @@ class RolesTypeService {
             FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
-        const rolesType = await rolesTypeModel.insertOne(formattedRolesType);
-
-        return {
-            id: rolesType.ID_ROL_USUARIO,
-            description: rolesType.DESCRIPCION,
-            observation: rolesType.OBSERVACION,
-            domain: rolesType.DOMINIO,
-            approved: !!rolesType.SUPERVISADO,
-            createdAt: dateToString(rolesType.FECHA_ALTA),
-            userCreator: rolesType.ID_USUARIO_ALTA,
-            userDeleted: rolesType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(rolesType.FECHA_BAJA)
-        };
+        const returnData = ['ID_ROL_USUARIO'];
+        const id = await rolesTypeModel.insertOne(formattedRolesType, returnData);
+        return await RolesTypeService.findOne({id});
     }
 
     static async findOne(filters) {
@@ -72,19 +62,13 @@ class RolesTypeService {
             FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
-        const rolesType = await rolesTypeModel.updateOne({ ID_ROL_USUARIO: filters.id },
-            formattedRolesType);
-        return {
-            id: rolesType.ID_ROL_USUARIO,
-            description: rolesType.DESCRIPCION,
-            observation: rolesType.OBSERVACION,
-            domain: rolesType.DOMINIO,
-            approved: !!rolesType.SUPERVISADO,
-            createdAt: dateToString(rolesType.FECHA_ALTA),
-            userCreator: rolesType.ID_USUARIO_ALTA,
-            userDeleted: rolesType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(rolesType.FECHA_BAJA)
-        };
+        const returnData = ['ID_ROL_USUARIO'];
+        const id = await rolesTypeModel.updateOne(
+            { ID_ROL_USUARIO: filters.id },
+            formattedRolesType,
+            returnData
+        );
+        return await RolesTypeService.findOne({id});
     }
 
     static async delete(filters, userDeleted) {

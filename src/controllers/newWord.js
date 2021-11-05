@@ -1,8 +1,8 @@
 const { NewWordService, NewPhraseService, WordsDictionaryService, WordCorrectorService } = include('services');
-const knex = include('helpers/database');
 const isEmpty = require('lodash/isEmpty');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const split = require('lodash/split');
 
 class NewWordController {
     static async fetch(req, res, next) {
@@ -30,35 +30,39 @@ class NewWordController {
             const { newWord, dictionary, corrector } = req.body;
             const response = {};
             const { frequency, abc, word } = newWord;
-            const transaction = await knex.transaction();
             if (dictionary) {
                 const createdDictionary = await WordsDictionaryService.create(
                     { ...dictionary, frequency, abc, word },
-                    req.user.id,
-                    transaction
+                    req.user.id
                 );
-                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: true }, transaction);
                 response.dictionary = createdDictionary;
-                response.newWord = updatedNewWord;
+                response.newWord = newWord;
                 res.status(201);
             } else if (corrector) {
                 const createdCorrector = await WordCorrectorService.create(
                     { ...corrector, frequency, wrong: word },
-                    req.user.id,
-                    transaction
+                    req.user.id
                 );
-                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: true }, transaction);
                 response.corrector = createdCorrector;
-                response.newWord = updatedNewWord;
+                response.newWord = newWord;
                 res.status(201);
             } else {
-                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: false }, transaction);
+                const updatedNewWord = await NewWordService.updateOne({ ...newWord, corrected: false });
                 response.newWord = updatedNewWord;
                 res.status(200);
             }
-            await transaction.commit();
             res.send(response);
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+                if(err.errors.notFoundWords) {
+                    err.errors.notFoundWords = split(err.errors.notFoundWords, ' ');
+                }
+                if(err.errors.notFoundFamily) {
+                    err.errors.notFoundFamily = split(err.errors.notFoundFamily, ' ');
+                }
+            }
             next(err);
         }
     }
