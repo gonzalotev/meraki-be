@@ -171,7 +171,7 @@ class DictionaryTypeService {
             },
             {
                 original: 'SI_PALABRA_NO_FRASE_ORIGEN',
-                modified: 'SI_PALABRA_NO_FRASE_ORIGEN'
+                modified: 'SI PALABRA / NO FRASE ORIGEN'
             },
             {
                 original: 'SI_DESCRIPCION_DESTINO',
@@ -179,7 +179,7 @@ class DictionaryTypeService {
             },
             {
                 original: 'SI_PALABRA_NO_FRASE_DESTINO',
-                modified: 'SI_PALABRA_NO_FRASE_DESTINO'
+                modified: 'SI PALABRA / NO FRASE DESTINO'
             },
             {
                 original: 'EXPRESION_REGULAR',
@@ -187,7 +187,7 @@ class DictionaryTypeService {
             },
             {
                 original: 'VALIDACION',
-                modified: 'VALIDACIÓN'
+                modified: 'VALIDACION'
             },
             {
                 original: 'OBSERVACION',

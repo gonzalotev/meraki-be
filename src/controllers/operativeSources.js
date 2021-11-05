@@ -68,7 +68,7 @@ class OperativeSourcesController {
             const worksheet = workbook.addWorksheet('Fuentes_Operativos');
             const sheetColums = map(
                 OperativeSourcesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await OperativeSourcesService.exportToFile(worksheet, originalColumns);

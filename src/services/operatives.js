@@ -195,15 +195,15 @@ class OperativesService {
         return [
             {
                 original: 'ID_FUENTE',
-                modified: 'ID'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'DESCRIPCION',
-                modified: 'DESCRIPCION'
+                modified: 'DESCRIPCIÓN'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'OBSERVACION'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',

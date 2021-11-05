@@ -69,7 +69,7 @@ class RunEncodingProcessesController {
             const worksheet = workbook.addWorksheet('Correr_Procesos_Codificacion');
             const sheetColums = map(
                 RunEncodingProcessesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await RunEncodingProcessesService.exportToFile(worksheet, originalColumns);

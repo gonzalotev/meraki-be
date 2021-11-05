@@ -66,7 +66,7 @@ class RelationshipAutophrasesQuestionClosedsController {
             const worksheet = workbook.addWorksheet('Relacion_Autofrases_Preguntas_Cerradas');
             const sheetColums = map(
                 RelationshipAutophrasesQuestionClosedsService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await RelationshipAutophrasesQuestionClosedsService.exportToFile(worksheet, originalColumns);

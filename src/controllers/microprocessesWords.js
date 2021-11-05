@@ -74,7 +74,7 @@ class MicroprocessesWordsController {
             const worksheet = workbook.addWorksheet('microprocesos_palabras');
             const sheetColums = map(
                 MicroprocessesWordsService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessesWordsService.exportToFile(worksheet, originalColumns);

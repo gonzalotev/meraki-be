@@ -176,47 +176,47 @@ class MicroprocessDefinitionService {
         return [
             {
                 original: 'ID_MICROPROCESO',
-                modified: 'id'
+                modified: 'MICROPROCESO ID'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'variableId'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'ORDEN',
-                modified: 'order'
+                modified: 'ORDEN'
             },
             {
                 original: 'DESCRIPCION',
-                modified: 'description'
+                modified: 'DESCRIPCIÓN'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                modified: 'dictionaryTypeId'
+                modified: 'TIPOLOGÍA DE DICCIONARIO ID'
             },
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'nomenclatorId'
+                modified: 'NOMENCLADOR ID'
             },
             {
                 original: 'ID_CANTIDAD_DIGITOS',
-                modified: 'amountOfDigits'
+                modified: 'CANTIDAD DE DÍGITOS ID'
             },
             {
                 original: 'CARGADO_COMPLETO_SI_NO',
-                modified: 'isFullyCharged'
+                modified: 'CARGADO COMPLETO SI/NO'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

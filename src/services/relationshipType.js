@@ -101,7 +101,7 @@ class RelationshipTypeService {
         return [
             {
                 original: 'ID_TIPO_RELACION',
-                modified: 'ID'
+                modified: 'TIPO RELACIÓN ID'
             },
             {
                 original: 'DESCRIPCION',

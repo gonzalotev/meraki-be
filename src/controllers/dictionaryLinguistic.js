@@ -80,7 +80,7 @@ class DictionaryLinguisticController {
             const worksheet = workbook.addWorksheet('Diccionario_Linguistico');
             const sheetColums = map(
                 DictionaryLinguisticService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await DictionaryLinguisticService.exportToFile(worksheet, originalColumns);

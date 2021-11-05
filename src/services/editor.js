@@ -125,7 +125,7 @@ class EditorService {
         return [
             {
                 original: 'ID_EDITOR',
-                modified: 'ID'
+                modified: 'EDITOR ID'
             },
             {
                 original: 'DESCRIPCION',

@@ -68,7 +68,7 @@ class StepsLinguisticProcessesController {
             const worksheet = workbook.addWorksheet('Pasos_Procesos_Linguisticos');
             const sheetColums = map(
                 StepsLinguisticProcessesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await StepsLinguisticProcessesService.exportToFile(worksheet, originalColumns);

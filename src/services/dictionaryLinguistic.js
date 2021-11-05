@@ -176,11 +176,11 @@ class DictionaryLinguisticService {
             },
             {
                 original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                modified: 'ID DE TIPOLOGÍA DICCIONARIO'
+                modified: 'TIPOLOGÍA DICCIONARIO ID'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'ID DE VARIABLE'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'SUPERVISADO',

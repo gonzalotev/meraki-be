@@ -72,7 +72,7 @@ class OperativesController {
             const worksheet = workbook.addWorksheet('Operativos');
             const sheetColums = map(
                 OperativesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await OperativesService.exportToFile(worksheet, originalColumns);

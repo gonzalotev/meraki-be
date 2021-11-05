@@ -100,7 +100,7 @@ class NetworkTypeService {
         return [
             {
                 original: 'ID_TIPO_RED',
-                modified: 'ID'
+                modified: 'TIPO DE RED ID'
             },
             {
                 original: 'DESCRIPCION',

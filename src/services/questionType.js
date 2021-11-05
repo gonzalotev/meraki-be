@@ -114,7 +114,7 @@ class QuestionTypeService {
         return [
             {
                 original: 'ID_ABIERTA_CERRADA',
-                modified: 'ID'
+                modified: 'ABIERTA CERRADA ID'
             },
             {
                 original: 'DESCRIPCION',

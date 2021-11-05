@@ -152,19 +152,19 @@ class RelationshipAutophrasesNomenclatureService {
         return [
             {
                 original: 'ID_AUTOFRASE',
-                modified: 'ID DE AUTOFRASE'
+                modified: 'AUTOFRASE ID'
             },
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'ID DE NOMENCLADOR'
+                modified: 'NOMENCLADOR ID'
             },
             {
                 original: 'ID_NOMENCLATURA',
-                modified: 'ID DE NOMENCLATURA'
+                modified: 'NOMENCLATURA ID'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'ID DE VARIABLE'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'VARIABLE_ESTADISTICA',

@@ -142,15 +142,15 @@ class StepsLinguisticProcessesService {
         return [
             {
                 original: 'ID_FUENTE',
-                modified: 'FUENTE'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'PREGUNTA'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                modified: 'TIPOLOGIA DE DICCIONARIO'
+                modified: 'TIPOLOGÍA DE DICCIONARIO'
             },
             {
                 original: 'ORDEN',
@@ -158,7 +158,7 @@ class StepsLinguisticProcessesService {
             },
             {
                 original: 'ID_NOMBRE_CAMPO_LINGUISTICO',
-                modified: 'NOMBRE CAMPO LINGUISTICO'
+                modified: 'NOMBRE CAMPO LINGÜISTICO ID'
             },
             {
                 original: 'SE_MUESTRA_EN_PANTALLA',
@@ -166,7 +166,7 @@ class StepsLinguisticProcessesService {
             },
             {
                 original: 'OBSERVACION',
-                modified: 'OBSERVACION'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',

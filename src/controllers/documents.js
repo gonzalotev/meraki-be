@@ -60,7 +60,7 @@ class DocumentsController {
             const worksheet = workbook.addWorksheet('Documentos');
             const sheetColums = map(
                 DocumentsService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await DocumentsService.exportToFile(worksheet, originalColumns);

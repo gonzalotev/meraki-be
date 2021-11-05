@@ -113,7 +113,7 @@ class NewWordController {
             const worksheet = workbook.addWorksheet('Nuevas_Palabras');
             const sheetColums = map(
                 NewWordService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await NewWordService.exportToFile(worksheet, originalColumns);

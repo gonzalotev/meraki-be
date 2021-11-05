@@ -60,7 +60,7 @@ class NetworkTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Redes');
             const sheetColums = map(
                 NetworkTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await NetworkTypeService.exportToFile(worksheet, originalColumns);

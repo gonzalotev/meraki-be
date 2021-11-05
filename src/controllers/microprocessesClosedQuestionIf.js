@@ -52,7 +52,7 @@ class MicroprocessesClosedQuestionIfController {
             const worksheet = workbook.addWorksheet('micro_preg_cerr_if');
             const sheetColums = map(
                 MicroprocessesClosedQuestionIfService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessesClosedQuestionIfService.exportToFile(worksheet, originalColumns);

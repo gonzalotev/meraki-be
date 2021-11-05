@@ -62,7 +62,7 @@ class SourceQuestionsRelationsController {
             const worksheet = workbook.addWorksheet('Relacion_Fuente_Pregunta');
             const sheetColums = map(
                 SourceQuestionsRelationsService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await SourceQuestionsRelationsService.exportToFile(worksheet, originalColumns);

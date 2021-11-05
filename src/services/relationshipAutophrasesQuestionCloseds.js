@@ -163,19 +163,19 @@ class RelationshipAutophraseQuestionClosedService {
         return [
             {
                 original: 'ID_AUTOFRASE',
-                modified: 'ID AUTOFRASE'
+                modified: 'AUTOFRASE ID'
             },
             {
                 original: 'ID_FUENTE',
-                modified: 'ID DE FUENTE'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'ID DE PREGUNTA'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'ID DE NOMENCLADOR'
+                modified: 'CLASIFICADOR ID'
             },
             {
                 original: 'OBSERVACION',

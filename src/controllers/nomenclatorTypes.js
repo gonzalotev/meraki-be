@@ -78,7 +78,7 @@ class NomenclatorTypesController {
             const worksheet = workbook.addWorksheet('Tipos_Clasificadores');
             const sheetColums = map(
                 NomenclatorTypesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await NomenclatorTypesService.exportToFile(worksheet, originalColumns);

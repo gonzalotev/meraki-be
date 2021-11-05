@@ -60,7 +60,7 @@ class SpecialPhraseTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Frases_Especiales');
             const sheetColums = map(
                 SpecialPhraseTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await SpecialPhraseTypeService.exportToFile(worksheet, originalColumns);

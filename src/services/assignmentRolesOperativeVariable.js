@@ -166,11 +166,11 @@ class AssignmentRolesOperativeVariableService {
             },
             {
                 original: 'ID_ROL_USUARIO',
-                modified: 'ROL'
+                modified: 'ROL ID'
             },
             {
                 original: 'ID_OPERATIVO',
-                modified: 'ID DE OPERATIVO'
+                modified: 'OPERATIVO ID'
             },
             {
                 original: 'OPERATIVO',
@@ -178,7 +178,7 @@ class AssignmentRolesOperativeVariableService {
             },
             {
                 original: 'ID_LOTE',
-                modified: 'ID DE LOTE'
+                modified: 'LOTE ID'
             },
             {
                 original: 'LOTE',
@@ -186,7 +186,7 @@ class AssignmentRolesOperativeVariableService {
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'ID DE VARIABLE'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'VARIABLE',
@@ -194,7 +194,7 @@ class AssignmentRolesOperativeVariableService {
             },
             {
                 original: 'SI_NO',
-                modified: 'SI_NO'
+                modified: 'SI/NO'
             },
             {
                 original: 'OBSERVACION',

@@ -72,7 +72,7 @@ class WordsDictionaryController {
             const worksheet = workbook.addWorksheet('Diccionario_de_Palabras');
             const sheetColums = map(
                 WordsDictionaryService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await WordsDictionaryService.exportToFile(worksheet, originalColumns);

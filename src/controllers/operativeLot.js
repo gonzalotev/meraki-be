@@ -60,7 +60,7 @@ class OperativeLotController {
             const worksheet = workbook.addWorksheet('Lotes_Operativos');
             const sheetColums = map(
                 OperativeLotService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await OperativeLotService.exportToFile(worksheet, originalColumns);

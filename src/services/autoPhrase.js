@@ -166,39 +166,39 @@ class AutoPhraseService {
         return [
             {
                 original: 'ID_AUTOFRASE',
-                modified: 'id'
+                modified: 'AUTOFRASE ID'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'variableId'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'FRASE_FINAL',
-                modified: 'finalPhrase'
+                modified: 'FRASE FINAL'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'ID_DEPENDE_ID_AUTOFRASE',
-                modified: 'dependId'
+                modified: 'DEPENDE ID AUTOFRASE'
             },
             {
                 original: 'FECHA_RETROALIMENTACION',
-                modified: 'dateRetro'
+                modified: 'FECHA RETROALIMENTACIÓN'
             },
             {
                 original: 'FRASE_RETROALIMENTADA_SI_NO',
-                modified: 'prhaseRetro'
+                modified: 'FRASE RETROALIMENTADA SI/NO'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

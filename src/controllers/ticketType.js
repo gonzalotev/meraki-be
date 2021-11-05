@@ -61,7 +61,7 @@ class TicketTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Ticket');
             const sheetColums = map(
                 TicketTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await TicketTypeService.exportToFile(worksheet, originalColumns);

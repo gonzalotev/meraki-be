@@ -118,7 +118,7 @@ class RolesTypeService {
         return [
             {
                 original: 'ID_ROL_USUARIO',
-                modified: 'ID_ROL'
+                modified: 'ROL ID'
             },
             {
                 original: 'DESCRIPCION',

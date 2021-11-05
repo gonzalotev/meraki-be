@@ -116,19 +116,15 @@ class NomenclatorSubtypeService {
         return [
             {
                 original: 'ID_TIPO',
-                modified: 'ID TIPO DE NOMENCLADOR'
+                modified: 'TIPO DE NOMENCLADOR ID'
             },
             {
                 original: 'ID_SUBTIPO',
-                modified: 'ID SUBTIPO'
+                modified: 'SUBTIPO ID'
             },
             {
                 original: 'DESCRIPCION',
                 modified: 'DESCRIPCIÓN'
-            },
-            {
-                original: 'SUPERVISADO',
-                modified: 'SUPERVISADO'
             },
             {
                 original: 'OBSERVACION',
@@ -137,6 +133,10 @@ class NomenclatorSubtypeService {
             {
                 original: 'DOMINIO',
                 modified: 'DOMINIO'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
             }
         ];
     }

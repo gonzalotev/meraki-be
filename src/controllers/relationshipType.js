@@ -60,7 +60,7 @@ class RelationshipTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Relaciones');
             const sheetColums = map(
                 RelationshipTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await RelationshipTypeService.exportToFile(worksheet, originalColumns);

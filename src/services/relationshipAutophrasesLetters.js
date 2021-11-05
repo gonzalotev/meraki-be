@@ -151,19 +151,19 @@ class RelationshipAutophrasesLetterService {
         return [
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'ID DE NOMENCLADOR'
+                modified: 'NOMENCLADOR ID'
             },
             {
                 original: 'ID_AGRUPACION',
-                modified: 'ID AGRUPACION'
+                modified: 'AGRUPACIÓN ID'
             },
             {
                 original: 'ID_NOMENCLATURA_AGRUPACION',
-                modified: 'ID NOMENCLATURA AGRUPACION'
+                modified: 'NOMENCLATURA AGRUPACIÓN ID'
             },
             {
                 original: 'ID_AUTOFRASE',
-                modified: 'ID DE AUTOFRASE'
+                modified: 'AUTOFRASE ID'
             },
             {
                 original: 'OBSERVACION',

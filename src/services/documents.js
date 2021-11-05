@@ -145,15 +145,15 @@ class DocumentsService {
         return [
             {
                 original: 'ID_DOCUMENTO',
-                modified: 'ID_DOCUMENTO'
+                modified: 'DOCUMENTO ID'
             },
             {
                 original: 'ID_TIPO_DOCUMENTO',
-                modified: 'ID_TIPO_DOCUMENTO'
+                modified: 'TIPO DE DOCUMENTO ID'
             },
             {
                 original: 'TITULO',
-                modified: 'TITULO'
+                modified: 'TÍTULO'
             },
             {
                 original: 'AUTOR',
@@ -161,15 +161,15 @@ class DocumentsService {
             },
             {
                 original: 'INSTITUCION',
-                modified: 'INSTITUCION'
+                modified: 'INSTITUCIÓN'
             },
             {
                 original: 'AREA',
-                modified: 'AREA'
+                modified: 'ÁREA'
             },
             {
                 original: 'FECHA_DOCUMENTO',
-                modified: 'FECHA_DOCUMENTO'
+                modified: 'FECHA DOCUMENTO'
             },
             {
                 original: 'ISBN',
@@ -177,11 +177,11 @@ class DocumentsService {
             },
             {
                 original: 'ID_EDITOR',
-                modified: 'ID_EDITOR'
+                modified: 'EDITOR ID'
             },
             {
                 original: 'UBICACION_ARCHIVO',
-                modified: 'UBICACION_ARCHIVO'
+                modified: 'UBICACIÓN ARCHIVO'
             },
             {
                 original: 'RESUMEN',
@@ -197,7 +197,7 @@ class DocumentsService {
             },
             {
                 original: 'CANTIDAD_VISITAS',
-                modified: 'CANTIDAD_VISITAS'
+                modified: 'CANTIDAD VISITAS'
             }
         ];
     }

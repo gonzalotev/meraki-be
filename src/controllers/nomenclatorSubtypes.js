@@ -59,7 +59,7 @@ class NomenclatorSubtypeController {
             const worksheet = workbook.addWorksheet('Subtipo_Clasificador');
             const sheetColums = map(
                 NomenclatorSubtypesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await NomenclatorSubtypesService.exportToFile(worksheet, originalColumns);

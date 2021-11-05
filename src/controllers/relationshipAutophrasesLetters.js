@@ -77,7 +77,7 @@ class RelationshipAutophrasesLetterController {
             const worksheet = workbook.addWorksheet('Relacion_Autofrases_Letras');
             const sheetColums = map(
                 RelationshipAutophrasesLettersService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await RelationshipAutophrasesLettersService.exportToFile(worksheet, originalColumns);

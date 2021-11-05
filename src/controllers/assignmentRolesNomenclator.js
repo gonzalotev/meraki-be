@@ -72,7 +72,7 @@ class AssignmentRolesNomenclatorController {
             const worksheet = workbook.addWorksheet('Roles_Clasificadores');
             const sheetColums = map(
                 AssignmentRolesNomenclatorService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await AssignmentRolesNomenclatorService.exportToFile(worksheet, originalColumns);

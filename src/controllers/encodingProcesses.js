@@ -55,7 +55,7 @@ class EncodingProcessesController {
             const worksheet = workbook.addWorksheet('Procesos_de_Codificacion');
             const sheetColums = map(
                 EncodingProcessesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await EncodingProcessesService.exportToFile(worksheet, originalColumns);

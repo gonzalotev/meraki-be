@@ -64,7 +64,7 @@ class AssignmentRolesOperativeVariableController {
             const worksheet = workbook.addWorksheet('Roles_Operativos_Variables');
             const sheetColums = map(
                 AssignmentRolesOperativeVariableService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await AssignmentRolesOperativeVariableService.exportToFile(worksheet, originalColumns);

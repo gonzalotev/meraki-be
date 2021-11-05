@@ -135,15 +135,15 @@ class EncodingProcessService {
         return [
             {
                 original: 'ID_PROCESO_CODIFICACION',
-                modified: 'id'
+                modified: 'PROCESO CODIFICACION ID'
             },
             {
                 original: 'DESCRIPCION',
-                modified: 'description'
+                modified: 'DESCRIPCIÓN'
             },
             {
                 original: 'AUTOMATICO_SI_NO',
-                modified: 'automatic_yes_no'
+                modified: 'AUTOMÁTICO SI/NO'
             },
             {
                 original: 'PORCENTAJE_PARA_AUDITAR',
@@ -155,15 +155,15 @@ class EncodingProcessService {
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

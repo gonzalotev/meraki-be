@@ -60,28 +60,28 @@ class NomenclatureService {
         return [
             {
                 original: 'ID_NOMENCLATURA',
-                modified: 'id'
+                modified: 'NOMENCLATURA ID'
+            },
+            {
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCIÓN'
+            },
+            {
+                original: 'AUTOMATICO_SI_NO',
+                modified: 'AUTOMÁTICO SI/NO'
+            },
+            {
+                original: 'DOMINIO',
+                modified: 'DOMINIO'
+            },
+            {
+                original: 'OBSERVACION',
+                modified: 'OBSERVACIÓN'
+            },
+            {
+                original: 'SUPERVISADO',
+                modified: 'SUPERVISADO'
             }
-            // {
-            //     original: 'DESCRIPCION',
-            //     modified: 'description'
-            // },
-            // {
-            //     original: 'AUTOMATICO_SI_NO',
-            //     modified: 'automatic_yes_no'
-            // },
-            // {
-            //     original: 'DOMINIO',
-            //     modified: 'domain'
-            // },
-            // {
-            //     original: 'OBSERVACION',
-            //     modified: 'observation'
-            // },
-            // {
-            //     original: 'SUPERVISADO',
-            //     modified: 'approved'
-            // }
         ];
     }
 }

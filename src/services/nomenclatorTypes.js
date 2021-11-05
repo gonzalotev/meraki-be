@@ -122,7 +122,7 @@ class NomenclatorTypesService {
         return [
             {
                 original: 'ID_TIPO',
-                modified: 'ID'
+                modified: 'TIPO ID'
             },
             {
                 original: 'DESCRIPCION',

@@ -137,51 +137,51 @@ class microprocessesClosedQuestionIfService {
         return [
             {
                 original: 'ID_PREGUNTA_CERRADA',
-                modified: 'id'
+                modified: 'PREGUNTA CERRADA ID'
             },
             {
                 original: 'ID_FUENTE',
-                modified: 'sourceId'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'questionId'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'DESCRIPCION',
-                modified: 'description'
+                modified: 'DESCRIPCIÓN'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'ID_OPERADOR',
-                modified: 'operatorId'
+                modified: 'OPERADOR ID'
             },
             {
                 original: 'SIGNO_PLSQL',
-                modified: 'signPlsql'
+                modified: 'SIGNO PLSQL'
             },
             {
                 original: 'SIGNO_JS',
-                modified: 'signJs'
+                modified: 'SIGNO JS'
             },
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'nomenclatorId'
+                modified: 'CLASIFICADOR ID'
             },
             {
                 original: 'ID_NOMENCLATURA',
-                modified: 'nomenclatureId'
+                modified: 'NOMENCLATURA ID'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

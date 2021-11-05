@@ -100,7 +100,7 @@ class OperativeLotService {
         return [
             {
                 original: 'ID_TIPO_FRASE_ESPECIAL',
-                modified: 'ID'
+                modified: 'TIPO FRASE ESPECIAL ID'
             },
             {
                 original: 'DESCRIPCION',

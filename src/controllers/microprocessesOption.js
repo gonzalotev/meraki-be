@@ -62,7 +62,7 @@ class MicroprocessesOptionController {
             const worksheet = workbook.addWorksheet('microprocesos_opcion');
             const sheetColums = map(
                 MicroprocessesOptionService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessesOptionService.exportToFile(worksheet, originalColumns);

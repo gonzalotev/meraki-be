@@ -60,7 +60,7 @@ class OrganizationTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Organizacion');
             const sheetColums = map(
                 OrganizationTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await OrganizationTypeService.exportToFile(worksheet, originalColumns);

@@ -78,7 +78,7 @@ class AssignmentRoleController {
             const worksheet = workbook.addWorksheet('roles_asignados');
             const sheetColums = map(
                 AssignmentRoleService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await AssignmentRoleService.exportToFile(worksheet, originalColumns);

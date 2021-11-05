@@ -274,15 +274,15 @@ class WordsDictionaryService {
             },
             {
                 original: 'ID_GENERO_NUMERO',
-                modified: 'ID GENERO Y NÚMERO'
+                modified: 'GÉNERO Y NÚMERO ID'
             },
             {
                 original: 'ID_NUMERO',
-                modified: 'ID NUMERO'
+                modified: 'NÚMERO ID'
             },
             {
                 original: 'FRECUENCIA',
-                modified: 'FRECUENCIA'
+                modified: 'FRECUENCÍA'
             },
             {
                 original: 'ABC',

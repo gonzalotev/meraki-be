@@ -166,27 +166,27 @@ class AssignmentRoleService {
         return [
             {
                 original: 'ID_ROL_USUARIO',
-                modified: 'id'
+                modified: 'ID'
             },
             {
                 original: 'DESCRIPCION',
-                modified: 'description'
+                modified: 'DESCRIPCIÓN'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'ID_USUARIO',
-                modified: 'userId'
+                modified: 'ID USUARIO'
             },
             {
                 original: 'NOMBRE_USUARIO',
-                modified: 'userName'
+                modified: 'USUARIO'
             }
         ];
     }

@@ -147,7 +147,7 @@ class DocumentTypeService {
         return [
             {
                 original: 'ID_TIPO_DOCUMENTO',
-                modified: 'ID'
+                modified: 'TIPO DOCUMENTO ID'
             },
             {
                 original: 'DESCRIPCION',

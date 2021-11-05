@@ -68,7 +68,7 @@ class StepsEncodingProcessesController {
             const worksheet = workbook.addWorksheet('Pasos_Procesos_Codificacion');
             const sheetColums = map(
                 StepsEncodingProcessesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await StepsEncodingProcessesService.exportToFile(worksheet, originalColumns);

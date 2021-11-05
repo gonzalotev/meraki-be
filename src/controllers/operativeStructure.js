@@ -62,7 +62,7 @@ class OperativeStructureController {
             const worksheet = workbook.addWorksheet('Estructura_Operativo');
             const sheetColums = map(
                 OperativeStructureService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await OperativeStructureService.exportToFile(worksheet, originalColumns);

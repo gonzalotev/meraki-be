@@ -132,7 +132,7 @@ class TicketTypeService {
         return [
             {
                 original: 'ID_TIPO_CHAT',
-                modified: 'ID'
+                modified: 'TIPO TICKET ID'
             },
             {
                 original: 'DESCRIPCION',

@@ -64,7 +64,7 @@ class NomenclaturesController {
             const worksheet = workbook.addWorksheet('Nomenclaturas');
             const sheetColums = map(
                 NomenclaturesService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await NomenclaturesService.exportToFile(worksheet, originalColumns);

@@ -186,31 +186,31 @@ class SourceQuestionRelationService {
         return [
             {
                 original: 'ID_FUENTE',
-                modified: 'ID DE FUENTE'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'ID DE PREGUNTA'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'CODIGO_PREGUNTA',
-                modified: 'CODIGO DE PREGUNTA'
+                modified: 'CÓDIGO DE PREGUNTA'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'ID DE VARIABLE'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'ID DE NOMENCLADOR'
+                modified: 'NOMENCLADOR ID'
             },
             {
                 original: 'ID_ABIERTA_CERRADA',
-                modified: 'PREGUNTA ABIERTA O CERRADA'
+                modified: 'PREGUNTA ABIERTA O CERRADA ID'
             },
             {
                 original: 'ES_OBLIGATORIA_SI_NO',
-                modified: 'ES OBLIGATORIA'
+                modified: 'ES OBLIGATORIA SI/NO'
             },
             {
                 original: 'SE_CODIFICA_SI_NO',
@@ -218,19 +218,19 @@ class SourceQuestionRelationService {
             },
             {
                 original: 'ES_AUXILIAR_SI_NO',
-                modified: 'ES AUXILIAR'
+                modified: 'ES AUXILIAR SI/NO'
             },
             {
                 original: 'PASAR_A_PROCESAMIENTO_SI_NO',
-                modified: 'SE PROCESA'
+                modified: 'PASAR A PROCESAMIENTO SI/NO'
             },
             {
                 original: 'NECESITA_AUXILIARES_SI_NO',
-                modified: 'NECESITA AUXILIAR'
+                modified: 'NECESITA AUXILIARES SI/NO'
             },
             {
                 original: 'AUTOFRASE_LEER_SI_NO',
-                modified: 'LEER AUTOFRASE'
+                modified: 'LEER AUTOFRASE SI/NO'
             },
             {
                 original: 'OBSERVACION',

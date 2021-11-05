@@ -55,7 +55,7 @@ class QuestionTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Preguntas');
             const sheetColums = map(
                 QuestionTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await QuestionTypeService.exportToFile(worksheet, originalColumns);

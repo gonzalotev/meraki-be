@@ -49,7 +49,7 @@ class MicroprocessesListIfController {
             const worksheet = workbook.addWorksheet('microprocesos_listas_if');
             const sheetColums = map(
                 MicroprocessesListIfService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessesListIfService.exportToFile(worksheet, originalColumns);

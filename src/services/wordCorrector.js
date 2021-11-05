@@ -128,11 +128,11 @@ class WordCorrectorService {
             },
             {
                 original: 'DESTINO_PALABRA_FRASE_SI_NO',
-                modified: 'DESTINO_PALABRA_FRASE_SI_NO'
+                modified: 'DESTINO PALABRA FRASE SI/NO'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'OBSERVACIóN'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'SUPERVISADO',
@@ -140,7 +140,7 @@ class WordCorrectorService {
             },
             {
                 original: 'FRECUENCIA',
-                modified: 'FRECUENCIA'
+                modified: 'FRECUENCÍA'
             }
         ];
     }

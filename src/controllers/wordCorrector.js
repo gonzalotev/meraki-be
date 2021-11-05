@@ -66,7 +66,7 @@ class WordCorrectorController {
             const worksheet = workbook.addWorksheet('Corrector_Palabra');
             const sheetColums = map(
                 WordCorrectorService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await WordCorrectorService.exportToFile(worksheet, originalColumns);

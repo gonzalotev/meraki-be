@@ -67,7 +67,7 @@ class MicroprocessDefinitionController {
             const worksheet = workbook.addWorksheet('microprocesos');
             const sheetColums = map(
                 MicroprocessDefinitionService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessDefinitionService.exportToFile(worksheet, originalColumns);

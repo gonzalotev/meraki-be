@@ -74,7 +74,7 @@ class MicroprocessesListsIfWordsController {
             const worksheet = workbook.addWorksheet('micro_lista_if_pala');
             const sheetColums = map(
                 MicroprocessesListsIfWordsService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessesListsIfWordsService.exportToFile(worksheet, originalColumns);

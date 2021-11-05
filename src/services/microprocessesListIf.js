@@ -107,31 +107,31 @@ class microprocessesListIfService {
         return [
             {
                 original: 'ID_LISTAS',
-                modified: 'id'
+                modified: 'LISTAS ID'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'variableId'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'DESCRIPCION',
-                modified: 'description'
+                modified: 'DESCRIPCIÓN'
             },
             {
                 original: 'ID_TIPOLOGIA_DE_DICCIONARIO',
-                modified: 'diccionaryTypologyId'
+                modified: 'TIPOLOGÍA DE DICCIONARIO ID'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

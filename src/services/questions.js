@@ -142,23 +142,23 @@ class QuestionService {
         return [
             {
                 original: 'ID_PREGUNTA',
-                modified: 'id'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'PREGUNTA',
-                modified: 'question'
+                modified: 'PREGUNTA'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

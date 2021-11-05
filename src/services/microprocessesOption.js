@@ -118,27 +118,27 @@ class microprocessesOptionService {
         return [
             {
                 original: 'ID_MICROPROCESO',
-                modified: 'id'
+                modified: 'MICROPROCESO ID'
             },
             {
                 original: 'ID_FUENTE',
-                modified: 'sourceId'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'questionId'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'ORDEN',
-                modified: 'orden'
+                modified: 'ORDEN'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'ABREVIATURA',
-                modified: 'abbreviation'
+                modified: 'ABREVIATURA'
             }
         ];
     }

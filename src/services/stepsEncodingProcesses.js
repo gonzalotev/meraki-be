@@ -130,11 +130,11 @@ class StepsEncodingProcessesService {
         return [
             {
                 original: 'ID_FUENTE',
-                modified: 'FUENTE'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'PREGUNTA'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'ORDEN',
@@ -142,7 +142,7 @@ class StepsEncodingProcessesService {
             },
             {
                 original: 'ID_PROCESO_CODIFICACION',
-                modified: 'PROCESO DE CODIFICACION'
+                modified: 'PROCESO DE CODIFICACIÓN'
             },
             {
                 original: 'OBSERVACION',

@@ -170,11 +170,11 @@ class NewWordService {
         return [
             {
                 original: 'ID_OPERATIVO',
-                modified: 'ID DE OPERATIVO'
+                modified: 'OPERATIVO ID'
             },
             {
                 original: 'ID_VARIABLE',
-                modified: 'ID DE VARIABLE'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'NUEVAS_PALABRAS',

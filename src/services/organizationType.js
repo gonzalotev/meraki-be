@@ -124,7 +124,7 @@ class OrganizationTypeService {
         return [
             {
                 original: 'ID_TIPO_ORGANIZACION',
-                modified: 'ID'
+                modified: 'TIPO ORGANIZACIÓN ID'
             },
             {
                 original: 'ABREVIATURA',

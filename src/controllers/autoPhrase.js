@@ -64,7 +64,7 @@ class AutoPhraseController {
             const worksheet = workbook.addWorksheet('autofrases');
             const sheetColums = map(
                 AutoPhraseService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await AutoPhraseService.exportToFile(worksheet, originalColumns);

@@ -175,35 +175,35 @@ class AssignmentRolesNomenclatorService {
         return [
             {
                 original: 'ID_ROL_USUARIO',
-                modified: 'id'
+                modified: 'ROL ID'
             },
             {
                 original: 'ID_NOMENCLADOR',
-                modified: 'nomenclatorId'
+                modified: 'CLASIFICADOR ID'
             },
             {
                 original: 'CLASIFICADOR',
-                modified: 'nomenclator'
+                modified: 'CLASIFICADOR'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'ID_USUARIO',
-                modified: 'userId'
+                modified: 'USUARIO ID'
             },
             {
                 original: 'SI_NO',
-                modified: 'yes_no'
+                modified: 'SI/NO'
             },
             {
                 original: 'NOMBRE_USUARIO',
-                modified: 'userName'
+                modified: 'USUARIO'
             }
         ];
     }

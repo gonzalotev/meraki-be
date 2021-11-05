@@ -69,7 +69,7 @@ class MicroprocessesStepsOptionController {
             const worksheet = workbook.addWorksheet('microprocesos_pasos_opcion');
             const sheetColums = map(
                 MicroprocessesStepsOptionService.getColumns(),
-                column => ({key: column.original, header: column.original })
+                column => ({key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await MicroprocessesStepsOptionService.exportToFile(worksheet, originalColumns);

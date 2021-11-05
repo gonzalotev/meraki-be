@@ -60,7 +60,7 @@ class DictionaryTypeController {
             const worksheet = workbook.addWorksheet('Tipos_Diccionarios');
             const sheetColums = map(
                 DictionaryTypeService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await DictionaryTypeService.exportToFile(worksheet, originalColumns);

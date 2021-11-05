@@ -60,7 +60,7 @@ class EditorController {
             const worksheet = workbook.addWorksheet('Editores');
             const sheetColums = map(
                 EditorService.getColumns(),
-                column => ({ key: column.original, header: column.original })
+                column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
             await EditorService.exportToFile(worksheet, originalColumns);

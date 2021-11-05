@@ -134,31 +134,31 @@ class MicroprocessesStepsOption {
         return [
             {
                 original: 'ID_MICROPROCESO',
-                modified: 'microprocessId'
+                modified: 'MICROPROCESO ID'
             },
             {
                 original: 'ID_ORDEN',
-                modified: 'orderId'
+                modified: 'ORDEN ID'
             },
             {
                 original: 'ID_FUENTE',
-                modified: 'sourceId'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'questionId'
+                modified: 'PREGUNTA ID'
             },
             {
                 original: 'ORDEN',
-                modified: 'order'
+                modified: 'ORDEN'
             },
             {
                 original: 'ABREVIATURA',
-                modified: 'abbreviation'
+                modified: 'ABREVIATURA'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             }
         ];
     }

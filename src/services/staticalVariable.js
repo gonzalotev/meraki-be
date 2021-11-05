@@ -186,7 +186,7 @@ class StaticalVariableService {
         return [
             {
                 original: 'ID_VARIABLE',
-                modified: 'ID'
+                modified: 'VARIABLE ID'
             },
             {
                 original: 'NOMBRE',
@@ -214,7 +214,7 @@ class StaticalVariableService {
             },
             {
                 original: 'ID_PADRE',
-                modified: 'ID_PADRE'
+                modified: 'PADRE ID'
             }
         ];
     }

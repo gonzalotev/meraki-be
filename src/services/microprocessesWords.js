@@ -135,31 +135,31 @@ class MicroprocessesWordService {
         return [
             {
                 original: 'ID_MICROPROCESO',
-                modified: 'idMicroprocess'
+                modified: 'MICROPROCESO ID'
             },
             {
                 original: 'ID_ORDEN',
-                modified: 'idOrder'
+                modified: 'ORDEN ID'
             },
             {
                 original: 'PALABRA_O_FRASE',
-                modified: 'wordOrPhrase'
+                modified: 'PALABRA O FRASE'
             },
             {
                 original: 'ES_PALABRA_O_FRASE',
-                modified: 'isWordOrPhrase'
+                modified: 'ES PALABRA O FRASE'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'observation'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
-                modified: 'domain'
+                modified: 'DOMINIO'
             },
             {
                 original: 'SUPERVISADO',
-                modified: 'approved'
+                modified: 'SUPERVISADO'
             }
         ];
     }

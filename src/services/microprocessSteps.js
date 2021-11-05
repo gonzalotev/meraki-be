@@ -135,47 +135,47 @@ class MicroprocessStepsService {
         return [
             {
                 original: 'ID_MICROPROCESO',
-                modified: 'microprocessId'
+                modified: 'MICROPROCESO ID'
             },
             {
                 original: 'ID_ORDEN',
-                modified: 'order'
+                modified: 'ORDEN'
             },
             {
                 original: 'ESTOY_EN',
-                modified: 'in'
+                modified: 'ESTOY EN'
             },
             {
                 original: 'ID_NOMENCLADOR_NO',
-                modified: 'nomenclatorIdNo'
+                modified: 'CLASIFICADOR NO ID'
             },
             {
                 original: 'ID_NOMENCLATURA_NO',
-                modified: 'nomenclatureIdNo'
+                modified: 'NOMENCLATURA NO ID'
             },
             {
                 original: 'ID_LISTAS',
-                modified: 'listId'
+                modified: 'LISTAS ID'
             },
             {
                 original: 'ID_PREGUNTA_CERRADA',
-                modified: 'questionClosedId'
+                modified: 'PREGUNTA CERRADA ID'
             },
             {
                 original: 'ID_NOMENCLADOR_SI',
-                modified: 'nomenclatorIdYes'
+                modified: 'CLASIFICADOR SI ID'
             },
             {
                 original: 'ID_NOMENCLATURA_SI',
-                modified: 'nomenclatureIdYes'
+                modified: 'NOMENCLATURA SI ID'
             },
             {
                 original: 'VOY_A',
-                modified: 'to'
+                modified: 'VOY A'
             },
             {
                 original: 'VOY_A_DESTINO',
-                modified: 'toDestiny'
+                modified: 'VOY A DESTINO'
             }
         ];
     }

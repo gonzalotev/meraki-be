@@ -105,11 +105,11 @@ class OperativeStructureService {
         return [
             {
                 original: 'ID_OPERATIVO',
-                modified: 'ID DE OPERATIVO'
+                modified: 'OPERATIVO ID'
             },
             {
                 original: 'ID_ESTRUCTURA',
-                modified: 'ID DE ESTRUCTURA'
+                modified: 'ESTRUCTURA ID'
             },
             {
                 original: 'NOMBRE_ORIGINAL',
@@ -129,7 +129,7 @@ class OperativeStructureService {
             },
             {
                 original: 'DESCRIPCION_VARIABLE',
-                modified: 'DESCRIPCION DE VARIABLE'
+                modified: 'DESCRIPCIÓN DE VARIABLE'
             },
             {
                 original: 'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
@@ -141,7 +141,7 @@ class OperativeStructureService {
             },
             {
                 original: 'ID_TIPO_DE_DATO',
-                modified: 'TIPO DE DATO'
+                modified: 'TIPO DE DATO ID'
             },
             {
                 original: 'TAMANIO_DATO',
@@ -157,19 +157,19 @@ class OperativeStructureService {
             },
             {
                 original: 'POSICION_INICIAL',
-                modified: 'POSICION INICIAL'
+                modified: 'POSICIÓN INICIAL'
             },
             {
                 original: 'POSICION_FINAL',
-                modified: 'POSICION FINAL'
+                modified: 'POSICIÓN FINAL'
             },
             {
                 original: 'HAY_CONVERSION_DATO',
-                modified: 'HAY CONVERSION DE DATO'
+                modified: 'HAY CONVERSIÓN DE DATO'
             },
             {
                 original: 'OBSERVACION',
-                modified: 'OBSERVACION'
+                modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
@@ -177,11 +177,11 @@ class OperativeStructureService {
             },
             {
                 original: 'ID_FUENTE',
-                modified: 'ID DE FUENTE'
+                modified: 'FUENTE ID'
             },
             {
                 original: 'ID_PREGUNTA',
-                modified: 'ID DE PREGUNTA'
+                modified: 'PREGUNTA ID'
             }
         ];
     }
