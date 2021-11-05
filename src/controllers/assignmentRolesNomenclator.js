@@ -69,7 +69,7 @@ class AssignmentRolesNomenclatorController {
         try {
             const originalColumns = map(AssignmentRolesNomenclatorService.getColumns(), column => column.original);
             const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet('Roles_Nomencladores');
+            const worksheet = workbook.addWorksheet('Roles_Clasificadores');
             const sheetColums = map(
                 AssignmentRolesNomenclatorService.getColumns(),
                 column => ({ key: column.original, header: column.original })
@@ -77,9 +77,9 @@ class AssignmentRolesNomenclatorController {
             worksheet.columns = sheetColums;
             await AssignmentRolesNomenclatorService.exportToFile(worksheet, originalColumns);
             res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Roles_Nomencladores.csv');
+            res.header('Content-disposition', 'attachment; filename=Roles_Clasificadores.csv');
             res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Roles_Nomencladores', formatterOptions: { delimiter: ';' } });
+            await workbook.csv.write(res, { sheetName: 'Roles_Clasificadores', formatterOptions: { delimiter: ';' } });
         } catch (err) {
             next(err);
         }

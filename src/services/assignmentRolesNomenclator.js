@@ -190,6 +190,10 @@ class AssignmentRolesNomenclatorService {
                 modified: 'observation'
             },
             {
+                original: 'DOMINIO',
+                modified: 'domain'
+            },
+            {
                 original: 'ID_USUARIO',
                 modified: 'userId'
             },
