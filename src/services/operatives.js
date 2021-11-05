@@ -202,6 +202,10 @@ class OperativesService {
                 modified: 'DESCRIPCIÓN'
             },
             {
+                original: 'FECHA_LLEGADA_OPERATIVO',
+                modified: 'FECHA LLEGADA DEL OPERATIVO'
+            },
+            {
                 original: 'OBSERVACION',
                 modified: 'OBSERVACIÓN'
             },
