@@ -28,6 +28,7 @@ const StepsLinguisticProcesses = require('./stepsLinguisticProcesses');
 const Documents = require('./documents');
 const MicroprocessesStepsOption = require('./microprocessesStepsOptions');
 const MicroprocessStep = require('./microprocessStep');
+const AssigmentRoleOperativeVariable = require('./assigmentRoleOperativeVariable');
 
 module.exports = {
     ArrayString: {
@@ -91,5 +92,6 @@ module.exports = {
     StepsLinguisticProcesses,
     Documents,
     MicroprocessesStepsOption,
-    MicroprocessStep
+    MicroprocessStep,
+    AssigmentRoleOperativeVariable
 };

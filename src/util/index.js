@@ -16,8 +16,10 @@ const { getOffset, getPageSize } = require('./getOffset');
 const standarText = require('./standarText');
 const arrayToCsvFormat = require('./arrayToCsvFormat');
 const splitFileName = require('./splitFileName');
+const decodeQuery = require('./decodeQuery');
 const excelFileManager = require('./excelFileManager');
 const dynamicQueryExecutor = require('./dynamicTableQueries');
+const isJsonString = require('./isJsonString');
 
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
@@ -109,5 +111,7 @@ module.exports = {
     dateTimeToStrings,
     splitFileName,
     excelFileManager,
-    dynamicQueryExecutor
+    dynamicQueryExecutor,
+    decodeQuery,
+    isJsonString
 };

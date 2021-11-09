@@ -1,13 +1,15 @@
 const { AssignmentRolesOperativeVariableService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const { decodeQuery } = include('util');
 
 class AssignmentRolesOperativeVariableController {
     static async fetch(req, res, next) {
         try {
-            const assignmentsRolesOperativeVariables = await AssignmentRolesOperativeVariableService.fetch(req.query);
-            const total = await AssignmentRolesOperativeVariableService.getTotal({});
-            res.send({ assignmentsRolesOperativeVariables, total });
+            const query = decodeQuery(req.query);
+            const assigments = await AssignmentRolesOperativeVariableService.fetch(query);
+            const total = await AssignmentRolesOperativeVariableService.getTotal(query);
+            res.send({ assigments, total });
         } catch (error) {
             next(error);
         }
@@ -15,8 +17,9 @@ class AssignmentRolesOperativeVariableController {
 
     static async find(req, res, next) {
         try {
-            const assignmentRolesOperativeVariable = await AssignmentRolesOperativeVariableService.findOne(req.params);
-            res.send({ assignmentRolesOperativeVariable });
+            const ids = JSON.parse(decodeURIComponent(req.params.ids));
+            const assigment = await AssignmentRolesOperativeVariableService.findOne(ids);
+            res.send({ assigment });
         } catch (error) {
             next(error);
         }
@@ -24,10 +27,10 @@ class AssignmentRolesOperativeVariableController {
 
     static async create(req, res, next) {
         try {
-            const assignmentRolesOperativeVariable = await AssignmentRolesOperativeVariableService.
+            const assigment = await AssignmentRolesOperativeVariableService.
                 create(req.body, req.user.id);
             res.status(201);
-            res.send({ assignmentRolesOperativeVariable });
+            res.send({ assigment });
         } catch (err) {
             next(err);
         }
@@ -35,9 +38,9 @@ class AssignmentRolesOperativeVariableController {
 
     static async update(req, res, next) {
         try {
-            const assignmentRolesOperativeVariable = await AssignmentRolesOperativeVariableService.
-                update(req.params, req.body);
-            res.send({ assignmentRolesOperativeVariable });
+            const ids = JSON.parse(decodeURIComponent(req.params.ids));
+            const assigment = await AssignmentRolesOperativeVariableService.update(ids, req.body);
+            res.send({ assigment });
         } catch (err) {
             next(err);
         }
@@ -45,7 +48,8 @@ class AssignmentRolesOperativeVariableController {
 
     static async delete(req, res, next) {
         try {
-            const success = await AssignmentRolesOperativeVariableService.delete(req.params, req.user.id);
+            const ids = JSON.parse(decodeURIComponent(req.params.ids));
+            const success = await AssignmentRolesOperativeVariableService.delete(ids, req.user.id);
             if (success) {
                 res.sendStatus(204);
             } else {

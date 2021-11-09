@@ -9,9 +9,33 @@ module.exports = {
                     name: 'page',
                     required: false,
                     schema: {
-                        type: 'string',
-                        default: 1
+                        type: 'number',
+                        default: 0
                     }
+                },
+                {
+                    in: 'query',
+                    name: 'limit',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 0
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                        default: ''
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'orderBy',
+                    required: false,
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -22,24 +46,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    roles: {
+                                    assigments: {
                                         type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                id: {type: 'string'},
-                                                userId: {type: 'string'},
-                                                operativeId: {type: 'integer'},
-                                                lotId: {type: 'integer'},
-                                                variableId: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                observation: {type: 'string'},
-                                                yes_no: {type: 'boolean'},
-                                                userName: {type: 'string'},
-                                                createdAt: {type: 'string'},
-                                                deletedAt: {type: 'string'}
-                                            }
-                                        }
+                                        items: {$ref: '#/components/schemas/AssigmentRoleOperativeVariable'}
                                     }
                                 }
                             }
@@ -63,17 +72,18 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                roleId: {type: 'string'},
                                 userId: {type: 'string'},
                                 operativeId: {type: 'integer'},
                                 lotId: {type: 'integer'},
                                 variableId: {type: 'string'},
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                yesNo: {type: 'boolean'},
                                 userName: {type: 'string'},
-                                yes_no: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                operative: {type: 'string'},
+                                lot: {type: 'string'},
+                                variable: {type: 'string'}
                             }
                         }
                     }
@@ -87,23 +97,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    role: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            userId: {type: 'string'},
-                                            operativeId: {type: 'integer'},
-                                            lotId: {type: 'integer'},
-                                            variableId: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            userName: {type: 'string'},
-                                            yes_no: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    assigment: {$ref: '#/components/schemas/AssigmentRoleOperativeVariable'}
                                 }
                             }
                         }
@@ -116,17 +110,16 @@ module.exports = {
             }
         }
     },
-    '/api/assignmentRolesOperativeVariables/{id}': {
+    '/api/assignmentRolesOperativeVariables/{ids}': {
         put: {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles Operatives Variables'],
             parameters: [
                 {
-                    in: 'path',
-                    name: 'id',
+                    in: 'query',
+                    name: 'ids',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'}
                 }
             ],
             requestBody: {
@@ -137,17 +130,18 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
+                                roleId: {type: 'string'},
                                 userId: {type: 'string'},
                                 operativeId: {type: 'integer'},
                                 lotId: {type: 'integer'},
                                 variableId: {type: 'string'},
                                 domain: {type: 'string'},
                                 observation: {type: 'string'},
+                                yesNo: {type: 'boolean'},
                                 userName: {type: 'string'},
-                                yes_no: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                operative: {type: 'string'},
+                                lot: {type: 'string'},
+                                variable: {type: 'string'}
                             }
                         }
                     }
@@ -161,23 +155,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    role: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            userId: {type: 'string'},
-                                            operativeId: {type: 'integer'},
-                                            lotId: {type: 'integer'},
-                                            variableId: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            userName: {type: 'string'},
-                                            yes_no: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    assigment: {$ref: '#/components/schemas/AssigmentRoleOperativeVariable'}
                                 }
                             }
                         }
@@ -192,12 +170,16 @@ module.exports = {
         delete: {
             security: [{bearerAuth: []}],
             tags: ['Assignment Roles Operatives Variables'],
-
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'ids',
+                    required: true,
+                    schema: {type: 'string'}
+                }
+            ],
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -209,11 +191,10 @@ module.exports = {
             tags: ['Assignment Roles Operatives Variables'],
             parameters: [
                 {
-                    in: 'path',
-                    name: 'id',
+                    in: 'query',
+                    name: 'ids',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -224,22 +205,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    role: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            userId: {type: 'string'},
-                                            operativeId: {type: 'integer'},
-                                            lotId: {type: 'integer'},
-                                            variableId: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            userName: {type: 'string'},
-                                            yes_no: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    assigment: {$ref: '#/components/schemas/AssigmentRoleOperativeVariable'}
                                 }
                             }
                         }
