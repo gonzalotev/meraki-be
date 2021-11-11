@@ -1,5 +1,7 @@
 const knex = include('helpers/database');
 const NomenclatorService = require('./nomenclators');
+const LotsService = require('./lots');
+
 class StaticDataService {
     static async getGenders(data) {
         const genders = await knex
@@ -56,12 +58,14 @@ class StaticDataService {
         data.nomenclators = nomenclators;
         return data;
     }
-    static async getLots(data) {
+    static async getLots(data, lotsFilter) {
         const lots = await knex
             .select({
                 id: 'ID_LOTE',
                 description: 'DESCRIPCION'
             })
+            .where(LotsService.formatData(lotsFilter.where))
+            .orderByRaw('upper(DESCRIPCION) asc')
             .from('LOTES');
         return (data.lots = lots);
     }
@@ -427,6 +431,31 @@ class StaticDataService {
             .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.microprocessesLists = microprocessesLists;
         return data;
+    }
+    static async getVariablesByOperative(data, filter) {
+        const staticalVariables = await knex.raw(`
+            select ve.ID_VARIABLE, ve.NOMBRE, ve.ABREVIATURA
+            from variables_estadisticas ve
+            where exists (
+                select rfp.*
+                from relacion_fuente_preguntas rfp
+                where rfp.id_variable = ve.id_variable
+                and exists (
+                    select eo.*
+                    from estructura_operativo eo
+                    where eo.id_operativo = ?
+                    and rfp.id_fuente = eo.id_fuente
+                    and rfp.id_pregunta = eo.id_pregunta
+                )
+            )
+            order by upper(ve.NOMBRE) asc
+        `, [filter.operativeId]);
+        const variables = staticalVariables.map(staticalVariable => ({
+            id: staticalVariable.ID_VARIABLE,
+            name: staticalVariable.NOMBRE,
+            abbreviation: staticalVariable.ABREVIATURA
+        }));
+        return data.variablesByOperative = variables;
     }
 }
 

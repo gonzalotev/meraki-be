@@ -5,7 +5,7 @@ module.exports = router => {
         .get(AssignmentRolesOperativeVariableController.fetch)
         .post(AssignmentRolesOperativeVariableController.create);
     router.route('/downloadCsv').get(AssignmentRolesOperativeVariableController.downloadCsv);
-    router.route('/:id')
+    router.route('/:ids')
         .get(AssignmentRolesOperativeVariableController.find)
         .put(AssignmentRolesOperativeVariableController.update)
         .delete(AssignmentRolesOperativeVariableController.delete);

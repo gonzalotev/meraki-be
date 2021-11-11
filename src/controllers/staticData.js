@@ -5,12 +5,13 @@ const {
     StaticDataService
 } = include('services');
 const isBoolean = require('lodash/isBoolean');
-const isString = require('lodash/isString');
+const { decodeQuery } = include('util');
 
 class StaticDataController {
     static async fetch(req, res, next) {
         try {
             const data = {};
+            const query = decodeQuery(req.query);
             const {
                 roles,
                 dictionaryTypes,
@@ -48,19 +49,18 @@ class StaticDataController {
                 linguisticFieldProcesses,
                 levels,
                 relationshipAutophrasesLetter,
-                microprocessQuestionsClosed
-            } = req.query;
+                microprocessQuestionsClosed,
+                variablesByOperative
+            } = query;
+            console.log(query);
             if (microprocessQuestionsClosed) {
                 await StaticDataService.getMicroprocessQuestionsClosedData(data);
             }
             if (levels) {
-                const formattedLevels = JSON.parse(decodeURIComponent(levels));
-                await StaticDataService.getLevels(data, formattedLevels);
+                await StaticDataService.getLevels(data, levels);
             }
             if (relationshipAutophrasesLetter) {
-                const formattedRelationshipAutophrasesLetter = JSON.parse(decodeURIComponent(
-                    relationshipAutophrasesLetter));
-                await StaticDataService.getRelationshipAutophrasesLetter(data, formattedRelationshipAutophrasesLetter);
+                await StaticDataService.getRelationshipAutophrasesLetter(data, relationshipAutophrasesLetter);
             }
             if (roles) {
                 await RolesService.shortFetch(data);
@@ -96,18 +96,16 @@ class StaticDataController {
                 await StaticDataService.getNomenclators(data);
             }
             if (lots) {
-                await StaticDataService.getLots(data);
+                await StaticDataService.getLots(data, lots);
             }
-
             if (fonts) {
                 await StaticDataService.getFont(data);
             }
 
             if (nomenclatures && isBoolean(nomenclatures)) {
                 await StaticDataService.getNomenclatures(data);
-            } else if (nomenclatures && isString(nomenclatures)) {
-                const formattedNomenclatures = JSON.parse(decodeURIComponent(nomenclatures));
-                await StaticDataService.getNomenclatures(data, formattedNomenclatures);
+            } else if (nomenclatures) {
+                await StaticDataService.getNomenclatures(data, nomenclatures);
             }
             if (nomenclaturesGroup) {
                 await StaticDataService.getNomenclaturesGroup(data);
@@ -147,9 +145,8 @@ class StaticDataController {
             }
             if (microprocessesLists && isBoolean(microprocessesLists)) {
                 await StaticDataService.getMicroprocessesLists(data);
-            } else if (microprocessesLists && isString(microprocessesLists)) {
-                const formattedLists = JSON.parse(decodeURIComponent(microprocessesLists));
-                await StaticDataService.getMicroprocessesLists(data, formattedLists);
+            } else if (microprocessesLists) {
+                await StaticDataService.getMicroprocessesLists(data, microprocessesLists);
             }
             if (microprocesses) {
                 await StaticDataService.getMicroprocesses(data);
@@ -174,6 +171,9 @@ class StaticDataController {
             }
             if (linguisticFieldProcesses) {
                 await StaticDataService.getLinguisticFieldProcesses(data);
+            }
+            if (variablesByOperative) {
+                await StaticDataService.getVariablesByOperative(data, variablesByOperative);
             }
             res.send(data);
 

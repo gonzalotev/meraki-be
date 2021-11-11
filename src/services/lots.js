@@ -7,6 +7,7 @@ const toNumber = require('lodash/toNumber');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
 const find = require('lodash/find');
+const has = require('lodash/has');
 
 class LotsService {
     static async fetchStaticLots() {
@@ -232,6 +233,220 @@ class LotsService {
             resource.foreignData.lots = find(lotsData, lots => lots.id === resource.lotId);
             return resource;
         });
+    }
+
+    static rebaseFormat(lot) {
+        const rebaseLot = {};
+        if(has(lot, 'ID_OPERATIVO')){
+            rebaseLot['operativeId'] = lot.ID_OPERATIVO;
+        }
+        if(has(lot, 'ID_LOTE')){
+            rebaseLot['lotId'] = lot.ID_LOTE;
+        }
+        if(has(lot, 'DESCRIPCION')){
+            rebaseLot['description'] = lot.DESCRIPCION;
+        }
+        if(has(lot, 'OBSERVACION')){
+            rebaseLot['observation'] = lot.OBSERVACION;
+        }
+        if(has(lot, 'DOMINIO')){
+            rebaseLot['domain'] = lot.DOMINIO;
+        }
+        if(has(lot, 'ID_OPERATIVO')){
+            rebaseLot['operativeId'] = lot.ID_OPERATIVO;
+        }
+        if(has(lot, 'NOMBRE_ARCHIVO')){
+            rebaseLot['fileName'] = lot.NOMBRE_ARCHIVO;
+        }
+        if(has(lot, 'FORMATO_ARCHIVO')){
+            rebaseLot['fileFormat'] = lot.FORMATO_ARCHIVO;
+        }
+        if(has(lot, 'CANTIDAD_DE_REGISTROS')){
+            rebaseLot['numberOfRecords'] = lot.CANTIDAD_DE_REGISTROS;
+        }
+        if(has(lot, 'FECHA_CARGA_DATOS_LOTE')){
+            rebaseLot['batchDataLoadDate'] = dateToString(lot.FECHA_CARGA_DATOS_LOTE);
+        }
+        if(has(lot, 'FECHA_FIN_CARGA_DATOS_LOTE')){
+            rebaseLot['endBatchDataLoadDate'] = dateToString(lot.FECHA_FIN_CARGA_DATOS_LOTE);
+        }
+        if(has(lot, 'CALIDAD_LOTE_TOTAL')){
+            rebaseLot['TotalBatchQuality'] = lot.CALIDAD_LOTE_TOTAL;
+        }
+        if(has(lot, 'NIVEL_ERROR_LOTE_TOTAL')){
+            rebaseLot['TotalBatchErrorLevel'] = lot.NIVEL_ERROR_LOTE_TOTAL;
+        }
+        if(has(lot, 'LOTE_RECHAZADO')){
+            rebaseLot['lotRejected'] = lot.LOTE_RECHAZADO;
+        }
+        if(has(lot, 'FECHA_LOTE_RECHAZADO')){
+            rebaseLot['batchRejectedDate'] = dateToString(lot.FECHA_LOTE_RECHAZADO);
+        }
+        if(has(lot, 'LOTE_APROBADO')){
+            rebaseLot['lotApproved'] = !!lot.LOTE_APROBADO;
+        }
+        if(has(lot, 'FECHA_LOTE_APROBADO')){
+            rebaseLot['lotApprovedDate'] = dateToString(lot.FECHA_LOTE_APROBADO);
+        }
+        if(has(lot, 'SE_RETROALIMENTA')){
+            rebaseLot['feedback'] = lot.SE_RETROALIMENTA;
+        }
+        if(has(lot, 'FECHA_INICIO_RETROALIMENTACION')){
+            rebaseLot['feedbackStartDate'] = dateToString(lot.FECHA_INICIO_RETROALIMENTACION);
+        }
+        if(has(lot, 'FECHA_FIN_RETROALIMENTACION')){
+            rebaseLot['endDateFeedBack'] = dateToString(lot.FECHA_FIN_RETROALIMENTACION);
+        }
+        if(has(lot, 'LOTE_ENTREGADO_AREA')){
+            rebaseLot['lotDeliveredArea'] = lot.LOTE_ENTREGADO_AREA;
+        }
+        if(has(lot, 'FECHA_ENTREGA_AREA')){
+            rebaseLot['lotDeliveryArea'] = lot.FECHA_ENTREGA_AREA;
+        }
+        if(has(lot, 'LOTE_ENTREGADO_A_DATA_LAKE')){
+            rebaseLot['lotDeliveredToDataLake'] = lot.LOTE_ENTREGADO_A_DATA_LAKE;
+        }
+        if(has(lot, 'FECHA_INICIO_A_DATA_LAKE')){
+            rebaseLot['startDateToDataLake'] = dateToString(lot.FECHA_INICIO_A_DATA_LAKE);
+        }
+        if(has(lot, 'FECHA_FIN_A_DATA_LAKE')){
+            rebaseLot['endDateToDataLake'] = dateToString(lot.FECHA_FIN_A_DATA_LAKE);
+        }
+        if(has(lot, 'LOTE_DE_RESGUARDO_O_COPIA')){
+            rebaseLot['receiptLotOrCopy'] = lot.LOTE_DE_RESGUARDO_O_COPIA;
+        }
+        if(has(lot, 'FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA')){
+            rebaseLot['dateDownloadedBatchReceiptOrCopy'] = dateToString(lot.FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA);
+        }
+        if(has(lot, 'SE_BORRA_TODO_EL_LOTE')){
+            rebaseLot['wholeBatchDeleted'] = lot.SE_BORRA_TODO_EL_LOTE;
+        }
+        if(has(lot, 'FECHA_INICIO_BORRADO')){
+            rebaseLot['deleteStarttDate'] = dateToString(lot.FECHA_INICIO_BORRADO);
+        }
+        if(has(lot, 'FECHA_FIN_BORRADO')){
+            rebaseLot['endDateErased'] = dateToString(lot.FECHA_FIN_BORRADO);
+        }
+        if(has(lot, 'ID_USUARIO_ALTA')){
+            rebaseLot['userCreator'] = lot.ID_USUARIO_ALTA;
+        }
+        if(has(lot, 'ID_OPERATIFECHA_ALTAVO')){
+            rebaseLot['createdAt'] = dateToString(lot.FECHA_ALTA);
+        }
+        if(has(lot, 'ID_USUARIO_BAJA')){
+            rebaseLot['userDeleted'] = lot.ID_USUARIO_BAJA;
+        }
+        if(has(lot, 'FECHA_BAJA')){
+            rebaseLot['deletedAt'] = dateToString(lot.FECHA_BAJA);
+        }
+        return rebaseLot;
+    }
+
+    static formatData(lot) {
+        const rebaseLot = {};
+        if(has(lot, 'operativeId')){
+            rebaseLot['ID_OPERATIVO'] = lot.operativeId;
+        }
+        if(has(lot, 'lotId')){
+            rebaseLot['ID_LOTE'] = lot.lotId;
+        }
+        if(has(lot, 'description')){
+            rebaseLot['DESCRIPCION'] = lot.description;
+        }
+        if(has(lot, 'observation')){
+            rebaseLot['OBSERVACION'] = lot.observation;
+        }
+        if(has(lot, 'domain')){
+            rebaseLot['DOMINIO'] = lot.domain;
+        }
+        if(has(lot, 'operativeId')){
+            rebaseLot['ID_OPERATIVO'] = lot.operativeId;
+        }
+        if(has(lot, 'fileName')){
+            rebaseLot['NOMBRE_ARCHIVO'] = lot.fileName;
+        }
+        if(has(lot, 'fileFormat')){
+            rebaseLot['FORMATO_ARCHIVO'] = lot.fileFormat;
+        }
+        if(has(lot, 'numberOfRecords')){
+            rebaseLot['CANTIDAD_DE_REGISTROS'] = lot.numberOfRecords;
+        }
+        if(has(lot, 'batchDataLoadDate')){
+            rebaseLot['FECHA_CARGA_DATOS_LOTE'] = stringToDate(lot.batchDataLoadDate);
+        }
+        if(has(lot, 'endBatchDataLoadDate')){
+            rebaseLot['FECHA_FIN_CARGA_DATOS_LOTE'] = stringToDate(lot.endBatchDataLoadDate);
+        }
+        if(has(lot, 'TotalBatchQuality')){
+            rebaseLot['CALIDAD_LOTE_TOTAL'] = lot.TotalBatchQuality;
+        }
+        if(has(lot, 'TotalBatchErrorLevel')){
+            rebaseLot['NIVEL_ERROR_LOTE_TOTAL'] = lot.TotalBatchErrorLevel;
+        }
+        if(has(lot, 'lotRejected')){
+            rebaseLot['LOTE_RECHAZADO'] = lot.lotRejected;
+        }
+        if(has(lot, 'batchRejectedDate')){
+            rebaseLot['FECHA_LOTE_RECHAZADO'] = stringToDate(lot.batchRejectedDate);
+        }
+        if(has(lot, 'lotApproved')){
+            rebaseLot['LOTE_APROBADO'] = lot.lotApproved;
+        }
+        if(has(lot, 'lotApprovedDate')){
+            rebaseLot['FECHA_LOTE_APROBADO'] = stringToDate(lot.lotApprovedDate);
+        }
+        if(has(lot, 'feedback')){
+            rebaseLot['SE_RETROALIMENTA'] = lot.feedback;
+        }
+        if(has(lot, 'feedbackStartDate')){
+            rebaseLot['FECHA_INICIO_RETROALIMENTACION'] = stringToDate(lot.feedbackStartDate);
+        }
+        if(has(lot, 'endDateFeedBack')){
+            rebaseLot['FECHA_FIN_RETROALIMENTACION'] = stringToDate(lot.endDateFeedBack);
+        }
+        if(has(lot, 'lotDeliveredArea')){
+            rebaseLot['LOTE_ENTREGADO_AREA'] = lot.lotDeliveredArea;
+        }
+        if(has(lot, 'lotDeliveryArea')){
+            rebaseLot['FECHA_ENTREGA_AREA'] = lot.lotDeliveryArea;
+        }
+        if(has(lot, 'lotDeliveredToDataLake')){
+            rebaseLot['LOTE_ENTREGADO_A_DATA_LAKE'] = lot.lotDeliveredToDataLake;
+        }
+        if(has(lot, 'startDateToDataLake')){
+            rebaseLot['FECHA_INICIO_A_DATA_LAKE'] = stringToDate(lot.startDateToDataLake);
+        }
+        if(has(lot, 'endDateToDataLake')){
+            rebaseLot['FECHA_FIN_A_DATA_LAKE'] = stringToDate(lot.endDateToDataLake);
+        }
+        if(has(lot, 'receiptLotOrCopy')){
+            rebaseLot['LOTE_DE_RESGUARDO_O_COPIA'] = lot.receiptLotOrCopy;
+        }
+        if(has(lot, 'dateDownloadedBatchReceiptOrCopy')){
+            rebaseLot['FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA'] = stringToDate(lot.dateDownloadedBatchReceiptOrCopy);
+        }
+        if(has(lot, 'wholeBatchDeleted')){
+            rebaseLot['SE_BORRA_TODO_EL_LOTE'] = lot.wholeBatchDeleted;
+        }
+        if(has(lot, 'deleteStarttDate')){
+            rebaseLot['FECHA_INICIO_BORRADO'] = stringToDate(lot.deleteStarttDate);
+        }
+        if(has(lot, 'endDateErased')){
+            rebaseLot['FECHA_FIN_BORRADO'] = stringToDate(lot.endDateErased);
+        }
+        if(has(lot, 'userCreator')){
+            rebaseLot['ID_USUARIO_ALTA'] = lot.userCreator;
+        }
+        if(has(lot, 'createdAt')){
+            rebaseLot['FECHA_ALTA'] = stringToDate(lot.createdAt);
+        }
+        if(has(lot, 'userDeleted')){
+            rebaseLot['ID_USUARIO_BAJA'] = lot.userDeleted;
+        }
+        if(has(lot, 'deletedAt')){
+            rebaseLot['FECHA_BAJA'] = stringToDate(lot.deletedAt);
+        }
+        return rebaseLot;
     }
 }
 
