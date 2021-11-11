@@ -1,7 +1,7 @@
 const { assignmentRolesOperativeVariable: AssignmentModel } = include('models');
 const { dateToString, stringToDate, getOffset, getPageSize } = include('util');
-const trim = require('lodash/trim');
 const head = require('lodash/head');
+const has = require('lodash/has');
 
 class AssignmentRolesOperativeVariableService {
     static async fetch(query) {
@@ -28,22 +28,7 @@ class AssignmentRolesOperativeVariableService {
 
         assignmentQuery.timeout(AssignmentModel.timeout);
         const assignments = await assignmentQuery;
-        return assignments.map(assignment => ({
-            userId: assignment.ID_USUARIO,
-            roleId: assignment.ID_ROL_USUARIO,
-            operativeId: assignment.ID_OPERATIVO,
-            lotId: assignment.ID_LOTE,
-            variableId: assignment.ID_VARIABLE,
-            observation: assignment.OBSERVACION,
-            domain: assignment.DOMINIO,
-            yesNo: !!assignment.SI_NO,
-            userName: assignment.NOMBRE_USUARIO,
-            variable: assignment.VARIABLE,
-            operative: assignment.OPERATIVO,
-            lot: assignment.LOTE,
-            createdAt: dateToString(assignment.FECHA_ALTA),
-            deletedAt: dateToString(assignment.FECHA_BAJA)
-        }));
+        return assignments.map(assignment => AssignmentRolesOperativeVariableService.rebaseFormat(assignment));
     }
 
     static async getTotal(query) {
@@ -59,109 +44,56 @@ class AssignmentRolesOperativeVariableService {
     }
 
     static async create(params) {
-        const formattedAssignmentRolesOperativeVariable = {
-            ID_USUARIO: params.userId,
-            ID_ROL_USUARIO: params.roleId,
-            ID_OPERATIVO: params.operativeId,
-            ID_LOTE: params.lotId,
-            ID_VARIABLE: params.variableId,
-            DOMINIO: trim(params.domain),
-            OBSERVACION: trim(params.observation),
-            SI_NO: params.yesNo,
-            NOMBRE_USUARIO: trim(params.userName),
-            VARIABLE: trim(params.variable),
-            OPERATIVO: trim(params.operative),
-            LOTE: trim(params.lot),
-            FECHA_BAJA: null,
-            FECHA_ALTA: new Date()
-        };
-        const AssignmentRolesOperativeVariable = await AssignmentModel.
-            insertOne(formattedAssignmentRolesOperativeVariable);
-
-        return {
-            userId: AssignmentRolesOperativeVariable.ID_USUARIO,
-            roleId: AssignmentRolesOperativeVariable.ID_ROL_USUARIO,
-            operativeId: AssignmentRolesOperativeVariable.ID_OPERATIVO,
-            lotId: AssignmentRolesOperativeVariable.ID_LOTE,
-            variableId: AssignmentRolesOperativeVariable.ID_VARIABLE,
-            observation: AssignmentRolesOperativeVariable.OBSERVACION,
-            domain: AssignmentRolesOperativeVariable.DOMINIO,
-            yesNo: !!AssignmentRolesOperativeVariable.SI_NO,
-            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
-            variable: AssignmentRolesOperativeVariable.VARIABLE,
-            operative: AssignmentRolesOperativeVariable.OPERATIVO,
-            lot: AssignmentRolesOperativeVariable.LOTE,
-            createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
-            deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
-        };
+        const formattedAssignmentRolesOperativeVariable = AssignmentRolesOperativeVariableService.formatData({
+            ...params,
+            deletedAt: null,
+            createdAt: new Date()
+        });
+        const returnData = ['ID_USUARIO', 'ID_ROL_USUARIO', 'ID_OPERATIVO', 'ID_LOTE', 'ID_VARIABLE'];
+        const ids = await AssignmentModel.insertOne(formattedAssignmentRolesOperativeVariable, returnData);
+        return await AssignmentRolesOperativeVariableService.findOne(
+            AssignmentRolesOperativeVariableService.rebaseFormat(ids)
+        );
     }
 
     static async findOne(filters) {
         const AssignmentRolesOperativeVariable = await AssignmentModel.findById({
-            ID_ROL_USUARIO: filters.roleId
+            ID_USUARIO: filters.userId,
+            ID_ROL_USUARIO: filters.roleId,
+            ID_OPERATIVO: filters.operativeId,
+            ID_LOTE: filters.lotId,
+            ID_VARIABLE: filters.variableId
         });
-        return {
-            userId: AssignmentRolesOperativeVariable.ID_USUARIO,
-            roleId: AssignmentRolesOperativeVariable.ID_ROL_USUARIO,
-            operativeId: AssignmentRolesOperativeVariable.ID_OPERATIVO,
-            lotId: AssignmentRolesOperativeVariable.ID_LOTE,
-            variableId: AssignmentRolesOperativeVariable.ID_VARIABLE,
-            observation: AssignmentRolesOperativeVariable.OBSERVACION,
-            domain: AssignmentRolesOperativeVariable.DOMINIO,
-            yesNo: !!AssignmentRolesOperativeVariable.SI_NO,
-            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
-            variable: AssignmentRolesOperativeVariable.VARIABLE,
-            operative: AssignmentRolesOperativeVariable.OPERATIVO,
-            lot: AssignmentRolesOperativeVariable.LOTE,
-            createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
-            deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
-        };
+        return AssignmentRolesOperativeVariableService.rebaseFormat(AssignmentRolesOperativeVariable);
     }
 
     static async update(filters, params) {
-        const formattedAssignmentRolesOperativeVariable = {
-            ID_USUARIO: trim(params.userId),
-            ID_ROL_USUARIO: trim(params.roleId),
-            ID_OPERATIVO: trim(params.operativeId),
-            ID_LOTE: trim(params.lotId),
-            ID_VARIABLE: trim(params.variableId),
-            DOMINIO: trim(params.domain),
-            OBSERVACION: trim(params.observation),
-            SI_NO: params.yesNo,
-            NOMBRE_USUARIO: trim(params.userName),
-            VARIABLE: trim(params.variable),
-            OPERATIVO: trim(params.operative),
-            LOTE: trim(params.lot),
-            FECHA_BAJA: stringToDate(params.deletedAt),
-            FECHA_ALTA: stringToDate(params.createdAt)
-        };
-        const AssignmentRolesOperativeVariable = await AssignmentModel.updateOne(
-            { ID_ROL_USUARIO: filters.roleId, ID_USUARIO: filters.userId},
-            formattedAssignmentRolesOperativeVariable
+        const formattedAssignmentRolesOperativeVariable = AssignmentRolesOperativeVariableService.formatData({
+            ...params
+        });
+        const returnData = ['ID_USUARIO', 'ID_ROL_USUARIO', 'ID_OPERATIVO', 'ID_LOTE', 'ID_VARIABLE'];
+        const ids = await AssignmentModel.updateOne(
+            {
+                ID_USUARIO: filters.userId,
+                ID_ROL_USUARIO: filters.roleId,
+                ID_OPERATIVO: filters.operativeId,
+                ID_LOTE: filters.lotId,
+                ID_VARIABLE: filters.variableId
+            },
+            formattedAssignmentRolesOperativeVariable,
+            returnData
         );
-        return {
-            userId: AssignmentRolesOperativeVariable.ID_USUARIO,
-            roleId: AssignmentRolesOperativeVariable.ID_ROL_USUARIO,
-            operativeId: AssignmentRolesOperativeVariable.ID_OPERATIVO,
-            lotId: AssignmentRolesOperativeVariable.ID_LOTE,
-            variableId: AssignmentRolesOperativeVariable.ID_VARIABLE,
-            observation: AssignmentRolesOperativeVariable.OBSERVACION,
-            domain: AssignmentRolesOperativeVariable.DOMINIO,
-            yesNo: !!AssignmentRolesOperativeVariable.SI_NO,
-            userName: AssignmentRolesOperativeVariable.NOMBRE_USUARIO,
-            variable: AssignmentRolesOperativeVariable.VARIABLE,
-            operative: AssignmentRolesOperativeVariable.OPERATIVO,
-            lot: AssignmentRolesOperativeVariable.LOTE,
-            createdAt: dateToString(AssignmentRolesOperativeVariable.FECHA_ALTA),
-            deletedAt: dateToString(AssignmentRolesOperativeVariable.FECHA_BAJA)
-        };
+        return await AssignmentRolesOperativeVariableService.findOne(
+            AssignmentRolesOperativeVariableService.rebaseFormat(ids)
+        );
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_ROL_USUARIO: filters.roleId };
-        const success = await AssignmentModel.deleteOne(formattedFilters,
-            {FECHA_BAJA: new Date()
-            });
+        const formattedFilters = AssignmentRolesOperativeVariableService.formatData(filters);
+        const success = await AssignmentModel.deleteOne(
+            formattedFilters,
+            {FECHA_BAJA: new Date()}
+        );
         return !!success;
     }
 
@@ -231,6 +163,100 @@ class AssignmentRolesOperativeVariableService {
             }
         ];
     }
+    static rebaseFormat(assignment) {
+        const rebaseAssignment = {};
+        if(has(assignment, 'ID_USUARIO')){
+            rebaseAssignment['userId'] = assignment.ID_USUARIO;
+        }
+        if(has(assignment, 'ID_ROL_USUARIO')){
+            rebaseAssignment['roleId'] = assignment.ID_ROL_USUARIO;
+        }
+        if(has(assignment, 'ID_OPERATIVO')){
+            rebaseAssignment['operativeId'] = assignment.ID_OPERATIVO;
+        }
+        if(has(assignment, 'ID_LOTE')){
+            rebaseAssignment['lotId'] = assignment.ID_LOTE;
+        }
+        if(has(assignment, 'ID_VARIABLE')){
+            rebaseAssignment['variableId'] = assignment.ID_VARIABLE;
+        }
+        if(has(assignment, 'OBSERVACION')){
+            rebaseAssignment['observation'] = assignment.OBSERVACION;
+        }
+        if(has(assignment, 'DOMINIO')){
+            rebaseAssignment['domain'] = assignment.DOMINIO;
+        }
+        if(has(assignment, 'SI_NO')){
+            rebaseAssignment['yesNo'] = !!assignment.SI_NO;
+        }
+        if(has(assignment, 'NOMBRE_USUARIO')){
+            rebaseAssignment['userName'] = assignment.NOMBRE_USUARIO;
+        }
+        if(has(assignment, 'VARIABLE')){
+            rebaseAssignment['variable'] = assignment.VARIABLE;
+        }
+        if(has(assignment, 'OPERATIVO')){
+            rebaseAssignment['operative'] = assignment.OPERATIVO;
+        }
+        if(has(assignment, 'LOTE')){
+            rebaseAssignment['lot'] = assignment.LOTE;
+        }
+        if(has(assignment, 'FECHA_ALTA')){
+            rebaseAssignment['createdAt'] = dateToString(assignment.FECHA_ALTA);
+        }
+        if(has(assignment, 'FECHA_BAJA')){
+            rebaseAssignment['deletedAt'] = dateToString(assignment.FECHA_BAJA);
+        }
+        return rebaseAssignment;
+    }
+
+    static formatData(assignment) {
+        const formatAssignment = {};
+        if(has(assignment, 'userId')){
+            formatAssignment['ID_USUARIO'] = assignment.userId;
+        }
+        if(has(assignment, 'roleId')){
+            formatAssignment['ID_ROL_USUARIO'] = assignment.roleId;
+        }
+        if(has(assignment, 'operativeId')){
+            formatAssignment['ID_OPERATIVO'] = assignment.operativeId;
+        }
+        if(has(assignment, 'lotId')){
+            formatAssignment['ID_LOTE'] = assignment.lotId;
+        }
+        if(has(assignment, 'variableId')){
+            formatAssignment['ID_VARIABLE'] = assignment.variableId;
+        }
+        if(has(assignment, 'observation')){
+            formatAssignment['OBSERVACION'] = assignment.observation;
+        }
+        if(has(assignment, 'domain')){
+            formatAssignment['DOMINIO'] = assignment.domain;
+        }
+        if(has(assignment, 'yesNo')){
+            formatAssignment['SI_NO'] = assignment.yesNo;
+        }
+        if(has(assignment, 'userName')){
+            formatAssignment['NOMBRE_USUARIO'] = assignment.userName;
+        }
+        if(has(assignment, 'variable')){
+            formatAssignment['VARIABLE'] = assignment.variable;
+        }
+        if(has(assignment, 'operative')){
+            formatAssignment['OPERATIVO'] = assignment.operative;
+        }
+        if(has(assignment, 'lot')){
+            formatAssignment['LOTE'] = assignment.lot;
+        }
+        if(has(assignment, 'createdAt')){
+            formatAssignment['FECHA_ALTA'] = stringToDate(assignment.createdAt);
+        }
+        if(has(assignment, 'deletedAt')){
+            formatAssignment['FECHA_BAJA'] = stringToDate(assignment.deletedAt);
+        }
+        return formatAssignment;
+    }
+
 }
 
 module.exports = AssignmentRolesOperativeVariableService;

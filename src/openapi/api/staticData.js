@@ -126,7 +126,7 @@ module.exports = {
                     in: 'query',
                     name: 'lots',
                     required: false,
-                    schema: { type: 'boolean' }
+                    schema: { type: 'string' }
                 },
                 {
                     in: 'query',
@@ -237,6 +237,12 @@ module.exports = {
                     name: 'microprocessesLists',
                     required: false,
                     schema: { type: 'boolean' }
+                },
+                {
+                    in: 'query',
+                    name: 'variablesByOperative',
+                    required: false,
+                    schema: { type: 'string' }
                 }
             ],
             responses: {

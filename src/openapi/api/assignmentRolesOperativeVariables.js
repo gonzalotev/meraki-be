@@ -116,7 +116,7 @@ module.exports = {
             tags: ['Assignment Roles Operatives Variables'],
             parameters: [
                 {
-                    in: 'query',
+                    in: 'path',
                     name: 'ids',
                     required: true,
                     schema: {type: 'string'}
@@ -172,7 +172,7 @@ module.exports = {
             tags: ['Assignment Roles Operatives Variables'],
             parameters: [
                 {
-                    in: 'query',
+                    in: 'path',
                     name: 'ids',
                     required: true,
                     schema: {type: 'string'}
@@ -191,7 +191,7 @@ module.exports = {
             tags: ['Assignment Roles Operatives Variables'],
             parameters: [
                 {
-                    in: 'query',
+                    in: 'path',
                     name: 'ids',
                     required: true,
                     schema: {type: 'string'}
