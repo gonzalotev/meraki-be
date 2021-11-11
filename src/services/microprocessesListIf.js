@@ -73,7 +73,7 @@ class microprocessesListIfService {
             ID_LISTAS: params.id,
             ID_VARIABLE: params.variableId,
             DESCRIPCION: toUpper(trim(params.description)),
-            ID_TIPOLOGÍA_DE_DICCIONARIO: params.diccionaryTypologyId,
+            ID_TIPOLOGIA_DE_DICCIONARIO: params.diccionaryTypologyId,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
