@@ -4,6 +4,7 @@ const trim = require('lodash/trim');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
 const find = require('lodash/find');
+const isDate = require('lodash/isDate');
 const isEmpty = require('lodash/isEmpty');
 
 class DocumentTypeService {
@@ -135,7 +136,13 @@ class DocumentTypeService {
                 reject(err);
             });
             stream.on('data', function (data) {
-                worksheet.addRow(data);
+                const formattedData = map(data, function(value) {
+                    if(isDate(value)) {
+                        return dateToString(value);
+                    }
+                    return value;
+                });
+                worksheet.addRow(formattedData);
             });
             stream.on('end', function () {
                 resolve(worksheet);

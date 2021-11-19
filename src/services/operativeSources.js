@@ -2,11 +2,12 @@ const { operativeSources } = include('models');
 const { dateToString, stringToDate } = include('util');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
+const isDate = require('lodash/isDate');
 const find = require('lodash/find');
 
 class OperativeSourcesService {
     static async fetch() {
-        const operatives = await operativeSources.find({FECHA_BAJA: null});
+        const operatives = await operativeSources.find({ FECHA_BAJA: null });
         return operatives.map(operative => ({
             sourceId: operative.ID_FUENTE,
             name: operative.NOMBRE,
@@ -45,12 +46,12 @@ class OperativeSourcesService {
             FECHA_BAJA: null
         };
         const operativeId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
-        const operative = await OperativeSourcesService.findOne({sourceId: operativeId});
+        const operative = await OperativeSourcesService.findOne({ sourceId: operativeId });
         return operative;
     }
 
-    static async findOne(filters){
-        const formattedFilters = {ID_FUENTE: filters.sourceId};
+    static async findOne(filters) {
+        const formattedFilters = { ID_FUENTE: filters.sourceId };
         const operativeSource = await operativeSources.findById(formattedFilters);
         return {
             sourceId: operativeSource.ID_FUENTE,
@@ -71,7 +72,7 @@ class OperativeSourcesService {
         };
     }
 
-    static async update(filters, params){
+    static async update(filters, params) {
         const formattedOperativeSource = {
             ID_FUENTE: params.sourceId,
             NOMBRE: params.name,
@@ -89,14 +90,14 @@ class OperativeSourcesService {
             ID_USUARIO_BAJA: params.userDeleted,
             FECHA_BAJA: stringToDate(params.deletedAt)
         };
-        const formattedFilters = {ID_FUENTE: filters.sourceId};
+        const formattedFilters = { ID_FUENTE: filters.sourceId };
         const operativeSourceId = await operativeSources.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        const operative = await OperativeSourcesService.findOne({sourceId: operativeSourceId});
+        const operative = await OperativeSourcesService.findOne({ sourceId: operativeSourceId });
         return operative;
     }
 
-    static async delete(filters, userDeleted){
-        const success = await operativeSources.deleteOne({ID_FUENTE: filters.sourceId}, {
+    static async delete(filters, userDeleted) {
+        const success = await operativeSources.deleteOne({ ID_FUENTE: filters.sourceId }, {
             FECHA_BAJA: new Date(),
             ID_USUARIO_BAJA: userDeleted
         });
@@ -107,25 +108,35 @@ class OperativeSourcesService {
         return new Promise((resolve, reject) => {
             const stream = operativeSources.knex.select(columns)
                 .from(operativeSources.tableName)
-                .where({FECHA_BAJA: null})
+                .where({ FECHA_BAJA: null })
                 .stream();
-            stream.on('error', function(err) {
+            stream.on('error', function (err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                worksheet.addRow(data);
+            stream.on('data', function (data) {
+                const formattedData = map(data, function(value) {
+                    if(isDate(value)) {
+                        return dateToString(value);
+                    }
+                    return value;
+                });
+                worksheet.addRow(formattedData);
             });
-            stream.on('end', function() {
+            stream.on('end', function () {
                 resolve(worksheet);
             });
         });
     }
 
-    static getColumns(){
+    static getColumns() {
         return [
             {
                 original: 'ID_FUENTE',
                 modified: 'ID'
+            },
+            {
+                original: 'ID_SOPORTE',
+                modified: 'SOPORTE ID'
             },
             {
                 original: 'NOMBRE',
@@ -166,14 +177,14 @@ class OperativeSourcesService {
         ];
     }
 
-    static async fetchIfExist(Model, id, filters = {}){
-        const sources = await operativeSources.knex(operativeSources.tableName).whereExists(function() {
+    static async fetchIfExist(Model, id, filters = {}) {
+        const sources = await operativeSources.knex(operativeSources.tableName).whereExists(function () {
             this.select('*')
                 .from(Model.tableName)
                 .whereRaw(`${operativeSources.tableName}.${id} = ${Model.tableName}.${id}`)
                 .andWhere(filters);
         })
-            .orderBy([{column: 'NOMBRE', order: 'asc'}]);
+            .orderBy([{ column: 'NOMBRE', order: 'asc' }]);
 
         return sources.map(source => ({
             id: source.ID_FUENTE,
@@ -194,7 +205,7 @@ class OperativeSourcesService {
         }));
     }
 
-    static async getSourceData(resources){
+    static async getSourceData(resources) {
         const sourcesIds = uniq(map(resources, resource => resource.sourceId));
         let sources = await operativeSources.knex.select()
             .from(operativeSources.tableName)

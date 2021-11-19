@@ -6,6 +6,8 @@ const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
+const isDate = require('lodash/isDate');
 const toNumber = require('lodash/toNumber');
 
 class SourceQuestionRelationService {
@@ -173,8 +175,14 @@ class SourceQuestionRelationService {
             stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                worksheet.addRow(data);
+            stream.on('data', function (data) {
+                const formattedData = map(data, function(value) {
+                    if(isDate(value)) {
+                        return dateToString(value);
+                    }
+                    return value;
+                });
+                worksheet.addRow(formattedData);
             });
             stream.on('end', function() {
                 resolve(worksheet);

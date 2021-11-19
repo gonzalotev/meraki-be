@@ -2,6 +2,7 @@ const { questions: questionsModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
+const isDate = require('lodash/isDate');
 const find = require('lodash/find');
 
 class QuestionService {
@@ -129,8 +130,14 @@ class QuestionService {
             stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                worksheet.addRow(data);
+            stream.on('data', function (data) {
+                const formattedData = map(data, function(value) {
+                    if(isDate(value)) {
+                        return dateToString(value);
+                    }
+                    return value;
+                });
+                worksheet.addRow(formattedData);
             });
             stream.on('end', function() {
                 resolve(worksheet);

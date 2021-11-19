@@ -2,6 +2,8 @@ const { assignmentRolesOperativeVariable: AssignmentModel } = include('models');
 const { dateToString, stringToDate, getOffset, getPageSize } = include('util');
 const head = require('lodash/head');
 const has = require('lodash/has');
+const isDate = require('lodash/isDate');
+const map = require('lodash/map');
 
 class AssignmentRolesOperativeVariableService {
     static async fetch(query) {
@@ -106,8 +108,14 @@ class AssignmentRolesOperativeVariableService {
             stream.on('error', function(err) {
                 reject(err);
             });
-            stream.on('data', function(data) {
-                worksheet.addRow(data);
+            stream.on('data', function (data) {
+                const formattedData = map(data, function(value) {
+                    if(isDate(value)) {
+                        return dateToString(value);
+                    }
+                    return value;
+                });
+                worksheet.addRow(formattedData);
             });
             stream.on('end', function() {
                 resolve(worksheet);
