@@ -35,6 +35,37 @@ class AssignmentRoleService {
         return assignmentsRoles;
     }
 
+    static async fetchDisabled({ page, token }) {
+        let userDeletedTable = [];
+        if (page) {
+            userDeletedTable = await assignmentRoleModel.findByPage(
+                page,
+                {},
+                assignmentRoleModel.selectableProps,
+                [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
+            ).whereNotNull('FECHA_BAJA');
+        } else {
+            userDeletedTable = await assignmentRoleModel.find(
+                {},
+                assignmentRoleModel.selectableProps,
+                [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
+            ).whereNotNull('FECHA_BAJA');
+        }
+
+        userDeletedTable = userDeletedTable.map(userDeletedTable => ({
+            roleId: userDeletedTable.ID_ROL_USUARIO,
+            description: userDeletedTable.DESCRIPCION,
+            domain: userDeletedTable.DOMINIO,
+            observation: userDeletedTable.OBSERVACION,
+            userId: userDeletedTable.ID_USUARIO,
+            userName: userDeletedTable.NOMBRE_USUARIO,
+            createdAt: dateToString(userDeletedTable.FECHA_ALTA),
+            deletedAt: dateToString(userDeletedTable.FECHA_BAJA)
+        }));
+        await ArqService.getUserData(userDeletedTable, token);
+        return userDeletedTable;
+    }
+
     static async create(params) {
         const formattedAssignmentRole = {
             ID_ROL_USUARIO: params.roleId,
