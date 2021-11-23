@@ -15,12 +15,12 @@ class RelationshipAutophraseQuestionClosedService {
         if (page && source) {
             relations = await relationshipAutophraseQuestionClosed.findByPage(
                 page,
-                { ID_AUTOFRASE: source, FECHA_BAJA: null },
+                { ID_AUTOFRASE: source},
                 relationshipAutophraseQuestionClosed.selectableProps,
                 [{ column: 'ID_AUTOFRASE', order: 'asc' }, { column: 'ID_PREGUNTA	', order: 'asc' }]
             );
         } else {
-            relations = await relationshipAutophraseQuestionClosed.find({ FECHA_BAJA: null });
+            relations = await relationshipAutophraseQuestionClosed.find();
         }
         relations = relations.map(relation => ({
             autophraseId: relation.ID_AUTOFRASE,
@@ -33,9 +33,7 @@ class RelationshipAutophraseQuestionClosedService {
             nomenclatureId: relation.ID_NOMENCLATURA,
             approved: !!relation.SUPERVISADO,
             userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            deletedAt: dateToString(relation.FECHA_BAJA)
+            createdAt: dateToString(relation.FECHA_ALTA)
         }));
         // await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
         await NomenclatureService.getNomenclatureData(relations);
@@ -63,9 +61,7 @@ class RelationshipAutophraseQuestionClosedService {
             nomenclatureId: relation.ID_NOMENCLATURA,
             approved: !!relation.SUPERVISADO,
             userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            deletedAt: dateToString(relation.FECHA_BAJA)
+            createdAt: dateToString(relation.FECHA_ALTA)
         } : {};
 
         // await QuestionsTypeSerive.getQuestionTypeData(relation);
@@ -84,9 +80,7 @@ class RelationshipAutophraseQuestionClosedService {
             ID_NOMENCLATURA: params.nomenclatureId,
             SUPERVISADO: !!params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_ALTA: new Date(),
-            FECHA_BAJA: null
+            FECHA_ALTA: new Date()
         };
         const relationId = await relationshipAutophraseQuestionClosed
             .insertOne(formattedRelationshipAutophraseQuestionClosed, ['ID_AUTOFRASE', 'ID_FUENTE', 'ID_PREGUNTA']);
@@ -109,9 +103,7 @@ class RelationshipAutophraseQuestionClosedService {
             ID_NOMENCLATURA: params.nomenclatureId,
             SUPERVISADO: !!params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_ALTA: new Date(),
-            FECHA_BAJA: null
+            FECHA_ALTA: new Date()
         };
         const relationId = await relationshipAutophraseQuestionClosed.updateOne({ ID_AUTOFRASE: filters.autophraseId },
             formattedRelationshipAutophraseQuestionClosed, ['ID_AUTOFRASE', 'ID_FUENTE', 'ID_PREGUNTA']);
@@ -121,14 +113,12 @@ class RelationshipAutophraseQuestionClosedService {
                 questionId: relationId.ID_PREGUNTA });
         return relation;
     }
-    static async delete({ sourceId, questionId }, userDeleted) {
+    static async delete({ sourceId, questionId }) {
         const ids = {
             ID_FUENTE: sourceId,
             ID_PREGUNTA: questionId
         };
-        const success = await relationshipAutophraseQuestionClosed.deleteOne(ids, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
+        const success = await relationshipAutophraseQuestionClosed.delete(ids, {
         });
         return !!success;
     }
@@ -136,9 +126,9 @@ class RelationshipAutophraseQuestionClosedService {
     static async getTotal({ source }) {
         let result;
         if (source) {
-            result = await relationshipAutophraseQuestionClosed.countTotal({ ID_FUENTE: source, FECHA_BAJA: null });
+            result = await relationshipAutophraseQuestionClosed.countTotal({ ID_FUENTE: source });
         } else {
-            result = await relationshipAutophraseQuestionClosed.countTotal({ FECHA_BAJA: null });
+            result = await relationshipAutophraseQuestionClosed.countTotal();
         }
         return result.total;
     }
@@ -147,7 +137,7 @@ class RelationshipAutophraseQuestionClosedService {
         return new Promise((resolve, reject) => {
             const stream = relationshipAutophraseQuestionClosed.knex.select(columns)
                 .from(relationshipAutophraseQuestionClosed.tableName)
-                .where({FECHA_BAJA: null})
+                .where()
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

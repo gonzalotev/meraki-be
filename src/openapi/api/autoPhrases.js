@@ -45,9 +45,7 @@ module.exports = {
                                                 dateRetro: {type: 'string'},
                                                 dependId: {type: 'string'},
                                                 createdAt: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
+                                                userCreator: {type: 'string'}
                                             }
                                         }
                                     }
@@ -83,9 +81,7 @@ module.exports = {
                                 dateRetro: {type: 'string'},
                                 dependId: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                userCreator: {type: 'string'}
                             }
                         }
                     }
@@ -113,9 +109,7 @@ module.exports = {
                                             dateRetro: {type: 'string'},
                                             dependId: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            userCreator: {type: 'string'}
                                         }
                                     }
                                 }
@@ -161,9 +155,7 @@ module.exports = {
                                 dateRetro: {type: 'string'},
                                 dependId: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                userCreator: {type: 'string'}
                             }
                         }
                     }
@@ -191,9 +183,7 @@ module.exports = {
                                             dateRetro: {type: 'string'},
                                             dependId: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            userCreator: {type: 'string'}
                                         }
                                     }
                                 }
@@ -263,9 +253,7 @@ module.exports = {
                                             dateRetro: {type: 'string'},
                                             dependId: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            userCreator: {type: 'string'}
                                         }
                                     }
                                 }

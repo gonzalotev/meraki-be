@@ -10,7 +10,7 @@ const isDate = require('lodash/isDate');
 
 class RelationshipAutophrasesLetterService {
     static async fetch() {
-        let relationshipsLetter = await relationshipAutophrasesLetterModel.find({ FECHA_BAJA: null });
+        let relationshipsLetter = await relationshipAutophrasesLetterModel.find();
         relationshipsLetter = relationshipsLetter.map(relationshipAutophrasesLetter => ({
             nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
             groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
@@ -20,9 +20,7 @@ class RelationshipAutophrasesLetterService {
             domain: relationshipAutophrasesLetter.DOMINIO,
             approved: !!relationshipAutophrasesLetter.SUPERVISADO,
             createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
-            userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA,
-            userDeleted: relationshipAutophrasesLetter.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
+            userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA
         }));
         await AutoPhraseService.getAutoPhrase(relationshipsLetter);
         await NomenclatorsService.getNomenclatorData(relationshipsLetter);
@@ -42,8 +40,6 @@ class RelationshipAutophrasesLetterService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const relationshipAutophrasesLetterId = await relationshipAutophrasesLetterModel.
@@ -75,9 +71,7 @@ class RelationshipAutophrasesLetterService {
             domain: relationshipAutophrasesLetter.DOMINIO,
             approved: !!relationshipAutophrasesLetter.SUPERVISADO,
             createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
-            userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA,
-            userDeleted: relationshipAutophrasesLetter.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesLetter.FECHA_BAJA)
+            userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA
         } : {};
         await NomenclatorsService.getNomenclatorData([relationshipAutophrasesLetter]);
         await NomenclatorsGroupingService.getNomenclatorsGroupingsData([relationshipAutophrasesLetter]);
@@ -95,8 +89,6 @@ class RelationshipAutophrasesLetterService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const relationshipAutophrasesLetterId = await relationshipAutophrasesLetterModel.updateOne(
@@ -124,9 +116,9 @@ class RelationshipAutophrasesLetterService {
         let result;
         if (relationshipAutophrasesLetter) {
             result = await relationshipAutophrasesLetterModel.countTotal(
-                { ID_NOMENCLATURA_AGRUPACION: relationshipAutophrasesLetter, FECHA_BAJA: null });
+                { ID_NOMENCLATURA_AGRUPACION: relationshipAutophrasesLetter});
         } else {
-            result = await relationshipAutophrasesLetterModel.countTotal({ FECHA_BAJA: null });
+            result = await relationshipAutophrasesLetterModel.countTotal();
         }
         return result.total;
     }
@@ -135,7 +127,7 @@ class RelationshipAutophrasesLetterService {
         return new Promise((resolve, reject) => {
             const stream = relationshipAutophrasesLetterModel.knex.select(columns)
                 .from(relationshipAutophrasesLetterModel.tableName)
-                .where({FECHA_BAJA: null})
+                .where()
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

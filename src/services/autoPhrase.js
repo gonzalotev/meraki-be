@@ -14,11 +14,11 @@ class AutoPhraseService {
     static async fetch({ page, search }) {
         let autosPhrases = [];
         if (page && search) {
-            autosPhrases = await autoPhraseModel.fetchByPageAndTerm(page, search, { FECHA_BAJA: null });
+            autosPhrases = await autoPhraseModel.fetchByPageAndTerm(page, search);
         } else if (page) {
-            autosPhrases = await autoPhraseModel.findByPage(page, { FECHA_BAJA: null });
+            autosPhrases = await autoPhraseModel.findByPage(page);
         } else {
-            autosPhrases = await autoPhraseModel.find({ FECHA_BAJA: null });
+            autosPhrases = await autoPhraseModel.find();
         }
 
         autosPhrases = autosPhrases.map(autoPhrase => ({
@@ -32,9 +32,7 @@ class AutoPhraseService {
             dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
-            userCreator: autoPhrase.ID_USUARIO_ALTA,
-            userDeleted: autoPhrase.ID_USUARIO_BAJA,
-            deletedAt: dateToString(autoPhrase.FECHA_BAJA)
+            userCreator: autoPhrase.ID_USUARIO_ALTA
         }));
 
         await StaticalVariableService.getVariableData(autosPhrases);
@@ -54,8 +52,6 @@ class AutoPhraseService {
             ID_DEPENDE_ID_AUTOFRASE: params.dependId,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const autoPhraseId = await autoPhraseModel.insertOne(formattedAutoPhrase, ['ID_AUTOFRASE']);
@@ -78,9 +74,7 @@ class AutoPhraseService {
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
-            userCreator: autoPhrase.ID_USUARIO_ALTA,
-            userDeleted: autoPhrase.ID_USUARIO_BAJA,
-            deletedAt: dateToString(autoPhrase.FECHA_BAJA)
+            userCreator: autoPhrase.ID_USUARIO_ALTA
         };
 
         await StaticalVariableService.getVariableData([autoPhrase]);
@@ -88,7 +82,7 @@ class AutoPhraseService {
 
     }
     static async getTotal({ search }) {
-        const { total } = await autoPhraseModel.countTotal({ FECHA_BAJA: null }, search, ['FRASE_FINAL']);
+        const { total } = await autoPhraseModel.countTotal({ FECHA_ALTA: null }, search, ['FRASE_FINAL']);
         return total;
     }
 
@@ -104,8 +98,6 @@ class AutoPhraseService {
             ID_DEPENDE_ID_AUTOFRASE: params.dependId,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const autoPhraseId = await autoPhraseModel.updateOne({ ID_AUTOFRASE: filters.id },
@@ -114,11 +106,9 @@ class AutoPhraseService {
         return autoPhrase;
     }
 
-    static async delete(filters, userDeleted) {
+    static async delete(filters) {
         const formattedFilters = { ID_AUTOFRASE: filters.id };
-        const success = await autoPhraseModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
+        const success = await autoPhraseModel.delete(formattedFilters, {
         });
         return !!success;
     }

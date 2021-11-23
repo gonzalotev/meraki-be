@@ -9,7 +9,7 @@ const isDate = require('lodash/isDate');
 
 class RelationshipAutophrasesNomenclatureService {
     static async fetch() {
-        let relationshipsTypes = await relationshipAutophrasesNomenclatureModel.find({ FECHA_BAJA: null });
+        let relationshipsTypes = await relationshipAutophrasesNomenclatureModel.find();
         relationshipsTypes = relationshipsTypes.map(relationshipAutophrasesNomenclature => ({
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
             nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
@@ -19,8 +19,6 @@ class RelationshipAutophrasesNomenclatureService {
             approved: !!relationshipAutophrasesNomenclature.SUPERVISADO,
             createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
             userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
-            userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
             id: relationshipAutophrasesNomenclature.AUTOFRASE,
             nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
             variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
@@ -44,8 +42,6 @@ class RelationshipAutophrasesNomenclatureService {
             ID_NOMENCLATURA: trim(params.nomenclatureId),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date(),
             AUTOFRASE: trim(params.id),
             NOMENCLATURA: trim(params.nomenclature),
@@ -79,8 +75,6 @@ class RelationshipAutophrasesNomenclatureService {
             approved: !!relationshipAutophrasesNomenclature.SUPERVISADO,
             createdAt: dateToString(relationshipAutophrasesNomenclature.FECHA_ALTA),
             userCreator: relationshipAutophrasesNomenclature.ID_USUARIO_ALTA,
-            userDeleted: relationshipAutophrasesNomenclature.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipAutophrasesNomenclature.FECHA_BAJA),
             id: relationshipAutophrasesNomenclature.AUTOFRASE,
             nomenclature: relationshipAutophrasesNomenclature.NOMENCLATURA,
             variableId: relationshipAutophrasesNomenclature.ID_VARIABLE,
@@ -98,8 +92,6 @@ class RelationshipAutophrasesNomenclatureService {
             ID_NOMENCLATURA: trim(params.nomenclatureId),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date(),
             AUTOFRASE: trim(params.id),
             NOMENCLATURA: trim(params.nomenclature),
@@ -119,14 +111,12 @@ class RelationshipAutophrasesNomenclatureService {
         return relationshipAutophrasesNomenclature;
     }
 
-    static async delete(filters, userDeleted) {
+    static async delete(filters) {
         const formattedFilters = {
             ID_AUTOFRASE: filters.autophraseId,
             ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId
         };
-        const success = await relationshipAutophrasesNomenclatureModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
+        const success = await relationshipAutophrasesNomenclatureModel.delete(formattedFilters, {
         });
         return !!success;
     }
@@ -135,7 +125,7 @@ class RelationshipAutophrasesNomenclatureService {
         return new Promise((resolve, reject) => {
             const stream = relationshipAutophrasesNomenclatureModel.knex.select(columns)
                 .from(relationshipAutophrasesNomenclatureModel.tableName)
-                .where({ FECHA_BAJA: null })
+                .where()
                 .stream();
             stream.on('error', function (err) {
                 reject(err);

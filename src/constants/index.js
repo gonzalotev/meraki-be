@@ -213,9 +213,7 @@ const relationshipAutophrasesQuestionClosedsAttrib = [
     'ID_NOMENCLATURA',
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const assignmentRoleOperativeVariableTableName = 'RELACION_ROLES_OPERATIVOS_VARIABLES';
@@ -306,8 +304,6 @@ const nomenclatorsGroupingsAttrib = [
     'CANTIDAD_DE_NIVELES',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
     'OBSERVACION'
 ];
 
@@ -325,9 +321,7 @@ const nomenclaturesGroupingsAttrib = [
     'ID_PADRE_NOMENCLATURA_AGRUPACION',
     'FRACCIONADO_DE_PALABRAS',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const specialPhraseTypeTableName = 'TIPOS_DE_FRASES_ESPECIALES';
@@ -487,9 +481,7 @@ const autoPhrasesAttrib = [
     'FECHA_RETROALIMENTACION',
     'ID_DEPENDE_ID_AUTOFRASE',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
+    'FECHA_ALTA'
 ];
 const wordsDictionaryTableName = 'DICCIONARIO_DE_PALABRAS';
 const wordsDictionaryAttrib = [
@@ -528,8 +520,6 @@ const relationshipAutoPhraseLetterAttrib = [
     'DOMINIO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
     'SUPERVISADO'
 ];
 
@@ -543,8 +533,6 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA',
     'AUTOFRASE',
     'NOMENCLATURA',
     'ID_VARIABLE',
