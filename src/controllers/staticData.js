@@ -52,7 +52,6 @@ class StaticDataController {
                 microprocessQuestionsClosed,
                 variablesByOperative
             } = query;
-            console.log(query);
             if (microprocessQuestionsClosed) {
                 await StaticDataService.getMicroprocessQuestionsClosedData(data);
             }
