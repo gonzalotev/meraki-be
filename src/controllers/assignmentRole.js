@@ -15,6 +15,18 @@ class AssignmentRoleController {
         }
     }
 
+    static async fetchDisabled(req, res, next) {
+        try {
+            const token = req.get('Authorization');
+            const { page } = req.query;
+            const assignmentsDisabledRoles = await AssignmentRoleService.fetchDisabled({ page, token });
+            const total = await AssignmentRoleService.getTotal();
+            res.send({ assignmentsDisabledRoles, total });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     static async find(req, res, next) {
         try {
             const { roleId, userId } = req.params;

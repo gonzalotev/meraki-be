@@ -32,6 +32,10 @@ class AssignmentRolesOperativeVariableController {
             res.status(201);
             res.send({ assigment });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }
