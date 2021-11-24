@@ -43,13 +43,13 @@ class AssignmentRoleService {
                 {},
                 assignmentRoleModel.selectableProps,
                 [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
-            ).whereNotNull('FECHA_BAJA');
+            ).whereNotNull('FECHA_BAJA', 'DESCRIPCION');
         } else {
             userDeletedTable = await assignmentRoleModel.find(
                 {},
                 assignmentRoleModel.selectableProps,
                 [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
-            ).whereNotNull('FECHA_BAJA');
+            ).whereNotNull('FECHA_BAJA', 'DESCRIPCION');
         }
 
         userDeletedTable = userDeletedTable.map(userDeletedTable => ({
