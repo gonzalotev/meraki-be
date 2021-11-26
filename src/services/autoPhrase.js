@@ -12,11 +12,14 @@ const isEmpty = require('lodash/isEmpty');
 
 class AutoPhraseService {
     static async fetch({ page, search }) {
+        const orderBy = [{ column: 'ID_AUTOFRASE', order: 'asc' }];
+        const filterBy = {};
+        const columnsToSelect = autoPhraseModel.selectableProps;
         let autosPhrases = [];
         if (page && search) {
             autosPhrases = await autoPhraseModel.fetchByPageAndTerm(page, search);
         } else if (page) {
-            autosPhrases = await autoPhraseModel.findByPage(page);
+            autosPhrases = await autoPhraseModel.findByPage(page, filterBy, columnsToSelect, orderBy);
         } else {
             autosPhrases = await autoPhraseModel.find();
         }
@@ -82,7 +85,7 @@ class AutoPhraseService {
 
     }
     static async getTotal({ search }) {
-        const { total } = await autoPhraseModel.countTotal({ FECHA_ALTA: null }, search, ['FRASE_FINAL']);
+        const { total } = await autoPhraseModel.countTotal({}, search, ['FRASE_FINAL']);
         return total;
     }
 
