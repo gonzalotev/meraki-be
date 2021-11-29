@@ -354,6 +354,26 @@ class StaticDataService {
         return data;
     }
 
+    static async getMicroprocessesBySteps(data){
+        const microprocesses = await knex.select({
+            id: 'ID_MICROPROCESO',
+            description: 'DESCRIPCION',
+            nomenclatorId: 'ID_NOMENCLADOR',
+            amountOfDigits: 'ID_CANTIDAD_DIGITOS',
+            variableId: 'ID_VARIABLE',
+            dictionaryTypologyId: 'ID_TIPOLOGIA_DE_DICCIONARIO'
+        })
+            .from('MICROPROCESOS')
+            .whereExists(function() {
+                this.select('*')
+                    .from('MICROPROCESOS_PASOS')
+                    .whereRaw('MICROPROCESOS.id_microproceso = MICROPROCESOS_PASOS.id_microproceso');
+            })
+            .orderBy([{column: 'ID_MICROPROCESO', order: 'asc'}]);
+        data.microprocessesBySteps = microprocesses;
+        return data;
+    }
+
     static async getEntryFieldsNames(data){
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'

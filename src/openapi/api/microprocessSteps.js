@@ -9,8 +9,15 @@ module.exports = {
                     name: 'page',
                     required: false,
                     schema: {
-                        type: 'number',
-                        default: 1
+                        type: 'number'
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'microprocessId',
+                    required: false,
+                    schema: {
+                        type: 'string'
                     }
                 }
             ],

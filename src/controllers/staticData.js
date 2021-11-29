@@ -50,7 +50,8 @@ class StaticDataController {
                 levels,
                 relationshipAutophrasesLetter,
                 microprocessQuestionsClosed,
-                variablesByOperative
+                variablesByOperative,
+                microprocessesBySteps
             } = query;
             if (microprocessQuestionsClosed) {
                 await StaticDataService.getMicroprocessQuestionsClosedData(data);
@@ -173,6 +174,9 @@ class StaticDataController {
             }
             if (variablesByOperative) {
                 await StaticDataService.getVariablesByOperative(data, variablesByOperative);
+            }
+            if (microprocessesBySteps) {
+                await StaticDataService.getMicroprocessesBySteps(data);
             }
             res.send(data);
 

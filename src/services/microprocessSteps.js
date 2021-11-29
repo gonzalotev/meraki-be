@@ -1,5 +1,5 @@
 const { MicroprocessSteps } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringToDate, getPageSize, getOffset } = include('util');
 const NomenclatureService = require('./nomenclatures');
 const MicroprocessDefinitionService = require('./microprocessDefinition');
 const uniq = require('lodash/uniq');
@@ -7,20 +7,34 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 const find = require('lodash/find');
 const toUpper = require('lodash/toUpper');
+const head = require('lodash/head');
 
 class MicroprocessStepsService {
-    static async fetch({page}) {
+    static async fetch({page, limit, ...filters}) {
         let steps=[];
-        if(page){
-            steps = await MicroprocessSteps.findByPage(
-                page,
-                {},
-                MicroprocessSteps.selectableProps,
-                [{column: 'ID_MICROPROCESO', order: 'asc'}, {column: 'ID_ORDEN', order: 'asc'}]
-            );
-        } else {
-            steps = await MicroprocessSteps.find();
+        const stepsQuery = MicroprocessSteps.knex
+            .select(MicroprocessSteps.selectableProps)
+            .from(MicroprocessSteps.tableName)
+            .orderBy([
+                {column: 'ID_ORDEN', order: 'asc'},
+                {column: 'ESTOY_EN', order: 'asc'}
+            ]);
+        if(filters && filters.microprocessId){
+            stepsQuery.where({ID_MICROPROCESO: filters.microprocessId});
         }
+        if(page){
+            if(limit) {
+                stepsQuery.limit(limit);
+                stepsQuery.offset(getOffset(page, limit));
+            } else {
+                stepsQuery.limit(getPageSize());
+                stepsQuery.offset(getOffset(page));
+            }
+        }
+
+        stepsQuery.timeout(MicroprocessSteps.timeout);
+        steps = await stepsQuery;
+
         steps = steps.map(step => MicroprocessStepsService.rebaseFormat(step));
         await NomenclatureService.getNomenclatureData(steps, 'nomenclatureIdNo', 'nomenclatureNo');
         await NomenclatureService.getNomenclatureData(steps, 'nomenclatureIdYes', 'nomenclatureYes');
@@ -59,8 +73,13 @@ class MicroprocessStepsService {
         return !!success;
     }
 
-    static async getTotal(){
-        const {total} = await MicroprocessSteps.countTotal();
+    static async getTotal(query) {
+        const stepsQuery = MicroprocessSteps.knex(MicroprocessSteps.tableName).count({ total: '*' });
+        if(query && query.microprocessId){
+            stepsQuery.where({ID_MICROPROCESO: query.microprocessId});
+        }
+        stepsQuery.timeout(MicroprocessSteps.timeout);
+        const { total } = head(await stepsQuery);
         return total;
     }
 

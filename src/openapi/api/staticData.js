@@ -243,6 +243,12 @@ module.exports = {
                     name: 'variablesByOperative',
                     required: false,
                     schema: { type: 'string' }
+                },
+                {
+                    in: 'query',
+                    name: 'microprocessesBySteps',
+                    required: false,
+                    schema: { type: 'boolean' }
                 }
             ],
             responses: {
