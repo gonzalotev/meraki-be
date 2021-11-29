@@ -113,7 +113,6 @@ class StaticDataService {
                 description: 'DESCRIPCION'
             })
             .from('AGRUPACIONES_NOMENCLADOR')
-            .where({FECHA_BAJA: null})
             .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.nomenclatorsGroup = nomenclatorsGroup;
         return data;
@@ -324,7 +323,7 @@ class StaticDataService {
             const { nomenclatorId } = filters;
             let whereFilter = {FECHA_BAJA: null};
             if (nomenclatorId) {
-                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId};
+                whereFilter = {ID_NOMENCLADOR: nomenclatorId};
             }
             data.relationshipAutophrasesLetter.nomenclatorGrouping = await knex.select({
                 nomenclatorId: 'ID_NOMENCLADOR',
@@ -338,7 +337,7 @@ class StaticDataService {
             const { nomenclatorId, groupId } = filters;
             let whereFilter = {FECHA_BAJA: null};
             if (nomenclatorId && groupId) {
-                whereFilter = {FECHA_BAJA: null, ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
+                whereFilter = {ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
             }
             data.relationshipAutophrasesLetter.nomenclatureGrouping = await knex.select({
                 nomenclatorId: 'ID_NOMENCLADOR',

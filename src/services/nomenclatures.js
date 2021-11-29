@@ -2,10 +2,24 @@ const { nomenclatures: nomenclaturesModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
+const uniq = require('lodash/uniq');
+const find = require('lodash/find');
+const compact = require('lodash/compact');
+const isEmpty = require('lodash/isEmpty');
 
 class NomenclaturesService {
-    static async fetch() {
-        let nomenclaturess = await nomenclaturesModel.find({FECHA_BAJA: null});
+    static async fetch({ page, search }) {
+        const orderBy = [{ column: 'ABREVIATURA', order: 'asc' }];
+        const filterBy = {};
+        const columnsToSelect = nomenclaturesModel.selectableProps;
+        let nomenclaturess = [];
+        if (page && search) {
+            nomenclaturess = await nomenclaturesModel.fetchByPageAndTerm(page, search);
+        } else if (page) {
+            nomenclaturess = await nomenclaturesModel.findByPage(page, filterBy, columnsToSelect, orderBy);
+        } else {
+            nomenclaturess = await nomenclaturesModel.find();
+        }
         nomenclaturess = nomenclaturess.map(nomenclatures => ({
             nomenclatorId: nomenclatures.ID_NOMENCLADOR,
             nomenclatureId: nomenclatures.ID_NOMENCLATURA,
@@ -59,6 +73,11 @@ class NomenclaturesService {
             }
         );
         return nomen;
+    }
+
+    static async getTotal({ search }) {
+        const { total } = await nomenclaturesModel.countTotal({}, search, ['ABREVIATURA']);
+        return total;
     }
 
     static async findOne(filters){
@@ -118,6 +137,29 @@ class NomenclaturesService {
         return !!success;
     }
 
+    static async getNomenclature(resources) {
+        const nomenclatureIds = compact(uniq(map(resources, resource => resource.nomenclatureId)));
+        if (isEmpty(nomenclatureIds)) {
+            return resources;
+        }
+        let nomenclatures = await nomenclaturesModel.findByValues('ID_NOMENCLATURA', nomenclatureIds, nomenclaturesModel.selectableProps, []);
+        nomenclatures = map(nomenclatures, nomenclature => ({
+            nomenclatureId: nomenclature.ID_NOMENCLATURA,
+            nomenclatorId: nomenclature.ID_NOMENCLADOR,
+            abreviation: nomenclature.ABREVIATURA
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.nomenclature = find(
+                nomenclatures,
+                nomenclature => nomenclature.nomenclatureId === resource.nomenclatorId
+            );
+            return resource;
+        });
+    }
+
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = nomenclaturesModel.knex.select(columns)
@@ -145,60 +187,20 @@ class NomenclaturesService {
     static getColumns(){
         return [
             {
-                original: 'ID_DOCUMENTO',
-                modified: 'DOCUMENTO ID'
+                original: 'ID_NOMENCLATURA',
+                modified: 'NOMENCLATURA ID'
             },
             {
-                original: 'ID_TIPO_DOCUMENTO',
-                modified: 'TIPO DE DOCUMENTO ID'
+                original: 'ID_NOMENCLADOR',
+                modified: 'NOMENCLADOR ID'
             },
             {
-                original: 'TITULO',
-                modified: 'TÍTULO'
+                original: 'ABREVIATURA',
+                modified: 'ABREVIATURA'
             },
             {
-                original: 'AUTOR',
-                modified: 'AUTOR'
-            },
-            {
-                original: 'INSTITUCION',
-                modified: 'INSTITUCIÓN'
-            },
-            {
-                original: 'AREA',
-                modified: 'ÁREA'
-            },
-            {
-                original: 'FECHA_DOCUMENTO',
-                modified: 'FECHA DOCUMENTO'
-            },
-            {
-                original: 'ISBN',
-                modified: 'ISBN'
-            },
-            {
-                original: 'ID_EDITOR',
-                modified: 'EDITOR ID'
-            },
-            {
-                original: 'UBICACION_ARCHIVO',
-                modified: 'UBICACIÓN ARCHIVO'
-            },
-            {
-                original: 'RESUMEN',
-                modified: 'RESUMEN'
-            },
-            {
-                original: 'URL',
-                modified: 'URL'
-            },
-            {
-                original: 'COMENTARIO',
-                modified: 'COMENTARIO'
-            },
-            {
-                original: 'CANTIDAD_VISITAS',
-                modified: 'CANTIDAD VISITAS'
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCION'
             }
         ];
     }

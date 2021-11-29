@@ -1,12 +1,16 @@
 const { NomenclaturesService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
 const map = require('lodash/map');
 
 class NomenclaturesController {
     static async fetch(req, res, next) {
         try {
-            const nomenclaturess = await NomenclaturesService.fetch();
-            res.send({ nomenclaturess });
+            const { page, search } = req.query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const total = await NomenclaturesService.getTotal({ search: searchValue });
+            const nomenclaturess = await NomenclaturesService.fetch({ page, search: searchValue });
+            res.send({ nomenclaturess, total });
         } catch (error) {
             next(error);
         }

@@ -3,7 +3,6 @@ const QuestionService = require('./questions');
 const NomenclatorsService = require('./nomenclators');
 const AutoPhraseService = require('./autoPhrase');
 const OperativeSourcesService = require('./operativeSources');
-const NomenclatureService = require('./nomenclatures');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
@@ -36,7 +35,7 @@ class RelationshipAutophraseQuestionClosedService {
             createdAt: dateToString(relation.FECHA_ALTA)
         }));
         // await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
-        await NomenclatureService.getNomenclatureData(relations);
+        // await NomenclatureService.getNomenclatureData(relations);
         await OperativeSourcesService.getSourceData(relations);
         await NomenclatorsService.getNomenclatorData(relations);
         await QuestionService.getQuestionData(relations);

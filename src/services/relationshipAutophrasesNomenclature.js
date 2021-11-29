@@ -1,8 +1,7 @@
 const { relationshipAutophrasesNomenclature: relationshipAutophrasesNomenclatureModel } = include('models');
 const AutoPhraseService = require('./autoPhrase');
 const NomenclatorsService = require('./nomenclators');
-const NomenclaturesService = require('./nomenclatures');
-const { dateToString, arrayToCsvFormat } = include('util');
+const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
@@ -27,7 +26,7 @@ class RelationshipAutophrasesNomenclatureService {
         }));
         await AutoPhraseService.getAutoPhrase(relationshipsTypes);
         await NomenclatorsService.getNomenclatorData(relationshipsTypes);
-        await NomenclaturesService.getNomenclatureData(relationshipsTypes);
+        // await NomenclaturesService.getNomenclatureData(relationshipsTypes);
 
         return relationshipsTypes;
 
@@ -192,31 +191,6 @@ class RelationshipAutophrasesNomenclatureService {
                 modified: 'SUPERVISADO'
             }
         ];
-    }
-
-    static getCsv() {
-        return new Promise((resolve, reject) => {
-            let csvString = '';
-            const fieldNames = [
-
-            ];
-            const tableHeaders = map(fieldNames, field => field.original);
-            const fileHeaders = map(fieldNames, field => field.modified);
-            const headers = arrayToCsvFormat(fileHeaders);
-            csvString += headers;
-            const stream = relationshipAutophrasesNomenclatureModel.knex.select(tableHeaders)
-                .from(relationshipAutophrasesNomenclatureModel.tableName)
-                .stream();
-            stream.on('error', function (err) {
-                reject(err);
-            });
-            stream.on('data', function (data) {
-                csvString += arrayToCsvFormat(data);
-            });
-            stream.on('end', function () {
-                resolve(csvString);
-            });
-        });
     }
 }
 
