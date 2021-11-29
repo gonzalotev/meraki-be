@@ -1,21 +1,12 @@
 const { NomenclaturesService } = include('services');
+const { Nomenclatures } = include('models');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
-
 class NomenclaturesController {
     static async fetch(req, res, next) {
         try {
-            const nomenclaturess = await NomenclaturesService.fetch();
-            res.send({ nomenclaturess });
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    static async find(req, res, next) {
-        try {
-            const nomenclature = await NomenclaturesService.findOne(req.params);
-            res.send({ nomenclature });
+            const nomenclatures = await Nomenclatures.find();
+            res.send({ nomenclatures });
         } catch (error) {
             next(error);
         }
@@ -23,31 +14,44 @@ class NomenclaturesController {
 
     static async create(req, res, next) {
         try {
-            const nomenclature = await NomenclaturesService.create(req.body, req.user.id);
-            res.status(201);
-            res.send({ nomenclature });
-        } catch (err) {
-            next(err);
+            const nomenclature = await Nomenclatures.insertOne(req.body);
+            res.send({ success: true, nomenclature });
+        } catch (error) {
+            next(error);
         }
     }
 
     static async update(req, res, next) {
         try {
-            const nomenclature = await NomenclaturesService.update(req.params, req.body);
-            res.send({ nomenclature });
-        } catch (err) {
-            next(err);
+            const nomenclature = await Nomenclatures.updateOne(req.params, req.body);
+            res.send({ success: true, nomenclature });
+        } catch (error) {
+            next(error);
         }
     }
 
     static async delete(req, res, next) {
         try {
-            const success = await NomenclaturesService.delete(req.params, req.user.id);
-            if (success) {
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(400);
-            }
+            const result = await Nomenclatures.deleteOne(req.params);
+            res.send({ success: result });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async fetchOne(req, res, next) {
+        try {
+            const nomenclature = await Nomenclatures.findById(req.params);
+            res.send({ nomenclature });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async fetchStaticNomenclatures(req, res, next) {
+        try {
+            const nomenclatures = await NomenclaturesService.fetchStaticNomenclatures();
+            res.send({ nomenclatures });
         } catch (err) {
             next(err);
         }

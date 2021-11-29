@@ -44,6 +44,7 @@ const microprocessesListIf = require('./microprocessesListIf');
 const microprocessesClosedQuestionIf = require('./microprocessesClosedQuestionIf');
 const microprocessesOption = require('./microprocessesOption');
 const documents = require('./documents');
+const nomenclatures = require('./nomenclatures');
 const microprocessesStepsOptions = require('./microprocessesStepsOption');
 const microprocessesWords = require('./microprocessesWords');
 const microprocessSteps = require('./microprocessSteps');
@@ -61,6 +62,7 @@ module.exports = {
     ...relationshipTypes,
     ...dictionaryTypes,
     ...documentTypes,
+    ...nomenclatures,
     ...nomenclatorSubtypes,
     ...editors,
     ...organizationTypes,

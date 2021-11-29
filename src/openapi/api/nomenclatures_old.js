@@ -3,6 +3,25 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Nomenclatures'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,26 +30,26 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    nomenclatures: {
+                                    nomenclators: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                nomenclatorId: {type: 'number'},
+                                                nomenclatorId: {type: 'string'},
                                                 nomenclatureId: {type: 'string'},
-                                                abreviation: {type: 'string'},
-                                                original: {type: 'string'},
-                                                description: {type: 'string'},
-                                                fractionationOfWords: {type: 'boolean'},
-                                                approved: {type: 'boolean'},
-                                                coefficient: {type: 'boolean'},
-                                                fatherNomenclatorId: {type: 'number'},
-                                                fatherNomenclatureId: {type: 'string'},
-                                                acronim: {type: 'string'},
                                                 observation: {type: 'string'},
+                                                description: {type: 'string'},
+                                                abbreviation: {type: 'string'},
+                                                original: {type: 'string'},
+                                                fractionalWord: {type: 'boolean'},
+                                                coefficient: {type: 'string'},
+                                                fatherNomenclatorId: {type: 'string'},
+                                                fatherNomenclatureId: {type: 'string'},
+                                                acronym: {type: 'string'},
                                                 domain: {type: 'string'},
-                                                userCreator: {type: 'string'},
+                                                approved: {type: 'boolean'},
                                                 createdAt: {type: 'string'},
+                                                userCreator: {type: 'string'},
                                                 userDeleted: {type: 'string'},
                                                 deletedAt: {type: 'string'}
                                             }
@@ -51,28 +70,28 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['Nomenclatures'],
             requestBody: {
-                description: 'The new  nomenclature to create',
+                description: 'The new  type of nomenclator to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                nomenclatorId: {type: 'number'},
+                                nomenclatorId: {type: 'string'},
                                 nomenclatureId: {type: 'string'},
-                                abreviation: {type: 'string'},
-                                original: {type: 'string'},
-                                description: {type: 'string'},
-                                fractionationOfWords: {type: 'boolean'},
-                                approved: {type: 'boolean'},
-                                coefficient: {type: 'boolean'},
-                                fatherNomenclatorId: {type: 'number'},
-                                fatherNomenclatureId: {type: 'string'},
-                                acronim: {type: 'string'},
                                 observation: {type: 'string'},
+                                description: {type: 'string'},
+                                abbreviation: {type: 'string'},
+                                original: {type: 'string'},
+                                fractionalWord: {type: 'boolean'},
+                                coefficient: {type: 'string'},
+                                fatherNomenclatorId: {type: 'string'},
+                                fatherNomenclatureId: {type: 'string'},
+                                acronym: {type: 'string'},
                                 domain: {type: 'string'},
-                                userCreator: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -88,24 +107,25 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    nomenclature: {
+                                    success: {type: 'boolean'},
+                                    nomenclator: {
                                         type: 'object',
                                         properties: {
-                                            nomenclatorId: {type: 'number'},
+                                            nomenclatorId: {type: 'string'},
                                             nomenclatureId: {type: 'string'},
-                                            abreviation: {type: 'string'},
-                                            original: {type: 'string'},
-                                            description: {type: 'string'},
-                                            fractionationOfWords: {type: 'boolean'},
-                                            approved: {type: 'boolean'},
-                                            coefficient: {type: 'boolean'},
-                                            fatherNomenclatorId: {type: 'number'},
-                                            fatherNomenclatureId: {type: 'string'},
-                                            acronim: {type: 'string'},
                                             observation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            abbreviation: {type: 'string'},
+                                            original: {type: 'string'},
+                                            fractionalWord: {type: 'boolean'},
+                                            fatherNomenclatorId: {type: 'string'},
+                                            fatherNomenclatureId: {type: 'string'},
+                                            acronym: {type: 'string'},
+                                            coefficient: {type: 'string'},
                                             domain: {type: 'string'},
-                                            userCreator: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -131,40 +151,40 @@ module.exports = {
                     in: 'path',
                     name: 'nomenclatorId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'nomenclatureId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new nomenclature to create',
+                description: 'The new  type of nomenclator to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                nomenclatorId: {type: 'number'},
+                                nomenclatorId: {type: 'string'},
                                 nomenclatureId: {type: 'string'},
-                                abreviation: {type: 'string'},
-                                original: {type: 'string'},
-                                description: {type: 'string'},
-                                fractionationOfWords: {type: 'boolean'},
-                                approved: {type: 'boolean'},
-                                coefficient: {type: 'boolean'},
-                                fatherNomenclatorId: {type: 'number'},
-                                fatherNomenclatureId: {type: 'string'},
-                                acronim: {type: 'string'},
                                 observation: {type: 'string'},
+                                description: {type: 'string'},
+                                abbreviation: {type: 'string'},
+                                original: {type: 'string'},
+                                fractionalWord: {type: 'boolean'},
+                                coefficient: {type: 'string'},
+                                fatherNomenclatorId: {type: 'string'},
+                                fatherNomenclatureId: {type: 'string'},
+                                acronym: {type: 'string'},
                                 domain: {type: 'string'},
-                                userCreator: {type: 'string'},
+                                approved: {type: 'boolean'},
                                 createdAt: {type: 'string'},
+                                userCreator: {type: 'string'},
                                 userDeleted: {type: 'string'},
                                 deletedAt: {type: 'string'}
                             }
@@ -180,24 +200,25 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    nomenclature: {
+                                    success: {type: 'boolean'},
+                                    nomenclator: {
                                         type: 'object',
                                         properties: {
-                                            nomenclatorId: {type: 'number'},
+                                            nomenclatorId: {type: 'string'},
                                             nomenclatureId: {type: 'string'},
-                                            abreviation: {type: 'string'},
-                                            original: {type: 'string'},
-                                            description: {type: 'string'},
-                                            fractionationOfWords: {type: 'boolean'},
-                                            approved: {type: 'boolean'},
-                                            coefficient: {type: 'boolean'},
-                                            fatherNomenclatorId: {type: 'number'},
-                                            fatherNomenclatureId: {type: 'string'},
-                                            acronim: {type: 'string'},
                                             observation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            abbreviation: {type: 'string'},
+                                            original: {type: 'string'},
+                                            fractionalWord: {type: 'boolean'},
+                                            fatherNomenclatorId: {type: 'string'},
+                                            fatherNomenclatureId: {type: 'string'},
+                                            acronym: {type: 'string'},
+                                            coefficient: {type: 'string'},
                                             domain: {type: 'string'},
-                                            userCreator: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -221,19 +242,22 @@ module.exports = {
                     in: 'path',
                     name: 'nomenclatorId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'nomenclatureId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
             responses: {
-                204: {description: 'The resource was deleted successfully.'},
+                200: {
+                    description: 'ok',
+                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -248,14 +272,14 @@ module.exports = {
                     in: 'path',
                     name: 'nomenclatorId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 },
                 {
                     in: 'path',
                     name: 'nomenclatureId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -267,24 +291,24 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    nomenclature: {
+                                    nomenclator: {
                                         type: 'object',
                                         properties: {
-                                            nomenclatorId: {type: 'number'},
+                                            nomenclatorId: {type: 'string'},
                                             nomenclatureId: {type: 'string'},
-                                            abreviation: {type: 'string'},
-                                            original: {type: 'string'},
-                                            description: {type: 'string'},
-                                            fractionationOfWords: {type: 'boolean'},
-                                            approved: {type: 'boolean'},
-                                            coefficient: {type: 'boolean'},
-                                            fatherNomenclatorId: {type: 'number'},
-                                            fatherNomenclatureId: {type: 'string'},
-                                            acronim: {type: 'string'},
                                             observation: {type: 'string'},
+                                            description: {type: 'string'},
+                                            abbreviation: {type: 'string'},
+                                            original: {type: 'string'},
+                                            fractionalWord: {type: 'boolean'},
+                                            fatherNomenclatorId: {type: 'string'},
+                                            fatherNomenclatureId: {type: 'string'},
+                                            acronym: {type: 'string'},
+                                            coefficient: {type: 'string'},
                                             domain: {type: 'string'},
-                                            userCreator: {type: 'string'},
+                                            approved: {type: 'boolean'},
                                             createdAt: {type: 'string'},
+                                            userCreator: {type: 'string'},
                                             userDeleted: {type: 'string'},
                                             deletedAt: {type: 'string'}
                                         }
@@ -304,8 +328,6 @@ module.exports = {
     '/api/nomenclatures/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            operationId: 'downloadNomenclaturesCSV',
-            description: 'Returns nomenclatures in csv format',
             tags: ['Nomenclatures'],
             responses: {
                 200: {

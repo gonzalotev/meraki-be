@@ -1,16 +1,16 @@
-const ModelCreate = include('/helpers/modelCreate');
-const {nomenclaturesTableName, nomenclaturesAttrib} = include('constants');
-const name = 'Nomenclatures';
+const ModelCreate = include('helpers/modelCreate');
+const {nomenclaturesAttrib, nomenclaturesTableName} = include('constants');
+const name = 'nomenclatures';
 
-class Nomenclatures extends ModelCreate{
-    constructor(props){
+class Nomenclatures extends ModelCreate {
+    constructor(props) {
         super({
             ...props,
             name,
-            tableName: nomenclaturesTableName,
-            selectableProps: nomenclaturesAttrib
+            selectableProps: nomenclaturesAttrib,
+            tableName: nomenclaturesTableName
         });
     }
 }
 
-module.exports = knex => new Nomenclatures({knex});
+module.exports = knex => new Nomenclatures({ knex });

@@ -2,7 +2,8 @@ const { staticalVariable: staticalVariableModel } = include('models');
 const { dateToString } = include('util');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
-const isDate = require('lodash/isDate');
+const isNumber = require('lodash/isNumber');
+const toString = require('lodash/toString');
 const find = require('lodash/find');
 
 class StaticalVariableService {
@@ -176,8 +177,8 @@ class StaticalVariableService {
             });
             stream.on('data', function (data) {
                 const formattedData = map(data, function(value) {
-                    if(isDate(value)) {
-                        return dateToString(value);
+                    if(isNumber(value)) {
+                        return toString(value);
                     }
                     return value;
                 });

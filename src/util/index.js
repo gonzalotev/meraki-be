@@ -95,6 +95,7 @@ const convertKeysNames = (props, columns) => {
     });
     return convertedObject;
 };
+
 module.exports = {
     buildArchQuery,
     reducedList,
