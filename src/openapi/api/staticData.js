@@ -249,6 +249,20 @@ module.exports = {
                     name: 'microprocessesBySteps',
                     required: false,
                     schema: { type: 'boolean' }
+                },
+                {
+                    in: 'query',
+                    name: 'pointersStepTo',
+                    required: false,
+                    description: 'Must be passed as an encoded JSON string.',
+                    schema: { type: 'string' }
+                },
+                {
+                    in: 'query',
+                    name: 'pointersStepIn',
+                    required: false,
+                    description: 'Must be passed as an encoded JSON string.',
+                    schema: { type: 'string' }
                 }
             ],
             responses: {

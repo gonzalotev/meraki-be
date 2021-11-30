@@ -1,6 +1,7 @@
 const knex = include('helpers/database');
 const NomenclatorService = require('./nomenclators');
 const LotsService = require('./lots');
+const map = require('lodash/map');
 
 class StaticDataService {
     static async getGenders(data) {
@@ -409,6 +410,29 @@ class StaticDataService {
             .from('TIPOS_DE_DATOS')
             .orderBy([{column: 'ABREVIATURA', order: 'asc'}]);
         data.datatypes = datatypes;
+        return data;
+    }
+    static async getPointersStepTo(data, filter){
+        let pointersStepTo = await knex.raw(`select mpp.id_puntero
+            from microprocesos_pasos_puntero mpp
+            minus
+            select mp.voy_a
+            from microprocesos_pasos mp
+            where mp.id_microproceso = ?`, [filter.microprocessId]);
+        pointersStepTo = map(pointersStepTo, value => ({ id: value.ID_PUNTERO }));
+        data.pointersStepTo = pointersStepTo;
+        return data;
+    }
+    static async getPointersStepIn(data, filter){
+        let pointersStepIn = await knex.raw(`select mp.voy_a
+        from microprocesos_pasos mp
+        where mp.id_microproceso = ?
+        minus
+        select mp.estoy_en
+        from microprocesos_pasos mp
+        where mp.id_microproceso = ?`, [filter.microprocessId, filter.microprocessId]);
+        pointersStepIn = map(pointersStepIn, value => ({ id: value.VOY_A }));
+        data.pointersStepIn = pointersStepIn;
         return data;
     }
     static async getMicroprocesses(data){
