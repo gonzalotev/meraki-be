@@ -47,7 +47,8 @@ class DocumentsService {
             URL: params.url,
             COMENTARIO: params.commentary,
             CANTIDAD_VISITAS: params.numberOfVisits,
-            ID_USUARIO_ALTA: userCreator
+            ID_USUARIO_ALTA: userCreator,
+            FECHA_ALTA: new Date()
         };
         const document = await documentsModel.insertOne(formattedDocument, ['ID_DOCUMENTO', 'ID_TIPO_DOCUMENTO', 'TITULO', 'AUTOR', 'ID_EDITOR']);
         const docu = await DocumentsService.findOne(
