@@ -54,12 +54,12 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    static async findOne({ nomenclatorId, groupId, nomenclatureGroupId, autophraseId }) {
+    static async findOne(filters) {
         const ids = {
-            ID_NOMENCLADOR: nomenclatorId,
-            ID_AGRUPACION: groupId,
-            ID_NOMENCLATURA_AGRUPACION: nomenclatureGroupId,
-            ID_AUTOFRASE: autophraseId
+            ID_NOMENCLADOR: filters.nomenclatorId,
+            ID_AGRUPACION: filters.groupId,
+            ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
+            ID_AUTOFRASE: filters.autophraseId
         };
         let relationshipAutophrasesLetter = await relationshipAutophrasesLetterModel.findById(ids);
         relationshipAutophrasesLetter = relationshipAutophrasesLetter ? {
@@ -79,7 +79,7 @@ class RelationshipAutophrasesLetterService {
         return relationshipAutophrasesLetter;
     }
 
-    static async update(filters, params, userCreator) {
+    static async update(filters, params) {
         const formattedRelationshipAutophrasesLetter = {
             ID_NOMENCLADOR: params.nomenclatorId,
             ID_AGRUPACION: params.groupId,
@@ -88,20 +88,28 @@ class RelationshipAutophrasesLetterService {
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
-            ID_USUARIO_ALTA: userCreator,
+            ID_USUARIO_ALTA: params.userCreator,
             FECHA_ALTA: new Date()
         };
-        const relationshipAutophrasesLetterId = await relationshipAutophrasesLetterModel.updateOne(
-            { ID_AUTOFRASE: filters.autophraseId },
-            formattedRelationshipAutophrasesLetter, ['ID_NOMENCLADOR', 'ID_AGRUPACION', 'ID_NOMENCLATURA_AGRUPACION', 'ID_AUTOFRASE']);
-        const relationshipAutophrasesLetter = await RelationshipAutophrasesLetterService.findOne(
-            {
-                nomenclatorId: relationshipAutophrasesLetterId.ID_NOMENCLADOR,
-                groupId: relationshipAutophrasesLetterId.ID_AGRUPACION,
-                nomenclatureGroupId: relationshipAutophrasesLetterId.ID_NOMENCLATURA_AGRUPACION,
-                autophraseId: relationshipAutophrasesLetterId.ID_AUTOFRASE
-            });
-        return relationshipAutophrasesLetter;
+        const ids = {
+            ID_NOMENCLADOR: filters.nomenclatorId,
+            ID_AGRUPACION: filters.groupId,
+            ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
+            ID_AUTOFRASE: filters.autophraseId
+        };
+        const relationship = await relationshipAutophrasesLetterModel.updateOne(ids,
+            formattedRelationshipAutophrasesLetter);
+        return {
+            nomenclatorId: relationship.ID_NOMENCLADOR,
+            groupId: relationship.ID_AGRUPACION,
+            nomenclatureGroupId: relationship.ID_NOMENCLATURA_AGRUPACION,
+            autophraseId: relationship.ID_AUTOFRASE,
+            observation: relationship.OBSERVACION,
+            domain: relationship.DOMINIO,
+            approved: !!relationship.SUPERVISADO,
+            userCreator: relationship.ID_USUARIO_ALTA,
+            createdAt: dateToString(relationship.FECHA_ALTA)
+        };
     }
 
     static async delete({ nomenclatorId, groupId, nomenclatureGroupId, autophraseId }) {
