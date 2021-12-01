@@ -852,8 +852,6 @@ const documentsAttrib = [
     'COMENTARIO',
     'CANTIDAD_VISITAS',
     'ID_USUARIO_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA',
     'FECHA_ALTA'
 ];
 

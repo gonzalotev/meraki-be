@@ -7,7 +7,7 @@ const DocumentTypeService = require ('./documentType.js');
 
 class DocumentsService {
     static async fetch() {
-        let documentss = await documentsModel.find({FECHA_BAJA: null});
+        let documentss = await documentsModel.find();
         documentss = documentss.map(documents => ({
             documentId: documents.ID_DOCUMENTO,
             documentTypeId: documents.ID_TIPO_DOCUMENTO,
@@ -24,9 +24,7 @@ class DocumentsService {
             commentary: documents.COMENTARIO,
             numberOfVisits: documents.CANTIDAD_VISITAS,
             userCreator: documents.ID_USUARIO_ALTA,
-            createdAt: dateToString(documents.FECHA_ALTA),
-            userDeleted: documents.ID_USUARIO_BAJA,
-            deletedAt: dateToString(documents.FECHA_BAJA)
+            createdAt: dateToString(documents.FECHA_ALTA)
         }));
 
         await EditorService.getEditorData(documentss);
@@ -50,8 +48,6 @@ class DocumentsService {
             COMENTARIO: params.commentary,
             CANTIDAD_VISITAS: params.numberOfVisits,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_BAJA: null,
-            ID_USUARIO_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const document = await documentsModel.insertOne(formattedDocument, ['ID_DOCUMENTO', 'ID_TIPO_DOCUMENTO', 'TITULO', 'AUTOR', 'ID_EDITOR']);
@@ -85,9 +81,7 @@ class DocumentsService {
             commentary: document.COMENTARIO,
             numberOfVisits: document.CANTIDAD_VISITAS,
             userCreator: document.ID_USUARIO_ALTA,
-            createdAt: dateToString(document.FECHA_ALTA),
-            userDeleted: document.ID_USUARIO_BAJA,
-            deletedAt: dateToString(document.FECHA_BAJA)
+            createdAt: dateToString(document.FECHA_ALTA)
         };
     }
 
@@ -107,9 +101,7 @@ class DocumentsService {
             COMENTARIO: params.commentary,
             CANTIDAD_VISITAS: params.numberOfVisits,
             ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         // eslint-disable-next-line no-use-before-define
         const documentId = await documentsModel.updateOne({ ID_DOCUMENTO: filters.documentId },
@@ -129,7 +121,7 @@ class DocumentsService {
         return new Promise((resolve, reject) => {
             const stream = documentsModel.knex.select(columns)
                 .from(documentsModel.tableName)
-                .where({FECHA_BAJA: null})
+                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
