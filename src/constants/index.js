@@ -673,11 +673,7 @@ const stepsEncodingProcessesAttrib = [
     'ORDEN',
     'ID_PROCESO_CODIFICACION',
     'OBSERVACION',
-    'DOMINIO',
-    'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'DOMINIO'
 ];
 
 const runEncodingProcessesTableName = 'LOTES_VARIABLES';
@@ -781,9 +777,7 @@ const stepsLinguisticProcessesAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const linguisticFieldProcessesTableName = 'PROCESOS_LINGUISTICOS_CAMPOS';
