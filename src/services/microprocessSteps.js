@@ -36,8 +36,8 @@ class MicroprocessStepsService {
         steps = await stepsQuery;
 
         steps = steps.map(step => MicroprocessStepsService.rebaseFormat(step));
-        await NomenclatureService.getNomenclatureData(steps, 'nomenclatureIdNo', 'nomenclatureNo');
-        await NomenclatureService.getNomenclatureData(steps, 'nomenclatureIdYes', 'nomenclatureYes');
+        await NomenclatureService.getNomenclature(steps, 'nomenclatureIdNo', 'nomenclatureNo');
+        await NomenclatureService.getNomenclature(steps, 'nomenclatureIdYes', 'nomenclatureYes');
         await MicroprocessDefinitionService.getMicroprocessesData(steps);
         return steps;
     }
