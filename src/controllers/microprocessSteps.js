@@ -22,6 +22,10 @@ class MicroprocessStepsController {
             res.status(201);
             res.send({ microprocessStep });
         } catch(err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }

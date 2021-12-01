@@ -103,7 +103,8 @@ class StaticDataService {
                         .where('ID_NOMENCLADOR', filter.nomenclatorId);
                 }
             })
-            .from('NOMENCLATURAS');
+            .from('NOMENCLATURAS')
+            .orderByRaw('upper(DESCRIPCION) asc');
         return (data.nomenclatures = nomenclatures);
     }
     static async getNomenclatorsGroup(data) {
@@ -445,7 +446,7 @@ class StaticDataService {
             dictionaryTypologyId: 'ID_TIPOLOGIA_DE_DICCIONARIO'
         })
             .from('MICROPROCESOS')
-            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
+            .orderBy([{column: 'ID_MICROPROCESO', order: 'asc'}]);
         data.microprocesses = microprocesses;
         return data;
     }
