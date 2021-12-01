@@ -9,7 +9,7 @@ const isDate = require('lodash/isDate');
 
 class StepsLinguisticProcessesService {
     static async fetch() {
-        let stepsLinguisticProcessesList = await stepsLinguisticProcesses.find({FECHA_BAJA: null});
+        let stepsLinguisticProcessesList = await stepsLinguisticProcesses.find();
         stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
@@ -20,9 +20,7 @@ class StepsLinguisticProcessesService {
             observation: operative.OBSERVACION,
             domain: operative.DOMINIO,
             userCreator: operative.ID_USUARIO_ALTA,
-            createdAt: dateToString(operative.FECHA_ALTA),
-            userDeleted: operative.ID_USUARIO_BAJA,
-            deletedAt: dateToString(operative.FECHA_BAJA)
+            createdAt: dateToString(operative.FECHA_ALTA)
         }));
         await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
         await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
@@ -41,9 +39,7 @@ class StepsLinguisticProcessesService {
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            FECHA_ALTA: new Date()
         };
         const operativeId = await stepsLinguisticProcesses.insertOne(formattedStepLinguisticProcess, ['ID_FUENTE', 'ID_PREGUNTA', 'ID_TIPOLOGIA_DE_DICCIONARIO', 'ORDEN']);
         const operative = await StepsLinguisticProcessesService.findOne(
@@ -73,9 +69,7 @@ class StepsLinguisticProcessesService {
             observation: stepLinguisticProcess.OBSERVACION,
             domain: stepLinguisticProcess.DOMINIO,
             userCreator: stepLinguisticProcess.ID_USUARIO_ALTA,
-            createdAt: dateToString(stepLinguisticProcess.FECHA_ALTA),
-            userDeleted: stepLinguisticProcess.ID_USUARIO_BAJA,
-            deletedAt: dateToString(stepLinguisticProcess.FECHA_BAJA)
+            createdAt: dateToString(stepLinguisticProcess.FECHA_ALTA)
         };
     }
 
@@ -108,16 +102,12 @@ class StepsLinguisticProcessesService {
         return stepLinguisticProcess;
     }
 
-    static async delete(filters, userDeleted){
+    static async delete(filters){
         const success = await stepsLinguisticProcesses.deleteOne({
             ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId,
             ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
             ORDEN: filters.order
-        },
-        {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
     }
@@ -126,7 +116,6 @@ class StepsLinguisticProcessesService {
         return new Promise((resolve, reject) => {
             const stream = stepsLinguisticProcesses.knex.select(columns)
                 .from(stepsLinguisticProcesses.tableName)
-                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
