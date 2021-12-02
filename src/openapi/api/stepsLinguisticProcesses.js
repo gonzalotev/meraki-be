@@ -44,9 +44,7 @@ module.exports = {
                                 linguisticFieldNameId: {type: 'string'},
                                 showOnScreen: {type: 'boolean'},
                                 observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                createdAt: {type: 'string'}
+                                domain: {type: 'string'}
 
                             }
                         }
@@ -74,9 +72,7 @@ module.exports = {
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -142,9 +138,7 @@ module.exports = {
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                createdAt: {type: 'string'}
                             }
                         }
                     }
@@ -171,9 +165,7 @@ module.exports = {
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }
@@ -284,9 +276,7 @@ module.exports = {
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            createdAt: {type: 'string'}
                                         }
                                     }
                                 }

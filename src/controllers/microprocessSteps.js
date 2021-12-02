@@ -1,13 +1,15 @@
 const {MicroprocessStepsService} = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const { decodeQuery } = include('util');
 
 class MicroprocessStepsController {
     static async fetchSteps(req, res, next) {
         try {
-            const {page} = req.query;
-            const microprocessSteps = await MicroprocessStepsService.fetch({page});
-            const total = await MicroprocessStepsService.getTotal();
+            const query = decodeQuery(req.query);
+            console.log(query);
+            const microprocessSteps = await MicroprocessStepsService.fetch(query);
+            const total = await MicroprocessStepsService.getTotal(query);
             res.send({ microprocessSteps, total });
         } catch(err) {
             next(err);
@@ -20,6 +22,10 @@ class MicroprocessStepsController {
             res.status(201);
             res.send({ microprocessStep });
         } catch(err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }
