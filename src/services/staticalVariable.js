@@ -2,9 +2,9 @@ const { staticalVariable: staticalVariableModel } = include('models');
 const { dateToString } = include('util');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
-const isNumber = require('lodash/isNumber');
-const toString = require('lodash/toString');
 const find = require('lodash/find');
+const isString = require('lodash/isString');
+const toNumber = require('lodash/toNumber');
 
 class StaticalVariableService {
     static async fetch() {
@@ -177,8 +177,14 @@ class StaticalVariableService {
             });
             stream.on('data', function (data) {
                 const formattedData = map(data, function(value) {
-                    if(isNumber(value)) {
-                        return toString(value);
+                    if(isString(value)) {
+                        const number = toNumber(value);
+                        if(number) {
+                            const val = value.toString();
+                            /* eslint-disable */ 
+                            const valPad = val.padStart(5, '0');
+                            return valPad;
+                        }
                     }
                     return value;
                 });

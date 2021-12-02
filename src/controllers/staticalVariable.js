@@ -1,6 +1,7 @@
 const { StaticalVariableService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class StaticalVariableController {
     static async fetch(req, res, next) {
@@ -62,12 +63,15 @@ class StaticalVariableController {
                 StaticalVariableService.getColumns(),
                 column => ({ key: column.original, header: column.modified })
             );
+            const temp = tempy.file({extension: '.xlsx'});
             worksheet.columns = sheetColums;
             await StaticalVariableService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Variables_Estadisticas.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Variables_Estadisticas', formatterOptions: { delimiter: ';' } });
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Variables_Estadisticas.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }
