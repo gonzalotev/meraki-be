@@ -1,6 +1,7 @@
 const { OperativeLotService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class OperativeLotController {
     static async fetch(req, res, next) {
@@ -64,10 +65,13 @@ class OperativeLotController {
             );
             worksheet.columns = sheetColums;
             await OperativeLotService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Lotes_Operativos.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Lotes_Operativos', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Lotes_Operativos.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

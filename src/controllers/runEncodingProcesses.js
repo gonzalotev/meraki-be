@@ -1,6 +1,7 @@
 const { RunEncodingProcessesService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class RunEncodingProcessesController {
     static async fetch(req, res, next) {
@@ -73,10 +74,13 @@ class RunEncodingProcessesController {
             );
             worksheet.columns = sheetColums;
             await RunEncodingProcessesService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Correr_Procesos_Codificacion.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Correr_Procesos_Codificacion', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Correr_Procesos_Codificacion.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

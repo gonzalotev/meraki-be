@@ -1,6 +1,7 @@
 const { NetworkTypeService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class NetworkTypeController {
     static async fetch(req, res, next) {
@@ -64,10 +65,13 @@ class NetworkTypeController {
             );
             worksheet.columns = sheetColums;
             await NetworkTypeService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Tipos_Redes.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Tipos_Redes', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Tipos_Redes.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

@@ -63,9 +63,9 @@ class StaticalVariableController {
                 StaticalVariableService.getColumns(),
                 column => ({ key: column.original, header: column.modified })
             );
-            const temp = tempy.file({extension: '.xlsx'});
             worksheet.columns = sheetColums;
             await StaticalVariableService.exportToFile(worksheet, originalColumns);
+            const temp = tempy.file({extension: '.xlsx'});
             res.header('Content-type', 'text/xlsx; charset=utf-8');
             /* eslint-disable */ 
             res.header('Content-disposition', 'attachment; filename=Variables_Estadisticas.xlsx');

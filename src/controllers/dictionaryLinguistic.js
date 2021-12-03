@@ -2,6 +2,7 @@ const { DictionaryLinguisticService, StaticalVariableService, DictionaryTypeServ
 const toUpper = require('lodash/toUpper');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class DictionaryLinguisticController {
     static async fetch(req, res, next) {
@@ -84,10 +85,13 @@ class DictionaryLinguisticController {
             );
             worksheet.columns = sheetColums;
             await DictionaryLinguisticService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Diccionario_Linguistico.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Diccionario_Linguistico', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Diccionario_Linguistico.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

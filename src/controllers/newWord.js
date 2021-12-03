@@ -3,6 +3,7 @@ const isEmpty = require('lodash/isEmpty');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
 const split = require('lodash/split');
+const tempy = require('tempy');
 
 class NewWordController {
     static async fetch(req, res, next) {
@@ -121,10 +122,13 @@ class NewWordController {
             );
             worksheet.columns = sheetColums;
             await NewWordService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Nuevas_Palabras.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Nuevas_Palabras', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Nuevas_Palabras.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

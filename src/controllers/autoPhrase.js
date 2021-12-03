@@ -2,6 +2,7 @@ const { AutoPhraseService } = include('services');
 const ExcelJS = require('exceljs');
 const toUpper = require('lodash/toUpper');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class AutoPhraseController {
     static async fetch(req, res, next) {
@@ -68,10 +69,13 @@ class AutoPhraseController {
             );
             worksheet.columns = sheetColums;
             await AutoPhraseService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=autofrases.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'autofrases', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Autofrases.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

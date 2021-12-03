@@ -2,6 +2,7 @@ const { MicroprocessesListsIfWordsService } = include('services');
 const toUpper = require('lodash/toUpper');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class MicroprocessesListsIfWordsController {
     static async fetch(req, res, next) {
@@ -78,10 +79,13 @@ class MicroprocessesListsIfWordsController {
             );
             worksheet.columns = sheetColums;
             await MicroprocessesListsIfWordsService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=micro_lista_if_pala.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, {sheetName: 'micro_lista_if_pala', formatterOptions: {delimiter: ';'}});
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Microprocesos_Listas_Si_No_Palabras.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch(err) {
             next(err);
         }

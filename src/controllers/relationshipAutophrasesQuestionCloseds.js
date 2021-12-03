@@ -1,6 +1,7 @@
 const { RelationshipAutophrasesQuestionClosedsService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class RelationshipAutophrasesQuestionClosedsController {
     static async fetch(req, res, next) {
@@ -70,10 +71,13 @@ class RelationshipAutophrasesQuestionClosedsController {
             );
             worksheet.columns = sheetColums;
             await RelationshipAutophrasesQuestionClosedsService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Relacion_Autofrases_Preguntas_Cerradas.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Relacion_Autofrases_Preguntas_Cerradas', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Relacion_Autofrases_Preguntas_Cerradas.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

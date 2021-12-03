@@ -1,6 +1,8 @@
 const { StepsLinguisticProcessesService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
+
 class StepsLinguisticProcessesController {
     static async fetch(req, res, next) {
         try {
@@ -72,10 +74,13 @@ class StepsLinguisticProcessesController {
             );
             worksheet.columns = sheetColums;
             await StepsLinguisticProcessesService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Pasos_Procesos_Linguisticos.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Pasos_Procesos_Linguisticos', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Pasos_Procesos_Linguisticos.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

@@ -1,6 +1,7 @@
 const { SpecialPhraseTypeService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
 
 class SpecialPhraseTypeController {
     static async fetch(req, res, next) {
@@ -64,10 +65,13 @@ class SpecialPhraseTypeController {
             );
             worksheet.columns = sheetColums;
             await SpecialPhraseTypeService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Tipos_Frases_Especiales.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Tipos_Frases_Especiales', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Tipos_Frases_Especiales.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

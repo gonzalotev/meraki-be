@@ -2,6 +2,7 @@ const { AssignmentRolesOperativeVariableService } = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
 const { decodeQuery } = include('util');
+const tempy = require('tempy');
 
 class AssignmentRolesOperativeVariableController {
     static async fetch(req, res, next) {
@@ -76,10 +77,13 @@ class AssignmentRolesOperativeVariableController {
             );
             worksheet.columns = sheetColums;
             await AssignmentRolesOperativeVariableService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Roles_Operativos_Variables.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Roles_Operativos_Variables', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Roles_Operativos_Variables.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

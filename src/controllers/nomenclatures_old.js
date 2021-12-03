@@ -2,6 +2,8 @@ const { NomenclaturesService } = include('services');
 const { Nomenclatures } = include('models');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const tempy = require('tempy');
+
 class NomenclaturesController {
     static async fetch(req, res, next) {
         try {
@@ -68,10 +70,13 @@ class NomenclaturesController {
             );
             worksheet.columns = sheetColums;
             await NomenclaturesService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=Nomenclaturas.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, { sheetName: 'Nomenclaturas', formatterOptions: { delimiter: ';' } });
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Nomenclaturas.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

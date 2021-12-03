@@ -2,6 +2,7 @@ const {MicroprocessStepsService} = include('services');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
 const { decodeQuery } = include('util');
+const tempy = require('tempy');
 
 class MicroprocessStepsController {
     static async fetchSteps(req, res, next) {
@@ -72,10 +73,13 @@ class MicroprocessStepsController {
             );
             worksheet.columns = sheetColums;
             await MicroprocessStepsService.exportToFile(worksheet, originalColumns);
-            res.header('Content-type', 'text/csv; charset=utf-8');
-            res.header('Content-disposition', 'attachment; filename=microprocesos_pasos.csv');
-            res.write(Buffer.from('EFBBBF', 'hex'));
-            await workbook.csv.write(res, {sheetName: 'microprocesos_pasos', formatterOptions: {delimiter: ';'}});
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Microprocesos_Pasos.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch(err) {
             next(err);
         }
