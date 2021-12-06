@@ -6,11 +6,10 @@ const trim = require('lodash/trim');
 const map = require('lodash/map');
 
 class AssignmentRoleService {
-    static async fetch({ page, token }) {
+    static async fetch({ token }) {
         let assignmentsRoles = [];
-        if (page) {
-            assignmentsRoles = await assignmentRoleModel.findByPage(
-                page,
+        if (assignmentsRoles) {
+            assignmentsRoles = await assignmentRoleModel.find(
                 {FECHA_BAJA: null},
                 assignmentRoleModel.selectableProps,
                 [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
