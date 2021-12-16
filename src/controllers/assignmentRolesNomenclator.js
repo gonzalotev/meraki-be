@@ -15,6 +15,18 @@ class AssignmentRolesNomenclatorController {
         }
     }
 
+    static async fetchDisabled(req, res, next) {
+        try {
+            const { page } = req.query;
+            const assignmentsDisabledRolesNomenclators =
+                await AssignmentRolesNomenclatorService.fetchDisabled({ page });
+            const total = await AssignmentRolesNomenclatorService.getTotal({});
+            res.send({ assignmentsDisabledRolesNomenclators, total });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     static async find(req, res, next) {
         try {
             const assignmentRolesNomenclator = await AssignmentRolesNomenclatorService.findOne(req.params);

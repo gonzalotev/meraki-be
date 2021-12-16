@@ -11,7 +11,8 @@ class AssignmentRolesNomenclatorService {
             [],
             assignmentRolesNomenclatorModel.selectableProps,
             [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
-        );
+        ).where({ FECHA_BAJA: null });
+
         return assignmentsRolesNomenclators.map(assignmentRolesNomenclator => ({
             id: assignmentRolesNomenclator.ID_ROL_USUARIO,
             nomenclatorId: assignmentRolesNomenclator.ID_NOMENCLADOR,
@@ -23,6 +24,28 @@ class AssignmentRolesNomenclatorService {
             userName: assignmentRolesNomenclator.NOMBRE_USUARIO,
             createdAt: dateToString(assignmentRolesNomenclator.FECHA_ALTA),
             deletedAt: dateToString(assignmentRolesNomenclator.FECHA_BAJA)
+        }));
+    }
+
+    static async fetchDisabled(query) {
+        const assignmentsDisabledRolesNomenclators = await assignmentRolesNomenclatorModel.findByPage(
+            query.page,
+            [],
+            assignmentRolesNomenclatorModel.selectableProps,
+            [{ column: 'NOMBRE_USUARIO', order: 'asc' }]
+        ).whereNotNull( 'FECHA_BAJA' );
+
+        return assignmentsDisabledRolesNomenclators.map(assignmentsDisabledRolesNomenclators => ({
+            id: assignmentsDisabledRolesNomenclators.ID_ROL_USUARIO,
+            nomenclatorId: assignmentsDisabledRolesNomenclators.ID_NOMENCLADOR,
+            nomenclator: assignmentsDisabledRolesNomenclators.CLASIFICADOR,
+            domain: assignmentsDisabledRolesNomenclators.DOMINIO,
+            observation: assignmentsDisabledRolesNomenclators.OBSERVACION,
+            userId: assignmentsDisabledRolesNomenclators.ID_USUARIO,
+            yes_no: !!assignmentsDisabledRolesNomenclators.SI_NO,
+            userName: assignmentsDisabledRolesNomenclators.NOMBRE_USUARIO,
+            createdAt: dateToString(assignmentsDisabledRolesNomenclators.FECHA_ALTA),
+            deletedAt: dateToString(assignmentsDisabledRolesNomenclators.FECHA_BAJA)
         }));
     }
 
