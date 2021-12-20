@@ -1,5 +1,6 @@
 const { documents: documentsModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const knex = include('helpers/database');
 const EditorService = require ('./editor.js');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
@@ -33,6 +34,7 @@ class DocumentsService {
     }
 
     static async create(params, userCreator) {
+
         const formattedDocument = {
             ID_TIPO_DOCUMENTO: params.documentTypeId,
             TITULO: params.title,
@@ -50,17 +52,17 @@ class DocumentsService {
             ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: new Date()
         };
-        const document = await documentsModel.insertOne(formattedDocument, ['ID_DOCUMENTO', 'ID_TIPO_DOCUMENTO', 'TITULO', 'AUTOR', 'ID_EDITOR']);
-        const docu = await DocumentsService.findOne(
-            {
-                documentId: document.ID_DOCUMENTO,
-                documentTypeId: document.ID_TIPO_DOCUMENTO,
-                title: document.TITULO,
-                author: document.AUTOR,
-                editorId: document.ID_EDITOR
-            }
-        );
-        return docu;
+
+        const transaction = await knex.transaction();
+        const createdDocument= await transaction('DOCUMENTOS')
+            .insert(formattedDocument)
+            .returning(documentsModel.selectableProps);
+        //eslint-disable-next-line
+        const createdRelation= await transaction(params.relationshipTableName)
+            .insert({...params.relationshipData, ID_DOCUMENTO: createdDocument[0].ID_DOCUMENTO,
+                ID_USUARIO_ALTA: userCreator, FECHA_ALTA: new Date()});
+        transaction.commit();
+        return createdDocument[0];
     }
 
     static async findOne(filters){

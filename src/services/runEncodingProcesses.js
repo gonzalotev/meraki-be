@@ -10,7 +10,8 @@ const isDate = require('lodash/isDate');
 
 class RunEncodingProcessesService {
     static async fetch() {
-        let runEncodingProcesses = await runEncodingProcessesModel.find({ SE_CODIFICA_SI_NO: true });
+        let runEncodingProcesses = await runEncodingProcessesModel.find({ FECHA_FIN_FRASES_UNICAS: null,
+            FECHA_FIN_CODIFICACION_AUTOMATICA: null });
         runEncodingProcesses = runEncodingProcesses.map(encodingProcess => ({
             operativeId: encodingProcess.ID_OPERATIVO,
             lotId: encodingProcess.ID_LOTE,
