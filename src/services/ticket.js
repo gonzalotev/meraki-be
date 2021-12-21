@@ -1,6 +1,7 @@
 const { ticket: ticketModel } = include('models');
 const TicketTypeService = require('./ticketType');
 const { dateToString, dateTimeToString, stringToDate } = include('util');
+const knex = include('helpers/database');
 const trim = require('lodash/trim');
 
 class ticketService {
@@ -49,9 +50,20 @@ class ticketService {
             SOLUCIONADO_SI_NO: false,
             USUARIO: trim(params.userName)
         };
-        const ticketId = await ticketModel.insertOne(formattedticket, ['ID_CHAT']);
-        const ticket = await ticketService.findOne({id: ticketId});
-        return ticket;
+
+        const transaction = await knex.transaction();
+        const createdChat= await transaction('CHAT')
+            .insert(formattedticket)
+            .returning(ticketModel.selectableProps);
+        //eslint-disable-next-line
+        const createdRelation= await transaction(params.relationshipTableName)
+            .insert({...params.relationshipData, ID_CHAT: createdChat[0]});
+        transaction.commit();
+        return createdChat[0];
+
+        // const ticketId = await ticketModel.insertOne(formattedticket, ['ID_CHAT']);
+        // const ticket = await ticketService.findOne({id: ticketId});
+        // return ticket;
 
     }
 
