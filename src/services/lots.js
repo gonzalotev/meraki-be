@@ -12,79 +12,55 @@ const has = require('lodash/has');
 class LotsService {
     static async fetchStaticLots() {
         const lotss = await lots.findAll(lotsAttrib);
-        return lotss.map(lot => ({
-            operativeId: lot.ID_OPERATIVO,
-            lotId: lot.ID_LOTE,
-            description: lot.DESCRIPCION,
-            observation: lot.OBSERVACION,
-            domain: lot.DOMINIO
-        }));
+        return lotss.map(lot => LotsService.rebaseFormat(lot));
     }
 
     static async runLinguisticProcess(lotOperative, userCreator) {
         const oracle = new Oracle();
-        const dataTypes = oracle.getOutBinds();
+        console.log({
+            operativeId: lotOperative.operativeId,
+            lotId: lotOperative.lotId,
+            userId: userCreator
+        });
         return await oracle.executePlSql(
             `BEGIN
-                LIN_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId, :sal);
-                COMMIT;
-                LIN_NORMALIZADO_ESTANDAR(:operativeId, :lotId, :sal);
-                COMMIT;
-                LIN_CORRECTOR_PALABRAS(:operativeId, :lotId);
-                COMMIT;
-                LIN_CORRER_PASOS_LINGUISTICOS(:operativeId, :lotId);
-                COMMIT;
+                LIN_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId);
             END;`,
             {
                 operativeId: lotOperative.operativeId,
                 lotId: lotOperative.lotId,
-                userId: userCreator,
-                sal: dataTypes.varchar
+                userId: userCreator
             }
         );
     }
 
-    static async fetch() {
-        let lotss = await lots.find({ FECHA_BAJA: null });
-        lotss = lotss.map(lot => ({
-            operativeId: lot.ID_OPERATIVO,
-            lotId: lot.ID_LOTE,
-            description: lot.DESCRIPCION,
-            observation: lot.OBSERVACION,
-            domain: lot.DOMINIO,
-            fileName: lot.NOMBRE_ARCHIVO,
-            fileFormat: lot.FORMATO_ARCHIVO,
-            numberOfRecords: lot.CANTIDAD_DE_REGISTROS,
-            batchDataLoadDate: dateToString(lot.FECHA_CARGA_DATOS_LOTE),
-            endBatchDataLoadDate: dateToString(lot.FECHA_FIN_CARGA_DATOS_LOTE),
-            TotalBatchQuality: lot.CALIDAD_LOTE_TOTAL,
-            TotalBatchErrorLevel: lot.NIVEL_ERROR_LOTE_TOTAL,
-            lotRejected: lot.LOTE_RECHAZADO,
-            batchRejectedDate: dateToString(lot.FECHA_LOTE_RECHAZADO),
-            lotApproved: !!lot.LOTE_APROBADO,
-            lotApprovedDate: dateToString(lot.FECHA_LOTE_APROBADO),
-            feedback: lot.SE_RETROALIMENTA,
-            feedbackStartDate: dateToString(lot.FECHA_INICIO_RETROALIMENTACION),
-            endDateFeedBack: dateToString(lot.FECHA_FIN_RETROALIMENTACION),
-            lotDeliveredArea: lot.LOTE_ENTREGADO_AREA,
-            lotDeliveryArea: lot.FECHA_ENTREGA_AREA,
-            lotDeliveredToDataLake: lot.LOTE_ENTREGADO_A_DATA_LAKE,
-            startDateToDataLake: dateToString(lot.FECHA_INICIO_A_DATA_LAKE),
-            endDateToDataLake: dateToString(lot.FECHA_FIN_A_DATA_LAKE),
-            receiptLotOrCopy: lot.LOTE_DE_RESGUARDO_O_COPIA,
-            dateDownloadedBatchReceiptOrCopy: dateToString(lot.FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA),
-            wholeBatchDeleted: lot.SE_BORRA_TODO_EL_LOTE,
-            deleteStarttDate: dateToString(lot.FECHA_INICIO_BORRADO),
-            endDateErased: dateToString(lot.FECHA_FIN_BORRADO),
-            userCreator: lot.ID_USUARIO_ALTA,
-            createdAt: lot.FECHA_ALTA,
-            userDeleted: lot.FECHA_BAJA,
-            deletedAt: dateToString(lot.ID_USUARIO_BAJA)
-        }));
+    static async getTotal(query){
+        if(!query) {
+            const { total } = await lots.countDocuments({FECHA_BAJA: null});
+            return total;
+        }
+        const [result] = await lots.knex(lots.tableName)
+            .count({ total: '*' })
+            .whereNotNull('FECHA_FIN_CARGA_DATOS_LOTE')
+            .andWhere({FECHA_BAJA: null});
+        return result.total;
+    }
 
+    static async fetch(query) {
+        let lotss = null;
+        if(!query){
+            lotss = await lots.find({ FECHA_BAJA: null });
+        } else if(query.linguisticLots) {
+            lotss = await lots.knex
+                .select(lots.selectableProps)
+                .from(lots.tableName)
+                .whereNotNull('FECHA_FIN_CARGA_DATOS_LOTE')
+                .andWhere({FECHA_BAJA: null});
+        }
+
+        lotss = lotss.map(lot => LotsService.rebaseFormat(lot));
         await OperativesService.getOperativesData(lotss);
         return lotss;
-
     }
 
     static async create(params, userCreator) {
@@ -131,41 +107,7 @@ class LotsService {
 
     static async findOne(filters) {
         const lot = await lots.findById({ ID_LOTE: toNumber(filters.lotId) });
-        return {
-            operativeId: lot.ID_OPERATIVO,
-            lotId: lot.ID_LOTE,
-            description: lot.DESCRIPCION,
-            observation: lot.OBSERVATION,
-            domain: lot.DOMINIO,
-            fileName: lot.NOMBRE_ARCHIVO,
-            fileFormat: lot.FORMATO_ARCHIVO,
-            numberOfRecords: lot.CANTIDAD_DE_REGISTROS,
-            batchDataLoadDate: dateTimeToString(lot.FECHA_CARGA_DATOS_LOTE),
-            endBatchDataLoadDate: dateTimeToString(lot.FECHA_FIN_CARGA_DATOS_LOTE),
-            TotalBatchQuality: lot.CALIDAD_LOTE_TOTAL,
-            TotalBatchErrorLevel: lot.NIVEL_ERROR_LOTE_TOTAL,
-            lotRejected: lot.LOTE_RECHAZADO,
-            batchRejectedDate: dateTimeToString(lot.FECHA_LOTE_RECHAZADO),
-            lotApproved: !!lot.LOTE_APROBADO,
-            lotApprovedDate: dateTimeToString(lot.FECHA_LOTE_APROBADO),
-            feedback: lot.SE_RETROALIMENTA,
-            feedbackStartDate: dateTimeToString(lot.FECHA_INICIO_RETROALIMENTACION),
-            endDateFeedBack: dateTimeToString(lot.FECHA_FIN_RETROALIMENTACION),
-            lotDeliveredArea: lot.LOTE_ENTREGADO_AREA,
-            lotDeliveryArea: lot.FECHA_ENTREGA_AREA,
-            lotDeliveredToDataLake: lot.LOTE_ENTREGADO_A_DATA_LAKE,
-            startDateToDataLake: dateTimeToString(lot.FECHA_INICIO_A_DATA_LAKE),
-            endDateToDataLake: dateTimeToString(lot.FECHA_FIN_A_DATA_LAKE),
-            receiptLotOrCopy: lot.LOTE_DE_RESGUARDO_O_COPIA,
-            dateDownloadedBatchReceiptOrCopy: dateTimeToString(lot.FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA),
-            wholeBatchDeleted: lot.SE_BORRA_TODO_EL_LOTE,
-            deleteStarttDate: dateTimeToString(lot.FECHA_INICIO_BORRADO),
-            endDateErased: lot.FECHA_FIN_BORRADO,
-            userCreator: lot.ID_USUARIO_ALTA,
-            createdAt: dateToString(lot.FECHA_ALTA),
-            userDeleted: lot.FECHA_BAJA,
-            deletedAt: dateToString(lot.ID_USUARIO_BAJA)
-        };
+        return LotsService.rebaseFormat(lot);
     }
 
     static async update(filters, params, userCreator) {
@@ -252,9 +194,6 @@ class LotsService {
         if(has(lot, 'DOMINIO')){
             rebaseLot['domain'] = lot.DOMINIO;
         }
-        if(has(lot, 'ID_OPERATIVO')){
-            rebaseLot['operativeId'] = lot.ID_OPERATIVO;
-        }
         if(has(lot, 'NOMBRE_ARCHIVO')){
             rebaseLot['fileName'] = lot.NOMBRE_ARCHIVO;
         }
@@ -265,10 +204,10 @@ class LotsService {
             rebaseLot['numberOfRecords'] = lot.CANTIDAD_DE_REGISTROS;
         }
         if(has(lot, 'FECHA_CARGA_DATOS_LOTE')){
-            rebaseLot['batchDataLoadDate'] = dateToString(lot.FECHA_CARGA_DATOS_LOTE);
+            rebaseLot['batchDataLoadDate'] = dateTimeToString(lot.FECHA_CARGA_DATOS_LOTE);
         }
         if(has(lot, 'FECHA_FIN_CARGA_DATOS_LOTE')){
-            rebaseLot['endBatchDataLoadDate'] = dateToString(lot.FECHA_FIN_CARGA_DATOS_LOTE);
+            rebaseLot['endBatchDataLoadDate'] = dateTimeToString(lot.FECHA_FIN_CARGA_DATOS_LOTE);
         }
         if(has(lot, 'CALIDAD_LOTE_TOTAL')){
             rebaseLot['TotalBatchQuality'] = lot.CALIDAD_LOTE_TOTAL;
@@ -277,60 +216,60 @@ class LotsService {
             rebaseLot['TotalBatchErrorLevel'] = lot.NIVEL_ERROR_LOTE_TOTAL;
         }
         if(has(lot, 'LOTE_RECHAZADO')){
-            rebaseLot['lotRejected'] = lot.LOTE_RECHAZADO;
+            rebaseLot['lotRejected'] = !!lot.LOTE_RECHAZADO;
         }
         if(has(lot, 'FECHA_LOTE_RECHAZADO')){
-            rebaseLot['batchRejectedDate'] = dateToString(lot.FECHA_LOTE_RECHAZADO);
+            rebaseLot['batchRejectedDate'] = dateTimeToString(lot.FECHA_LOTE_RECHAZADO);
         }
         if(has(lot, 'LOTE_APROBADO')){
             rebaseLot['lotApproved'] = !!lot.LOTE_APROBADO;
         }
         if(has(lot, 'FECHA_LOTE_APROBADO')){
-            rebaseLot['lotApprovedDate'] = dateToString(lot.FECHA_LOTE_APROBADO);
+            rebaseLot['lotApprovedDate'] = dateTimeToString(lot.FECHA_LOTE_APROBADO);
         }
         if(has(lot, 'SE_RETROALIMENTA')){
-            rebaseLot['feedback'] = lot.SE_RETROALIMENTA;
+            rebaseLot['feedback'] = !!lot.SE_RETROALIMENTA;
         }
         if(has(lot, 'FECHA_INICIO_RETROALIMENTACION')){
-            rebaseLot['feedbackStartDate'] = dateToString(lot.FECHA_INICIO_RETROALIMENTACION);
+            rebaseLot['feedbackStartDate'] = dateTimeToString(lot.FECHA_INICIO_RETROALIMENTACION);
         }
         if(has(lot, 'FECHA_FIN_RETROALIMENTACION')){
-            rebaseLot['endDateFeedBack'] = dateToString(lot.FECHA_FIN_RETROALIMENTACION);
+            rebaseLot['endDateFeedBack'] = dateTimeToString(lot.FECHA_FIN_RETROALIMENTACION);
         }
         if(has(lot, 'LOTE_ENTREGADO_AREA')){
-            rebaseLot['lotDeliveredArea'] = lot.LOTE_ENTREGADO_AREA;
+            rebaseLot['lotDeliveredArea'] = !!lot.LOTE_ENTREGADO_AREA;
         }
         if(has(lot, 'FECHA_ENTREGA_AREA')){
-            rebaseLot['lotDeliveryArea'] = lot.FECHA_ENTREGA_AREA;
+            rebaseLot['lotDeliveryArea'] = dateTimeToString(lot.FECHA_ENTREGA_AREA);
         }
         if(has(lot, 'LOTE_ENTREGADO_A_DATA_LAKE')){
-            rebaseLot['lotDeliveredToDataLake'] = lot.LOTE_ENTREGADO_A_DATA_LAKE;
+            rebaseLot['lotDeliveredToDataLake'] = !!lot.LOTE_ENTREGADO_A_DATA_LAKE;
         }
         if(has(lot, 'FECHA_INICIO_A_DATA_LAKE')){
-            rebaseLot['startDateToDataLake'] = dateToString(lot.FECHA_INICIO_A_DATA_LAKE);
+            rebaseLot['startDateToDataLake'] = dateTimeToString(lot.FECHA_INICIO_A_DATA_LAKE);
         }
         if(has(lot, 'FECHA_FIN_A_DATA_LAKE')){
-            rebaseLot['endDateToDataLake'] = dateToString(lot.FECHA_FIN_A_DATA_LAKE);
+            rebaseLot['endDateToDataLake'] = dateTimeToString(lot.FECHA_FIN_A_DATA_LAKE);
         }
         if(has(lot, 'LOTE_DE_RESGUARDO_O_COPIA')){
-            rebaseLot['receiptLotOrCopy'] = lot.LOTE_DE_RESGUARDO_O_COPIA;
+            rebaseLot['receiptLotOrCopy'] = !!lot.LOTE_DE_RESGUARDO_O_COPIA;
         }
         if(has(lot, 'FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA')){
-            rebaseLot['dateDownloadedBatchReceiptOrCopy'] = dateToString(lot.FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA);
+            rebaseLot['dateDownloadedBatchReceiptOrCopy'] = dateTimeToString(lot.FECHA_BAJADA_LOTE_RESGUARDO_O_COPIA);
         }
         if(has(lot, 'SE_BORRA_TODO_EL_LOTE')){
-            rebaseLot['wholeBatchDeleted'] = lot.SE_BORRA_TODO_EL_LOTE;
+            rebaseLot['wholeBatchDeleted'] = !!lot.SE_BORRA_TODO_EL_LOTE;
         }
         if(has(lot, 'FECHA_INICIO_BORRADO')){
-            rebaseLot['deleteStarttDate'] = dateToString(lot.FECHA_INICIO_BORRADO);
+            rebaseLot['deleteStarttDate'] = dateTimeToString(lot.FECHA_INICIO_BORRADO);
         }
         if(has(lot, 'FECHA_FIN_BORRADO')){
-            rebaseLot['endDateErased'] = dateToString(lot.FECHA_FIN_BORRADO);
+            rebaseLot['endDateErased'] = dateTimeToString(lot.FECHA_FIN_BORRADO);
         }
         if(has(lot, 'ID_USUARIO_ALTA')){
             rebaseLot['userCreator'] = lot.ID_USUARIO_ALTA;
         }
-        if(has(lot, 'ID_OPERATIFECHA_ALTAVO')){
+        if(has(lot, 'FECHA_ALTA')){
             rebaseLot['createdAt'] = dateToString(lot.FECHA_ALTA);
         }
         if(has(lot, 'ID_USUARIO_BAJA')){

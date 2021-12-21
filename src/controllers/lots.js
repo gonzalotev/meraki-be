@@ -1,5 +1,5 @@
 const { LotsService } = include('services');
-const {splitFileName} = include('util');
+const {splitFileName, decodeQuery} = include('util');
 const isEmpty = require('lodash/isEmpty');
 const head = require('lodash/head');
 const toUpper = require('lodash/toUpper');
@@ -8,8 +8,10 @@ const fs = require('fs');
 class LotsController {
     static async fetch(req, res, next) {
         try {
-            const lotss = await LotsService.fetch();
-            res.send({ lotss });
+            const query = decodeQuery(req.query);
+            const lotss = await LotsService.fetch(query);
+            const total = await LotsService.getTotal(query);
+            res.send({ lotss, total });
         } catch (error) {
             next(error);
         }

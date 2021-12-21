@@ -2,14 +2,17 @@ module.exports = {
     type: 'object',
     properties: {
         operativeId: {
-            type: 'integer'
+            type: 'number',
+            nullable: false
         },
         lotId: {
-            type: 'integer'
+            type: 'number',
+            nullable: false
         },
         description: {
             type: 'string',
-            maxLength: 120
+            maxLength: 120,
+            nullable: false
         },
         observation: {
             type: 'string',
@@ -32,7 +35,8 @@ module.exports = {
             nullable: true
         },
         numberOfRecords: {
-            type: 'integer'
+            type: 'number',
+            nullable: false
         },
         batchDataLoadDate: {
             type: 'string',
@@ -43,11 +47,11 @@ module.exports = {
             nullable: true
         },
         TotalBatchQuality: {
-            type: 'integer',
+            type: 'number',
             nullable: true
         },
         TotalBatchErrorLevel: {
-            type: 'integer',
+            type: 'number',
             nullable: true
         },
         lotRejected: {
@@ -55,7 +59,7 @@ module.exports = {
             nullable: true
         },
         batchRejectedDate: {
-            type: 'integer',
+            type: 'string',
             nullable: true
         },
         lotApproved: {
@@ -120,11 +124,12 @@ module.exports = {
         },
         userCreator: {
             type: 'string',
-            maxLength: 50
+            maxLength: 50,
+            nullable: false
         },
         createdAt: {
             type: 'string',
-            nullable: false
+            nullable: true
         },
         userDeleted: {
             type: 'string',
