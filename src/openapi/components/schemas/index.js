@@ -29,6 +29,7 @@ const Documents = require('./documents');
 const MicroprocessesStepsOption = require('./microprocessesStepsOptions');
 const MicroprocessStep = require('./microprocessStep');
 const AssigmentRoleOperativeVariable = require('./assigmentRoleOperativeVariable');
+const LotVariable = require('./lotVariable');
 
 module.exports = {
     ArrayString: {
@@ -93,5 +94,6 @@ module.exports = {
     Documents,
     MicroprocessesStepsOption,
     MicroprocessStep,
-    AssigmentRoleOperativeVariable
+    AssigmentRoleOperativeVariable,
+    LotVariable
 };

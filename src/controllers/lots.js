@@ -121,9 +121,22 @@ class LotsController {
 
     static async runLinguisticProcess(req, res, next){
         try{
-            const { lotId, operativeId } = req.body.lot;
-            const plSqlresponse = await LotsService.runLinguisticProcess({ lotId, operativeId }, req.user.id);
+            const { lotId, operativeId, variableId } = req.body.lot;
+            const plSqlresponse = await LotsService.runLinguisticProcess(
+                { lotId, operativeId, variableId },
+                req.user.id
+            );
             res.send({plSqlresponse});
+        }catch(error){
+            next(error);
+        }
+    }
+
+    static async getLotsVariables(req, res, next){
+        try{
+            const { lotId } = req.params;
+            const lotsVariables = await LotsService.getLotsVariables(lotId);
+            res.send({lotsVariables});
         }catch(error){
             next(error);
         }

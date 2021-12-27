@@ -1,5 +1,5 @@
 const OperativesService = require('./operatives');
-const Oracle = include('helpers/oracle');
+const knex = include('helpers/database');
 const { lots } = include('models');
 const { lotsAttrib } = include('constants/staticData');
 const { dateToString, stringToDate, dateTimeToString } = include('util');
@@ -15,23 +15,82 @@ class LotsService {
         return lotss.map(lot => LotsService.rebaseFormat(lot));
     }
 
+    static async getLotsVariables(lotId){
+        const lotsVariables = await lots.knex
+            .select()
+            .from('LOTES_VARIABLES')
+            .where({ID_LOTE: lotId});
+
+        return map(lotsVariables, lotVariable => ({
+            operativeIdD: lotVariable.ID_OPERATIVO,
+            lotId: lotVariable.ID_LOTE,
+            variableId: lotVariable.ID_VARIABLE,
+            description: lotVariable.DESCRIPCION,
+            observation: lotVariable.OBSERVACION,
+            domain: lotVariable.DOMINIO,
+            standardizationStartDate: dateTimeToString(lotVariable.FECHA_INICIO_NORMALIZADO),
+            standardizationEndDate: dateTimeToString(lotVariable.FECHA_FIN_NORMALIZADO),
+            correctorStartDate: dateTimeToString(lotVariable.FECHA_INICIO_CORRECTOR),
+            correctorEndDate: dateTimeToString(lotVariable.FECHA_FIN_CORRECTOR),
+            totalStandardizationRecords: lotVariable.TOTAL_REGISTROS_NORMALIZADOS,
+            totalCorrectorRecords: lotVariable.TOTAL_REGISTROS_CORREGIDOS,
+            standardizationTotalTime: lotVariable.TIEMPO_TOTAL_NORMALIZADO,
+            linguisticStartDate: dateTimeToString(lotVariable.FECHA_INICIO_LINGUISTICO),
+            linguisticEndDate: dateTimeToString(lotVariable.FECHA_FIN_LINGUISTICO),
+            uniquePhrasesStartDate: dateTimeToString(lotVariable.FECHA_INICIO_FRASES_UNICAS),
+            uniquePhrasesEndDate: dateTimeToString(lotVariable.FECHA_FIN_FRASES_UNICAS),
+            automaticCodingStartDate: dateTimeToString(lotVariable.FECHA_INICIO_CODIFICACION_AUTOMATICA),
+            automaticCodingEndDate: dateTimeToString(lotVariable.FECHA_FIN_CODIFICACION_AUTOMATICA),
+            manualCodingStartDate: dateTimeToString(lotVariable.FECHA_INICIO_CODIFICACION_MANUAL),
+            manualCodingEndDate: dateTimeToString(lotVariable.FECHA_FIN_CODIFICACION_MANUAL),
+            automaticSupervisionStartDate: dateTimeToString(lotVariable.FECHA_INICIO_SUPERVISADO_AUTOMATICO),
+            automaticSupervisionEndDate: dateTimeToString(lotVariable.FECHA_FIN_SUPERVISADO_AUTOMATICO),
+            manualSupervisionStartDate: dateTimeToString(lotVariable.FECHA_INICIO_SUPERVISADO_MANUAL),
+            manualSupervisionEndDate: dateTimeToString(lotVariable.FECHA_FIN_SUPERVISADO_MANUAL),
+            totalAutomaticRecords: lotVariable.TOTAL_REGISTROS_AUTOMATICO,
+            totalManualRecords: lotVariable.TOTAL_REGISTROS_MANUAL,
+            automaticCodingQuality: lotVariable.CALIDAD_CODIFICACION_AUTOMATICA,
+            manualCodingQuality: lotVariable.CALIDAD_CODIFICACION_MANUAL,
+            rejectedLotVariable: lotVariable.LOTE_VARIABLE_RECHAZADO,
+            linguisticRecordsProcessed: lotVariable.REGISTROS_LINGUISTICOS_PROCESADOS,
+            nullLinguisticRecords: lotVariable.REGISTROS_LINGUISTICOS_NULOS,
+            uniquePhrasesRecords: lotVariable.REGISTROS_FRASES_UNICAS,
+            uniqueWordsRecords: lotVariable.REGISTROS_PALABRAS_UNICAS,
+            shouldBeEncode: lotVariable.SE_CODIFICA_SI_NO,
+            userId: lotVariable.ID_USUARIO_ALTA,
+            createdAt: dateToString(lotVariable.FECHA_ALTA)
+        }));
+    }
+
     static async runLinguisticProcess(lotOperative, userCreator) {
-        const oracle = new Oracle();
-        console.log({
+        // const oracle = new Oracle();
+        const { operativeId, lotId, variableId } = {
             operativeId: lotOperative.operativeId,
             lotId: lotOperative.lotId,
+            variableId: lotOperative.variableId,
             userId: userCreator
-        });
-        return await oracle.executePlSql(
+        };
+        const transaction = await knex.transaction();
+
+        const normalizedStandard = await transaction.raw(`begin
+            LIN_NORMALIZADO_ESTANDAR(?, ?, ?);
+        end;`, [operativeId, lotId, variableId]);
+
+        const standardCorrector = await transaction.raw(`begin
+        LIN_CORRECTOR_PALABRAS(?, ?);
+        end;`, [operativeId, lotId]);
+        await transaction.commit();
+        return {normalizedStandard, standardCorrector};
+        /* return await oracle.executePlSql(
             `BEGIN
-                LIN_DATOS_ENTRADA_A_PROCESAMIENTOS(:operativeId, :lotId, :userId);
+                LIN_NORMALIZADO_ESTANDAR(:operativeId, :lotId, :variableId);
             END;`,
             {
                 operativeId: lotOperative.operativeId,
                 lotId: lotOperative.lotId,
-                userId: userCreator
+                variableId: lotOperative.variableId
             }
-        );
+        ); */
     }
 
     static async getTotal(query){

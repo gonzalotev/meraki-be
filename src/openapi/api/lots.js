@@ -368,6 +368,42 @@ module.exports = {
             }
         }
     },
+    '/api/lots/getLotsVariables/{lotId}': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Lots'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'lotId',
+                    required: true,
+                    schema: {type: 'integer'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    lotsVariables: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/LotVariable'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
     '/api/lots/runLinguisticProcess': {
         post: {
             security: [{bearerAuth: []}],
@@ -384,7 +420,8 @@ module.exports = {
                                     type: 'object',
                                     properties: {
                                         operativeId: {type: 'integer'},
-                                        lotId: {type: 'integer'}
+                                        lotId: {type: 'integer'},
+                                        variableId: {type: 'string'}
                                     }
                                 }
                             }
