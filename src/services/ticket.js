@@ -37,8 +37,8 @@ class ticketService {
 
     static async create(params, userCreator) {
         const formattedticket = {
-            ID_CHAT: null,
             TABLA_ORIGEN: trim(params.originTable),
+            TABLA_RELACION: trim(params.relationshipTableName),
             TEXTO_CHAT_ORIGEN: trim(params.originChatText),
             FECHA_ALTA: new Date(),
             ID_USUARIO_ALTA: userCreator.id,
@@ -57,14 +57,9 @@ class ticketService {
             .returning(ticketModel.selectableProps);
         //eslint-disable-next-line
         const createdRelation= await transaction(params.relationshipTableName)
-            .insert({...params.relationshipData, ID_CHAT: createdChat[0]});
+            .insert({...params.relationshipData, ID_CHAT: createdChat[0].ID_CHAT});
         transaction.commit();
         return createdChat[0];
-
-        // const ticketId = await ticketModel.insertOne(formattedticket, ['ID_CHAT']);
-        // const ticket = await ticketService.findOne({id: ticketId});
-        // return ticket;
-
     }
 
     static async findOne(filters) {

@@ -160,6 +160,29 @@ class NomenclaturesService {
         });
     }
 
+    static async getNomenclatureData(resources, key='nomenclatureId', foreign='nomenclature'){
+        const nomenclaturesIds = compact(uniq(map(resources, resource => resource[key])));
+        if(isEmpty(nomenclaturesIds)){
+            return resources;
+        }
+        let nomenclatures = await nomenclaturesModel.findByValues('ID_NOMENCLATURA', nomenclaturesIds);
+        nomenclatures = map(nomenclatures, nomenclature => ({
+            id: nomenclature.ID_NOMENCLATURA,
+            shortDescription: nomenclature.ABREVIATURA,
+            description: nomenclature.DESCRIPCION
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData[foreign] = find(
+                nomenclatures,
+                nomenclature => nomenclature.id === resource[key]
+            );
+            return resource;
+        });
+    }
+
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = nomenclaturesModel.knex.select(columns)

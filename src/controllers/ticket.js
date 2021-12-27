@@ -32,7 +32,7 @@ class TicketController {
 
     static async update(req, res, next){
         try {
-            const ticket = await TicketService.update(req.params, req.body, req.user.id);
+            const ticket = await TicketService.update(req.params, req.body);
             res.send({ticket});
         } catch(err){
             next(err);
