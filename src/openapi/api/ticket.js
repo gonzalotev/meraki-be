@@ -251,5 +251,25 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/ticket/downloadCsv': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Ticket'],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'text/xlsx': {
+                            schema: {type: 'string', format: 'binary'}
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
     }
 };

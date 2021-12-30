@@ -1,4 +1,7 @@
 const { TicketService } = include('services');
+const ExcelJS = require('exceljs');
+const map = require('lodash/map');
+const tempy = require('tempy');
 
 class TicketController {
     static async fetch(req, res, next) {
@@ -47,6 +50,29 @@ class TicketController {
             } else {
                 res.sendStatus(400);
             }
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async downloadCsv(req, res, next) {
+        try {
+            const originalColumns = map(TicketService.getColumns(), column => column.original);
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Ticket');
+            const sheetColums = map(
+                TicketService.getColumns(),
+                column => ({ key: column.original, header: column.modified })
+            );
+            worksheet.columns = sheetColums;
+            await TicketService.exportToFile(worksheet, originalColumns);
+            const temp = tempy.file({extension: '.xlsx'});
+            res.header('Content-type', 'text/xlsx; charset=utf-8');
+            /* eslint-disable */ 
+            res.header('Content-disposition', 'attachment; filename=Ticket.xlsx');
+            await workbook.xlsx.writeFile(temp).then(function() {
+                res.download(temp);
+            });
         } catch (err) {
             next(err);
         }

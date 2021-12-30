@@ -3,6 +3,7 @@ const TicketTypeService = require('./ticketType');
 const { dateToString, dateTimeToString, stringToDate } = include('util');
 const knex = include('helpers/database');
 const trim = require('lodash/trim');
+const map = require('lodash/map');
 
 class ticketService {
     static async fetch(query, userId) {
@@ -115,6 +116,65 @@ class ticketService {
             ID_USUARIO_BAJA: userDeleted
         });
         return !!success;
+    }
+
+    static exportToFile(worksheet, columns) {
+        return new Promise((resolve, reject) => {
+            const stream = ticketModel.knex.select(columns)
+                .from(ticketModel.tableName)
+                .where({FECHA_BAJA_SOLUCIONADO: null})
+                .stream();
+            stream.on('error', function(err) {
+                reject(err);
+            });
+            stream.on('data', function (data) {
+                /* eslint-disable */
+                const formattedData = map(data, function(value) {
+                    return value;
+                });
+                worksheet.addRow(formattedData);
+            });
+            stream.on('end', function() {
+                resolve(worksheet);
+            });
+        });
+    }
+
+    static getColumns(){
+        return [
+            {
+                original: 'ID_CHAT',
+                modified: 'TICKET ID'
+            },
+            {
+                original: 'TABLA_ORIGEN',
+                modified: 'TABLA ORIGEN'
+            },
+            {
+                original: 'TABLA_RELACION',
+                modified: 'TABLA RELACION'
+            },
+            {
+                original: 'TEXTO_CHAT_ORIGEN',
+                modified: 'TEXTO TICKET'
+            },
+            {
+                original: 'TEXTO_SOLUCION',
+                modified: 'SOLUCIÓN'
+            },
+            {
+                original: 'USUARIO',
+                modified: 'USUARIO'
+            },
+            {
+                original: 'SOLUCIONADO_SI_NO',
+                modified: 'SOLUCIONADO'
+            },
+            {
+                original: 'FECHA_SOLUCION',
+                modified: 'FECHA SOLUCIÓN'
+            }
+        ];
     }
 }
 
