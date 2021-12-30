@@ -6,6 +6,7 @@ module.exports = router => {
         .post(TicketController.create);
     router.route('/:id')
         .get(TicketController.find)
-        .put(TicketController.update);
+        .put(TicketController.update)
+        .delete(TicketController.delete);
     return router;
 };

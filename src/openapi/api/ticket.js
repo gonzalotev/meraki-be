@@ -37,7 +37,7 @@ module.exports = {
                                                 solutionUserId: {type: 'string'},
                                                 ticketTypeId: {type: 'integer'},
                                                 solutionDate: {type: 'string'},
-                                                aproved: {type: 'boolean'}
+                                                approved: {type: 'boolean'}
                                             }
                                         }
                                     }
@@ -70,7 +70,7 @@ module.exports = {
                                 solutionUserId: {type: 'string'},
                                 ticketTypeId: {type: 'integer'},
                                 solutionDate: {type: 'string'},
-                                aproved: {type: 'boolean'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
@@ -97,7 +97,7 @@ module.exports = {
                                             solutionUserId: {type: 'string'},
                                             ticketTypeId: {type: 'integer'},
                                             solutionDate: {type: 'string'},
-                                            aproved: {type: 'boolean'}
+                                            approved: {type: 'boolean'}
                                         }
                                     }
                                 }
@@ -143,7 +143,7 @@ module.exports = {
                                 solutionUserId: {type: 'string'},
                                 ticketTypeId: {type: 'integer'},
                                 solutionDate: {type: 'string'},
-                                aproved: {type: 'boolean'}
+                                approved: {type: 'boolean'}
                             }
                         }
                     }
@@ -170,7 +170,7 @@ module.exports = {
                                             solutionUserId: {type: 'string'},
                                             ticketTypeId: {type: 'integer'},
                                             solutionDate: {type: 'string'},
-                                            aproved: {type: 'boolean'}
+                                            approved: {type: 'boolean'}
                                         }
                                     }
                                 }
@@ -178,6 +178,26 @@ module.exports = {
                         }
                     }
                 },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        },
+        delete: {
+            security: [{bearerAuth: []}],
+            tags: ['Ticket'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'id',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'ticket id deleted'
+                }
+            ],
+            responses: {
+                204: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
@@ -217,7 +237,7 @@ module.exports = {
                                             solutionUserId: {type: 'string'},
                                             ticketTypeId: {type: 'integer'},
                                             solutionDate: {type: 'string'},
-                                            aproved: {type: 'boolean'}
+                                            approved: {type: 'boolean'}
                                         }
                                     }
                                 }

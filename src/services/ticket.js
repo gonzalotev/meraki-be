@@ -8,7 +8,7 @@ class ticketService {
     static async fetch(query, userId) {
         let ticketsTypes = await ticketModel.findByPage(
             query.page,
-            {ID_USUARIO_ALTA: userId},
+            {ID_USUARIO_ALTA: userId, SOLUCIONADO_SI_NO: false, FECHA_BAJA_SOLUCIONADO: null},
             ticketModel.selectableProps,
             [{ column: 'ID_CHAT', order: 'asc' }]
         );
@@ -23,7 +23,7 @@ class ticketService {
             solutionUserId: ticket.ID_USUARIO_SOLUCION,
             ticketTypeId: ticket.ID_TIPO_CHAT,
             solutionDate: dateToString(ticket.FECHA_SOLUCION),
-            aproved: ticket.SOLUCIONADO_SI_NO,
+            approved: ticket.SOLUCIONADO_SI_NO,
             userName: ticket.USUARIO
         }));
 
@@ -42,13 +42,15 @@ class ticketService {
             TEXTO_CHAT_ORIGEN: trim(params.originChatText),
             FECHA_ALTA: new Date(),
             ID_USUARIO_ALTA: userCreator.id,
-            ID_USUARIO_RESPONSABLE: params.userReponsableId,
+            ID_USUARIO_RESPONSABLE: params.userResponsableId,
             TEXTO_SOLUCION: null,
             ID_USUARIO_SOLUCION: null,
             ID_TIPO_CHAT: params.ticketTypeId,
             FECHA_SOLUCION: null,
             SOLUCIONADO_SI_NO: false,
-            USUARIO: trim(params.userName)
+            USUARIO: trim(params.userName),
+            FECHA_BAJA_SOLUCIONADO: null,
+            ID_USUARIO_BAJA: null
         };
 
         const transaction = await knex.transaction();
@@ -72,13 +74,15 @@ class ticketService {
             originChatText: ticket.TEXTO_CHAT_ORIGEN,
             createdAt: dateTimeToString(ticket.FECHA_ALTA),
             userCreator: ticket.ID_USUARIO_ALTA,
-            userReponsableId: ticket.ID_USUARIO_RESPONSABLE,
+            userResponsableId: ticket.ID_USUARIO_RESPONSABLE,
             solutionText: ticket.TEXTO_SOLUCION,
             solutionUserId: ticket.ID_USUARIO_SOLUCION,
             ticketTypeId: ticket.ID_TIPO_CHAT,
             solutionDate: dateTimeToString(ticket.FECHA_SOLUCION),
-            aproved: !!ticket.SOLUCIONADO_SI_NO,
-            userName: ticket.USUARIO
+            approved: !!ticket.SOLUCIONADO_SI_NO,
+            userName: ticket.USUARIO,
+            userDeleted: ticket.ID_USUARIO_BAJA,
+            solutionDateDeleted: ticket.FECHA_BAJA_SOLUCIONADO
         };
     }
 
@@ -86,20 +90,31 @@ class ticketService {
         const formattedticket = {
             ID_CHAT: params.id,
             TABLA_ORIGEN: trim(params.originTable),
+            TABLA_RELACION: trim(params.relationshipTableName),
             TEXTO_CHAT_ORIGEN: trim(params.originChatText),
             FECHA_ALTA: stringToDate(params.createdAt),
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_RESPONSABLE: params.userResponsableId,
+            ID_USUARIO_RESPONSABLE: userCreator,
             TEXTO_SOLUCION: params.solutionText,
-            ID_USUARIO_SOLUCION: userCreator,
+            ID_USUARIO_SOLUCION: params.userResponsableId,
             ID_TIPO_CHAT: params.ticketTypeId,
             FECHA_SOLUCION: stringToDate(params.solutionDate),
-            SOLUCIONADO_SI_NO: params.aproved,
-            USUARIO: trim(params.userName)
+            SOLUCIONADO_SI_NO: params.approved,
+            USUARIO: trim(params.userName),
+            FECHA_BAJA_SOLUCIONADO: new Date()
         };
         const ticketId = await ticketModel.updateOne({ ID_CHAT: filters.id }, formattedticket, ['ID_CHAT']);
         const ticket = await ticketService.findOne({id: ticketId});
         return ticket;
+    }
+
+    static async delete(filters, userDeleted){
+        const formattedFilters = {ID_CHAT: filters.id};
+        const success = await ticketModel.deleteOne(formattedFilters, {
+            FECHA_BAJA_SOLUCIONADO: new Date(),
+            ID_USUARIO_BAJA: userDeleted
+        });
+        return !!success;
     }
 }
 

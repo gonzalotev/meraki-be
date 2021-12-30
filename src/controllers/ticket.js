@@ -38,6 +38,19 @@ class TicketController {
             next(err);
         }
     }
+
+    static async delete(req, res, next) {
+        try {
+            const success = await TicketService.delete(req.params, req.user.id);
+            if (success) {
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = TicketController;
