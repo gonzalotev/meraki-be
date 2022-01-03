@@ -3,6 +3,16 @@ module.exports = {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Lots'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'linguisticLots',
+                    required: false,
+                    schema: {
+                        type: 'boolean'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -11,46 +21,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    lots: {
+                                    lotss: {
                                         type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                operativeId: {type: 'integer'},
-                                                lotId: {type: 'integer'},
-                                                description: {type: 'string'},
-                                                observation: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                fileName: {type: 'string'},
-                                                fileFormat: {type: 'string'},
-                                                numberOfRecords: {type: 'integer'},
-                                                batchDataLoadDate: {type: 'string'},
-                                                endBatchDataLoadDate: {type: 'string'},
-                                                TotalBatchQuality: {type: 'integer'},
-                                                TotalBatchErrorLevel: {type: 'integer'},
-                                                lotRejected: {type: 'boolean'},
-                                                batchRejectedDate: {type: 'integer'},
-                                                lotApproved: {type: 'boolean'},
-                                                lotApprovedDate: {type: 'string'},
-                                                feedback: {type: 'boolean'},
-                                                feedbackStartDate: {type: 'string'},
-                                                endDateFeedBack: {type: 'string'},
-                                                lotDeliveredArea: {type: 'boolean'},
-                                                lotDeliveryArea: {type: 'string'},
-                                                lotDeliveredToDataLake: {type: 'boolean'},
-                                                startDateToDataLake: {type: 'string'},
-                                                endDateToDataLake: {type: 'string'},
-                                                receiptLotOrCopy: {type: 'boolean'},
-                                                dateDownloadedBatchReceiptOrCopy: {type: 'string'},
-                                                wholeBatchDeleted: {type: 'boolean'},
-                                                deleteStartDate: {type: 'string'},
-                                                endDateErased: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                createdAt: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
-                                            }
-                                        }
+                                        items: {$ref: '#/components/schemas/Lots'}
                                     }
                                 }
                             }
@@ -395,6 +368,42 @@ module.exports = {
             }
         }
     },
+    '/api/lots/getLotsVariables/{lotId}': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Lots'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'lotId',
+                    required: true,
+                    schema: {type: 'integer'}
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'Success',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    lotsVariables: {
+                                        type: 'array',
+                                        items: {$ref: '#/components/schemas/LotVariable'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
     '/api/lots/runLinguisticProcess': {
         post: {
             security: [{bearerAuth: []}],
@@ -411,7 +420,8 @@ module.exports = {
                                     type: 'object',
                                     properties: {
                                         operativeId: {type: 'integer'},
-                                        lotId: {type: 'integer'}
+                                        lotId: {type: 'integer'},
+                                        variableId: {type: 'string'}
                                     }
                                 }
                             }

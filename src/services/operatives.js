@@ -155,6 +155,7 @@ class OperativesService {
             sourceId: operative.ID_FUENTE,
             description: operative.DESCRIPCION
         }));
+        await OperativeSourcesService.getSourceOperativeData(operativesData);
         return map(resources, resource => {
             if (!resource.foreignData) {
                 resource.foreignData = {};

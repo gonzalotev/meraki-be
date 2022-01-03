@@ -104,6 +104,23 @@ class OperativeSourcesService {
         return !!success;
     }
 
+    static async getSourceOperativeData(resources){
+        const sourcesIds = uniq(map(resources, resource => resource.sourceId));
+        let sourcesData = await operativeSources.findByValues('ID_FUENTE', sourcesIds);
+        sourcesData = map(sourcesData, source => ({
+            id: source.ID_FUENTE,
+            name: source.NOMBRE,
+            initials: source.SIGLA
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData.source = find(sourcesData, source => source.id === resource.sourceId);
+            return resource;
+        });
+    }
+
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = operativeSources.knex.select(columns)

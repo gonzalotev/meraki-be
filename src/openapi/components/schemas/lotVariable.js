@@ -9,6 +9,10 @@ module.exports = {
             type: 'number',
             nullable: false
         },
+        variableId: {
+            type: 'string',
+            nullable: false
+        },
         description: {
             type: 'string',
             maxLength: 120,
@@ -24,119 +28,128 @@ module.exports = {
             maxLength: 300,
             nullable: true
         },
-        fileName: {
-            type: 'string',
-            maxLength: 50,
-            nullable: true
-        },
-        fileFormat: {
-            type: 'string',
-            maxLength: 50,
-            nullable: true
-        },
-        numberOfRecords: {
-            type: 'number',
-            nullable: false
-        },
-        batchDataLoadDate: {
+        standardizationStartDate: {
             type: 'string',
             nullable: true
         },
-        endBatchDataLoadDate: {
+        standardizationEndDate: {
             type: 'string',
             nullable: true
         },
-        TotalBatchQuality: {
+        correctorStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        correctorEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        totalStandardizationRecords: {
             type: 'number',
             nullable: true
         },
-        TotalBatchErrorLevel: {
+        totalCorrectorRecords: {
             type: 'number',
             nullable: true
         },
-        lotRejected: {
+        standardizationTotalTime: {
+            type: 'string',
+            nullable: true
+        },
+        linguisticStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        linguisticEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        uniquePhrasesStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        uniquePhrasesEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        automaticCodingStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        automaticCodingEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        manualCodingStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        manualCodingEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        automaticSupervisionStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        automaticSupervisionEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        manualSupervisionStartDate: {
+            type: 'string',
+            nullable: true
+        },
+        manualSupervisionEndDate: {
+            type: 'string',
+            nullable: true
+        },
+        totalAutomaticRecords: {
+            type: 'number',
+            nullable: true
+        },
+        totalManualRecords: {
+            type: 'number',
+            nullable: true
+        },
+        automaticCodingQuality: {
+            type: 'number',
+            nullable: true
+        },
+        manualCodingQuality: {
+            type: 'number',
+            nullable: true
+        },
+        rejectedLotVariable: {
             type: 'boolean',
             nullable: true
         },
-        batchRejectedDate: {
-            type: 'string',
+        linguisticRecordsProcessed: {
+            type: 'number',
             nullable: true
         },
-        lotApproved: {
+        nullLinguisticRecords: {
+            type: 'number',
+            nullable: true
+        },
+        uniquePhrasesRecords: {
+            type: 'number',
+            nullable: true
+        },
+        uniqueWordsRecords: {
+            type: 'number',
+            nullable: true
+        },
+        shouldBeEncode: {
             type: 'boolean',
             nullable: true
         },
-        lotApprovedDate: {
-            type: 'string',
-            nullable: true
-        },
-        feedback: {
-            type: 'boolean',
-            nullable: true
-        },
-        feedbackStartDate: {
-            type: 'string',
-            nullable: true
-        },
-        endDateFeedBack: {
-            type: 'string',
-            nullable: true
-        },
-        lotDeliveredArea: {
-            type: 'boolean',
-            nullable: true
-        },
-        lotDeliveryArea: {
-            type: 'string',
-            nullable: true
-        },
-        lotDeliveredToDataLake: {
-            type: 'boolean',
-            nullable: true
-        },
-        startDateToDataLake: {
-            type: 'string',
-            nullable: true
-        },
-        endDateToDataLake: {
-            type: 'string',
-            nullable: true
-        },
-        receiptLotOrCopy: {
-            type: 'boolean',
-            nullable: true
-        },
-        dateDownloadedBatchReceiptOrCopy: {
-            type: 'string',
-            nullable: true
-        },
-        wholeBatchDeleted: {
-            type: 'boolean',
-            nullable: true
-        },
-        deleteStartDate: {
-            type: 'string',
-            nullable: true
-        },
-        endDateErased: {
-            type: 'string',
-            nullable: true
-        },
-        userCreator: {
+        userId: {
             type: 'string',
             maxLength: 50,
             nullable: false
         },
         createdAt: {
-            type: 'string',
-            nullable: true
-        },
-        userDeleted: {
-            type: 'string',
-            maxLength: 50,
-            nullable: true
-        },
-        deletedAt: {
             type: 'string',
             nullable: true
         }
