@@ -1,4 +1,5 @@
 const OperativesService = require('./operatives');
+const StaticalVariableService = require('./staticalVariable');
 const knex = include('helpers/database');
 const { lots } = include('models');
 const { lotsAttrib } = include('constants/staticData');
@@ -16,12 +17,12 @@ class LotsService {
     }
 
     static async getLotsVariables(lotId){
-        const lotsVariables = await lots.knex
+        let lotsVariables = await lots.knex
             .select()
             .from('LOTES_VARIABLES')
             .where({ID_LOTE: lotId});
 
-        return map(lotsVariables, lotVariable => ({
+        lotsVariables = map(lotsVariables, lotVariable => ({
             operativeIdD: lotVariable.ID_OPERATIVO,
             lotId: lotVariable.ID_LOTE,
             variableId: lotVariable.ID_VARIABLE,
@@ -60,6 +61,10 @@ class LotsService {
             userId: lotVariable.ID_USUARIO_ALTA,
             createdAt: dateToString(lotVariable.FECHA_ALTA)
         }));
+
+        await StaticalVariableService.getVariableData(lotsVariables);
+
+        return lotsVariables;
     }
 
     static async runLinguisticProcess(lotOperative, userCreator) {
