@@ -23,7 +23,7 @@ class LotsService {
             .where({ID_LOTE: lotId});
 
         lotsVariables = map(lotsVariables, lotVariable => ({
-            operativeIdD: lotVariable.ID_OPERATIVO,
+            operativeId: lotVariable.ID_OPERATIVO,
             lotId: lotVariable.ID_LOTE,
             variableId: lotVariable.ID_VARIABLE,
             description: lotVariable.DESCRIPCION,
