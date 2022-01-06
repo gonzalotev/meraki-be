@@ -23,7 +23,7 @@ class LotsService {
             .where({ID_LOTE: lotId});
 
         lotsVariables = map(lotsVariables, lotVariable => ({
-            operativeIdD: lotVariable.ID_OPERATIVO,
+            operativeId: lotVariable.ID_OPERATIVO,
             lotId: lotVariable.ID_LOTE,
             variableId: lotVariable.ID_VARIABLE,
             description: lotVariable.DESCRIPCION,
@@ -80,10 +80,13 @@ class LotsService {
         const normalizedStandard = await transaction.raw(`begin
             LIN_NORMALIZADO_ESTANDAR(?, ?, ?);
         end;`, [operativeId, lotId, variableId]);
+        console.log(normalizedStandard);
 
         const standardCorrector = await transaction.raw(`begin
-        LIN_CORRECTOR_PALABRAS(?, ?);
-        end;`, [operativeId, lotId]);
+        LIN_CORRECTOR_PALABRAS(?, ?, ?);
+        end;`, [operativeId, lotId, variableId]);
+        console.log(standardCorrector);
+
         await transaction.commit();
         return {normalizedStandard, standardCorrector};
         /* return await oracle.executePlSql(
