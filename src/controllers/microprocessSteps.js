@@ -8,7 +8,6 @@ class MicroprocessStepsController {
     static async fetchSteps(req, res, next) {
         try {
             const query = decodeQuery(req.query);
-            console.log(query);
             const microprocessSteps = await MicroprocessStepsService.fetch(query);
             const total = await MicroprocessStepsService.getTotal(query);
             res.send({ microprocessSteps, total });
