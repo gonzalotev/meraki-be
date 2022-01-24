@@ -126,7 +126,11 @@ class LotsController {
                 { lotId, operativeId, variableId },
                 req.user.id
             );
-            res.send({plSqlresponse});
+            if (plSqlresponse) {
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
         }catch(error){
             next(error);
         }

@@ -430,17 +430,7 @@ module.exports = {
                 }
             },
             responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {plSqlresponse: {type: 'object'}}
-                            }
-                        }
-                    }
-                },
+                204: {description: 'The PLSql stored procedure was finished successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
