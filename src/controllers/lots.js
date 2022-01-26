@@ -140,7 +140,8 @@ class LotsController {
         try{
             const { lotId } = req.params;
             const lotsVariables = await LotsService.getLotsVariables(lotId);
-            res.send({lotsVariables});
+            const totalAccumulatedLinguisticTime = await LotsService.getTotalAccumulatedLinguisticTime(lotId);
+            res.send({lotsVariables, totalAccumulatedLinguisticTime});
         }catch(error){
             next(error);
         }

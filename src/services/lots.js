@@ -9,6 +9,7 @@ const map = require('lodash/map');
 const uniq = require('lodash/uniq');
 const find = require('lodash/find');
 const has = require('lodash/has');
+const head = require('lodash/head');
 
 class LotsService {
     static async fetchStaticLots() {
@@ -70,6 +71,29 @@ class LotsService {
         return lotsVariables;
     }
 
+    static async getTotalAccumulatedLinguisticTime(lotId) {
+        /* eslint-disable */ 
+        const result = await knex.raw(`
+            SELECT 
+                TO_CHAR(TRUNC(segundos/3600),'FM9900') || 'hs:' ||
+                TO_CHAR(TRUNC(MOD(segundos,3600)/60),'FM00') || 'min:' ||
+                TO_CHAR(MOD(segundos,60),'FM00') || 'seg' suma_total_linguistico
+            FROM (
+                select horas*3600+minutos*60+segundos segundos
+                from (
+                    select
+                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_linguistico, '\\d+hs'), '\\d+')), 0) horas,
+                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_linguistico, '\\d+min'), '\\d+')), 0) minutos,
+                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_linguistico, '\\d+seg'), '\\d+')), 0) segundos
+                    from lotes_variables
+                    where id_lote=?
+                )
+            )
+        `, [lotId]);
+        const totalAccumulatedLinguisticTime = head(result).SUMA_TOTAL_LINGUISTICO;
+        return totalAccumulatedLinguisticTime;
+    }
+
     static async runLinguisticProcess(lotOperative, userCreator) {
         // const oracle = new Oracle();
         const { operativeId, lotId, variableId } = {
@@ -80,30 +104,20 @@ class LotsService {
         };
         const transaction = await knex.transaction();
 
-        const normalizedStandard = await transaction.raw(`begin
+        await transaction.raw(`begin
             LIN_NORMALIZADO_ESTANDAR(?, ?, ?);
         end;`, [operativeId, lotId, variableId]);
 
-        const standardCorrector = await transaction.raw(`begin
+        await transaction.raw(`begin
         LIN_CORRECTOR_PALABRAS(?, ?, ?);
         end;`, [operativeId, lotId, variableId]);
 
-        const linguisticSteps = await transaction.raw(`begin
+        await transaction.raw(`begin
         LIN_CORRER_PASOS_LINGUISTICOS(?, ?, ?);
         end;`, [operativeId, lotId, variableId]);
 
         await transaction.commit();
-        return {normalizedStandard, standardCorrector, linguisticSteps};
-        /* return await oracle.executePlSql(
-            `BEGIN
-                LIN_NORMALIZADO_ESTANDAR(:operativeId, :lotId, :variableId);
-            END;`,
-            {
-                operativeId: lotOperative.operativeId,
-                lotId: lotOperative.lotId,
-                variableId: lotOperative.variableId
-            }
-        ); */
+        return true;
     }
 
     static async getTotal(query){
