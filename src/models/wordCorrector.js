@@ -13,11 +13,11 @@ class WordCorrector extends ModelCreate {
             tableName: wordCorrectorTableName
         });
     }
-    fetchByPageAndTerm(page, valueToSearch, filters={}) {
+    fetchByPageAndTerm(page, valueToSearch) {
+        console.log(valueToSearch);
         return this.knex.select(this.selectableProps)
             .from(this.tableName)
             .where('CORRECTA', 'like', `${valueToSearch}%`)
-            .andWhere(filters)
             .limit(getPageSize())
             .offset(getOffset(page))
             .orderBy([{column: 'CORRECTA', order: 'asc'}])

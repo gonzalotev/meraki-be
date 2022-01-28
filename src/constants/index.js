@@ -410,9 +410,7 @@ const wordCorrectorAttrib = [
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
-    'FRECUENCIA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FRECUENCIA'
 ];
 
 const nomenclatorSubtypeTableName = 'SUBTIPO_DE_NOMENCLADOR';
