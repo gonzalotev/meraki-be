@@ -1,5 +1,6 @@
 const { wordCorrector: wordCorrectorModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const knex = include('helpers/database');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
@@ -9,13 +10,19 @@ class WordCorrectorService {
     static async fetch({ page, search }) {
         let words = [];
         if (page && search) {
-            words = await wordCorrectorModel.fetchByPageAndTerm(page, search, { FECHA_BAJA: null });
+            words = await knex.raw(`
+                select *
+                from corrector_de_palabras
+                where correcta like ?
+                OFFSET ? ROWS FETCH NEXT 20 ROWS ONLY
+            `, [`${search}%`, (page-1) * 20]);
         } else if (page) {
-            words = await wordCorrectorModel.findByPage(page, { FECHA_BAJA: null });
+            words = await wordCorrectorModel.findByPage(page);
         } else {
-            words = await wordCorrectorModel.find({ FECHA_BAJA: null });
+            words = await wordCorrectorModel.find();
         }
 
+        console.log(words.length);
         return words.map(wordCorrector => ({
             wrong: wordCorrector.INCORRECTA,
             right: wordCorrector.CORRECTA,
@@ -24,9 +31,7 @@ class WordCorrectorService {
             approved: !!wordCorrector.SUPERVISADO,
             frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
-            userCreator: wordCorrector.ID_USUARIO_ALTA,
-            userDeleted: wordCorrector.ID_USUARIO_BAJA,
-            deletedAt: dateToString(wordCorrector.FECHA_BAJA)
+            userCreator: wordCorrector.ID_USUARIO_ALTA
         }));
     }
 
@@ -39,8 +44,6 @@ class WordCorrectorService {
             FRECUENCIA: params.frequency,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const wordCorrector = await wordCorrectorModel.insertOne(formattedWordCorrector, ['INCORRECTA', 'CORRECTA']);
@@ -58,9 +61,7 @@ class WordCorrectorService {
             approved: !!wordCorrector.SUPERVISADO,
             frequency: wordCorrector.FRECUENCIA,
             createdAt: dateToString(wordCorrector.FECHA_ALTA),
-            userCreator: wordCorrector.ID_USUARIO_ALTA,
-            userDeleted: wordCorrector.ID_USUARIO_BAJA,
-            deletedAt: dateToString(wordCorrector.FECHA_BAJA)
+            userCreator: wordCorrector.ID_USUARIO_ALTA
         };
     }
 
@@ -73,8 +74,6 @@ class WordCorrectorService {
             FRECUENCIA: params.frequency,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userCreator,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const wordCorrector = await wordCorrectorModel.updateOne(
@@ -85,17 +84,14 @@ class WordCorrectorService {
         return WordCorrectorService.findOne({wrong: wordCorrector.INCORRECTA, right: wordCorrector.CORRECTA});
     }
 
-    static async delete(filters, userDeleted) {
+    static async delete(filters) {
         const formattedFilters = { INCORRECTA: filters.wrong, CORRECTA: filters.right };
-        const success = await wordCorrectorModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+        const success = await wordCorrectorModel.delete(formattedFilters);
         return !!success;
     }
 
     static async getTotal({ search }) {
-        const { total } = await wordCorrectorModel.countTotal({ FECHA_BAJA: null }, search, ['PALABRA']);
+        const { total } = await wordCorrectorModel.countTotal({}, search);
         return total;
     }
 
@@ -103,7 +99,7 @@ class WordCorrectorService {
         return new Promise((resolve, reject) => {
             const stream = wordCorrectorModel.knex.select(columns)
                 .from(wordCorrectorModel.tableName)
-                .where({ FECHA_BAJA: null })
+                .where()
                 .stream();
             stream.on('error', function (err) {
                 reject(err);
