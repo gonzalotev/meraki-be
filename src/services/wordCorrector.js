@@ -22,7 +22,6 @@ class WordCorrectorService {
             words = await wordCorrectorModel.find();
         }
 
-        console.log(words.length);
         return words.map(wordCorrector => ({
             wrong: wordCorrector.INCORRECTA,
             right: wordCorrector.CORRECTA,

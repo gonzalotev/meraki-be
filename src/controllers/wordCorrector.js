@@ -2,6 +2,7 @@ const { WordCorrectorService } = include('services');
 const toUpper = require('lodash/toUpper');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
+const split = require('lodash/split');
 const tempy = require('tempy');
 
 class WordCorrectorController {
@@ -32,6 +33,13 @@ class WordCorrectorController {
             res.status(201);
             res.send({ wordCorrector });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+                if(err.errors.notFoundWords) {
+                    err.errors.notFoundWords = split(err.errors.notFoundWords, ' ');
+                }
+            }
             next(err);
         }
     }
@@ -42,6 +50,13 @@ class WordCorrectorController {
             const wordCorrector = await WordCorrectorService.update(current, corrector);
             res.send({ wordCorrector });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+                if(err.errors.notFoundWords) {
+                    err.errors.notFoundWords = split(err.errors.notFoundWords, ' ');
+                }
+            }
             next(err);
         }
     }

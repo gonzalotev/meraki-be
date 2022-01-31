@@ -82,6 +82,22 @@ module.exports = {
                         }
                     }
                 },
+                409: {
+                    description: 'Not found words',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    wordsNotFound: {
+                                        type: 'array',
+                                        items: {type: 'string'}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
