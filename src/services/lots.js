@@ -120,6 +120,54 @@ class LotsService {
         return true;
     }
 
+    static async getTotalAccumulatedUniqueWordsPhrasesTime(lotId) {
+        /* eslint-disable */ 
+        const result = await knex.raw(`
+            SELECT 
+                TO_CHAR(TRUNC(segundos/3600),'FM9900') || 'hs:' ||
+                TO_CHAR(TRUNC(MOD(segundos,3600)/60),'FM00') || 'min:' ||
+                TO_CHAR(MOD(segundos,60),'FM00') || 'seg' suma_total_palabras_frases_unicas
+            FROM (
+                select horas*3600+minutos*60+segundos segundos
+                from (
+                    select
+                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_palabras_frases_unicas, '\\d+hs'), '\\d+')), 0) horas,
+                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_palabras_frases_unicas, '\\d+min'), '\\d+')), 0) minutos,
+                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_palabras_frases_unicas, '\\d+seg'), '\\d+')), 0) segundos
+                    from lotes_variables
+                    where id_lote=?
+                )
+            )
+        `, [lotId]);
+        const totalAccumulatedUniqueWordsPhrasesTime = head(result).SUMA_TOTAL_PALABRAS_FRASES_UNICAS;
+        return totalAccumulatedUniqueWordsPhrasesTime;
+    }
+    static async runUniqueWordsPhrasesProcess(lotOperative, userCreator) {
+        // const oracle = new Oracle();
+        const { operativeId, lotId, variableId } = {
+            operativeId: lotOperative.operativeId,
+            lotId: lotOperative.lotId,
+            variableId: lotOperative.variableId,
+            userId: userCreator
+        };
+        const transaction = await knex.transaction();
+
+        await transaction.raw(`begin
+            LIN_NORMALIZADO_ESTANDAR(?, ?, ?);
+        end;`, [operativeId, lotId, variableId]);
+
+        await transaction.raw(`begin
+        LIN_CORRECTOR_PALABRAS(?, ?, ?);
+        end;`, [operativeId, lotId, variableId]);
+
+        await transaction.raw(`begin
+        LIN_CORRER_PASOS_LINGUISTICOS(?, ?, ?);
+        end;`, [operativeId, lotId, variableId]);
+
+        await transaction.commit();
+        return true;
+    }
+
     static async getTotal(query){
         if(!query) {
             const { total } = await lots.countDocuments({FECHA_BAJA: null});

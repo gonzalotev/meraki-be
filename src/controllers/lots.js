@@ -146,6 +146,23 @@ class LotsController {
             next(error);
         }
     }
+
+    static async runUniqueWordsPhrasesProcess(req, res, next){
+        try{
+            const { lotId, operativeId, variableId } = req.body.lot;
+            const plSqlresponse = await LotsService.runUniqueWordsPhrasesProcess(
+                { lotId, operativeId, variableId },
+                req.user.id
+            );
+            if (plSqlresponse) {
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(400);
+            }
+        }catch(error){
+            next(error);
+        }
+    }
 }
 
 module.exports = LotsController;
