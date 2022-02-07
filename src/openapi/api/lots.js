@@ -437,39 +437,5 @@ module.exports = {
                 }
             }
         }
-    },
-    '/api/uniqueWordsAndPhrases/getLotsVariables': {
-        post: {
-            security: [{bearerAuth: []}],
-            tags: ['Lots'],
-            requestBody: {
-                description: 'The new lot to create',
-                required: true,
-                content: {
-                    'application/json': {
-                        schema: {
-                            type: 'object',
-                            properties: {
-                                lot: {
-                                    type: 'object',
-                                    properties: {
-                                        operativeId: {type: 'integer'},
-                                        lotId: {type: 'integer'},
-                                        variableId: {type: 'string'}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            responses: {
-                204: {description: 'The PLSql stored procedure was finished successfully.'},
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
     }
 };
