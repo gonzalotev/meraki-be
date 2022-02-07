@@ -7,7 +7,7 @@ const isDate = require('lodash/isDate');
 class WordsDictionaryService {
     static async fetch({ page, search }) {
         const orderBy = [{ column: 'PALABRA', order: 'asc' }];
-        const filterBy = { FECHA_BAJA: null };
+        const filterBy = {};
         const columnsToSelect = wordsDictionary.selectableProps;
         let words = [];
         if (page && search) {
@@ -47,8 +47,6 @@ class WordsDictionaryService {
             hash: words.HASH,
             createdAt: dateToString(words.FECHA_ALTA),
             userCreator: words.ID_USUARIO_ALTA,
-            userDeleted: words.ID_USUARIO_BAJA,
-            deletedAt: dateToString(words.FECHA_BAJA),
             genderId: words.ID_GENERO_NUMERO,
             numberId: words.ID_NUMERO,
             frequency: words.FRECUENCIA,
@@ -77,8 +75,6 @@ class WordsDictionaryService {
             HASH: params.hash,
             FECHA_ALTA: new Date(),
             ID_USUARIO_ALTA: 1 || userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             ID_GENERO_NUMERO: params.genderId,
             ID_NUMERO: params.numberId,
             FRECUENCIA: params.frequency,
@@ -112,8 +108,6 @@ class WordsDictionaryService {
             hash: word.HASH,
             createdAt: dateToString(word.FECHA_ALTA),
             userCreator: word.ID_USUARIO_ALTA,
-            userDeleted: word.ID_USUARIO_BAJA,
-            deletedAt: dateToString(word.FECHA_BAJA),
             genderId: word.ID_GENERO_NUMERO,
             numberId: word.ID_NUMERO,
             frequency: word.FRECUENCIA,
@@ -123,7 +117,7 @@ class WordsDictionaryService {
     }
 
     static async findMatching(filters) {
-        const formattedFilters = { PALABRA: filters.word, FECHA_BAJA: null };
+        const formattedFilters = { PALABRA: filters.word };
         const matchWords = await wordsDictionary.findByMatch(formattedFilters);
         return matchWords.map(words => ({
             word: words.PALABRA,
@@ -144,8 +138,6 @@ class WordsDictionaryService {
             hash: words.HASH,
             createdAt: dateToString(words.FECHA_ALTA),
             userCreator: words.ID_USUARIO_ALTA,
-            userDeleted: words.ID_USUARIO_BAJA,
-            deletedAt: dateToString(words.FECHA_BAJA),
             genderId: words.ID_GENERO_NUMERO,
             numberId: words.ID_NUMERO,
             frequency: words.FRECUENCIA,
@@ -194,7 +186,7 @@ class WordsDictionaryService {
     }
 
     static async getTotal({ search }) {
-        const { total } = await wordsDictionary.countTotal({ FECHA_BAJA: null }, search, ['PALABRA']);
+        const { total } = await wordsDictionary.countTotal({}, search, ['PALABRA']);
         return total;
     }
 
@@ -202,7 +194,6 @@ class WordsDictionaryService {
         return new Promise((resolve, reject) => {
             const stream = wordsDictionary.knex.select(columns)
                 .from(wordsDictionary.tableName)
-                .where({ FECHA_BAJA: null })
                 .stream();
             stream.on('error', function (err) {
                 reject(err);
