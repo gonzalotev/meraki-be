@@ -1,8 +1,34 @@
 const knex = include('helpers/database');
+const { dateTimeToString } = include('util');
+const map = require('lodash/map');
 
 class UniqueWordsAndPhrases {
     static async getLotsVariables() {
-        return await Promise.resolve([{saludo: 'hola mundo'}]);
+        const lotsVariables = await knex.select({
+            operativeId: 'LOTES_VARIABLES.ID_OPERATIVO',
+            operativeDescription: 'OPERATIVOS.DESCRIPCION',
+            sourceId: 'FUENTES_OPERATIVO.ID_FUENTE',
+            sourceInitials: 'FUENTES_OPERATIVO.SIGLA',
+            lotId: 'LOTES_VARIABLES.ID_LOTE',
+            lotDescription: 'LOTES.DESCRIPCION',
+            variableId: 'LOTES_VARIABLES.ID_VARIABLE',
+            variableName: 'VARIABLES_ESTADISTICAS.NOMBRE',
+            linguisticEndDate: 'LOTES_VARIABLES.FECHA_FIN_LINGUISTICO',
+            observation: 'LOTES_VARIABLES.OBSERVACION',
+            uniquePhrasesRecords: 'LOTES_VARIABLES.REGISTROS_FRASES_UNICAS',
+            uniqueWordsRecords: 'LOTES_VARIABLES.REGISTROS_PALABRAS_UNICAS',
+            processTotalTime: 'LOTES_VARIABLES.TIEMPO_TOTAL_FRASES_UNICAS'
+        })
+            .from('LOTES_VARIABLES')
+            .innerJoin('OPERATIVOS', 'LOTES_VARIABLES.ID_OPERATIVO', 'OPERATIVOS.ID_OPERATIVO')
+            .innerJoin('FUENTES_OPERATIVO', 'FUENTES_OPERATIVO.ID_FUENTE', 'OPERATIVOS.ID_FUENTE')
+            .innerJoin('LOTES', 'LOTES.ID_LOTE', 'LOTES_VARIABLES.ID_LOTE')
+            .innerJoin('VARIABLES_ESTADISTICAS', 'VARIABLES_ESTADISTICAS.ID_VARIABLE', 'LOTES_VARIABLES.ID_VARIABLE');
+
+        return map(lotsVariables, lotVariable => ({
+            ...lotVariable,
+            linguisticEndDate: dateTimeToString(lotVariable.linguisticEndDate)
+        }));
     }
 
     static async runProcess({ operativeId, lotId, variableId }) {
@@ -17,29 +43,6 @@ class UniqueWordsAndPhrases {
 
         await transaction.commit();
         return true;
-    }
-
-    static async getTotalAccumulatedUniqueWordsPhrasesTime(lotId) {
-        /* eslint-disable */ 
-        const result = await knex.raw(`
-            SELECT 
-                TO_CHAR(TRUNC(segundos/3600),'FM9900') || 'hs:' ||
-                TO_CHAR(TRUNC(MOD(segundos,3600)/60),'FM00') || 'min:' ||
-                TO_CHAR(MOD(segundos,60),'FM00') || 'seg' suma_total_palabras_frases_unicas
-            FROM (
-                select horas*3600+minutos*60+segundos segundos
-                from (
-                    select
-                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_palabras_frases_unicas, '\\d+hs'), '\\d+')), 0) horas,
-                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_palabras_frases_unicas, '\\d+min'), '\\d+')), 0) minutos,
-                        COALESCE(SUM(REGEXP_SUBSTR(REGEXP_SUBSTR(tiempo_total_palabras_frases_unicas, '\\d+seg'), '\\d+')), 0) segundos
-                    from lotes_variables
-                    where id_lote=?
-                )
-            )
-        `, [lotId]);
-        const totalAccumulatedUniqueWordsPhrasesTime = head(result).SUMA_TOTAL_PALABRAS_FRASES_UNICAS;
-        return totalAccumulatedUniqueWordsPhrasesTime;
     }
 }
 
