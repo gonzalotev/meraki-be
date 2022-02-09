@@ -48,6 +48,7 @@ const nomenclatures = require('./nomenclatures');
 const microprocessesStepsOptions = require('./microprocessesStepsOption');
 const microprocessesWords = require('./microprocessesWords');
 const microprocessSteps = require('./microprocessSteps');
+const uniqueWordsAndPhrases = require('./uniqueWordsAndPhrases');
 
 module.exports = {
     ...assignments,
@@ -99,5 +100,6 @@ module.exports = {
     ...documents,
     ...microprocessesStepsOptions,
     ...microprocessesWords,
-    ...microprocessSteps
+    ...microprocessSteps,
+    ...uniqueWordsAndPhrases
 };

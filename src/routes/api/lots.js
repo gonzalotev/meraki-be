@@ -11,7 +11,6 @@ module.exports = router => {
         .get(LotsController.fetch)
         .post(LotsController.validateFile, LotsController.create, LotsController.saveLotFile);
     router.route('/runLinguisticProcess').post(LotsController.runLinguisticProcess);
-    router.route('/getLotsVariables/:lotId').get(LotsController.getLotsVariables);
     router.route('/loadData').post(async function(req, res, next){
         let inserts = [];
         const batches = [];

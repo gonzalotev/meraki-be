@@ -14,7 +14,6 @@ class WordCorrector extends ModelCreate {
         });
     }
     fetchByPageAndTerm(page, valueToSearch) {
-        console.log(valueToSearch);
         return this.knex.select(this.selectableProps)
             .from(this.tableName)
             .where('CORRECTA', 'like', `${valueToSearch}%`)
