@@ -3,7 +3,7 @@ const { dateTimeToString } = include('util');
 const map = require('lodash/map');
 
 class UniqueWordsAndPhrases {
-    static async getLotsVariables() {
+    static async getLotsVariables(filters) {
         const lotsVariables = await knex.select({
             operativeId: 'LOTES_VARIABLES.ID_OPERATIVO',
             operativeDescription: 'OPERATIVOS.DESCRIPCION',
@@ -23,8 +23,14 @@ class UniqueWordsAndPhrases {
             .innerJoin('OPERATIVOS', 'LOTES_VARIABLES.ID_OPERATIVO', 'OPERATIVOS.ID_OPERATIVO')
             .innerJoin('FUENTES_OPERATIVO', 'FUENTES_OPERATIVO.ID_FUENTE', 'OPERATIVOS.ID_FUENTE')
             .innerJoin('LOTES', 'LOTES.ID_LOTE', 'LOTES_VARIABLES.ID_LOTE')
-            .innerJoin('VARIABLES_ESTADISTICAS', 'VARIABLES_ESTADISTICAS.ID_VARIABLE', 'LOTES_VARIABLES.ID_VARIABLE');
-
+            .innerJoin('VARIABLES_ESTADISTICAS', 'VARIABLES_ESTADISTICAS.ID_VARIABLE', 'LOTES_VARIABLES.ID_VARIABLE')
+            .whereNotNull('FECHA_FIN_LINGUISTICO')
+            .andWhere(function(queryBuilder) {
+                if (filters) {
+                    queryBuilder.where('LOTES_VARIABLES.ID_LOTE', filters.lotId);
+                }
+            })
+            .orderBy([{column: 'operativeId', order: 'asc'}, {column: 'lotId', order: 'asc'}]);
         return map(lotsVariables, lotVariable => ({
             ...lotVariable,
             linguisticEndDate: dateTimeToString(lotVariable.linguisticEndDate)

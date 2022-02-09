@@ -1,9 +1,10 @@
 const { UniqueWordsAndPhrasesService } = include('services');
-
+const { decodeQuery } = include('util');
 class UniqueWordsAndPhrasesController {
     static async getLotsVariables(req, res, next){
         try{
-            const lotsVariables = await UniqueWordsAndPhrasesService.getLotsVariables();
+            const query = decodeQuery(req.query);
+            const lotsVariables = await UniqueWordsAndPhrasesService.getLotsVariables(query);
             res.send({lotsVariables});
         } catch(error){
             next(error);

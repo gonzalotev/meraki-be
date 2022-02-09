@@ -4,6 +4,14 @@ module.exports = {
             security: [{bearerAuth: []}],
             tags: ['UniqueWordsAndPhrases'],
             description: 'Get the lots variables that are  ready to run unique words and phrases process',
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'lotId',
+                    required: false,
+                    schema: {type: 'integer'}
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
