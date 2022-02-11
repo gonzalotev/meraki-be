@@ -96,14 +96,17 @@ class LotsService {
 
     static async runLinguisticProcess(lotOperative, userCreator) {
         // const oracle = new Oracle();
-        const { operativeId, lotId, variableId } = {
+        const { operativeId, lotId, variableId, userId } = {
             operativeId: lotOperative.operativeId,
             lotId: lotOperative.lotId,
             variableId: lotOperative.variableId,
             userId: userCreator
         };
         const transaction = await knex.transaction();
-
+        await transaction.raw(`begin
+            LIN_DATOS_ENTRADA_A_PROCESAMIENTOS(?, ?, ?);
+        end;`, [operativeId, lotId, userId]);
+        
         await transaction.raw(`begin
             LIN_NORMALIZADO_ESTANDAR(?, ?, ?);
         end;`, [operativeId, lotId, variableId]);
