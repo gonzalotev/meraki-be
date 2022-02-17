@@ -7,7 +7,7 @@ const toUpper = require('lodash/toUpper');
 
 class SpecialPhraseTypeService {
     static async fetch() {
-        const specialPhrasesTypes = await specialPhraseTypeModel.find({FECHA_BAJA: null});
+        const specialPhrasesTypes = await specialPhraseTypeModel.find();
         return specialPhrasesTypes.map(specialPhraseType => ({
             id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
             description: specialPhraseType.DESCRIPCION,
@@ -15,9 +15,7 @@ class SpecialPhraseTypeService {
             domain: specialPhraseType.DOMINIO,
             approved: !!specialPhraseType.SUPERVISADO,
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
+            userCreator: specialPhraseType.ID_USUARIO_ALTA
         }));
 
     }
@@ -30,8 +28,6 @@ class SpecialPhraseTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const specialPhraseTypeId = await specialPhraseTypeModel.insertOne(formattedSpecialPhraseType, ['ID_TIPO_FRASE_ESPECIAL']);
@@ -48,9 +44,7 @@ class SpecialPhraseTypeService {
             domain: specialPhraseType.DOMINIO,
             approved: !!specialPhraseType.SUPERVISADO,
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
-            userCreator: specialPhraseType.ID_USUARIO_ALTA,
-            userDeleted: specialPhraseType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(specialPhraseType.FECHA_BAJA)
+            userCreator: specialPhraseType.ID_USUARIO_ALTA
         };
     }
 
@@ -62,8 +56,6 @@ class SpecialPhraseTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const specialPhraseTypeId = await specialPhraseTypeModel.updateOne({ID_TIPO_FRASE_ESPECIAL: filters.id},
@@ -72,20 +64,22 @@ class SpecialPhraseTypeService {
         return specialPhraseType;
     }
 
-    static async delete(filters, userDeleted){
+    static async delete(filters){
         const formattedFilters = {ID_TIPO_FRASE_ESPECIAL: filters.id};
-        const success = await specialPhraseTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+        const success = await specialPhraseTypeModel.delete(formattedFilters);
         return !!success;
+    }
+
+    static async getTotal({search}){
+        const { total } = await specialPhraseTypeModel.countTotal({}, search, ['DESCRIPCION']);
+        return total;
     }
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = specialPhraseTypeModel.knex.select(columns)
                 .from(specialPhraseTypeModel.tableName)
-                .where({FECHA_BAJA: null})
+                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
