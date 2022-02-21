@@ -64,10 +64,8 @@ class SpecialPhraseTypeService {
         return specialPhraseType;
     }
 
-    static async delete(filters){
-        const formattedFilters = {ID_TIPO_FRASE_ESPECIAL: filters.id};
-        const success = await specialPhraseTypeModel.delete(formattedFilters);
-        return !!success;
+    static delete(specialPhraseTypeId){
+        return specialPhraseTypeModel.deleteOne({ID_TIPO_FRASE_ESPECIAL: specialPhraseTypeId});
     }
 
     static async getTotal({search}){
