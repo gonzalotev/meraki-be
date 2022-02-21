@@ -43,12 +43,8 @@ class SpecialPhraseTypeController {
 
     static async delete(req, res, next) {
         try {
-            const success = await SpecialPhraseTypeService.delete(req.params, req.user.id);
-            if (success) {
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(400);
-            }
+            const success = await SpecialPhraseTypeService.delete(req.params.id);
+            res.send({success: !!success});
         } catch (err) {
             next(err);
         }
