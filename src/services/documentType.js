@@ -9,7 +9,7 @@ const isEmpty = require('lodash/isEmpty');
 
 class DocumentTypeService {
     static async fetch() {
-        const documentsTypes = await documentTypeModel.find({ FECHA_BAJA: null });
+        const documentsTypes = await documentTypeModel.find();
         return documentsTypes.map(documentType => ({
             id: documentType.ID_TIPO_DOCUMENTO,
             description: documentType.DESCRIPCION,
@@ -17,9 +17,7 @@ class DocumentTypeService {
             domain: documentType.DOMINIO,
             approved: documentType.SUPERVISADO,
             createdAt: dateToString(documentType.FECHA_ALTA),
-            userCreator: documentType.ID_USUARIO_ALTA,
-            userDeleted: documentType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(documentType.FECHA_BAJA)
+            userCreator: documentType.ID_USUARIO_ALTA
         }));
     }
 
@@ -31,8 +29,6 @@ class DocumentTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const documentTypeId = await documentTypeModel.insertOne(formattedDocumentType, ['ID_TIPO_DOCUMENTO']);
@@ -49,9 +45,7 @@ class DocumentTypeService {
             domain: documentType.DOMINIO,
             approved: documentType.SUPERVISADO,
             createdAt: dateToString(documentType.FECHA_ALTA),
-            userCreator: documentType.ID_USUARIO_ALTA,
-            userDeleted: documentType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(documentType.FECHA_BAJA)
+            userCreator: documentType.ID_USUARIO_ALTA
         };
     }
 
@@ -63,8 +57,6 @@ class DocumentTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const documentTypeId = await documentTypeModel.updateOne({ ID_TIPO_DOCUMENTO: filters.id },
@@ -73,13 +65,8 @@ class DocumentTypeService {
         return documentType;
     }
 
-    static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_TIPO_DOCUMENTO: filters.id };
-        const success = await documentTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return !!success;
+    static delete(documentTypeId) {
+        return documentTypeModel.deleteOne({ID_TIPO_DOCUMENTO: documentTypeId});
     }
 
     static async getDocumentTypeData(resources) {
@@ -130,7 +117,7 @@ class DocumentTypeService {
         return new Promise((resolve, reject) => {
             const stream = documentTypeModel.knex.select(columns)
                 .from(documentTypeModel.tableName)
-                .where({ FECHA_BAJA: null })
+                .where()
                 .stream();
             stream.on('error', function (err) {
                 reject(err);
