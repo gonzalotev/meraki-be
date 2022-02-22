@@ -11,7 +11,6 @@ class TicketTypeService {
     static async fetch(query) {
         const ticketsTypes = await ticketTypeModel.findByPage(
             query.page,
-            { FECHA_BAJA: null },
             ticketTypeModel.selectableProps,
             [{ column: 'ID_TIPO_CHAT', order: 'asc' }]
         );
@@ -22,9 +21,7 @@ class TicketTypeService {
             domain: ticketType.DOMINIO,
             approved: ticketType.SUPERVISADO,
             createdAt: dateToString(ticketType.FECHA_ALTA),
-            userCreator: ticketType.ID_USUARIO_ALTA,
-            userDeleted: ticketType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(ticketType.FECHA_BAJA)
+            userCreator: ticketType.ID_USUARIO_ALTA
         }));
     }
     static async getTotal(filters) {
@@ -40,8 +37,6 @@ class TicketTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const ticketTypeId = await ticketTypeModel.insertOne(formattedTicketType, ['ID_TIPO_CHAT']);
@@ -61,9 +56,7 @@ class TicketTypeService {
             domain: ticketType.DOMINIO,
             approved: ticketType.SUPERVISADO,
             createdAt: dateToString(ticketType.FECHA_ALTA),
-            userCreator: ticketType.ID_USUARIO_ALTA,
-            userDeleted: ticketType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(ticketType.FECHA_BAJA)
+            userCreator: ticketType.ID_USUARIO_ALTA
         };
     }
 
@@ -75,8 +68,6 @@ class TicketTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const ticketTypeId = await ticketTypeModel.updateOne({ ID_TIPO_CHAT: filters.id },
@@ -85,13 +76,8 @@ class TicketTypeService {
         return ticketType;
     }
 
-    static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_TIPO_CHAT: filters.id };
-        const success = await ticketTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return !!success;
+    static delete(ticketTypeId) {
+        return ticketTypeModel.deleteOne({ID_TIPO_CHAT: ticketTypeId});
     }
 
     static async getTicketTypeData(resources){
@@ -115,7 +101,7 @@ class TicketTypeService {
         return new Promise((resolve, reject) => {
             const stream = ticketTypeModel.knex.select(columns)
                 .from(ticketTypeModel.tableName)
-                .where({FECHA_BAJA: null})
+                .where()
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

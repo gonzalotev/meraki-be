@@ -43,9 +43,9 @@ class DocumentTypeController {
 
     static async delete(req, res, next) {
         try {
-            const success = await DocumentTypeService.delete(req.params, req.user.id);
+            const success = await DocumentTypeService.delete(req.params.id);
             if (success) {
-                res.sendStatus(204);
+                res.sendStatus(200);
             } else {
                 res.sendStatus(400);
             }
