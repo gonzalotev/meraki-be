@@ -6,7 +6,7 @@ const isDate = require('lodash/isDate');
 
 class OrganizationTypeService {
     static async fetch() {
-        const organizationsTypes = await organizationTypeModel.find({FECHA_BAJA: null});
+        const organizationsTypes = await organizationTypeModel.find();
         return organizationsTypes.map(organizationType => ({
             id: organizationType.ID_TIPO_ORGANIZACION,
             abbreviation: organizationType.ABREVIATURA,
@@ -15,9 +15,7 @@ class OrganizationTypeService {
             domain: organizationType.DOMINIO,
             approved: organizationType.SUPERVISADO,
             createdAt: dateToString(organizationType.FECHA_ALTA),
-            userCreator: organizationType.ID_USUARIO_ALTA,
-            userDeleted: organizationType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(organizationType.FECHA_BAJA)
+            userCreator: organizationType.ID_USUARIO_ALTA
         }));
     }
 
@@ -30,8 +28,6 @@ class OrganizationTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const returnData = ['ID_TIPO_ORGANIZACION'];
@@ -49,9 +45,7 @@ class OrganizationTypeService {
             domain: organizationType.DOMINIO,
             approved: !!organizationType.SUPERVISADO,
             createdAt: dateToString(organizationType.FECHA_ALTA),
-            userCreator: organizationType.ID_USUARIO_ALTA,
-            userDeleted: organizationType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(organizationType.FECHA_BAJA)
+            userCreator: organizationType.ID_USUARIO_ALTA
         };
     }
 
@@ -64,8 +58,6 @@ class OrganizationTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const returnData = ['ID_TIPO_ORGANIZACION'];
@@ -77,20 +69,15 @@ class OrganizationTypeService {
         return await OrganizationTypeService.findOne({id});
     }
 
-    static async delete(filters, userDeleted){
-        const formattedFilters = {ID_TIPO_ORGANIZACION: filters.id};
-        const success = await organizationTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return !!success;
+    static delete(organizationTypeId){
+        return organizationTypeModel.deleteOne({ID_TIPO_ORGANIZACION: organizationTypeId});
     }
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = organizationTypeModel.knex.select(columns)
                 .from(organizationTypeModel.tableName)
-                .where({FECHA_BAJA: null})
+                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
