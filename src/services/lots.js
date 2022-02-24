@@ -119,6 +119,10 @@ class LotsService {
         LIN_CORRER_PASOS_LINGUISTICOS(?, ?, ?);
         end;`, [operativeId, lotId, variableId]);
 
+        await transaction.raw(`begin
+        LIN_IDENTIFICAR_RESPUESTA_VACIO(?, ?, ?);
+        end;`, [operativeId, lotId, variableId]);
+
         await transaction.commit();
         return true;
     }

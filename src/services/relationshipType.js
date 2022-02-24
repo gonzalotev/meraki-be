@@ -7,7 +7,7 @@ const toUpper = require('lodash/toUpper');
 
 class RelationshipTypeService {
     static async fetch() {
-        const relationshipsTypes = await relationshipTypeModel.find({ FECHA_BAJA: null });
+        const relationshipsTypes = await relationshipTypeModel.find();
         return relationshipsTypes.map(relationshipType => ({
             id: relationshipType.ID_TIPO_RELACION,
             description: relationshipType.DESCRIPCION,
@@ -15,9 +15,7 @@ class RelationshipTypeService {
             domain: relationshipType.DOMINIO,
             approved: !!relationshipType.SUPERVISADO,
             createdAt: dateToString(relationshipType.FECHA_ALTA),
-            userCreator: relationshipType.ID_USUARIO_ALTA,
-            userDeleted: relationshipType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipType.FECHA_BAJA)
+            userCreator: relationshipType.ID_USUARIO_ALTA
         }));
     }
 
@@ -29,8 +27,6 @@ class RelationshipTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const relationshipTypeId = await relationshipTypeModel.insertOne(formattedRelationshipType, ['ID_TIPO_RELACION']);
@@ -48,9 +44,7 @@ class RelationshipTypeService {
             domain: relationshipType.DOMINIO,
             approved: !!relationshipType.SUPERVISADO,
             createdAt: dateToString(relationshipType.FECHA_ALTA),
-            userCreator: relationshipType.ID_USUARIO_ALTA,
-            userDeleted: relationshipType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(relationshipType.FECHA_BAJA)
+            userCreator: relationshipType.ID_USUARIO_ALTA
         };
     }
 
@@ -62,8 +56,6 @@ class RelationshipTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const relationshipTypeId = await relationshipTypeModel.updateOne({ ID_TIPO_RELACION: filters.id },
@@ -72,20 +64,15 @@ class RelationshipTypeService {
         return relationshipType;
     }
 
-    static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_TIPO_RELACION: filters.id };
-        const success = await relationshipTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return !!success;
+    static delete(relationshipTypeId) {
+        return relationshipTypeModel.deleteOne({ID_TIPO_RELACION: relationshipTypeId});
     }
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = relationshipTypeModel.knex.select(columns)
                 .from(relationshipTypeModel.tableName)
-                .where({ FECHA_BAJA: null })
+                .where({})
                 .stream();
             stream.on('error', function (err) {
                 reject(err);

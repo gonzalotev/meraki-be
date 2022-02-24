@@ -7,7 +7,7 @@ const toUpper = require('lodash/toUpper');
 
 class NetworkTypeService {
     static async fetch() {
-        const networksTypes = await networkTypeModel.find({ FECHA_BAJA: null });
+        const networksTypes = await networkTypeModel.find();
         return networksTypes.map(networkType => ({
             id: networkType.ID_TIPO_RED,
             description: networkType.DESCRIPCION,
@@ -15,9 +15,7 @@ class NetworkTypeService {
             domain: networkType.DOMINIO,
             approved: !!networkType.SUPERVISADO,
             createdAt: dateToString(networkType.FECHA_ALTA),
-            userCreator: networkType.ID_USUARIO_ALTA,
-            userDeleted: networkType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(networkType.FECHA_BAJA)
+            userCreator: networkType.ID_USUARIO_ALTA
         }));
     }
 
@@ -29,8 +27,6 @@ class NetworkTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: !!params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const networkTypeId = await networkTypeModel.insertOne(formattedNetworkType, ['ID_TIPO_RED']);
@@ -47,9 +43,7 @@ class NetworkTypeService {
             domain: networkType.DOMINIO,
             approved: !!networkType.SUPERVISADO,
             createdAt: dateToString(networkType.FECHA_ALTA),
-            userCreator: networkType.ID_USUARIO_ALTA,
-            userDeleted: networkType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(networkType.FECHA_BAJA)
+            userCreator: networkType.ID_USUARIO_ALTA
         };
     }
 
@@ -61,8 +55,6 @@ class NetworkTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: !!params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const networkTypeId = await networkTypeModel.updateOne({ ID_TIPO_RED: filters.id },
@@ -71,20 +63,16 @@ class NetworkTypeService {
         return networkType;
     }
 
-    static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_TIPO_RED: filters.id };
-        const success = await networkTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return !!success;
+    static delete(networkTypeId) {
+        return networkTypeModel.deleteOne({ID_TIPO_RED: networkTypeId});
+
     }
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = networkTypeModel.knex.select(columns)
                 .from(networkTypeModel.tableName)
-                .where({ FECHA_BAJA: null })
+                .where()
                 .stream();
             stream.on('error', function (err) {
                 reject(err);

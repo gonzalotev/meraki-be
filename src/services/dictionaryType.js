@@ -8,7 +8,7 @@ const find = require('lodash/find');
 
 class DictionaryTypeService {
     static async fetch() {
-        const dictionarysTypes = await dictionaryTypeModel.find({ FECHA_BAJA: null });
+        const dictionarysTypes = await dictionaryTypeModel.find();
         return dictionarysTypes.map(dictionaryType => ({
             id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
             description: dictionaryType.DESCRIPCION,
@@ -21,14 +21,12 @@ class DictionaryTypeService {
             domain: dictionaryType.DOMINIO,
             approved: !!dictionaryType.SUPERVISADO,
             createdAt: dateToString(dictionaryType.FECHA_ALTA),
-            userCreator: dictionaryType.ID_USUARIO_ALTA,
-            userDeleted: dictionaryType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
+            userCreator: dictionaryType.ID_USUARIO_ALTA
         }));
     }
     static async shortFetch(data) {
         const dictionarysTypes = await dictionaryTypeModel.find(
-            { SUPERVISADO: true, FECHA_BAJA: null },
+            { SUPERVISADO: true},
             ['ID_TIPOLOGIA_DE_DICCIONARIO', 'DESCRIPCION'],
             [{ column: 'DESCRIPCION', order: 'asc' }]
         );
@@ -51,8 +49,6 @@ class DictionaryTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const dictionaryTypeId = await dictionaryTypeModel.insertOne(formattedDictionaryType, ['ID_TIPOLOGIA_DE_DICCIONARIO']);
@@ -74,9 +70,7 @@ class DictionaryTypeService {
             domain: dictionaryType.DOMINIO,
             approved: !!dictionaryType.SUPERVISADO,
             createdAt: dateToString(dictionaryType.FECHA_ALTA),
-            userCreator: dictionaryType.ID_USUARIO_ALTA,
-            userDeleted: dictionaryType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(dictionaryType.FECHA_BAJA)
+            userCreator: dictionaryType.ID_USUARIO_ALTA
         };
     }
 
@@ -93,8 +87,6 @@ class DictionaryTypeService {
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
 
@@ -104,13 +96,9 @@ class DictionaryTypeService {
         return dictionaryType;
     }
 
-    static async delete(filters, userDeleted) {
-        const formattedFilters = { ID_TIPOLOGIA_DE_DICCIONARIO: filters.id };
-        const success = await dictionaryTypeModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return !!success;
+    static delete(dictionaryTypeId) {
+        return dictionaryTypeModel.deleteOne({ID_TIPOLOGIA_DE_DICCIONARIO: dictionaryTypeId});
+
     }
     static async includeDictionariesTypes(resourceArray) {
         const dictionariesTypesIds = uniq(map(resourceArray, resource => resource.dictionaryTypeId));
@@ -146,7 +134,7 @@ class DictionaryTypeService {
         return new Promise((resolve, reject) => {
             const stream = dictionaryTypeModel.knex.select(columns)
                 .from(dictionaryTypeModel.tableName)
-                .where({ FECHA_BAJA: null })
+                .where()
                 .stream();
             stream.on('error', function (err) {
                 reject(err);

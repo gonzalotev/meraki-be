@@ -6,7 +6,7 @@ const isDate = require('lodash/isDate');
 
 class NomenclatorTypesService {
     static async fetchStaticNomenclatorTypes() {
-        const nomenclatorTypeGet = await nomenclatorTypes.find({FECHA_BAJA: null});
+        const nomenclatorTypeGet = await nomenclatorTypes.find();
         return nomenclatorTypeGet.map(nomenclatorType => ({
             id: nomenclatorType.ID_TIPO,
             description: nomenclatorType.DESCRIPCION,
@@ -14,9 +14,7 @@ class NomenclatorTypesService {
             observation: nomenclatorType.OBSERVACION,
             domain: nomenclatorType.DOMINIO,
             createdAt: dateToString(nomenclatorType.FECHA_ALTA),
-            userCreator: nomenclatorType.ID_USUARIO_ALTA,
-            userDeleted: nomenclatorType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(nomenclatorType.FECHA_BAJA)
+            userCreator: nomenclatorType.ID_USUARIO_ALTA
         }));
     }
 
@@ -30,9 +28,7 @@ class NomenclatorTypesService {
             observation: nomenclatorType.OBSERVACION,
             domain: nomenclatorType.DOMINIO,
             createdAt: dateToString(nomenclatorType.FECHA_ALTA),
-            userCreator: nomenclatorType.ID_USUARIO_ALTA,
-            userDeleted: nomenclatorType.ID_USUARIO_BAJA,
-            deletedAt: dateToString(nomenclatorType.FECHA_BAJA)
+            userCreator: nomenclatorType.ID_USUARIO_ALTA
         };
     }
 
@@ -44,8 +40,6 @@ class NomenclatorTypesService {
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: userCreator,
-            FECHA_BAJA: null,
-            ID_USUARIO_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const nomenclatorTypeId = await nomenclatorTypes.insertOne(formattedNomenclatorType, ['ID_TIPO']);
@@ -62,8 +56,6 @@ class NomenclatorTypesService {
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt),
             FECHA_ALTA: stringToDate(params.createdAt)
         };
         const formattedFilters = {ID_TIPO: filters.id};
@@ -72,23 +64,15 @@ class NomenclatorTypesService {
         return nomenclatorType;
     }
 
-    static async deleteOne(filters, userDeleted){
-        const{
-            id: ID_TIPO
-        } = filters;
-        const id = {ID_TIPO};
-        const success = await nomenclatorTypes.deleteOne(id, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
-        return success;
+    static delete(nomenclatorTypesId){
+        return nomenclatorTypes.deleteOne({ID_TIPO: nomenclatorTypesId});
     }
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
             const stream = nomenclatorTypes.knex.select(columns)
                 .from(nomenclatorTypes.tableName)
-                .where({FECHA_BAJA: null})
+                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
