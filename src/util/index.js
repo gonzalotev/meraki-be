@@ -20,6 +20,8 @@ const decodeQuery = require('./decodeQuery');
 const excelFileManager = require('./excelFileManager');
 const dynamicQueryExecutor = require('./dynamicTableQueries');
 const isJsonString = require('./isJsonString');
+const stringDate = require('./stringDate');
+const dateString = require('./dateString');
 
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
@@ -114,5 +116,7 @@ module.exports = {
     excelFileManager,
     dynamicQueryExecutor,
     decodeQuery,
-    isJsonString
+    isJsonString,
+    stringDate,
+    dateString
 };

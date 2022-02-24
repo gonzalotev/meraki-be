@@ -11,9 +11,9 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    opertiveSources: {
+                                    operativesSources: {
                                         type: 'array',
-                                        items: {}
+                                        items: {$ref: '#/components/schemas/OperativeSources'}
                                     }
                                 }
                             }
@@ -37,22 +37,16 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'string'},
                                 name: {type: 'string'},
                                 initial: {type: 'string'},
-                                operativeTypeId: {type: 'string'},
-                                frequencyId: {type: 'string'},
-                                supportId: {type: 'string'},
+                                operativeTypeId: {type: 'number'},
+                                frequencyId: {type: 'number'},
+                                supportId: {type: 'number'},
                                 dateFrom: {type: 'string'},
                                 dateTo: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                supervised: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
-
+                                supervised: {type: 'boolean'}
                             }
                         }
                     }
@@ -66,27 +60,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    operativeSource: {
-                                        type: 'object',
-                                        properties: {
-                                            sourceId: {type: 'string'},
-                                            name: {type: 'string'},
-                                            initial: {type: 'string'},
-                                            operativeTypeId: {type: 'string'},
-                                            frequencyId: {type: 'string'},
-                                            supportId: {type: 'string'},
-                                            dateFrom: {type: 'string'},
-                                            dateTo: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    operativeSource: {$ref: '#/components/schemas/OperativeSources'}
                                 }
                             }
                         }
@@ -108,7 +82,7 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'number'},
                     description: 'Operative Source to update'
                 }
             ],
@@ -120,21 +94,16 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'string'},
                                 name: {type: 'string'},
                                 initial: {type: 'string'},
-                                operativeTypeId: {type: 'string'},
-                                frequencyId: {type: 'string'},
-                                supportId: {type: 'string'},
+                                operativeTypeId: {type: 'number'},
+                                frequencyId: {type: 'number'},
+                                supportId: {type: 'number'},
                                 dateFrom: {type: 'string'},
                                 dateTo: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
-                                supervised: {type: 'boolean'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                supervised: {type: 'boolean'}
                             }
                         }
                     }
@@ -148,27 +117,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    operativeSource: {
-                                        type: 'object',
-                                        properties: {
-                                            sourceId: {type: 'string'},
-                                            name: {type: 'string'},
-                                            initial: {type: 'string'},
-                                            operativeTypeId: {type: 'string'},
-                                            frequencyId: {type: 'string'},
-                                            supportId: {type: 'string'},
-                                            dateFrom: {type: 'string'},
-                                            dateTo: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    operativeSource: {$ref: '#/components/schemas/OperativeSources'}
                                 }
                             }
                         }
@@ -188,7 +137,7 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'number'},
                     description: 'Operative Source to delete'
                 }
             ],
@@ -211,7 +160,7 @@ module.exports = {
                     in: 'path',
                     name: 'sourceId',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'number'},
                     description: 'operative source to get'
                 }
             ],
@@ -223,26 +172,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    word: {
-                                        type: 'object',
-                                        properties: {
-                                            sourceId: {type: 'string'},
-                                            name: {type: 'string'},
-                                            initial: {type: 'string'},
-                                            operativeTypeId: {type: 'string'},
-                                            frequencyId: {type: 'string'},
-                                            supportId: {type: 'string'},
-                                            dateFrom: {type: 'string'},
-                                            dateTo: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    operativeSource: {$ref: '#/components/schemas/OperativeSources'}
                                 }
                             }
                         }
