@@ -332,9 +332,7 @@ const specialPhraseTypeAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
+    'FECHA_ALTA'
 ];
 
 const organizationTypeTableName = 'TIPOS_DE_ORGANIZACION';
@@ -479,7 +477,12 @@ const autoPhrasesAttrib = [
     'FECHA_RETROALIMENTACION',
     'ID_DEPENDE_ID_AUTOFRASE',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA'
+    'FECHA_ALTA',
+    'FRASE_ESPECIAL_O_GENERAL',
+    'ORDEN',
+    'ID_NOMENCLADOR_A_CODIFICAR',
+    'CANTIDAD_DE_NOMENCLATURAS',
+    'CANTIDAD_DE_AGRUPACIONES'
 ];
 const wordsDictionaryTableName = 'DICCIONARIO_DE_PALABRAS';
 const wordsDictionaryAttrib = [

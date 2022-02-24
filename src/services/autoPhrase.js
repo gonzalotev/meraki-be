@@ -35,7 +35,12 @@ class AutoPhraseService {
             dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
-            userCreator: autoPhrase.ID_USUARIO_ALTA
+            userCreator: autoPhrase.ID_USUARIO_ALTA,
+            specialOrGeneralPhrase: autoPhrase.FRASE_ESPECIAL_O_GENERAL,
+            orden: autoPhrase.ORDEN,
+            nomenclatorToEncodeId: autoPhrase.ID_NOMENCLADOR_A_CODIFICAR,
+            numberOfNomenclatures: autoPhrase.CANTIDAD_DE_NOMENCLATURAS,
+            numberOfAgrupations: autoPhrase.CANTIDAD_DE_AGRUPACIONES
         }));
 
         await StaticalVariableService.getVariableData(autosPhrases);
@@ -55,7 +60,12 @@ class AutoPhraseService {
             ID_DEPENDE_ID_AUTOFRASE: params.dependId,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            FRASE_ESPECIAL_O_GENERAL: params.specialOrGeneralPhrase,
+            ORDEN: params.orden,
+            ID_NOMENCLADOR_A_CODIFICAR: params.nomenclatorToEncodeId,
+            CANTIDAD_DE_NOMENCLATURAS: params.numberOfNomenclatures,
+            CANTIDAD_DE_AGRUPACIONES: params.numberOfAgrupations
         };
         const autoPhraseId = await autoPhraseModel.insertOne(formattedAutoPhrase, ['ID_AUTOFRASE']);
         const autoPhrase = await AutoPhraseService.findOne({ id: autoPhraseId });
@@ -77,7 +87,12 @@ class AutoPhraseService {
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
-            userCreator: autoPhrase.ID_USUARIO_ALTA
+            userCreator: autoPhrase.ID_USUARIO_ALTA,
+            specialOrGeneralPhrase: autoPhrase.FRASE_ESPECIAL_O_GENERAL,
+            orden: autoPhrase.ORDEN,
+            nomenclatorToEncodeId: autoPhrase.ID_NOMENCLADOR_A_CODIFICAR,
+            numberOfNomenclatures: autoPhrase.CANTIDAD_DE_NOMENCLATURAS,
+            numberOfAgrupations: autoPhrase.CANTIDAD_DE_AGRUPACIONES
         };
 
         await StaticalVariableService.getVariableData([autoPhrase]);
@@ -101,7 +116,12 @@ class AutoPhraseService {
             ID_DEPENDE_ID_AUTOFRASE: params.dependId,
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            FRASE_ESPECIAL_O_GENERAL: params.specialOrGeneralPhrase,
+            ORDEN: params.orden,
+            ID_NOMENCLADOR_A_CODIFICAR: params.nomenclatorToEncodeId,
+            CANTIDAD_DE_NOMENCLATURAS: params.numberOfNomenclatures,
+            CANTIDAD_DE_AGRUPACIONES: params.numberOfAgrupations
         };
         const autoPhraseId = await autoPhraseModel.updateOne({ ID_AUTOFRASE: filters.id },
             formattedAutoPhrase, ['ID_AUTOFRASE']);
@@ -177,16 +197,32 @@ class AutoPhraseService {
                 modified: 'FRASE FINAL'
             },
             {
+                original: 'ID_DEPENDE_ID_AUTOFRASE',
+                modified: 'AUTOFRASE DEPENDE DE'
+            },
+            {
+                original: 'FRASE_ESPECIAL_O_GENERAL',
+                modified: 'ES ESPECIAL O GENERAL'
+            },
+            {
+                original: 'ID_NOMENCLADOR_A_CODIFICAR',
+                modified: 'NOMENCLADOR'
+            },
+            {
+                original: 'CANTIDAD_DE_NOMENCLATURAS',
+                modified: 'CANTIDAD DE NOMENCLATURAS'
+            },
+            {
+                original: 'CANTIDAD_DE_AGRUPACIONES',
+                modified: 'CANTIDAD DE AGRUPACIONES'
+            },
+            {
                 original: 'OBSERVACION',
                 modified: 'OBSERVACIÓN'
             },
             {
                 original: 'DOMINIO',
                 modified: 'DOMINIO'
-            },
-            {
-                original: 'ID_DEPENDE_ID_AUTOFRASE',
-                modified: 'DEPENDE ID AUTOFRASE'
             },
             {
                 original: 'FECHA_RETROALIMENTACION',
