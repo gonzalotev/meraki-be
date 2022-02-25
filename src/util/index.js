@@ -22,6 +22,7 @@ const dynamicQueryExecutor = require('./dynamicTableQueries');
 const isJsonString = require('./isJsonString');
 const stringDate = require('./stringDate');
 const dateString = require('./dateString');
+const dateTimeString = require('./dateTimeString');
 
 const reducedList = (array, filterKey, keyData) => reduce(array, (objectsByKeyValue, obj) => {
     const value = join(values(pick(obj, filterKey)), '');
@@ -118,5 +119,6 @@ module.exports = {
     decodeQuery,
     isJsonString,
     stringDate,
-    dateString
+    dateString,
+    dateTimeString
 };

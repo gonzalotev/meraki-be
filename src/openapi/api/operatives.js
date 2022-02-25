@@ -22,10 +22,11 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    words: {
+                                    operatives: {
                                         type: 'array',
                                         items: {$ref: '#/components/schemas/Operatives'}
-                                    }
+                                    },
+                                    total: {type: 'number'}
                                 }
                             }
                         }
@@ -48,27 +49,13 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'string'},
-                                operativeId: {type: 'string'},
+                                sourceId: {type: 'number'},
                                 arrivalDate: {type: 'string'},
-                                codingEndDate: {type: 'string'},
-                                codingStartDate: {type: 'string'},
-                                deletedEndDate: {type: 'string'},
-                                deletedStartDate: {type: 'string'},
-                                deliveryStartDate: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 mailContact: {type: 'string'},
                                 operatingContact: {type: 'string'},
-                                operatingErrorLevel: {type: 'string'},
-                                qualityOperational: {type: 'string'},
-                                totalRecords: {type: 'string'},
-                                domain: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
-
+                                domain: {type: 'string'}
                             }
                         }
                     }
@@ -82,32 +69,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    operative: {
-                                        type: 'object',
-                                        properties: {
-                                            sourceId: {type: 'string'},
-                                            operativeId: {type: 'string'},
-                                            arrivalDate: {type: 'string'},
-                                            codingEndDate: {type: 'string'},
-                                            codingStartDate: {type: 'string'},
-                                            deletedEndDate: {type: 'string'},
-                                            deletedStartDate: {type: 'string'},
-                                            deliveryStartDate: {type: 'string'},
-                                            description: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            mailContact: {type: 'string'},
-                                            operatingContact: {type: 'string'},
-                                            operatingErrorLevel: {type: 'string'},
-                                            qualityOperational: {type: 'string'},
-                                            totalRecords: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    operative: {$ref: '#/components/schemas/Operatives'}
                                 }
                             }
                         }
@@ -129,7 +91,7 @@ module.exports = {
                     in: 'path',
                     name: 'operativeId',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'number'},
                     description: 'Operative Source to update'
                 }
             ],
@@ -141,26 +103,13 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'string'},
-                                operativeId: {type: 'string'},
+                                sourceId: {type: 'number'},
                                 arrivalDate: {type: 'string'},
-                                codingEndDate: {type: 'string'},
-                                codingStartDate: {type: 'string'},
-                                deletedEndDate: {type: 'string'},
-                                deletedStartDate: {type: 'string'},
-                                deliveryStartDate: {type: 'string'},
                                 description: {type: 'string'},
                                 observation: {type: 'string'},
                                 mailContact: {type: 'string'},
                                 operatingContact: {type: 'string'},
-                                operatingErrorLevel: {type: 'string'},
-                                qualityOperational: {type: 'string'},
-                                totalRecords: {type: 'string'},
-                                domain: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                domain: {type: 'string'}
                             }
                         }
                     }
@@ -174,32 +123,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    success: {type: 'boolean'},
-                                    operative: {
-                                        type: 'object',
-                                        properties: {
-                                            sourceId: {type: 'string'},
-                                            operativeId: {type: 'string'},
-                                            arrivalDate: {type: 'string'},
-                                            codingEndDate: {type: 'string'},
-                                            codingStartDate: {type: 'string'},
-                                            deletedEndDate: {type: 'string'},
-                                            deletedStartDate: {type: 'string'},
-                                            deliveryStartDate: {type: 'string'},
-                                            description: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            mailContact: {type: 'string'},
-                                            operatingContact: {type: 'string'},
-                                            operatingErrorLevel: {type: 'string'},
-                                            qualityOperational: {type: 'string'},
-                                            totalRecords: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    operative: {$ref: '#/components/schemas/Operatives'}
                                 }
                             }
                         }
@@ -219,7 +143,7 @@ module.exports = {
                     in: 'path',
                     name: 'operativeId',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'number'},
                     description: 'Operative Source to update'
                 }
             ],
@@ -242,7 +166,7 @@ module.exports = {
                     in: 'path',
                     name: 'operativeId',
                     required: true,
-                    schema: {type: 'string'},
+                    schema: {type: 'number'},
                     description: 'Operative Source to update'
                 }
             ],
@@ -254,31 +178,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    word: {
-                                        type: 'object',
-                                        properties: {
-                                            sourceId: {type: 'string'},
-                                            operativeId: {type: 'string'},
-                                            arrivalDate: {type: 'string'},
-                                            codingEndDate: {type: 'string'},
-                                            codingStartDate: {type: 'string'},
-                                            deletedEndDate: {type: 'string'},
-                                            deletedStartDate: {type: 'string'},
-                                            deliveryStartDate: {type: 'string'},
-                                            description: {type: 'string'},
-                                            observation: {type: 'string'},
-                                            mailContact: {type: 'string'},
-                                            operatingContact: {type: 'string'},
-                                            operatingErrorLevel: {type: 'string'},
-                                            qualityOperational: {type: 'string'},
-                                            totalRecords: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    operative: {$ref: '#/components/schemas/Operatives'}
                                 }
                             }
                         }

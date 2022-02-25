@@ -1,5 +1,5 @@
 const { operatives } = include('models');
-const { dateToString, stringToDate, dateTimeToString } = include('util');
+const { dateToString, dateString, stringDate } = include('util');
 const OperativeSourcesService = require('./operativeSources');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
@@ -29,28 +29,28 @@ class OperativesService {
         } else {
             operativess = await operatives.find(filterBy, columnsToSelect, orderBy);
         }
+
         operativess = operativess.map(operative => ({
             sourceId: operative.ID_FUENTE,
             operativeId: operative.ID_OPERATIVO,
             description: operative.DESCRIPCION,
             observation: operative.OBSERVACION,
             domain: operative.DOMINIO,
-            arrivalDate: dateToString(operative.FECHA_LLEGADA_OPERATIVO),
+            arrivalDate: dateString(operative.FECHA_LLEGADA_OPERATIVO, 'YYYY-MM-DDTHH:mm:ss'),
             totalRecords: operative.TOTAL_REGISTROS_OPERATIVO,
             operatingContact: operative.CONTACTO_OPERATIVO,
             mailContact: operative.MAIL_CONTACTO,
-            codingStartDate: dateToString(operative.FECHA_INICIO_CODIFICACION),
-            codingEndDate: dateToString(operative.FECHA_FIN_CODIFICACION),
-            deliveryStartDate: dateToString(operative.FECHA_INICIO_ENTREGA),
-            deletedStartDate: dateToString(operative.FECHA_INICIO_BORRADO),
-            deletedEndDate: dateToString(operative.FECHA_FIN_BORRADO),
+            codingStartDate: dateString(operative.FECHA_INICIO_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            codingEndDate: dateString(operative.FECHA_FIN_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            deliveryStartDate: dateString(operative.FECHA_INICIO_ENTREGA, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedStartDate: dateString(operative.FECHA_INICIO_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedEndDate: dateString(operative.FECHA_FIN_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
             qualityOperational: operative.CALIDAD_TOTAL_OPERATIVO,
             operatingErrorLevel: operative.NIVEL_ERROR_OPERATIVO,
             userCreator: operative.ID_USUARIO_ALTA,
             userDeleted: operative.ID_USUARIO_BAJA,
-            createdAt: dateToString(operative.FECHA_ALTA),
-            deletedAt: dateToString(operative.FECHA_BAJA)
-
+            createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
+            deletedAt: dateString(operative.FECHA_BAJA, 'YYYY-MM-DD')
         }));
 
         await OperativeSourcesService.getSourceData(operativess);
@@ -60,27 +60,17 @@ class OperativesService {
     static async create(params, userCreator) {
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
-            ID_OPERATIVO: params.operativeId,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            FECHA_LLEGADA_OPERATIVO: new Date(params.arrivalDate),
-            TOTAL_REGISTROS_OPERATIVO: params.totalRecords,
+            FECHA_LLEGADA_OPERATIVO: stringDate(params.arrivalDate, 'YYYY-MM-DDTHH:mm:ss'),
             CONTACTO_OPERATIVO: params.operatingContact,
             MAIL_CONTACTO: params.mailContact,
-            FECHA_INICIO_CODIFICACION: stringToDate(params.codingStartDate),
-            FECHA_FIN_CODIFICACION: stringToDate(params.codingStartDate),
-            FECHA_INICIO_ENTREGA: stringToDate(params.deliveryStartDate),
-            FECHA_INICIO_BORRADO: stringToDate(params.deletedEndDate),
-            CALIDAD_TOTAL_OPERATIVO: params.qualityOperational,
-            NIVEL_ERROR_OPERATIVO: params.operatingErrorLevel,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            FECHA_ALTA: new Date()
         };
         const operativeId = await operatives.insertOne(formattedOperative, ['ID_OPERATIVO']);
-        const operative = await OperativesService.findOne({operativeId: operativeId});
+        const operative = await OperativesService.findOne({operativeId});
         return operative;
     }
 
@@ -93,49 +83,37 @@ class OperativesService {
             description: operative.DESCRIPCION,
             observation: operative.OBSERVACION,
             domain: operative.DOMINIO,
-            arrivalDate: dateTimeToString(operative.FECHA_LLEGADA_OPERATIVO),
+            arrivalDate: dateString(operative.FECHA_LLEGADA_OPERATIVO, 'YYYY-MM-DDTHH:mm:ss'),
             totalRecords: operative.TOTAL_REGISTROS_OPERATIVO,
             operatingContact: operative.CONTACTO_OPERATIVO,
             mailContact: operative.MAIL_CONTACTO,
-            codingStartDate: dateTimeToString(operative.FECHA_INICIO_CODIFICACION),
-            codingEndDate: dateTimeToString(operative.FECHA_FIN_CODIFICACION),
-            deliveryStartDate: dateTimeToString(operative.FECHA_INICIO_ENTREGA),
-            deletedStartDate: dateTimeToString(operative.FECHA_INICIO_BORRADO),
-            deletedEndDate: dateTimeToString(operative.FECHA_FIN_BORRADO),
+            codingStartDate: dateString(operative.FECHA_INICIO_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            codingEndDate: dateString(operative.FECHA_FIN_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            deliveryStartDate: dateString(operative.FECHA_INICIO_ENTREGA, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedStartDate: dateString(operative.FECHA_INICIO_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedEndDate: dateString(operative.FECHA_FIN_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
             qualityOperational: operative.CALIDAD_TOTAL_OPERATIVO,
             operatingErrorLevel: operative.NIVEL_ERROR_OPERATIVO,
             userCreator: operative.ID_USUARIO_ALTA,
             userDeleted: operative.ID_USUARIO_BAJA,
-            createdAt: dateToString(operative.FECHA_ALTA),
-            deletedAt: dateToString(operative.FECHA_BAJA)
+            createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
+            deletedAt: dateString(operative.FECHA_BAJA, 'YYYY-MM-DD')
         };
     }
 
-    static async update(filters, params, userCreator){
+    static async update(params, ids){
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
-            ID_OPERATIVO: params.operativeId,
             DESCRIPCION: params.description,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            FECHA_LLEGADA_OPERATIVO: new Date(params.arrivalDate),
-            TOTAL_REGISTROS_OPERATIVO: params.totalRecords,
+            FECHA_LLEGADA_OPERATIVO: stringDate(params.arrivalDate, 'YYYY-MM-DDTHH:mm:ss'),
             CONTACTO_OPERATIVO: params.operatingContact,
-            MAIL_CONTACTO: params.mailContact,
-            FECHA_INICIO_CODIFICACION: null,
-            FECHA_FIN_CODIFICACION: null,
-            FECHA_INICIO_ENTREGA: null,
-            FECHA_INICIO_BORRADO: null,
-            CALIDAD_TOTAL_OPERATIVO: params.qualityOperational,
-            NIVEL_ERROR_OPERATIVO: params.operatingErrorLevel,
-            ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            MAIL_CONTACTO: params.mailContact
         };
-        const formattedFilters = {ID_OPERATIVO: params.operativeId};
+        const formattedFilters = {ID_OPERATIVO: ids.operativeId};
         const operativeId = await operatives.updateOne(formattedFilters, formattedOperative, ['ID_OPERATIVO']);
-        const operative = await OperativesService.findOne({operativeId: operativeId});
+        const operative = await OperativesService.findOne({operativeId});
         return operative;
     }
 
