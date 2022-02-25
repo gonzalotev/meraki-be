@@ -1,5 +1,5 @@
 const { questions: questionsModel } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, dateString } = include('util');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
@@ -11,26 +11,23 @@ class QuestionService {
         return Questions.map(question => ({
             id: question.ID_PREGUNTA,
             question: question.PREGUNTA,
-            approved: question.SUPERVISADO,
+            approved: !!question.SUPERVISADO,
             observation: question.OBSERVACION,
             domain: question.DOMINIO,
-            createdAt: dateToString(question.FECHA_ALTA),
+            createdAt: dateString(question.FECHA_ALTA, 'YYYY-MM-DD'),
             userCreator: question.ID_USUARIO_ALTA,
             userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateToString(question.FECHA_BAJA)
+            deletedAt: dateString(question.FECHA_BAJA, 'YYYY-MM-DD')
         }));
     }
 
     static async create(params, userCreator) {
         const formattedQuestion = {
-            ID_PREGUNTA: null,
             PREGUNTA: params.question,
             SUPERVISADO: params.approved,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
 
@@ -47,24 +44,19 @@ class QuestionService {
             approved: !!question.SUPERVISADO,
             observation: question.OBSERVACION,
             domain: question.DOMINIO,
+            createdAt: dateString(question.FECHA_ALTA, 'YYYY-MM-DD'),
             userCreator: question.ID_USUARIO_ALTA,
-            createdAt: dateToString(question.FECHA_ALTA),
             userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateToString(question.FECHA_BAJA)
+            deletedAt: dateString(question.FECHA_BAJA, 'YYYY-MM-DD')
         };
     }
 
     static async update(filters, params) {
         const formattedQuestion = {
-            ID_PREGUNTA: params.id,
             PREGUNTA: params.question,
             SUPERVISADO: params.approved,
             OBSERVACION: params.observation,
-            DOMINIO: params.domain,
-            ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            DOMINIO: params.domain
         };
 
         const questionId = await questionsModel.updateOne({ ID_PREGUNTA: filters.id },
