@@ -13,20 +13,7 @@ module.exports = {
                                 properties: {
                                     questions: {
                                         type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                id: {type: 'string'},
-                                                question: {type: 'string'},
-                                                approved: {type: 'boolean'},
-                                                observation: {type: 'string'},
-                                                domain: {type: 'string'},
-                                                userCreator: {type: 'string'},
-                                                createdAt: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
-                                            }
-                                        }
+                                        items: {$ref: '#/components/schemas/Question'}
                                     }
                                 }
                             }
@@ -53,11 +40,7 @@ module.exports = {
                                 question: {type: 'string'},
                                 approved: {type: 'boolean'},
                                 observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                domain: {type: 'string'}
                             }
                         }
                     }
@@ -72,20 +55,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    question: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            question: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    question: {$ref: '#/components/schemas/Question'}
                                 }
                             }
                         }
@@ -107,8 +77,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'},
+                    description: 'Question id to update'
                 }
             ],
             requestBody: {
@@ -119,15 +89,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: {type: 'string'},
                                 question: {type: 'string'},
                                 approved: {type: 'boolean'},
                                 observation: {type: 'string'},
-                                domain: {type: 'string'},
-                                userCreator: {type: 'string'},
-                                createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                domain: {type: 'string'}
                             }
                         }
                     }
@@ -142,20 +107,7 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: {type: 'boolean'},
-                                    question: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            question: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    question: {$ref: '#/components/schemas/Question'}
                                 }
                             }
                         }
@@ -175,8 +127,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'},
+                    description: 'Question id to logical delete'
                 }
             ],
             responses: {
@@ -198,8 +150,8 @@ module.exports = {
                     in: 'path',
                     name: 'id',
                     required: true,
-                    schema: {type: 'string'},
-                    description: 'User id of assignment'
+                    schema: {type: 'number'},
+                    description: 'Question id to find'
                 }
             ],
             responses: {
@@ -210,20 +162,7 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    question: {
-                                        type: 'object',
-                                        properties: {
-                                            id: {type: 'string'},
-                                            question: {type: 'string'},
-                                            approved: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            userCreator: {type: 'string'},
-                                            createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
-                                        }
-                                    }
+                                    question: {$ref: '#/components/schemas/Question'}
                                 }
                             }
                         }

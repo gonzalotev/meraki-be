@@ -7,33 +7,33 @@ module.exports = {
         },
         question: {
             type: 'string',
-            maxLength: 300,
             nullable: false
         },
         approved: {type: 'boolean'},
         observation: {
             type: 'string',
-            maxLength: 120
+            nullable: true
         },
         domain: {
             type: 'string',
-            maxLength: 300
+            nullable: true
         },
         userCreator: {
             type: 'string',
-            maxLength: 50
+            nullable: false
         },
         createdAt: {
             type: 'string',
-            nullable: true
+            nullable: false,
+            example: '2020-12-01'
         },
         userDeleted: {
             type: 'string',
-            maxLength: 50,
             nullable: true
         },
         deletedAt: {
             type: 'string',
+            example: '2020-12-01',
             nullable: true
         }
     }

@@ -1,5 +1,5 @@
 const { operativeSources } = include('models');
-const { dateToString, stringToDate } = include('util');
+const { dateToString, stringDate, dateString } = include('util');
 const map = require('lodash/map');
 const uniq = require('lodash/uniq');
 const isDate = require('lodash/isDate');
@@ -15,28 +15,27 @@ class OperativeSourcesService {
             operativeTypeId: operative.ID_TIPO_OPERATIVO,
             frequencyId: operative.ID_FRECUENCIA,
             supportId: operative.ID_SOPORTE,
-            dateFrom: dateToString(operative.FECHA_DESDE),
-            dateTo: dateToString(operative.FECHA_HASTA),
+            dateFrom: dateString(operative.FECHA_DESDE, 'YYYY-MM-DD'),
+            dateTo: dateString(operative.FECHA_HASTA, 'YYYY-MM-DD'),
             observation: operative.OBSERVACION,
             domain: operative.DOMINIO,
-            supervised: operative.SUPERVISADO,
-            createdAt: dateToString(operative.FECHA_ALTA),
+            supervised: !!operative.SUPERVISADO,
+            createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
             userCreator: operative.ID_USUARIO_ALTA,
             userDeleted: operative.ID_USUARIO_BAJA,
-            deletedAt: dateToString(operative.FECHA_BAJA)
+            deletedAt: dateString(operative.FECHA_BAJA, 'YYYY-MM-DD')
         }));
     }
 
     static async create(params, userCreator) {
         const formattedOperativeSource = {
-            ID_FUENTE: params.sourceId,
             NOMBRE: params.name,
             SIGLA: params.initial,
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: stringToDate(params.dateFrom),
-            FECHA_HASTA: stringToDate(params.dateTo),
+            FECHA_DESDE: stringDate(params.dateFrom, 'YYYY-MM-DD'),
+            FECHA_HASTA: stringDate(params.dateTo, 'YYYY-MM-DD'),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
@@ -45,14 +44,15 @@ class OperativeSourcesService {
             ID_USUARIO_BAJA: null,
             FECHA_BAJA: null
         };
-        const operativeId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
-        const operative = await OperativeSourcesService.findOne({ sourceId: operativeId });
-        return operative;
+        const sourceId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
+        const source = await OperativeSourcesService.findOne({ sourceId });
+        return source;
     }
 
     static async findOne(filters) {
         const formattedFilters = { ID_FUENTE: filters.sourceId };
         const operativeSource = await operativeSources.findById(formattedFilters);
+
         return {
             sourceId: operativeSource.ID_FUENTE,
             name: operativeSource.NOMBRE,
@@ -60,40 +60,35 @@ class OperativeSourcesService {
             operativeTypeId: operativeSource.ID_TIPO_OPERATIVO,
             frequencyId: operativeSource.ID_FRECUENCIA,
             supportId: operativeSource.ID_SOPORTE,
-            dateFrom: dateToString(operativeSource.FECHA_DESDE),
-            dateTo: dateToString(operativeSource.FECHA_HASTA),
+            dateFrom: dateString(operativeSource.FECHA_DESDE, 'YYYY-MM-DD'),
+            dateTo: dateString(operativeSource.FECHA_HASTA, 'YYYY-MM-DD'),
             observation: operativeSource.OBSERVACION,
             domain: operativeSource.DOMINIO,
             supervised: operativeSource.SUPERVISADO,
-            createdAt: dateToString(operativeSource.FECHA_ALTA),
+            createdAt: dateString(operativeSource.FECHA_ALTA, 'YYYY-MM-DD'),
             userCreator: operativeSource.ID_USUARIO_ALTA,
             userDeleted: operativeSource.ID_USUARIO_BAJA,
-            deletedAt: dateToString(operativeSource.FECHA_BAJA)
+            deletedAt: dateString(operativeSource.FECHA_BAJA, 'YYYY-MM-DD')
         };
     }
 
     static async update(filters, params) {
         const formattedOperativeSource = {
-            ID_FUENTE: params.sourceId,
             NOMBRE: params.name,
             SIGLA: params.initial,
             ID_TIPO_OPERATIVO: params.operativeTypeId,
             ID_FRECUENCIA: params.frequencyId,
             ID_SOPORTE: params.supportId,
-            FECHA_DESDE: stringToDate(params.dateFrom),
-            FECHA_HASTA: stringToDate(params.dateTo),
+            FECHA_DESDE: stringDate(params.dateFrom, 'YYYY-MM-DD'),
+            FECHA_HASTA: stringDate(params.dateTo, 'YYYY-MM-DD'),
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
-            SUPERVISADO: params.supervised,
-            ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            SUPERVISADO: params.supervised
         };
         const formattedFilters = { ID_FUENTE: filters.sourceId };
-        const operativeSourceId = await operativeSources.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
-        const operative = await OperativeSourcesService.findOne({ sourceId: operativeSourceId });
-        return operative;
+        const sourceId = await operativeSources.updateOne(formattedFilters, formattedOperativeSource, ['ID_FUENTE']);
+        const source = await OperativeSourcesService.findOne({ sourceId });
+        return source;
     }
 
     static async delete(filters, userDeleted) {
