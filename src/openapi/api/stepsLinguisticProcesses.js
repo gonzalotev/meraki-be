@@ -37,10 +37,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'string'},
-                                questionId: {type: 'string'},
+                                sourceId: {type: 'number'},
+                                questionId: {type: 'number'},
                                 dictionaryTypologyId: {type: 'string'},
-                                order: {type: 'string'},
+                                order: {type: 'number'},
                                 linguisticFieldNameId: {type: 'string'},
                                 showOnScreen: {type: 'boolean'},
                                 observation: {type: 'string'},
@@ -63,10 +63,10 @@ module.exports = {
                                     stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
-                                            sourceId: {type: 'string'},
-                                            questionId: {type: 'string'},
+                                            sourceId: {type: 'number'},
+                                            questionId: {type: 'number'},
                                             dictionaryTypologyId: {type: 'string'},
-                                            order: {type: 'string'},
+                                            order: {type: 'number'},
                                             linguisticFieldNameId: {type: 'string'},
                                             showOnScreen: {type: 'boolean'},
                                             observation: {type: 'string'},
@@ -129,10 +129,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                sourceId: {type: 'string'},
-                                questionId: {type: 'string'},
+                                sourceId: {type: 'number'},
+                                questionId: {type: 'number'},
                                 dictionaryTypologyId: {type: 'string'},
-                                order: {type: 'string'},
+                                order: {type: 'number'},
                                 linguisticFieldNameId: {type: 'string'},
                                 showOnScreen: {type: 'boolean'},
                                 observation: {type: 'string'},
@@ -156,10 +156,10 @@ module.exports = {
                                     stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
-                                            sourceId: {type: 'string'},
-                                            questionId: {type: 'string'},
+                                            sourceId: {type: 'number'},
+                                            questionId: {type: 'number'},
                                             dictionaryTypologyId: {type: 'string'},
-                                            order: {type: 'string'},
+                                            order: {type: 'number'},
                                             linguisticFieldNameId: {type: 'string'},
                                             showOnScreen: {type: 'boolean'},
                                             observation: {type: 'string'},
@@ -267,10 +267,10 @@ module.exports = {
                                     stepLinguisticProcess: {
                                         type: 'object',
                                         properties: {
-                                            sourceId: {type: 'string'},
-                                            questionId: {type: 'string'},
+                                            sourceId: {type: 'number'},
+                                            questionId: {type: 'number'},
                                             dictionaryTypologyId: {type: 'string'},
-                                            order: {type: 'string'},
+                                            order: {type: 'number'},
                                             linguisticFieldNameId: {type: 'string'},
                                             showOnScreen: {type: 'boolean'},
                                             observation: {type: 'string'},
