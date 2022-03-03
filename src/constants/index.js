@@ -470,6 +470,7 @@ const autoPhrasesAttrib = [
     'ID_AUTOFRASE',
     'ID_VARIABLE',
     'FRASE_FINAL',
+    'FRASE_ORIGINAL',
     'SUPERVISADO',
     'OBSERVACION',
     'DOMINIO',
@@ -480,7 +481,7 @@ const autoPhrasesAttrib = [
     'FECHA_ALTA',
     'FRASE_ESPECIAL_O_GENERAL',
     'ORDEN',
-    'ID_NOMENCLADOR_A_CODIFICAR',
+    'ID_NOMENCLADOR',
     'CANTIDAD_DE_NOMENCLATURAS',
     'CANTIDAD_DE_AGRUPACIONES'
 ];

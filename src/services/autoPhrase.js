@@ -1,6 +1,7 @@
 const { autoPhrase: autoPhraseModel } = include('models');
 const { dateToString, stringToDate, dateTimeToStrings } = include('util');
 const StaticalVariableService = require('./staticalVariable');
+const NomenclatorService = require('./nomenclators');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -27,7 +28,7 @@ class AutoPhraseService {
         autosPhrases = autosPhrases.map(autoPhrase => ({
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
-            finalPhrase: autoPhrase.FRASE_FINAL,
+            finalPhrase: autoPhrase.FRASE_ORIGINAL,
             approved: !!autoPhrase.SUPERVISADO,
             observation: autoPhrase.OBSERVACION,
             domain: autoPhrase.DOMINIO,
@@ -36,14 +37,15 @@ class AutoPhraseService {
             prhaseRetro: !!autoPhrase.FRASE_RETROALIMENTADA_SI_NO,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
             userCreator: autoPhrase.ID_USUARIO_ALTA,
-            specialOrGeneralPhrase: autoPhrase.FRASE_ESPECIAL_O_GENERAL,
+            specialOrGeneralPhrase: !!autoPhrase.FRASE_ESPECIAL_O_GENERAL,
             orden: autoPhrase.ORDEN,
-            nomenclatorToEncodeId: autoPhrase.ID_NOMENCLADOR_A_CODIFICAR,
+            nomenclatorId: autoPhrase.ID_NOMENCLADOR,
             numberOfNomenclatures: autoPhrase.CANTIDAD_DE_NOMENCLATURAS,
             numberOfAgrupations: autoPhrase.CANTIDAD_DE_AGRUPACIONES
         }));
 
         await StaticalVariableService.getVariableData(autosPhrases);
+        await NomenclatorService.getNomenclatorData(autosPhrases);
 
         return autosPhrases;
     }
@@ -52,7 +54,7 @@ class AutoPhraseService {
         const formattedAutoPhrase = {
             ID_AUTOFRASE: null,
             ID_VARIABLE: trim(params.variableId),
-            FRASE_FINAL: toUpper(trim(params.finalPhrase)),
+            FRASE_ORIGINAL: toUpper(trim(params.finalPhrase)),
             FECHA_RETROALIMENTACION: stringToDate(params.dateRetro),
             FRASE_RETROALIMENTADA_SI_NO: params.prhaseRetro,
             OBSERVACION: trim(params.observation),
@@ -63,7 +65,7 @@ class AutoPhraseService {
             FECHA_ALTA: new Date(),
             FRASE_ESPECIAL_O_GENERAL: params.specialOrGeneralPhrase,
             ORDEN: params.orden,
-            ID_NOMENCLADOR_A_CODIFICAR: params.nomenclatorToEncodeId,
+            ID_NOMENCLADOR: params.nomenclatorId,
             CANTIDAD_DE_NOMENCLATURAS: params.numberOfNomenclatures,
             CANTIDAD_DE_AGRUPACIONES: params.numberOfAgrupations
         };
@@ -79,7 +81,7 @@ class AutoPhraseService {
         autoPhrase = {
             id: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
-            finalPhrase: autoPhrase.FRASE_FINAL,
+            finalPhrase: autoPhrase.FRASE_ORIGINAL,
             approved: !!autoPhrase.SUPERVISADO,
             observation: autoPhrase.OBSERVACION,
             domain: autoPhrase.DOMINIO,
@@ -88,9 +90,9 @@ class AutoPhraseService {
             dependId: autoPhrase.ID_DEPENDE_ID_AUTOFRASE,
             createdAt: dateToString(autoPhrase.FECHA_ALTA),
             userCreator: autoPhrase.ID_USUARIO_ALTA,
-            specialOrGeneralPhrase: autoPhrase.FRASE_ESPECIAL_O_GENERAL,
+            specialOrGeneralPhrase: !!autoPhrase.FRASE_ESPECIAL_O_GENERAL,
             orden: autoPhrase.ORDEN,
-            nomenclatorToEncodeId: autoPhrase.ID_NOMENCLADOR_A_CODIFICAR,
+            nomenclatorId: autoPhrase.ID_NOMENCLADOR,
             numberOfNomenclatures: autoPhrase.CANTIDAD_DE_NOMENCLATURAS,
             numberOfAgrupations: autoPhrase.CANTIDAD_DE_AGRUPACIONES
         };
@@ -100,7 +102,7 @@ class AutoPhraseService {
 
     }
     static async getTotal({ search }) {
-        const { total } = await autoPhraseModel.countTotal({}, search, ['FRASE_FINAL']);
+        const { total } = await autoPhraseModel.countTotal({}, search, ['FRASE_ORIGINAL']);
         return total;
     }
 
@@ -108,7 +110,7 @@ class AutoPhraseService {
         const formattedAutoPhrase = {
             ID_AUTOFRASE: params.id,
             ID_VARIABLE: trim(params.variableId),
-            FRASE_FINAL: trim(params.finalPhrase),
+            FRASE_ORIGINAL: trim(params.finalPhrase),
             FECHA_RETROALIMENTACION: stringToDate(params.dateRetro),
             FRASE_RETROALIMENTADA_SI_NO: params.prhaseRetro,
             OBSERVACION: trim(params.observation),
@@ -119,7 +121,7 @@ class AutoPhraseService {
             FECHA_ALTA: new Date(),
             FRASE_ESPECIAL_O_GENERAL: params.specialOrGeneralPhrase,
             ORDEN: params.orden,
-            ID_NOMENCLADOR_A_CODIFICAR: params.nomenclatorToEncodeId,
+            ID_NOMENCLADOR: params.nomenclatorId,
             CANTIDAD_DE_NOMENCLATURAS: params.numberOfNomenclatures,
             CANTIDAD_DE_AGRUPACIONES: params.numberOfAgrupations
         };
@@ -137,14 +139,14 @@ class AutoPhraseService {
     }
 
     static async getAutoPhrase(resources) {
-        const autophraseIds = compact(uniq(map(resources, resource => resource.autophraseId)));
+        const autophraseIds = compact(uniq(map(resources, resource => resource.id)));
         if (isEmpty(autophraseIds)) {
             return resources;
         }
         let autoPhrases = await autoPhraseModel.findByValues('ID_AUTOFRASE', autophraseIds, autoPhraseModel.selectableProps, []);
         autoPhrases = map(autoPhrases, autoPhrase => ({
             id: autoPhrase.ID_AUTOFRASE,
-            finalPhrase: autoPhrase.FRASE_FINAL
+            finalPhrase: autoPhrase.FRASE_ORIGINAL
         }));
         return map(resources, resource => {
             if (!resource.foreignData) {
@@ -152,7 +154,7 @@ class AutoPhraseService {
             }
             resource.foreignData.autoPhrase = find(
                 autoPhrases,
-                autoPhrase => autoPhrase.id === resource.autophraseId
+                autoPhrase => autoPhrase.autophraseId === resource.id
             );
             return resource;
         });
@@ -193,8 +195,8 @@ class AutoPhraseService {
                 modified: 'VARIABLE ID'
             },
             {
-                original: 'FRASE_FINAL',
-                modified: 'FRASE FINAL'
+                original: 'FRASE_ORIGINAL',
+                modified: 'FRASE ORIGINAL'
             },
             {
                 original: 'ID_DEPENDE_ID_AUTOFRASE',
@@ -205,7 +207,7 @@ class AutoPhraseService {
                 modified: 'ES ESPECIAL O GENERAL'
             },
             {
-                original: 'ID_NOMENCLADOR_A_CODIFICAR',
+                original: 'ID_NOMENCLADOR',
                 modified: 'NOMENCLADOR'
             },
             {
