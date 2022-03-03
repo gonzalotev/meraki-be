@@ -30,6 +30,7 @@ const MicroprocessesStepsOption = require('./microprocessesStepsOptions');
 const MicroprocessStep = require('./microprocessStep');
 const AssigmentRoleOperativeVariable = require('./assigmentRoleOperativeVariable');
 const LotVariable = require('./lotVariable');
+const Question = require('./questions');
 
 module.exports = {
     ArrayString: {
@@ -95,5 +96,6 @@ module.exports = {
     MicroprocessesStepsOption,
     MicroprocessStep,
     AssigmentRoleOperativeVariable,
-    LotVariable
+    LotVariable,
+    Question
 };

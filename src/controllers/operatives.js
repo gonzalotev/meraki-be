@@ -9,9 +9,9 @@ class OperativesController {
         try {
             const { page, search } = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const operativesss = await OperativesService.fetch({ page, search: searchValue });
+            const operatives = await OperativesService.fetch({ page, search: searchValue });
             const total = await OperativesService.getTotal({ search: searchValue });
-            res.send({ operativesss, total });
+            res.send({ operatives, total });
         } catch (error) {
             next(error);
         }
@@ -39,7 +39,7 @@ class OperativesController {
     static async update(req, res, next) {
         try {
             const operative = await OperativesService.update(req.params, req.body);
-            res.send({ success: true, operative });
+            res.send({ operative });
         } catch (error) {
             next(error);
         }

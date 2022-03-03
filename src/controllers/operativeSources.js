@@ -35,7 +35,7 @@ class OperativeSourcesController {
     static async update(req, res, next) {
         try {
             const operativeSource = await OperativeSourcesService.update(req.params, req.body);
-            res.send({ success: true, operativeSource });
+            res.send({ operativeSource });
         } catch (error) {
             next(error);
         }
