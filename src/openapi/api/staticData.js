@@ -230,7 +230,7 @@ module.exports = {
                     in: 'query',
                     name: 'linguisticFieldProcesses',
                     required: false,
-                    schema: { type: 'boolean' }
+                    schema: { type: 'string' }
                 },
                 {
                     in: 'query',

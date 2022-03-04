@@ -86,9 +86,9 @@ class SourceQuestionsRelationsController {
             data.sources = await OperativeSourcesService.fetchIfExist(sourceQuestionRelation, 'ID_FUENTE', { FECHA_BAJA: null });
             if (questions) {
                 if (sourceId) {
-                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', { ID_FUENTE: sourceId, FECHA_BAJA: null });
+                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', { ID_FUENTE: sourceId, FECHA_BAJA: null, ID_ABIERTA_CERRADA: 'A' });
                 } else {
-                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', { FECHA_BAJA: null });
+                    data.questions = await QuestionsService.fetchIfExist(sourceQuestionRelation, 'ID_PREGUNTA', { FECHA_BAJA: null, ID_ABIERTA_CERRADA: 'A' });
                 }
             }
             res.send(data);
