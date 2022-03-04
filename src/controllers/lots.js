@@ -9,9 +9,9 @@ class LotsController {
     static async fetch(req, res, next) {
         try {
             const query = decodeQuery(req.query);
-            const lotss = await LotsService.fetch(query);
+            const lots = await LotsService.fetch(query);
             const total = await LotsService.getTotal(query);
-            res.send({ lotss, total });
+            res.send({ lots, total });
         } catch (error) {
             next(error);
         }
@@ -44,7 +44,7 @@ class LotsController {
     static async update(req, res, next) {
         try {
             const lot = await LotsService.update(req.params, req.body);
-            res.json({ success: true, lot });
+            res.json({ lot });
             next();
         } catch (err) {
             const errorJson = err.message.match(/\{.+\}/);
