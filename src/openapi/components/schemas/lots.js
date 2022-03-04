@@ -11,133 +11,119 @@ module.exports = {
         },
         description: {
             type: 'string',
-            maxLength: 120,
             nullable: false
         },
         observation: {
             type: 'string',
-            maxLength: 120,
             nullable: true
         },
         domain: {
             type: 'string',
-            maxLength: 300,
             nullable: true
         },
         fileName: {
             type: 'string',
-            maxLength: 50,
             nullable: true
         },
         fileFormat: {
             type: 'string',
-            maxLength: 50,
             nullable: true
         },
         numberOfRecords: {
             type: 'number',
             nullable: false
         },
-        batchDataLoadDate: {
+        loadDataStartDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        endBatchDataLoadDate: {
+        loadDataEndDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        TotalBatchQuality: {
+        totalLotQuality: {
             type: 'number',
             nullable: true
         },
-        TotalBatchErrorLevel: {
+        totalLotErrorLevel: {
             type: 'number',
             nullable: true
         },
-        lotRejected: {
-            type: 'boolean',
-            nullable: true
-        },
-        batchRejectedDate: {
+        lotRejected: {type: 'boolean'},
+        lotRejectedDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        lotApproved: {
-            type: 'boolean',
-            nullable: true
-        },
+        lotApproved: {type: 'boolean'},
         lotApprovedDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        feedback: {
-            type: 'boolean',
-            nullable: true
-        },
+        hasFeedback: {type: 'boolean'},
         feedbackStartDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        endDateFeedBack: {
+        feedbackEndDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        lotDeliveredArea: {
-            type: 'boolean',
-            nullable: true
-        },
-        lotDeliveryArea: {
+        hasLotDeliveredToArea: {type: 'boolean'},
+        lotDeliveryToAreaDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        lotDeliveredToDataLake: {
-            type: 'boolean',
-            nullable: true
-        },
-        startDateToDataLake: {
+        hasLotDeliveredToDataLake: {type: 'boolean'},
+        dataLakeStartDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        endDateToDataLake: {
+        dataLakeEndDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        receiptLotOrCopy: {
-            type: 'boolean',
-            nullable: true
-        },
-        dateDownloadedBatchReceiptOrCopy: {
+        haslotBackupOrCopy: {type: 'boolean'},
+        lotBackupOrCopyDownloadDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        wholeBatchDeleted: {
-            type: 'boolean',
-            nullable: true
-        },
+        shouldDeleteWholeLot: {type: 'boolean'},
         deleteStartDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
         },
-        endDateErased: {
+        deleteEndDate: {
             type: 'string',
+            example: '2022-02-16T20:22:02',
             nullable: true
-        },
-        userCreator: {
-            type: 'string',
-            maxLength: 50,
-            nullable: false
         },
         createdAt: {
             type: 'string',
-            nullable: true
+            example: '2021-08-20',
+            nullable: false
+        },
+        userCreator: {
+            type: 'string',
+            nullable: false
         },
         userDeleted: {
             type: 'string',
-            maxLength: 50,
             nullable: true
         },
         deletedAt: {
             type: 'string',
+            example: '2021-08-20',
             nullable: true
         }
     }
