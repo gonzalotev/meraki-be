@@ -12,6 +12,7 @@ class StaticDataController {
         try {
             const data = {};
             const query = decodeQuery(req.query);
+            const queryTransform = query ? query : {};
             const {
                 roles,
                 dictionaryTypes,
@@ -54,7 +55,7 @@ class StaticDataController {
                 microprocessesBySteps,
                 pointersStepTo,
                 pointersStepIn
-            } = query;
+            } = queryTransform;
             if (microprocessQuestionsClosed) {
                 await StaticDataService.getMicroprocessQuestionsClosedData(data);
             }
@@ -172,7 +173,7 @@ class StaticDataController {
                 await StaticDataService.getMicroprocesses(data);
             }
             if (linguisticFieldProcesses) {
-                await StaticDataService.getLinguisticFieldProcesses(data);
+                await StaticDataService.getLinguisticFieldProcesses(data, linguisticFieldProcesses);
             }
             if (variablesByOperative) {
                 await StaticDataService.getVariablesByOperative(data, variablesByOperative);

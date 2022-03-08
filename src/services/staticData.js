@@ -449,7 +449,23 @@ class StaticDataService {
         data.microprocesses = microprocesses;
         return data;
     }
-    static async getLinguisticFieldProcesses(data){
+    static async getLinguisticFieldProcesses(data, filters){
+        if (filters.sourceId) {
+            const linguisticFieldProcesses = await knex.select({
+                id: 'ID_NOMBRE_CAMPO_LINGUISTICO',
+                dataType: 'TIPO_DATO'
+            })
+                .from('PROCESOS_LINGUISTICOS_CAMPOS')
+                .whereNotExists(function() {
+                    this.select('*')
+                        .from('PASOS_PROCESOS_LINGUISTICOS')
+                        .whereRaw('PASOS_PROCESOS_LINGUISTICOS.ID_NOMBRE_CAMPO_LINGUISTICO = PROCESOS_LINGUISTICOS_CAMPOS.ID_NOMBRE_CAMPO_LINGUISTICO')
+                        .andWhere({ ID_FUENTE: filters.sourceId });
+                })
+                .orderBy([{column: 'ID_NOMBRE_CAMPO_LINGUISTICO', order: 'asc'}]);
+            data.linguisticFieldProcesses = linguisticFieldProcesses;
+            return data;
+        }
         const linguisticFieldProcesses = await knex.select({
             id: 'ID_NOMBRE_CAMPO_LINGUISTICO',
             dataType: 'TIPO_DATO'
