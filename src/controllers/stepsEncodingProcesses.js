@@ -43,7 +43,7 @@ class StepsEncodingProcessesController {
 
     static async delete(req, res, next) {
         try {
-            const result = await StepsEncodingProcessesService.delete(req.params, req.user.id);
+            const result = await StepsEncodingProcessesService.delete(req.params);
             if (result) {
                 res.sendStatus(204);
             } else {

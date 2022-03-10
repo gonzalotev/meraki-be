@@ -42,10 +42,8 @@ module.exports = {
                                 dictionaryTypologyId: {type: 'string'},
                                 order: {type: 'number'},
                                 linguisticFieldNameId: {type: 'string'},
-                                showOnScreen: {type: 'boolean'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'}
-
                             }
                         }
                     }
@@ -68,7 +66,6 @@ module.exports = {
                                             dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'number'},
                                             linguisticFieldNameId: {type: 'string'},
-                                            showOnScreen: {type: 'boolean'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
@@ -134,7 +131,6 @@ module.exports = {
                                 dictionaryTypologyId: {type: 'string'},
                                 order: {type: 'number'},
                                 linguisticFieldNameId: {type: 'string'},
-                                showOnScreen: {type: 'boolean'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
@@ -161,7 +157,6 @@ module.exports = {
                                             dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'number'},
                                             linguisticFieldNameId: {type: 'string'},
-                                            showOnScreen: {type: 'boolean'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
@@ -272,7 +267,6 @@ module.exports = {
                                             dictionaryTypologyId: {type: 'string'},
                                             order: {type: 'number'},
                                             linguisticFieldNameId: {type: 'string'},
-                                            showOnScreen: {type: 'boolean'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},

@@ -3,6 +3,20 @@ module.exports = {
         get: {
             security: [{ bearerAuth: [] }],
             tags: ['Procesos de Codificacion'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'sourceId',
+                    required: false,
+                    schema: { type: 'number' }
+                },
+                {
+                    in: 'query',
+                    name: 'questionId',
+                    required: false,
+                    schema: { type: 'number' }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',

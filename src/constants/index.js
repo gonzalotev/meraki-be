@@ -665,9 +665,7 @@ const encodingProcessesAttrib = [
     'OBSERVACION',
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
@@ -677,7 +675,9 @@ const stepsEncodingProcessesAttrib = [
     'ORDEN',
     'ID_PROCESO_CODIFICACION',
     'OBSERVACION',
-    'DOMINIO'
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
 ];
 
 const runEncodingProcessesTableName = 'LOTES_VARIABLES';
@@ -777,7 +777,6 @@ const stepsLinguisticProcessesAttrib = [
     'ID_TIPOLOGIA_DE_DICCIONARIO',
     'ORDEN',
     'ID_NOMBRE_CAMPO_LINGUISTICO',
-    'SE_MUESTRA_EN_PANTALLA',
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',

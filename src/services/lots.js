@@ -177,7 +177,6 @@ class LotsService {
     }
 
     static async findOne(filters) {
-        console.log(filters);
         const lot = await lots.findById({ ID_LOTE: toNumber(filters.lotId) });
         return LotsService.rebaseFormat(lot);
     }
