@@ -777,7 +777,6 @@ const stepsLinguisticProcessesAttrib = [
     'ID_TIPOLOGIA_DE_DICCIONARIO',
     'ORDEN',
     'ID_NOMBRE_CAMPO_LINGUISTICO',
-    'SE_MUESTRA_EN_PANTALLA',
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',

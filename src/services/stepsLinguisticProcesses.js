@@ -16,7 +16,6 @@ class StepsLinguisticProcessesService {
             dictionaryTypologyId: operative.ID_TIPOLOGIA_DE_DICCIONARIO,
             order: operative.ORDEN,
             linguisticFieldNameId: operative.ID_NOMBRE_CAMPO_LINGUISTICO,
-            showOnScreen: !!operative.SE_MUESTRA_EN_PANTALLA,
             observation: operative.OBSERVACION,
             domain: operative.DOMINIO,
             userCreator: operative.ID_USUARIO_ALTA,
@@ -35,7 +34,6 @@ class StepsLinguisticProcessesService {
             ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypologyId,
             ORDEN: params.order,
             ID_NOMBRE_CAMPO_LINGUISTICO: params.linguisticFieldNameId,
-            SE_MUESTRA_EN_PANTALLA: params.showOnScreen,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
@@ -65,7 +63,6 @@ class StepsLinguisticProcessesService {
             dictionaryTypologyId: stepLinguisticProcess.ID_TIPOLOGIA_DE_DICCIONARIO,
             order: stepLinguisticProcess.ORDEN,
             linguisticFieldNameId: stepLinguisticProcess.ID_NOMBRE_CAMPO_LINGUISTICO,
-            showOnScreen: !!stepLinguisticProcess.SE_MUESTRA_EN_PANTALLA,
             observation: stepLinguisticProcess.OBSERVACION,
             domain: stepLinguisticProcess.DOMINIO,
             userCreator: stepLinguisticProcess.ID_USUARIO_ALTA,
@@ -80,7 +77,6 @@ class StepsLinguisticProcessesService {
             ID_TIPOLOGIA_DE_DICCIONARIO: params.dictionaryTypologyId,
             ORDEN: toNumber(params.order),
             ID_NOMBRE_CAMPO_LINGUISTICO: params.linguisticFieldNameId,
-            SE_MUESTRA_EN_PANTALLA: params.showOnScreen,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator
@@ -103,7 +99,7 @@ class StepsLinguisticProcessesService {
     }
 
     static async delete(filters){
-        const success = await stepsLinguisticProcesses.deleteOne({
+        const success = await stepsLinguisticProcesses.delete({
             ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId,
             ID_TIPOLOGIA_DE_DICCIONARIO: filters.dictionaryTypologyId,
@@ -156,10 +152,6 @@ class StepsLinguisticProcessesService {
             {
                 original: 'ID_NOMBRE_CAMPO_LINGUISTICO',
                 modified: 'NOMBRE CAMPO LINGÜISTICO ID'
-            },
-            {
-                original: 'SE_MUESTRA_EN_PANTALLA',
-                modified: 'SE MUESTRA EN PANTALLA'
             },
             {
                 original: 'OBSERVACION',
