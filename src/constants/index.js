@@ -665,9 +665,7 @@ const encodingProcessesAttrib = [
     'OBSERVACION',
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const stepsEncodingProcessesTableName = 'PASOS_PROCESOS_CODIFICACION';
@@ -677,7 +675,9 @@ const stepsEncodingProcessesAttrib = [
     'ORDEN',
     'ID_PROCESO_CODIFICACION',
     'OBSERVACION',
-    'DOMINIO'
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
 ];
 
 const runEncodingProcessesTableName = 'LOTES_VARIABLES';

@@ -1,5 +1,6 @@
 const { encodingProcesses: encodingProcessesModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const knex = include('helpers/database');
 const trim = require('lodash/trim');
 const replace = require('lodash/replace');
 const map = require('lodash/map');
@@ -8,8 +9,32 @@ const uniq = require('lodash/uniq');
 const find = require('lodash/find');
 
 class EncodingProcessService {
-    static async fetch() {
-        const encodingProcesses = await encodingProcessesModel.find({ FECHA_BAJA: null });
+    static async fetch(query) {
+        if (query.sourceId && query.questionId) {
+            const encodingProcesses = await knex('PROCESOS_DE_CODIFICACION')
+                .whereNotExists(function() {
+                    this.select('*')
+                        .from('PASOS_PROCESOS_CODIFICACION')
+                        .whereRaw('PASOS_PROCESOS_CODIFICACION.ID_PROCESO_CODIFICACION = PROCESOS_DE_CODIFICACION.ID_PROCESO_CODIFICACION')
+                        .andWhere('ID_FUENTE', query.sourceId)
+                        .andWhere('ID_PREGUNTA', query.questionId);
+                })
+                .andWhere('AUTOMATICO_SI_NO', true)
+                .orderBy('DESCRIPCION');
+            return encodingProcesses.map(encodingProcess => ({
+                id: encodingProcess.ID_PROCESO_CODIFICACION,
+                description: encodingProcess.DESCRIPCION,
+                automatic_yes_no: encodingProcess.AUTOMATICO_SI_NO,
+                percentage_to_audit: encodingProcess.PORCENTAJE_PARA_AUDITAR,
+                acceptable_level_error: encodingProcess.NIVEL_DE_ERROR_ACEPTABLE,
+                domain: encodingProcess.DOMINIO,
+                observation: encodingProcess.OBSERVACION,
+                approved: encodingProcess.SUPERVISADO,
+                userCreator: encodingProcess.ID_USUARIO_ALTA,
+                createdAt: dateToString(encodingProcess.FECHA_ALTA)
+            }));
+        }
+        const encodingProcesses = await encodingProcessesModel.find();
         return encodingProcesses.map(encodingProcess => ({
             id: encodingProcess.ID_PROCESO_CODIFICACION,
             description: encodingProcess.DESCRIPCION,
@@ -20,9 +45,7 @@ class EncodingProcessService {
             observation: encodingProcess.OBSERVACION,
             approved: encodingProcess.SUPERVISADO,
             userCreator: encodingProcess.ID_USUARIO_ALTA,
-            createdAt: dateToString(encodingProcess.FECHA_ALTA),
-            userDeleted: encodingProcess.ID_USUARIO_BAJA,
-            deletedAt: dateToString(encodingProcess.FECHA_BAJA)
+            createdAt: dateToString(encodingProcess.FECHA_ALTA)
         }));
     }
 
@@ -37,8 +60,6 @@ class EncodingProcessService {
             OBSERVACION: trim(params.observation),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null,
             FECHA_ALTA: new Date()
         };
 
@@ -59,9 +80,7 @@ class EncodingProcessService {
             observation: encodingProcess.OBSERVACION,
             approved: !!encodingProcess.SUPERVISADO,
             userCreator: encodingProcess.ID_USUARIO_ALTA,
-            createdAt: dateToString(encodingProcess.FECHA_ALTA),
-            userDeleted: encodingProcess.ID_USUARIO_BAJA,
-            deletedAt: dateToString(encodingProcess.FECHA_BAJA)
+            createdAt: dateToString(encodingProcess.FECHA_ALTA)
         };
     }
 
@@ -76,9 +95,7 @@ class EncodingProcessService {
             OBSERVACION: trim(params.observation),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         const encodingId = await encodingProcessesModel.updateOne({ ID_PROCESO_CODIFICACION: filters.id },
             formattedEncodingProcess, ['ID_PROCESO_CODIFICACION']);
@@ -86,12 +103,9 @@ class EncodingProcessService {
         return encoding;
     }
 
-    static async delete(filters, userDeleted) {
+    static async delete(filters) {
         const formattedFilters = { ID_PROCESO_CODIFICACION: filters.id };
-        const success = await encodingProcessesModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+        const success = await encodingProcessesModel.delete(formattedFilters);
         return !!success;
     }
 
@@ -118,7 +132,6 @@ class EncodingProcessService {
         return new Promise((resolve, reject) => {
             const stream = encodingProcessesModel.knex.select(columns)
                 .from(encodingProcessesModel.tableName)
-                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

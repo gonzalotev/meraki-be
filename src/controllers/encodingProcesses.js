@@ -6,7 +6,7 @@ const tempy = require('tempy');
 class EncodingProcessesController {
     static async fetch(req, res, next) {
         try {
-            const encodingProcesses = await EncodingProcessesService.fetch();
+            const encodingProcesses = await EncodingProcessesService.fetch(req.query);
             res.send({ encodingProcesses });
         } catch(error) {
             next(error);
