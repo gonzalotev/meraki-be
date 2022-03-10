@@ -11,8 +11,9 @@ class TicketTypeService {
     static async fetch(query) {
         const ticketsTypes = await ticketTypeModel.findByPage(
             query.page,
-            ticketTypeModel.selectableProps,
-            [{ column: 'ID_TIPO_CHAT', order: 'asc' }]
+            {},
+            ticketTypeModel.selectableProps
+            // [{ column: 'FECHA_BAJA', order: 'asc' }]
         );
         return ticketsTypes.map(ticketType => ({
             id: ticketType.ID_TIPO_CHAT,
