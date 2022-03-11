@@ -109,6 +109,7 @@ class ClosedQuestionsService {
     }
 
     static async update(filters, params, userCreator) {
+        console.log(filters);
         const formattedClosedQuestion = {
             ID_PREGUNTA_CERRADA: params.closedQuestionId,
             ID_FUENTE: params.sourceId,
@@ -128,14 +129,15 @@ class ClosedQuestionsService {
             CANTIDAD_DE_NOMENCLATURAS: params.nomenclatorAmount,
             CANTIDAD_DE_AGRUPACIONES: params.groupingsAmount
         };
-        const closedQuestionId = await closedQuestionsModel.updateOne({ ID_PREGUNTA_CERRADA: filters.closedQuestionId },
+        const closedQuestionId = await closedQuestionsModel.updateOne({ ID_PREGUNTA_CERRADA: filters.id },
             formattedClosedQuestion, ['ID_PREGUNTA_CERRADA']);
-        const closedQuestion = await ClosedQuestionsService.findOne({ closedQuestionId: closedQuestionId });
+        const closedQuestion = await ClosedQuestionsService.findOne({ id: closedQuestionId });
         return closedQuestion;
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_PREGUNTA_CERRADA: filters.closedQuestionId };
+        console.log(filters);
+        const formattedFilters = { ID_PREGUNTA_CERRADA: filters.id };
         const success = await closedQuestionsModel.delete(formattedFilters, {
         });
         return !!success;
