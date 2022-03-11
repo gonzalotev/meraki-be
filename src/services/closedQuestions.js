@@ -72,13 +72,14 @@ class ClosedQuestionsService {
         };
         console.log(params);
         const closedQuestionId = await closedQuestionsModel.insertOne(formattedClosedQuestion, ['ID_PREGUNTA_CERRADA']);
-        const closedQuestion = await ClosedQuestionsService.findOne({ closedQuestionId: closedQuestionId });
+        const closedQuestion = await ClosedQuestionsService.findOne({ id: closedQuestionId });
         return closedQuestion;
     }
 
     static async findOne(filters) {
+        console.log(filters);
         let closedQuestion = await closedQuestionsModel.findById({
-            ID_PREGUNTA_CERRADA: filters.closedQuestionId
+            ID_PREGUNTA_CERRADA: filters.id
         });
         closedQuestion = {
             closedQuestionId: closedQuestion.ID_PREGUNTA_CERRADA,
