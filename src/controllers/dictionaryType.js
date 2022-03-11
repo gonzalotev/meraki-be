@@ -6,7 +6,7 @@ const tempy = require('tempy');
 class DictionaryTypeController {
     static async fetch(req, res, next) {
         try {
-            const dictionarysTypes = await DictionaryTypeService.fetch();
+            const dictionarysTypes = await DictionaryTypeService.fetch(req.query);
             res.send({ dictionarysTypes });
         } catch (error) {
             next(error);
