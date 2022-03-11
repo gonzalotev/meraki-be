@@ -54,7 +54,7 @@ class StaticDataService {
             initials: 'SIGLA'
         })
             .from('NOMENCLADORES')
-            .where({FECHA_BAJA: null})
+            .where({})
             .orderBy([{column: 'DESCRIPCION_COMPLETA', order: 'asc'}]);
         data.nomenclators = nomenclators;
         return data;

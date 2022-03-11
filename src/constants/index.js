@@ -269,10 +269,7 @@ const nomenclatorsAttrib = [
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
     'FECHA_ALTA',
-    'ID_USUARIO_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
-    'VALIDAR_CONCATENADO'
+    'ID_USUARIO_ALTA'
 ];
 
 const ticketTypeTableName = 'TIPOS_DE_CHAT';

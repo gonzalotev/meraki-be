@@ -53,7 +53,6 @@ class ClosedQuestionsService {
 
     static async create(params, userCreator) {
         const formattedClosedQuestion = {
-            ID_PREGUNTA_CERRADA: null,
             ID_FUENTE: params.sourceId,
             ID_PREGUNTA: params.questionId,
             DESCRIPCION: trim(params.description),
@@ -71,6 +70,7 @@ class ClosedQuestionsService {
             CANTIDAD_DE_NOMENCLATURAS: params.nomenclatorAmount,
             CANTIDAD_DE_AGRUPACIONES: params.groupingsAmount
         };
+        console.log(params);
         const closedQuestionId = await closedQuestionsModel.insertOne(formattedClosedQuestion, ['ID_PREGUNTA_CERRADA']);
         const closedQuestion = await ClosedQuestionsService.findOne({ closedQuestionId: closedQuestionId });
         return closedQuestion;
