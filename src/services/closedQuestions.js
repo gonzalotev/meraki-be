@@ -1,6 +1,8 @@
 const { closedQuestions: closedQuestionsModel } = include('models');
 const { dateToString } = include('util');
-const StaticalVariableService = require('./staticalVariable');
+const QuestionService = require('./questions');
+const NomenclatorsService = require('./nomenclators');
+const OperativeSourcesService = require('./operativeSources');
 const trim = require('lodash/trim');
 const uniq = require('lodash/uniq');
 const map = require('lodash/map');
@@ -42,8 +44,9 @@ class ClosedQuestionsService {
             nomenclatorAmount: closedQuestion.CANTIDAD_DE_NOMENCLATURAS,
             groupingsAmount: closedQuestion.CANTIDAD_DE_AGRUPACIONES
         }));
-
-        await StaticalVariableService.getVariableData(closedQuestions);
+        await OperativeSourcesService.getSourceData(closedQuestions);
+        await QuestionService.getQuestionData(closedQuestions);
+        await NomenclatorsService.getNomenclatorData(closedQuestions);
 
         return closedQuestions;
     }
@@ -96,11 +99,9 @@ class ClosedQuestionsService {
             nomenclatorAmount: closedQuestion.CANTIDAD_DE_NOMENCLATURAS,
             groupingsAmount: closedQuestion.CANTIDAD_DE_AGRUPACIONES
         };
-
-        await StaticalVariableService.getVariableData([closedQuestion]);
         return closedQuestion;
-
     }
+
     static async getTotal({ search }) {
         const { total } = await closedQuestionsModel.countTotal({}, search, ['FRASE_FINAL']);
         return total;
