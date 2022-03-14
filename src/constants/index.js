@@ -512,6 +512,31 @@ const wordsDictionaryAttrib = [
     'FAMILIA'
 ];
 
+const relationshipQuestionClosedNomenclaturesTableName = 'RELACION_NOMENCLATURAS_PREGUNTAS_CERRADAS';
+const relationshipQuestionClosedNomenclaturesAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_PREGUNTA_CERRADA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SUPERVISADO'
+];
+
+const relationshipQuestionClosedLetterTableName = 'RELACION_AGRUPACIONES_PREGUNTAS_CERRADAS';
+const relationshipQuestionClosedLetterAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ID_PREGUNTA_CERRADA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SUPERVISADO'
+];
+
 const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
 const relationshipAutoPhraseLetterAttrib = [
     'ID_NOMENCLADOR',
@@ -963,6 +988,10 @@ module.exports = {
     relationshipAutophrasesQuestionClosedsAttrib,
     relationshipAutoPhraseLetterTableName,
     relationshipAutoPhraseLetterAttrib,
+    relationshipQuestionClosedNomenclaturesTableName,
+    relationshipQuestionClosedNomenclaturesAttrib,
+    relationshipQuestionClosedLetterTableName,
+    relationshipQuestionClosedLetterAttrib,
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,

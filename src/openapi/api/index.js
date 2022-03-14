@@ -22,6 +22,7 @@ const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
 const relationshipAutophrasesNomenclatures = require('./relationshipAutophrasesNomenclatures');
 const relationshipAutophrasesLetters = require('./relationshipAutophrasesLetters');
+const relationshipQuestionClosedsLetters = require('./relationshipQuestionClosedsLetters');
 const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
@@ -79,6 +80,7 @@ module.exports = {
     ...microprocessesListsIfWords,
     ...relationshipAutophrasesNomenclatures,
     ...relationshipAutophrasesLetters,
+    ...relationshipQuestionClosedsLetters,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
