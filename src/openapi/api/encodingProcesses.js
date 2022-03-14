@@ -39,9 +39,7 @@ module.exports = {
                                                 observation: { type: 'string' },
                                                 approved: { type: 'boolean' },
                                                 userCreator: { type: 'string' },
-                                                createdAt: { type: 'string' },
-                                                userDeleted: { type: 'string' },
-                                                deletedAt: { type: 'string' }
+                                                createdAt: { type: 'string' }
                                             }
                                         }
                                     }
@@ -76,9 +74,7 @@ module.exports = {
                                 observation: { type: 'string' },
                                 approved: { type: 'boolean' },
                                 userCreator: { type: 'string' },
-                                createdAt: { type: 'string' },
-                                userDeleted: { type: 'string' },
-                                deletedAt: { type: 'string' }
+                                createdAt: { type: 'string' }
                             }
                         }
                     }
@@ -105,9 +101,7 @@ module.exports = {
                                             observation: { type: 'string' },
                                             approved: { type: 'boolean' },
                                             userCreator: { type: 'string' },
-                                            createdAt: { type: 'string' },
-                                            userDeleted: { type: 'string' },
-                                            deletedAt: { type: 'string' }
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
@@ -152,9 +146,7 @@ module.exports = {
                                 observation: { type: 'string' },
                                 approved: { type: 'boolean' },
                                 userCreator: { type: 'string' },
-                                createdAt: { type: 'string' },
-                                userDeleted: { type: 'string' },
-                                deletedAt: { type: 'string' }
+                                createdAt: { type: 'string' }
                             }
                         }
                     }
@@ -181,9 +173,7 @@ module.exports = {
                                             observation: { type: 'string' },
                                             approved: { type: 'boolean' },
                                             userCreator: { type: 'string' },
-                                            createdAt: { type: 'string' },
-                                            userDeleted: { type: 'string' },
-                                            deletedAt: { type: 'string' }
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
@@ -252,9 +242,7 @@ module.exports = {
                                             observation: { type: 'string' },
                                             approved: { type: 'boolean' },
                                             userCreator: { type: 'string' },
-                                            createdAt: { type: 'string' },
-                                            userDeleted: { type: 'string' },
-                                            deletedAt: { type: 'string' }
+                                            createdAt: { type: 'string' }
                                         }
                                     }
                                 }
