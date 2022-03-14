@@ -509,7 +509,15 @@ const wordsDictionaryAttrib = [
     'ID_NUMERO',
     'FRECUENCIA',
     'ABC',
-    'FAMILIA'
+    'FAMILIA',
+    'INTERJECCION',
+    'CONJUNCION',
+    'NOMBRE',
+    'APELLIDO',
+    'MARCA',
+    'RAZON_SOCIAL',
+    'PRODUCTO',
+    'OTRAS_CATEGORIAS'
 ];
 
 const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
