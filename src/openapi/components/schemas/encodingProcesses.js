@@ -30,15 +30,6 @@ module.exports = {
         createdAt: {
             type: 'string',
             nullable: false
-        },
-        userDeleted: {
-            type: 'string',
-            maxLength: 50,
-            nullable: true
-        },
-        deletedAt: {
-            type: 'string',
-            nullable: true
         }
     }
 };
