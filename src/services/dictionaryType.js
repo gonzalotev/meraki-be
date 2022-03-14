@@ -1,13 +1,40 @@
 const { dictionaryType: dictionaryTypeModel } = include('models');
 const { dateToString, stringToDate } = include('util');
 const trim = require('lodash/trim');
+const knex = include('helpers/database');
 const uniq = require('lodash/uniq');
 const isDate = require('lodash/isDate');
 const map = require('lodash/map');
 const find = require('lodash/find');
 
 class DictionaryTypeService {
-    static async fetch() {
+    static async fetch(query) {
+        if (query.sourceId && query.questionId) {
+            const dictionarysTypes = await knex('TIPOS_DE_DICCIONARIO_LINGUISTICO')
+                .whereNotExists(function() {
+                    this.select('*')
+                        .from('PASOS_PROCESOS_LINGUISTICOS')
+                        .whereRaw('PASOS_PROCESOS_LINGUISTICOS.ID_TIPOLOGIA_DE_DICCIONARIO = TIPOS_DE_DICCIONARIO_LINGUISTICO.ID_TIPOLOGIA_DE_DICCIONARIO')
+                        .andWhere('ID_FUENTE', query.sourceId)
+                        .andWhere('ID_PREGUNTA', query.questionId);
+                })
+                .andWhere({ SUPERVISADO: true, FECHA_BAJA: null })
+                .orderBy('DESCRIPCION');
+            return dictionarysTypes.map(dictionaryType => ({
+                id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
+                description: dictionaryType.DESCRIPCION,
+                isOriginAWord: !!dictionaryType.SI_PALABRA_NO_FRASE_ORIGEN,
+                haveDesnityDescription: !!dictionaryType.SI_DESCRIPCION_DESTINO,
+                isDestinyAWord: !!dictionaryType.SI_PALABRA_NO_FRASE_DESTINO,
+                haveRegex: !!dictionaryType.EXPRESION_REGULAR,
+                validation: dictionaryType.VALIDACION,
+                observation: dictionaryType.OBSERVACION,
+                domain: dictionaryType.DOMINIO,
+                approved: !!dictionaryType.SUPERVISADO,
+                createdAt: dateToString(dictionaryType.FECHA_ALTA),
+                userCreator: dictionaryType.ID_USUARIO_ALTA
+            }));
+        }
         const dictionarysTypes = await dictionaryTypeModel.find();
         return dictionarysTypes.map(dictionaryType => ({
             id: dictionaryType.ID_TIPOLOGIA_DE_DICCIONARIO,
