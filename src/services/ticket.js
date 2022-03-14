@@ -5,7 +5,7 @@ const knex = include('helpers/database');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 
-class ticketService {
+class TicketService {
     static async fetch(query, userId) {
         let ticketsTypes = await ticketModel.findByPage(
             query.page,
@@ -95,9 +95,9 @@ class ticketService {
             TEXTO_CHAT_ORIGEN: trim(params.originChatText),
             FECHA_ALTA: stringToDate(params.createdAt),
             ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_RESPONSABLE: userCreator,
+            ID_USUARIO_RESPONSABLE: params.userResponsableId,
             TEXTO_SOLUCION: params.solutionText,
-            ID_USUARIO_SOLUCION: params.userResponsableId,
+            ID_USUARIO_SOLUCION: userCreator,
             ID_TIPO_CHAT: params.ticketTypeId,
             FECHA_SOLUCION: stringToDate(params.solutionDate),
             SOLUCIONADO_SI_NO: params.approved,
@@ -105,7 +105,7 @@ class ticketService {
             FECHA_BAJA_SOLUCIONADO: new Date()
         };
         const ticketId = await ticketModel.updateOne({ ID_CHAT: filters.id }, formattedticket, ['ID_CHAT']);
-        const ticket = await ticketService.findOne({id: ticketId});
+        const ticket = await TicketService.findOne({id: ticketId});
         return ticket;
     }
 
@@ -178,4 +178,4 @@ class ticketService {
     }
 }
 
-module.exports = ticketService;
+module.exports = TicketService;
