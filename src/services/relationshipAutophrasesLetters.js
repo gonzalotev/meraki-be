@@ -135,7 +135,6 @@ class RelationshipAutophrasesLetterService {
         return new Promise((resolve, reject) => {
             const stream = relationshipAutophrasesLetterModel.knex.select(columns)
                 .from(relationshipAutophrasesLetterModel.tableName)
-                .where()
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

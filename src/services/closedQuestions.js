@@ -151,7 +151,8 @@ class ClosedQuestionsService {
         let closedQuestions = await closedQuestionsModel.findByValues('ID_PREGUNTA_CERRADA', closedQuestionIds, closedQuestionsModel.selectableProps, []);
         closedQuestions = map(closedQuestions, closedQuestion => ({
             closedQuestionId: closedQuestion.ID_PREGUNTA_CERRADA,
-            questionId: closedQuestion.ID_PREGUNTA
+            questionId: closedQuestion.ID_PREGUNTA,
+            description: closedQuestion.DESCRIPCION
         }));
         return map(resources, resource => {
             if (!resource.foreignData) {

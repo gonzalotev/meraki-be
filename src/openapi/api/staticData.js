@@ -90,7 +90,13 @@ module.exports = {
                     in: 'query',
                     name: 'autoPhrase',
                     required: false,
-                    schema: { type: 'boolean' }
+                    schema: { type: 'string' }
+                },
+                {
+                    in: 'query',
+                    name: 'closedQuestions',
+                    required: false,
+                    schema: { type: 'string' }
                 },
                 {
                     in: 'query',

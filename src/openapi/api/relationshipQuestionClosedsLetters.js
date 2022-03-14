@@ -19,7 +19,7 @@ module.exports = {
                                                 nomenclatorId: { type: 'integer' },
                                                 groupId: { type: 'integer' },
                                                 nomenclatureGroupId: { type: 'string' },
-                                                questionClosedId: { type: 'integer' },
+                                                closedQuestionId: { type: 'integer' },
                                                 observation: { type: 'string' },
                                                 domain: { type: 'string' },
                                                 approved: { type: 'boolean' },
@@ -53,7 +53,7 @@ module.exports = {
                                 nomenclatorId: { type: 'integer' },
                                 groupId: { type: 'integer' },
                                 nomenclatureGroupId: { type: 'string' },
-                                questionClosedId: { type: 'integer' },
+                                closedQuestionId: { type: 'integer' },
                                 observation: { type: 'string' },
                                 domain: { type: 'string' },
                                 approved: { type: 'boolean' },
@@ -79,7 +79,7 @@ module.exports = {
                                             nomenclatorId: { type: 'integer' },
                                             groupId: { type: 'integer' },
                                             nomenclatureGroupId: { type: 'string' },
-                                            questionClosedId: { type: 'integer' },
+                                            closedQuestionId: { type: 'integer' },
                                             observation: { type: 'string' },
                                             domain: { type: 'string' },
                                             approved: { type: 'boolean' },
@@ -99,7 +99,7 @@ module.exports = {
             }
         }
     },
-    '/api/relationshipQuestionClosedsLetters/{nomenclatorId}/{groupId}/{nomenclatureGroupId}/{questionClosedId}': {
+    '/api/relationshipQuestionClosedsLetters/{nomenclatorId}/{groupId}/{nomenclatureGroupId}/{closedQuestionId}': {
         put: {
             security: [{ bearerAuth: [] }],
             tags: ['Relationship Question Closed Letters'],
@@ -127,7 +127,7 @@ module.exports = {
                 },
                 {
                     in: 'path',
-                    name: 'questionClosedId',
+                    name: 'closedQuestionId',
                     required: true,
                     schema: { type: 'number' },
                     description: 'User id of assignment'
@@ -144,7 +144,7 @@ module.exports = {
                                 nomenclatorId: { type: 'integer' },
                                 groupId: { type: 'integer' },
                                 nomenclatureGroupId: { type: 'string' },
-                                questionClosedId: { type: 'integer' },
+                                closedQuestionId: { type: 'integer' },
                                 observation: { type: 'string' },
                                 domain: { type: 'string' },
                                 approved: { type: 'boolean' },
@@ -170,7 +170,7 @@ module.exports = {
                                             nomenclatorId: { type: 'integer' },
                                             groupId: { type: 'integer' },
                                             nomenclatureGroupId: { type: 'string' },
-                                            questionClosedId: { type: 'integer' },
+                                            closedQuestionId: { type: 'integer' },
                                             observation: { type: 'string' },
                                             domain: { type: 'string' },
                                             approved: { type: 'boolean' },
@@ -216,7 +216,7 @@ module.exports = {
                 },
                 {
                     in: 'path',
-                    name: 'questionClosedId',
+                    name: 'closedQuestionId',
                     required: true,
                     schema: { type: 'number' },
                     description: 'User id of assignment'
@@ -260,7 +260,7 @@ module.exports = {
                 },
                 {
                     in: 'path',
-                    name: 'questionClosedId',
+                    name: 'closedQuestionId',
                     required: true,
                     schema: { type: 'number' },
                     description: 'User id of assignment'
@@ -280,7 +280,7 @@ module.exports = {
                                             nomenclatorId: { type: 'integer' },
                                             groupId: { type: 'integer' },
                                             nomenclatureGroupId: { type: 'string' },
-                                            questionClosedId: { type: 'integer' },
+                                            closedQuestionId: { type: 'integer' },
                                             observation: { type: 'string' },
                                             domain: { type: 'string' },
                                             approved: { type: 'boolean' },
@@ -308,7 +308,7 @@ module.exports = {
                 200: {
                     description: 'Success',
                     content: {
-                        'text/csv': {
+                        'text/xlsx': {
                             schema: {type: 'string', format: 'binary'}
                         }
                     }

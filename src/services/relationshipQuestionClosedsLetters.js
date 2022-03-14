@@ -1,5 +1,5 @@
-const { relationshipAutophrasesLetter: relationshipQuestionClosedsLetterModel } = include('models');
-// const AutoPhraseService = require('./autoPhrase');
+const { relationshipQuestionClosedsLetter: relationshipQuestionClosedsLetterModel } = include('models');
+const ClosedQuestionsService = require('./closedQuestions');
 const NomenclaturesGroupingService = require('./nomenclaturesGroupings');
 const NomenclatorsService = require('./nomenclators');
 const NomenclatorsGroupingService = require('./nomenclatorsGroupings');
@@ -11,18 +11,18 @@ const isDate = require('lodash/isDate');
 class RelationshipQuestionClosedsLetterService {
     static async fetch() {
         let relationshipsLetter = await relationshipQuestionClosedsLetterModel.find();
-        relationshipsLetter = relationshipsLetter.map(relationshipAutophrasesLetter => ({
-            nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
-            groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
-            nomenclatureGroupId: relationshipAutophrasesLetter.ID_NOMENCLATURA_AGRUPACION,
-            questionClosedId: relationshipAutophrasesLetter.ID_PREGUNTA_CERRADA,
-            observation: relationshipAutophrasesLetter.OBSERVACION,
-            domain: relationshipAutophrasesLetter.DOMINIO,
-            approved: !!relationshipAutophrasesLetter.SUPERVISADO,
-            createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
-            userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA
+        relationshipsLetter = relationshipsLetter.map(relationshipQuestionClosedsLetter => ({
+            nomenclatorId: relationshipQuestionClosedsLetter.ID_NOMENCLADOR,
+            groupId: relationshipQuestionClosedsLetter.ID_AGRUPACION,
+            nomenclatureGroupId: relationshipQuestionClosedsLetter.ID_NOMENCLATURA_AGRUPACION,
+            closedQuestionId: relationshipQuestionClosedsLetter.ID_PREGUNTA_CERRADA,
+            observation: relationshipQuestionClosedsLetter.OBSERVACION,
+            domain: relationshipQuestionClosedsLetter.DOMINIO,
+            approved: !!relationshipQuestionClosedsLetter.SUPERVISADO,
+            createdAt: dateToString(relationshipQuestionClosedsLetter.FECHA_ALTA),
+            userCreator: relationshipQuestionClosedsLetter.ID_USUARIO_ALTA
         }));
-        // await AutoPhraseService.getAutoPhrase(relationshipsLetter);
+        await ClosedQuestionsService.getClosedQuestion(relationshipsLetter);
         await NomenclatorsService.getNomenclatorData(relationshipsLetter);
         await NomenclatorsGroupingService.getNomenclatorsGroupingsData(relationshipsLetter);
         await NomenclaturesGroupingService.getNomenclaturesGroupingsData(relationshipsLetter);
@@ -35,23 +35,23 @@ class RelationshipQuestionClosedsLetterService {
             ID_NOMENCLADOR: params.nomenclatorId,
             ID_AGRUPACION: params.groupId,
             ID_NOMENCLATURA_AGRUPACION: trim(params.nomenclatureGroupId),
-            ID_PREGUNTA_CERRADA: params.questionClosedId,
+            ID_PREGUNTA_CERRADA: params.closedQuestionId,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
             ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: new Date()
         };
-        const relationshipAutophrasesLetterId = await relationshipQuestionClosedsLetterModel.
+        const relationshipQuestionClosedsLetterId = await relationshipQuestionClosedsLetterModel.
             insertOne(formattedRelationshipQuestionClosedsLetter, ['ID_NOMENCLADOR', 'ID_AGRUPACION', 'ID_NOMENCLATURA_AGRUPACION', 'ID_PREGUNTA_CERRADA']);
-        const relationshipAutophrasesLetter = await RelationshipQuestionClosedsLetterService.findOne(
+        const relationshipQuestionClosedsLetter = await RelationshipQuestionClosedsLetterService.findOne(
             {
-                nomenclatorId: relationshipAutophrasesLetterId.ID_NOMENCLADOR,
-                groupId: relationshipAutophrasesLetterId.ID_AGRUPACION,
-                nomenclatureGroupId: relationshipAutophrasesLetterId.ID_NOMENCLATURA_AGRUPACION,
-                questionClosedId: relationshipAutophrasesLetterId.ID_PREGUNTA_CERRADA
+                nomenclatorId: relationshipQuestionClosedsLetterId.ID_NOMENCLADOR,
+                groupId: relationshipQuestionClosedsLetterId.ID_AGRUPACION,
+                nomenclatureGroupId: relationshipQuestionClosedsLetterId.ID_NOMENCLATURA_AGRUPACION,
+                closedQuestionId: relationshipQuestionClosedsLetterId.ID_PREGUNTA_CERRADA
             });
-        return relationshipAutophrasesLetter;
+        return relationshipQuestionClosedsLetter;
     }
 
     static async findOne(filters) {
@@ -59,24 +59,24 @@ class RelationshipQuestionClosedsLetterService {
             ID_NOMENCLADOR: filters.nomenclatorId,
             ID_AGRUPACION: filters.groupId,
             ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
-            ID_PREGUNTA_CERRADA: filters.questionClosedId
+            ID_PREGUNTA_CERRADA: filters.closedQuestionId
         };
-        let relationshipAutophrasesLetter = await relationshipQuestionClosedsLetterModel.findById(ids);
-        relationshipAutophrasesLetter = relationshipAutophrasesLetter ? {
-            nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
-            groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
-            nomenclatureGroupId: relationshipAutophrasesLetter.ID_NOMENCLATURA_AGRUPACION,
-            questionClosedId: relationshipAutophrasesLetter.ID_PREGUNTA_CERRADA,
-            observation: relationshipAutophrasesLetter.OBSERVACION,
-            domain: relationshipAutophrasesLetter.DOMINIO,
-            approved: !!relationshipAutophrasesLetter.SUPERVISADO,
-            createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
-            userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA
+        let relationshipQuestionClosedsLetter = await relationshipQuestionClosedsLetterModel.findById(ids);
+        relationshipQuestionClosedsLetter = relationshipQuestionClosedsLetter ? {
+            nomenclatorId: relationshipQuestionClosedsLetter.ID_NOMENCLADOR,
+            groupId: relationshipQuestionClosedsLetter.ID_AGRUPACION,
+            nomenclatureGroupId: relationshipQuestionClosedsLetter.ID_NOMENCLATURA_AGRUPACION,
+            closedQuestionId: relationshipQuestionClosedsLetter.ID_PREGUNTA_CERRADA,
+            observation: relationshipQuestionClosedsLetter.OBSERVACION,
+            domain: relationshipQuestionClosedsLetter.DOMINIO,
+            approved: !!relationshipQuestionClosedsLetter.SUPERVISADO,
+            createdAt: dateToString(relationshipQuestionClosedsLetter.FECHA_ALTA),
+            userCreator: relationshipQuestionClosedsLetter.ID_USUARIO_ALTA
         } : {};
-        await NomenclatorsService.getNomenclatorData([relationshipAutophrasesLetter]);
-        await NomenclatorsGroupingService.getNomenclatorsGroupingsData([relationshipAutophrasesLetter]);
-        await NomenclaturesGroupingService.getNomenclaturesGroupingsData([relationshipAutophrasesLetter]);
-        return relationshipAutophrasesLetter;
+        await NomenclatorsService.getNomenclatorData([relationshipQuestionClosedsLetter]);
+        await NomenclatorsGroupingService.getNomenclatorsGroupingsData([relationshipQuestionClosedsLetter]);
+        await NomenclaturesGroupingService.getNomenclaturesGroupingsData([relationshipQuestionClosedsLetter]);
+        return relationshipQuestionClosedsLetter;
     }
 
     static async update(filters, params) {
@@ -84,7 +84,7 @@ class RelationshipQuestionClosedsLetterService {
             ID_NOMENCLADOR: params.nomenclatorId,
             ID_AGRUPACION: params.groupId,
             ID_NOMENCLATURA_AGRUPACION: trim(params.nomenclatureGroupId),
-            ID_PREGUNTA_CERRADA: params.questionClosedId,
+            ID_PREGUNTA_CERRADA: params.closedQuestionId,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             SUPERVISADO: params.approved,
@@ -95,7 +95,7 @@ class RelationshipQuestionClosedsLetterService {
             ID_NOMENCLADOR: filters.nomenclatorId,
             ID_AGRUPACION: filters.groupId,
             ID_NOMENCLATURA_AGRUPACION: filters.nomenclatureGroupId,
-            ID_PREGUNTA_CERRADA: filters.questionClosedId
+            ID_PREGUNTA_CERRADA: filters.closedQuestionId
         };
         const relationship = await relationshipQuestionClosedsLetterModel.updateOne(ids,
             formattedRelationshipQuestionClosedsLetter);
@@ -103,7 +103,7 @@ class RelationshipQuestionClosedsLetterService {
             nomenclatorId: relationship.ID_NOMENCLADOR,
             groupId: relationship.ID_AGRUPACION,
             nomenclatureGroupId: relationship.ID_NOMENCLATURA_AGRUPACION,
-            questionClosedId: relationship.ID_PREGUNTA_CERRADA,
+            closedQuestionId: relationship.ID_PREGUNTA_CERRADA,
             observation: relationship.OBSERVACION,
             domain: relationship.DOMINIO,
             approved: !!relationship.SUPERVISADO,
@@ -112,19 +112,19 @@ class RelationshipQuestionClosedsLetterService {
         };
     }
 
-    static async delete({ nomenclatorId, groupId, nomenclatureGroupId, questionClosedId }) {
+    static async delete({ nomenclatorId, groupId, nomenclatureGroupId, closedQuestionId }) {
         const ids = { ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId,
-            ID_NOMENCLATURA_AGRUPACION: nomenclatureGroupId, ID_PREGUNTA_CERRADA: questionClosedId };
+            ID_NOMENCLATURA_AGRUPACION: nomenclatureGroupId, ID_PREGUNTA_CERRADA: closedQuestionId };
         const success = await relationshipQuestionClosedsLetterModel.delete(ids, {
         });
         return !!success;
     }
 
-    static async getTotal({ relationshipAutophrasesLetter }) {
+    static async getTotal({ relationshipQuestionClosedsLetter }) {
         let result;
-        if (relationshipAutophrasesLetter) {
+        if (relationshipQuestionClosedsLetter) {
             result = await relationshipQuestionClosedsLetterModel.countTotal(
-                { ID_NOMENCLATURA_AGRUPACION: relationshipAutophrasesLetter});
+                { ID_NOMENCLATURA_AGRUPACION: relationshipQuestionClosedsLetter});
         } else {
             result = await relationshipQuestionClosedsLetterModel.countTotal();
         }
@@ -135,7 +135,6 @@ class RelationshipQuestionClosedsLetterService {
         return new Promise((resolve, reject) => {
             const stream = relationshipQuestionClosedsLetterModel.knex.select(columns)
                 .from(relationshipQuestionClosedsLetterModel.tableName)
-                .where()
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
@@ -171,7 +170,7 @@ class RelationshipQuestionClosedsLetterService {
             },
             {
                 original: 'ID_PREGUNTA_CERRADA',
-                modified: 'AUTOFRASE ID'
+                modified: 'PREGUNTA CERRADA ID'
             },
             {
                 original: 'OBSERVACION',
