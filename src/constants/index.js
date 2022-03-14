@@ -269,10 +269,7 @@ const nomenclatorsAttrib = [
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
     'FECHA_ALTA',
-    'ID_USUARIO_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
-    'VALIDAR_CONCATENADO'
+    'ID_USUARIO_ALTA'
 ];
 
 const ticketTypeTableName = 'TIPOS_DE_CHAT';
@@ -918,6 +915,27 @@ const microprocessStepsAttrib = [
     'FECHA_ALTA'
 ];
 
+const closedQuestionsTableName = 'PREGUNTAS_CERRADAS';
+const closedQuestionsAttrib = [
+    'ID_PREGUNTA_CERRADA',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_OPERADOR',
+    'SIGNO_PLSQL',
+    'SIGNO_JS',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_NOMENCLADOR_A_CODIFICAR',
+    'CANTIDAD_DE_NOMENCLATURAS',
+    'CANTIDAD_DE_AGRUPACIONES'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -1031,5 +1049,7 @@ module.exports = {
     microprocessesClosedQuestionIfTablename,
     microprocessesClosedQuestionIfAttrib,
     microprocessStepsTableName,
-    microprocessStepsAttrib
+    microprocessStepsAttrib,
+    closedQuestionsTableName,
+    closedQuestionsAttrib
 };

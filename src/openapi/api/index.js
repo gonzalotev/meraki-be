@@ -50,6 +50,7 @@ const microprocessesStepsOptions = require('./microprocessesStepsOption');
 const microprocessesWords = require('./microprocessesWords');
 const microprocessSteps = require('./microprocessSteps');
 const uniqueWordsAndPhrases = require('./uniqueWordsAndPhrases');
+const closedQuestions = require('./closedQuestions');
 
 module.exports = {
     ...assignments,
@@ -103,5 +104,6 @@ module.exports = {
     ...microprocessesStepsOptions,
     ...microprocessesWords,
     ...microprocessSteps,
-    ...uniqueWordsAndPhrases
+    ...uniqueWordsAndPhrases,
+    ...closedQuestions
 };
