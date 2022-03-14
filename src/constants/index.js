@@ -506,7 +506,15 @@ const wordsDictionaryAttrib = [
     'ID_NUMERO',
     'FRECUENCIA',
     'ABC',
-    'FAMILIA'
+    'FAMILIA',
+    'INTERJECCION',
+    'CONJUNCION',
+    'NOMBRE',
+    'APELLIDO',
+    'MARCA',
+    'RAZON_SOCIAL',
+    'PRODUCTO',
+    'OTRAS_CATEGORIAS'
 ];
 
 const relationshipQuestionClosedNomenclaturesTableName = 'RELACION_NOMENCLATURAS_PREGUNTAS_CERRADAS';
