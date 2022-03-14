@@ -51,7 +51,15 @@ class WordsDictionaryService {
             numberId: words.ID_NUMERO,
             frequency: words.FRECUENCIA,
             abc: words.ABC,
-            family: words.FAMILIA
+            family: words.FAMILIA,
+            interjection: !!words.INTERJECCION,
+            conjunction: !!words.CONJUNCION,
+            name: !!words.NOMBRE,
+            lastName: !!words.APELLIDO,
+            brand: !!words.MARCA,
+            businessName: !!words.RAZON_SOCIAL,
+            product: !!words.PRODUCTO,
+            otherCategories: !!words.OTRAS_CATEGORIAS
         }));
     }
 
@@ -79,7 +87,15 @@ class WordsDictionaryService {
             ID_NUMERO: params.numberId,
             FRECUENCIA: params.frequency,
             ABC: params.abc,
-            FAMILIA: trim(params.family)
+            FAMILIA: trim(params.family),
+            INTERJECCION: params.interjection,
+            CONJUNCION: params.conjunction,
+            NOMBRE: params.name,
+            APELLIDO: params.lastName,
+            MARCA: params.brand,
+            RAZON_SOCIAL: params.businessName,
+            PRODUCTO: params.product,
+            OTRAS_CATEGORIAS: params.otherCategories
         };
         const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
         const word = await WordsDictionaryService.findOne({ word: wordId });
@@ -112,7 +128,15 @@ class WordsDictionaryService {
             numberId: word.ID_NUMERO,
             frequency: word.FRECUENCIA,
             abc: word.ABC,
-            family: word.FAMILIA
+            family: word.FAMILIA,
+            interjection: !!word.INTERJECCION,
+            conjunction: !!word.CONJUNCION,
+            name: !!word.NOMBRE,
+            lastName: !!word.APELLIDO,
+            brand: !!word.MARCA,
+            businessName: !!word.RAZON_SOCIAL,
+            product: !!word.PRODUCTO,
+            otherCategories: !!word.OTRAS_CATEGORIAS
         };
     }
 
@@ -142,7 +166,15 @@ class WordsDictionaryService {
             numberId: words.ID_NUMERO,
             frequency: words.FRECUENCIA,
             abc: words.ABC,
-            family: words.FAMILIA
+            family: words.FAMILIA,
+            interjection: !!words.INTERJECCION,
+            conjunction: !!words.CONJUNCION,
+            name: !!words.NOMBRE,
+            lastName: !!words.APELLIDO,
+            brand: !!words.MARCA,
+            businessName: !!words.RAZON_SOCIAL,
+            product: !!words.PRODUCTO,
+            otherCategories: !!words.OTRAS_CATEGORIAS
         }));
     }
 
@@ -168,7 +200,15 @@ class WordsDictionaryService {
             ID_NUMERO: params.numberId,
             FRECUENCIA: params.frequency,
             ABC: params.abc,
-            FAMILIA: params.family
+            FAMILIA: params.family,
+            INTERJECCION: params.interjection,
+            CONJUNCION: params.conjunction,
+            NOMBRE: params.name,
+            APELLIDO: params.lastName,
+            MARCA: params.brand,
+            RAZON_SOCIAL: params.businessName,
+            PRODUCTO: params.product,
+            OTRAS_CATEGORIAS: params.otherCategories
         };
         const wordId = await wordsDictionary.updateOne({ PALABRA: filters.word }, formattedWord, ['PALABRA']);
         const word = await WordsDictionaryService.findOne({ word: wordId });
@@ -290,6 +330,38 @@ class WordsDictionaryService {
             {
                 original: 'FAMILIA',
                 modified: 'FAMILIA'
+            },
+            {
+                original: 'INTERJECCION',
+                modified: 'INTERJECCION'
+            },
+            {
+                original: 'CONJUNCION',
+                modified: 'CONJUNCION'
+            },
+            {
+                original: 'NOMBRE',
+                modified: 'NOMBRE'
+            },
+            {
+                original: 'APELLIDO',
+                modified: 'APELLIDO'
+            },
+            {
+                original: 'MARCA',
+                modified: 'MARCA'
+            },
+            {
+                original: 'RAZON_SOCIAL',
+                modified: 'RAZON SOCIAL'
+            },
+            {
+                original: 'PRODUCTO',
+                modified: 'PRODUCTO'
+            },
+            {
+                original: 'OTRAS_CATEGORIAS',
+                modified: 'OTRAS CATEGORIAS'
             }
         ];
     }
