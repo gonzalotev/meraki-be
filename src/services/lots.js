@@ -10,6 +10,7 @@ const uniq = require('lodash/uniq');
 const find = require('lodash/find');
 const has = require('lodash/has');
 const head = require('lodash/head');
+const trim = require('lodash/trim');
 const dateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
 const dateFormat = 'YYYY-MM-DD';
 
