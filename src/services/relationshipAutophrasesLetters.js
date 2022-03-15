@@ -22,7 +22,7 @@ class RelationshipAutophrasesLetterService {
             createdAt: dateToString(relationshipAutophrasesLetter.FECHA_ALTA),
             userCreator: relationshipAutophrasesLetter.ID_USUARIO_ALTA
         }));
-        await AutoPhraseService.getAutoPhrase(relationshipsLetter);
+        await AutoPhraseService.getAutophraseData(relationshipsLetter);
         await NomenclatorsService.getNomenclatorData(relationshipsLetter);
         await NomenclatorsGroupingService.getNomenclatorsGroupingsData(relationshipsLetter);
         await NomenclaturesGroupingService.getNomenclaturesGroupingsData(relationshipsLetter);

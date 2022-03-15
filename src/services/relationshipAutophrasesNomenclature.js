@@ -1,6 +1,7 @@
 const { relationshipAutophrasesNomenclature: relationshipAutophrasesNomenclatureModel } = include('models');
 const AutoPhraseService = require('./autoPhrase');
 const NomenclatorsService = require('./nomenclators');
+const NomenclaturesService = require('./nomenclatures');
 const { dateToString } = include('util');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
@@ -24,9 +25,9 @@ class RelationshipAutophrasesNomenclatureService {
             abbreviation: relationshipAutophrasesNomenclature.ABREVIATURA,
             staticalVariable: relationshipAutophrasesNomenclature.VARIABLE_ESTADISTICA
         }));
-        await AutoPhraseService.getAutoPhrase(relationshipsTypes);
+        await AutoPhraseService.getAutophraseData(relationshipsTypes);
         await NomenclatorsService.getNomenclatorData(relationshipsTypes);
-        // await NomenclaturesService.getNomenclatureData(relationshipsTypes);
+        await NomenclaturesService.getNomenclatureData(relationshipsTypes);
 
         return relationshipsTypes;
 

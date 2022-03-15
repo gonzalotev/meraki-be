@@ -1,6 +1,7 @@
 const { relationshipAutophraseQuestionClosed } = include('models');
 const QuestionService = require('./questions');
 const NomenclatorsService = require('./nomenclators');
+const NomenclaturesService = require('./nomenclatures');
 const AutoPhraseService = require('./autoPhrase');
 const OperativeSourcesService = require('./operativeSources');
 const { dateToString } = include('util');
@@ -35,7 +36,7 @@ class RelationshipAutophraseQuestionClosedService {
             createdAt: dateToString(relation.FECHA_ALTA)
         }));
         // await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
-        // await NomenclatureService.getNomenclatureData(relations);
+        await NomenclaturesService.getNomenclatureData(relations);
         await OperativeSourcesService.getSourceData(relations);
         await NomenclatorsService.getNomenclatorData(relations);
         await QuestionService.getQuestionData(relations);
