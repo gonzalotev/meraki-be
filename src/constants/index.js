@@ -514,7 +514,8 @@ const wordsDictionaryAttrib = [
     'MARCA',
     'RAZON_SOCIAL',
     'PRODUCTO',
-    'OTRAS_CATEGORIAS'
+    'OTRAS_CATEGORIAS',
+    'CARACTERES_ESPECIALES'
 ];
 
 const relationshipQuestionClosedNomenclaturesTableName = 'RELACION_NOMENCLATURAS_PREGUNTAS_CERRADAS';

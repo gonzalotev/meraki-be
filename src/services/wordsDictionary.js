@@ -59,7 +59,8 @@ class WordsDictionaryService {
             brand: !!words.MARCA,
             businessName: !!words.RAZON_SOCIAL,
             product: !!words.PRODUCTO,
-            otherCategories: !!words.OTRAS_CATEGORIAS
+            otherCategories: !!words.OTRAS_CATEGORIAS,
+            specialCharacters: !!words.CARACTERES_ESPECIALES
         }));
     }
 
@@ -95,7 +96,8 @@ class WordsDictionaryService {
             MARCA: params.brand,
             RAZON_SOCIAL: params.businessName,
             PRODUCTO: params.product,
-            OTRAS_CATEGORIAS: params.otherCategories
+            OTRAS_CATEGORIAS: params.otherCategories,
+            CARACTERES_ESPECIALES: params.specialCharacters
         };
         const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
         const word = await WordsDictionaryService.findOne({ word: wordId });
@@ -136,7 +138,8 @@ class WordsDictionaryService {
             brand: !!word.MARCA,
             businessName: !!word.RAZON_SOCIAL,
             product: !!word.PRODUCTO,
-            otherCategories: !!word.OTRAS_CATEGORIAS
+            otherCategories: !!word.OTRAS_CATEGORIAS,
+            specialCharacters: !!word.CARACTERES_ESPECIALES
         };
     }
 
@@ -174,7 +177,8 @@ class WordsDictionaryService {
             brand: !!words.MARCA,
             businessName: !!words.RAZON_SOCIAL,
             product: !!words.PRODUCTO,
-            otherCategories: !!words.OTRAS_CATEGORIAS
+            otherCategories: !!words.OTRAS_CATEGORIAS,
+            specialCharacters: !!words.CARACTERES_ESPECIALES
         }));
     }
 
@@ -208,7 +212,8 @@ class WordsDictionaryService {
             MARCA: params.brand,
             RAZON_SOCIAL: params.businessName,
             PRODUCTO: params.product,
-            OTRAS_CATEGORIAS: params.otherCategories
+            OTRAS_CATEGORIAS: params.otherCategories,
+            CARACTERES_ESPECIALES: params.specialCharacters
         };
         const wordId = await wordsDictionary.updateOne({ PALABRA: filters.word }, formattedWord, ['PALABRA']);
         const word = await WordsDictionaryService.findOne({ word: wordId });
@@ -362,6 +367,10 @@ class WordsDictionaryService {
             {
                 original: 'OTRAS_CATEGORIAS',
                 modified: 'OTRAS CATEGORIAS'
+            },
+            {
+                original: 'CARACTERES_ESPECIALES',
+                modified: 'CARACTERES ESPECIALES'
             }
         ];
     }
