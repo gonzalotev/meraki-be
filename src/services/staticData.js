@@ -36,6 +36,15 @@ class StaticDataService {
             .from('AUTOFRASES');
         return (data.autoPhrase = autoPhrase);
     }
+    static async getClosedQuestions(data) {
+        const closedQuestions = await knex
+            .select({
+                id: 'ID_PREGUNTA_CERRADA',
+                description: 'DESCRIPCION'
+            })
+            .from('PREGUNTAS_CERRADAS');
+        return (data.closedQuestions = closedQuestions);
+    }
     static async getNewPhrase(data) {
         const newPhrases = await knex
             .select({
@@ -316,13 +325,12 @@ class StaticDataService {
         if(filters.nomenclators) {
             data.relationshipAutophrasesLetter.nomenclators = await NomenclatorService.fetchIfExist(
                 {tableName: 'RELACION_AGRUPACIONES_AUTOFRASES'},
-                'ID_NOMENCLADOR',
-                {FECHA_BAJA: null}
+                'ID_NOMENCLADOR'
             );
         }
         if(filters.nomenclatorGrouping) {
             const { nomenclatorId } = filters;
-            let whereFilter = {FECHA_BAJA: null};
+            let whereFilter = {};
             if (nomenclatorId) {
                 whereFilter = {ID_NOMENCLADOR: nomenclatorId};
             }
@@ -336,7 +344,7 @@ class StaticDataService {
         }
         if(filters.nomenclatureGrouping) {
             const { nomenclatorId, groupId } = filters;
-            let whereFilter = {FECHA_BAJA: null};
+            let whereFilter = {};
             if (nomenclatorId && groupId) {
                 whereFilter = {ID_NOMENCLADOR: nomenclatorId, ID_AGRUPACION: groupId};
             }

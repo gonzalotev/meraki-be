@@ -22,6 +22,7 @@ const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
 const relationshipAutophrasesNomenclatures = require('./relationshipAutophrasesNomenclatures');
 const relationshipAutophrasesLetters = require('./relationshipAutophrasesLetters');
+const relationshipQuestionClosedsLetters = require('./relationshipQuestionClosedsLetters');
 const newWords = require('./newWords');
 const newPhrases = require('./newPhrases');
 const wordsDictionary = require('./wordsDictionary');
@@ -49,6 +50,7 @@ const microprocessesStepsOptions = require('./microprocessesStepsOption');
 const microprocessesWords = require('./microprocessesWords');
 const microprocessSteps = require('./microprocessSteps');
 const uniqueWordsAndPhrases = require('./uniqueWordsAndPhrases');
+const closedQuestions = require('./closedQuestions');
 
 module.exports = {
     ...assignments,
@@ -79,6 +81,7 @@ module.exports = {
     ...microprocessesListsIfWords,
     ...relationshipAutophrasesNomenclatures,
     ...relationshipAutophrasesLetters,
+    ...relationshipQuestionClosedsLetters,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
@@ -101,5 +104,6 @@ module.exports = {
     ...microprocessesStepsOptions,
     ...microprocessesWords,
     ...microprocessSteps,
-    ...uniqueWordsAndPhrases
+    ...uniqueWordsAndPhrases,
+    ...closedQuestions
 };

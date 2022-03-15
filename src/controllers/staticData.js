@@ -24,6 +24,7 @@ class StaticDataController {
                 autoPhrase,
                 newPhrases,
                 nomenclators,
+                closedQuestions,
                 lots,
                 lot,
                 fonts,
@@ -91,6 +92,9 @@ class StaticDataController {
             }
             if (autoPhrase) {
                 await StaticDataService.getAutoPhrase(data);
+            }
+            if (closedQuestions) {
+                await StaticDataService.getClosedQuestions(data, closedQuestions);
             }
             if (newPhrases) {
                 await StaticDataService.getNewPhrase(data);

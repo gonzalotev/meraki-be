@@ -1,22 +1,8 @@
 module.exports = {
-    '/api/encodingProcesses': {
+    '/api/relationshipQuestionClosedsLetters': {
         get: {
             security: [{ bearerAuth: [] }],
-            tags: ['Procesos de Codificacion'],
-            parameters: [
-                {
-                    in: 'query',
-                    name: 'sourceId',
-                    required: false,
-                    schema: { type: 'number' }
-                },
-                {
-                    in: 'query',
-                    name: 'questionId',
-                    required: false,
-                    schema: { type: 'number' }
-                }
-            ],
+            tags: ['Relationship Question Closed Letters'],
             responses: {
                 200: {
                     description: 'Success',
@@ -25,21 +11,20 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    encodingProcesses: {
+                                    relationships: {
                                         type: 'array',
                                         items: {
                                             type: 'object',
                                             properties: {
-                                                id: { type: 'string' },
-                                                description: { type: 'string' },
-                                                automatic_yes_no: { type: 'boolean' },
-                                                percentage_to_audit: { type: 'string' },
-                                                acceptable_level_error: { type: 'string' },
-                                                domain: { type: 'string' },
+                                                nomenclatorId: { type: 'integer' },
+                                                groupId: { type: 'integer' },
+                                                nomenclatureGroupId: { type: 'string' },
+                                                closedQuestionId: { type: 'integer' },
                                                 observation: { type: 'string' },
+                                                domain: { type: 'string' },
                                                 approved: { type: 'boolean' },
-                                                userCreator: { type: 'string' },
-                                                createdAt: { type: 'string' }
+                                                createdAt: { type: 'string' },
+                                                userCreator: { type: 'string' }
                                             }
                                         }
                                     }
@@ -56,32 +41,31 @@ module.exports = {
         },
         post: {
             security: [{ bearerAuth: [] }],
-            tags: ['Procesos de Codificacion'],
+            tags: ['Relationship Question Closed Letters'],
             requestBody: {
-                description: 'The new  Encoding Processes to create',
+                description: 'The new  type of relationship to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: { type: 'string' },
-                                description: { type: 'string' },
-                                automatic_yes_no: { type: 'boolean' },
-                                percentage_to_audit: { type: 'string' },
-                                acceptable_level_error: { type: 'string' },
-                                domain: { type: 'string' },
+                                nomenclatorId: { type: 'integer' },
+                                groupId: { type: 'integer' },
+                                nomenclatureGroupId: { type: 'string' },
+                                closedQuestionId: { type: 'integer' },
                                 observation: { type: 'string' },
+                                domain: { type: 'string' },
                                 approved: { type: 'boolean' },
-                                userCreator: { type: 'string' },
-                                createdAt: { type: 'string' }
+                                createdAt: { type: 'string' },
+                                userCreator: { type: 'string' }
                             }
                         }
                     }
                 }
             },
             responses: {
-                200: {
+                201: {
                     description: 'ok',
                     content: {
                         'application/json': {
@@ -89,19 +73,18 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: { type: 'boolean' },
-                                    encodingProcess: {
+                                    relationship: {
                                         type: 'object',
                                         properties: {
-                                            id: { type: 'string' },
-                                            description: { type: 'string' },
-                                            automatic_yes_no: { type: 'boolean' },
-                                            percentage_to_audit: { type: 'string' },
-                                            acceptable_level_error: { type: 'string' },
-                                            domain: { type: 'string' },
+                                            nomenclatorId: { type: 'integer' },
+                                            groupId: { type: 'integer' },
+                                            nomenclatureGroupId: { type: 'string' },
+                                            closedQuestionId: { type: 'integer' },
                                             observation: { type: 'string' },
+                                            domain: { type: 'string' },
                                             approved: { type: 'boolean' },
-                                            userCreator: { type: 'string' },
-                                            createdAt: { type: 'string' }
+                                            createdAt: { type: 'string' },
+                                            userCreator: { type: 'string' }
                                         }
                                     }
                                 }
@@ -116,37 +99,57 @@ module.exports = {
             }
         }
     },
-    '/api/encodingProcesses/{id}': {
+    '/api/relationshipQuestionClosedsLetters/{nomenclatorId}/{groupId}/{nomenclatureGroupId}/{closedQuestionId}': {
         put: {
             security: [{ bearerAuth: [] }],
-            tags: ['Procesos de Codificacion'],
+            tags: ['Relationship Question Closed Letters'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: { type: 'number' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'groupId',
+                    required: true,
+                    schema: { type: 'number' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureGroupId',
                     required: true,
                     schema: { type: 'string' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'closedQuestionId',
+                    required: true,
+                    schema: { type: 'number' },
                     description: 'User id of assignment'
                 }
             ],
             requestBody: {
-                description: 'The new Encoding Processes to create',
+                description: 'The new  type of relationship to create',
                 required: true,
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                id: { type: 'string' },
-                                description: { type: 'string' },
-                                automatic_yes_no: { type: 'boolean' },
-                                percentage_to_audit: { type: 'string' },
-                                acceptable_level_error: { type: 'string' },
-                                domain: { type: 'string' },
+                                nomenclatorId: { type: 'integer' },
+                                groupId: { type: 'integer' },
+                                nomenclatureGroupId: { type: 'string' },
+                                closedQuestionId: { type: 'integer' },
                                 observation: { type: 'string' },
+                                domain: { type: 'string' },
                                 approved: { type: 'boolean' },
-                                userCreator: { type: 'string' },
-                                createdAt: { type: 'string' }
+                                createdAt: { type: 'string' },
+                                userCreator: { type: 'string' }
                             }
                         }
                     }
@@ -161,19 +164,18 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     success: { type: 'boolean' },
-                                    encodingProcess: {
+                                    relationship: {
                                         type: 'object',
                                         properties: {
-                                            id: { type: 'string' },
-                                            description: { type: 'string' },
-                                            automatic_yes_no: { type: 'boolean' },
-                                            percentage_to_audit: { type: 'string' },
-                                            acceptable_level_error: { type: 'string' },
-                                            domain: { type: 'string' },
+                                            nomenclatorId: { type: 'integer' },
+                                            groupId: { type: 'integer' },
+                                            nomenclatureGroupId: { type: 'string' },
+                                            closedQuestionId: { type: 'integer' },
                                             observation: { type: 'string' },
+                                            domain: { type: 'string' },
                                             approved: { type: 'boolean' },
-                                            userCreator: { type: 'string' },
-                                            createdAt: { type: 'string' }
+                                            createdAt: { type: 'string' },
+                                            userCreator: { type: 'string' }
                                         }
                                     }
                                 }
@@ -189,13 +191,34 @@ module.exports = {
         },
         delete: {
             security: [{ bearerAuth: [] }],
-            tags: ['Procesos de Codificacion'],
+            tags: ['Relationship Types'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: { type: 'number' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'groupId',
+                    required: true,
+                    schema: { type: 'number' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureGroupId',
                     required: true,
                     schema: { type: 'string' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'closedQuestionId',
+                    required: true,
+                    schema: { type: 'number' },
                     description: 'User id of assignment'
                 }
             ],
@@ -212,13 +235,34 @@ module.exports = {
         },
         get: {
             security: [{ bearerAuth: [] }],
-            tags: ['Procesos de Codificacion'],
+            tags: ['Relationship Question Closed Letters'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'nomenclatorId',
+                    required: true,
+                    schema: { type: 'number' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'groupId',
+                    required: true,
+                    schema: { type: 'number' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'nomenclatureGroupId',
                     required: true,
                     schema: { type: 'string' },
+                    description: 'User id of assignment'
+                },
+                {
+                    in: 'path',
+                    name: 'closedQuestionId',
+                    required: true,
+                    schema: { type: 'number' },
                     description: 'User id of assignment'
                 }
             ],
@@ -230,19 +274,18 @@ module.exports = {
                             schema: {
                                 type: 'object',
                                 properties: {
-                                    encodingProcess: {
+                                    relationship: {
                                         type: 'object',
                                         properties: {
-                                            id: { type: 'string' },
-                                            description: { type: 'string' },
-                                            automatic_yes_no: { type: 'boolean' },
-                                            percentage_to_audit: { type: 'string' },
-                                            acceptable_level_error: { type: 'string' },
-                                            domain: { type: 'string' },
+                                            nomenclatorId: { type: 'integer' },
+                                            groupId: { type: 'integer' },
+                                            nomenclatureGroupId: { type: 'string' },
+                                            closedQuestionId: { type: 'integer' },
                                             observation: { type: 'string' },
+                                            domain: { type: 'string' },
                                             approved: { type: 'boolean' },
-                                            userCreator: { type: 'string' },
-                                            createdAt: { type: 'string' }
+                                            createdAt: { type: 'string' },
+                                            userCreator: { type: 'string' }
                                         }
                                     }
                                 }
@@ -257,17 +300,15 @@ module.exports = {
             }
         }
     },
-    '/api/encodingProcesses/downloadCsv': {
+    '/api/relationshipQuestionClosedsLetters/downloadCsv': {
         get: {
-            security: [{bearerAuth: []}],
-            operationId: 'downloadencodingProcessesCSV',
-            description: 'Returns encodingProcesses in csv format',
-            tags: ['Procesos de Codificacion'],
+            security: [{ bearerAuth: [] }],
+            tags: ['Relationship Question Closed Letters'],
             responses: {
                 200: {
                     description: 'Success',
                     content: {
-                        'text/csv': {
+                        'text/xlsx': {
                             schema: {type: 'string', format: 'binary'}
                         }
                     }

@@ -269,10 +269,7 @@ const nomenclatorsAttrib = [
     'FRACCIONADO_EN_PALABRAS',
     'IDIOMA_INGLES',
     'FECHA_ALTA',
-    'ID_USUARIO_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA',
-    'VALIDAR_CONCATENADO'
+    'ID_USUARIO_ALTA'
 ];
 
 const ticketTypeTableName = 'TIPOS_DE_CHAT';
@@ -509,7 +506,40 @@ const wordsDictionaryAttrib = [
     'ID_NUMERO',
     'FRECUENCIA',
     'ABC',
-    'FAMILIA'
+    'FAMILIA',
+    'INTERJECCION',
+    'CONJUNCION',
+    'NOMBRE',
+    'APELLIDO',
+    'MARCA',
+    'RAZON_SOCIAL',
+    'PRODUCTO',
+    'OTRAS_CATEGORIAS'
+];
+
+const relationshipQuestionClosedNomenclaturesTableName = 'RELACION_NOMENCLATURAS_PREGUNTAS_CERRADAS';
+const relationshipQuestionClosedNomenclaturesAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_PREGUNTA_CERRADA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SUPERVISADO'
+];
+
+const relationshipQuestionClosedLetterTableName = 'RELACION_AGRUPACIONES_PREGUNTAS_CERRADAS';
+const relationshipQuestionClosedLetterAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_AGRUPACION',
+    'ID_NOMENCLATURA_AGRUPACION',
+    'ID_PREGUNTA_CERRADA',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'SUPERVISADO'
 ];
 
 const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
@@ -893,6 +923,27 @@ const microprocessStepsAttrib = [
     'FECHA_ALTA'
 ];
 
+const closedQuestionsTableName = 'PREGUNTAS_CERRADAS';
+const closedQuestionsAttrib = [
+    'ID_PREGUNTA_CERRADA',
+    'ID_FUENTE',
+    'ID_PREGUNTA',
+    'DESCRIPCION',
+    'OBSERVACION',
+    'DOMINIO',
+    'ID_OPERADOR',
+    'SIGNO_PLSQL',
+    'SIGNO_JS',
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'ID_NOMENCLADOR_A_CODIFICAR',
+    'CANTIDAD_DE_NOMENCLATURAS',
+    'CANTIDAD_DE_AGRUPACIONES'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -963,6 +1014,10 @@ module.exports = {
     relationshipAutophrasesQuestionClosedsAttrib,
     relationshipAutoPhraseLetterTableName,
     relationshipAutoPhraseLetterAttrib,
+    relationshipQuestionClosedNomenclaturesTableName,
+    relationshipQuestionClosedNomenclaturesAttrib,
+    relationshipQuestionClosedLetterTableName,
+    relationshipQuestionClosedLetterAttrib,
     sourceQuestionsRelationsTableName,
     sourceQuestionsRelationsAttrib,
     nomenclaturesTableName,
@@ -1002,5 +1057,7 @@ module.exports = {
     microprocessesClosedQuestionIfTablename,
     microprocessesClosedQuestionIfAttrib,
     microprocessStepsTableName,
-    microprocessStepsAttrib
+    microprocessStepsAttrib,
+    closedQuestionsTableName,
+    closedQuestionsAttrib
 };
