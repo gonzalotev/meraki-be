@@ -35,9 +35,7 @@ class NomenclaturesService {
             observation: nomenclatures.OBSERVACION,
             domain: nomenclatures.DOMINIO,
             userCreator: nomenclatures.ID_USUARIO_ALTA,
-            createdAt: dateToString(nomenclatures.FECHA_ALTA),
-            userDeleted: nomenclatures.ID_USUARIO_BAJA,
-            deletedAt: dateToString(nomenclatures.FECHA_BAJA)
+            createdAt: dateToString(nomenclatures.FECHA_ALTA)
         }));
 
         return (nomenclaturess);
@@ -59,8 +57,6 @@ class NomenclaturesService {
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_BAJA: null,
-            ID_USUARIO_BAJA: null,
             FECHA_ALTA: new Date()
         };
         const nomenclature = await nomenclaturesModel.insertOne(formattedNomenclature, ['ID_NOMENCLADOR', 'ID_NOMENCLATURA', 'ABREVIATURA', 'DESCRIPCION']);
@@ -97,9 +93,7 @@ class NomenclaturesService {
             observation: nomenclatures.OBSERVACION,
             domain: nomenclatures.DOMINIO,
             userCreator: nomenclatures.ID_USUARIO_ALTA,
-            createdAt: dateToString(nomenclatures.FECHA_ALTA),
-            userDeleted: nomenclatures.ID_USUARIO_BAJA,
-            deletedAt: dateToString(nomenclatures.FECHA_BAJA)
+            createdAt: dateToString(nomenclatures.FECHA_ALTA)
         };
     }
 
@@ -119,9 +113,7 @@ class NomenclaturesService {
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt),
-            ID_USUARIO_BAJA: params.userDeleted,
-            FECHA_BAJA: stringToDate(params.deletedAt)
+            FECHA_ALTA: stringToDate(params.createdAt)
         };
         // eslint-disable-next-line no-use-before-define
         const nomenclatureId = await nomenclaturesModel.updateOne({ ID_NOMENCLATURA: filters.nomenclatureId },
@@ -187,7 +179,6 @@ class NomenclaturesService {
         return new Promise((resolve, reject) => {
             const stream = nomenclaturesModel.knex.select(columns)
                 .from(nomenclaturesModel.tableName)
-                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
