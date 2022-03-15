@@ -26,7 +26,7 @@ class AutoPhraseService {
         }
 
         autosPhrases = autosPhrases.map(autoPhrase => ({
-            id: autoPhrase.ID_AUTOFRASE,
+            autophraseId: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
             finalPhrase: autoPhrase.FRASE_ORIGINAL,
             approved: !!autoPhrase.SUPERVISADO,
@@ -70,16 +70,16 @@ class AutoPhraseService {
             CANTIDAD_DE_AGRUPACIONES: params.numberOfAgrupations
         };
         const autoPhraseId = await autoPhraseModel.insertOne(formattedAutoPhrase, ['ID_AUTOFRASE']);
-        const autoPhrase = await AutoPhraseService.findOne({ id: autoPhraseId });
+        const autoPhrase = await AutoPhraseService.findOne({ autophraseId: autoPhraseId });
         return autoPhrase;
     }
 
     static async findOne(filters) {
         let autoPhrase = await autoPhraseModel.findById({
-            ID_AUTOFRASE: filters.id
+            ID_AUTOFRASE: filters.autophraseId
         });
         autoPhrase = {
-            id: autoPhrase.ID_AUTOFRASE,
+            autophraseId: autoPhrase.ID_AUTOFRASE,
             variableId: autoPhrase.ID_VARIABLE,
             finalPhrase: autoPhrase.FRASE_ORIGINAL,
             approved: !!autoPhrase.SUPERVISADO,
@@ -108,7 +108,7 @@ class AutoPhraseService {
 
     static async update(filters, params, userCreator) {
         const formattedAutoPhrase = {
-            ID_AUTOFRASE: params.id,
+            ID_AUTOFRASE: params.autophraseId,
             ID_VARIABLE: trim(params.variableId),
             FRASE_ORIGINAL: trim(params.finalPhrase),
             FECHA_RETROALIMENTACION: stringToDate(params.dateRetro),
@@ -125,27 +125,27 @@ class AutoPhraseService {
             CANTIDAD_DE_NOMENCLATURAS: params.numberOfNomenclatures,
             CANTIDAD_DE_AGRUPACIONES: params.numberOfAgrupations
         };
-        const autoPhraseId = await autoPhraseModel.updateOne({ ID_AUTOFRASE: filters.id },
+        const autoPhraseId = await autoPhraseModel.updateOne({ ID_AUTOFRASE: filters.autophraseId },
             formattedAutoPhrase, ['ID_AUTOFRASE']);
-        const autoPhrase = await AutoPhraseService.findOne({ id: autoPhraseId });
+        const autoPhrase = await AutoPhraseService.findOne({ autophraseId: autoPhraseId });
         return autoPhrase;
     }
 
     static async delete(filters) {
-        const formattedFilters = { ID_AUTOFRASE: filters.id };
+        const formattedFilters = { ID_AUTOFRASE: filters.autophraseId };
         const success = await autoPhraseModel.delete(formattedFilters, {
         });
         return !!success;
     }
 
     static async getAutoPhrase(resources) {
-        const autophraseIds = compact(uniq(map(resources, resource => resource.id)));
+        const autophraseIds = compact(uniq(map(resources, resource => resource.autophraseId)));
         if (isEmpty(autophraseIds)) {
             return resources;
         }
         let autoPhrases = await autoPhraseModel.findByValues('ID_AUTOFRASE', autophraseIds, autoPhraseModel.selectableProps, []);
         autoPhrases = map(autoPhrases, autoPhrase => ({
-            id: autoPhrase.ID_AUTOFRASE,
+            autophraseId: autoPhrase.ID_AUTOFRASE,
             finalPhrase: autoPhrase.FRASE_ORIGINAL
         }));
         return map(resources, resource => {
@@ -154,7 +154,29 @@ class AutoPhraseService {
             }
             resource.foreignData.autoPhrase = find(
                 autoPhrases,
-                autoPhrase => autoPhrase.autophraseId === resource.id
+                autoPhrase => autoPhrase.autophraseId === resource.autophraseId
+            );
+            return resource;
+        });
+    }
+
+    static async getAutophraseData(resources, key='autophraseId', foreign='autophrase'){
+        const autophrasesIds = compact(uniq(map(resources, resource => resource[key])));
+        if(isEmpty(autophrasesIds)){
+            return resources;
+        }
+        let autophrases = await autoPhraseModel.findByValues('ID_AUTOFRASE', autophrasesIds);
+        autophrases = map(autophrases, autophrase => ({
+            autophraseId: autophrase.ID_AUTOFRASE,
+            finalPhrase: autophrase.FRASE_ORIGINAL
+        }));
+        return map(resources, resource => {
+            if (!resource.foreignData) {
+                resource.foreignData = {};
+            }
+            resource.foreignData[foreign] = find(
+                autophrases,
+                autophrase => autophrase.autophraseId === resource[key]
             );
             return resource;
         });
