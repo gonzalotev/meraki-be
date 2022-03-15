@@ -162,7 +162,7 @@ class StaticDataController {
                 await StaticDataService.getSupport(data);
             }
             if (entryFieldsNames) {
-                await StaticDataService.getEntryFieldsNames(data);
+                await StaticDataService.getEntryFieldsNames(data, entryFieldsNames);
             }
             if (originalAuxiliariesFields) {
                 await StaticDataService.getOriginalAuxiliariesFields(data);

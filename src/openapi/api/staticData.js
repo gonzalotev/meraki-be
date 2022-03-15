@@ -194,7 +194,7 @@ module.exports = {
                     in: 'query',
                     name: 'entryFieldsNames',
                     required: false,
-                    schema: { type: 'boolean' }
+                    schema: { type: 'string' }
                 },
                 {
                     in: 'query',
