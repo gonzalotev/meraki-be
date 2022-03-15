@@ -54,7 +54,6 @@ class StaticDataService {
             initials: 'SIGLA'
         })
             .from('NOMENCLADORES')
-            .where({FECHA_BAJA: null})
             .orderBy([{column: 'DESCRIPCION_COMPLETA', order: 'asc'}]);
         data.nomenclators = nomenclators;
         return data;
@@ -220,7 +219,7 @@ class StaticDataService {
             description: 'DESCRIPCION'
         })
             .from('TIPOS_DE_PREGUNTA')
-            .orderBy([{column: 'ID_ABIERTA_CERRADA', order: 'asc'}]);
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.questionsTypes = questionsTypes;
         return data;
     }
@@ -230,7 +229,7 @@ class StaticDataService {
             description: 'DESCRIPCION'
         })
             .from('TIPOS_DE_OPERATIVO')
-            .orderBy([{column: 'ID_TIPO_OPERATIVO', order: 'asc'}]);
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.operativeType = operativeType;
         return operativeType;
     }
@@ -252,7 +251,7 @@ class StaticDataService {
             description: 'DESCRIPCION'
         })
             .from('FRECUENCIAS')
-            .orderBy([{column: 'ID_FRECUENCIA', order: 'asc'}]);
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.frequency = frequency;
         return frequency;
     }
@@ -262,7 +261,7 @@ class StaticDataService {
             description: 'DESCRIPCION'
         })
             .from('SOPORTE')
-            .orderBy([{column: 'ID_SOPORTE', order: 'asc'}]);
+            .orderBy([{column: 'DESCRIPCION', order: 'asc'}]);
         data.support = support;
         return support;
     }
@@ -375,11 +374,19 @@ class StaticDataService {
         return data;
     }
 
-    static async getEntryFieldsNames(data){
+    static async getEntryFieldsNames(data, filters){
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'
         })
             .from('DATOS_DE_ENTRADA_CAMPOS')
+            .whereNotExists(function() {
+                this.select()
+                    .from('ESTRUCTURA_OPERATIVO')
+                    .whereRaw('ESTRUCTURA_OPERATIVO.ID_OPERATIVO = ?', [filters.operativeId])
+                    .andWhereRaw('DATOS_DE_ENTRADA_CAMPOS.ID_NOMBRE_CAMPO_ENTRADA = ESTRUCTURA_OPERATIVO.ID_NOMBRE_CAMPO_ENTRADA');
+            })
+            .andWhereRaw('ID_TIPO_DE_DATO = ?', [filters.datatypeId])
+            .andWhereRaw('TAMANIO >= ?', [filters.dataSize])
             .orderBy([{column: 'ID_NOMBRE_CAMPO_ENTRADA', order: 'asc'}]);
         data.entryFieldsNames = entryFieldsNames;
         return data;
@@ -450,7 +457,7 @@ class StaticDataService {
         return data;
     }
     static async getLinguisticFieldProcesses(data, filters){
-        if (filters.sourceId) {
+        if (filters.sourceId && filters.questionId) {
             const linguisticFieldProcesses = await knex.select({
                 id: 'ID_NOMBRE_CAMPO_LINGUISTICO',
                 dataType: 'TIPO_DATO'
@@ -460,7 +467,7 @@ class StaticDataService {
                     this.select('*')
                         .from('PASOS_PROCESOS_LINGUISTICOS')
                         .whereRaw('PASOS_PROCESOS_LINGUISTICOS.ID_NOMBRE_CAMPO_LINGUISTICO = PROCESOS_LINGUISTICOS_CAMPOS.ID_NOMBRE_CAMPO_LINGUISTICO')
-                        .andWhere({ ID_FUENTE: filters.sourceId });
+                        .andWhere({ ID_FUENTE: filters.sourceId, ID_PREGUNTA: filters.questionId });
                 })
                 .orderBy([{column: 'ID_NOMBRE_CAMPO_LINGUISTICO', order: 'asc'}]);
             data.linguisticFieldProcesses = linguisticFieldProcesses;
