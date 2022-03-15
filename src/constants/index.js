@@ -517,7 +517,8 @@ const wordsDictionaryAttrib = [
     'MARCA',
     'RAZON_SOCIAL',
     'PRODUCTO',
-    'OTRAS_CATEGORIAS'
+    'OTRAS_CATEGORIAS',
+    'CARACTERES_ESPECIALES'
 ];
 
 const relationshipAutoPhraseLetterTableName = 'RELACION_AGRUPACIONES_AUTOFRASES';
