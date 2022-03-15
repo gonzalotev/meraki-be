@@ -572,6 +572,18 @@ const relationshipAutoPhraseNomenclatureAttrib = [
     'VARIABLE_ESTADISTICA'
 ];
 
+const relationshipQuestionClosedNomenclatureTableName = 'RELACION_NOMENCLATURAS_PREGUNTAS_CERRADAS';
+const relationshipQuestionClosedNomenclatureAttrib = [
+    'ID_NOMENCLADOR',
+    'ID_NOMENCLATURA',
+    'ID_PREGUNTA_CERRADA',
+    'OBSERVACION',
+    'DOMINIO',
+    'SUPERVISADO',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA'
+];
+
 const operativeSourcesTableName = 'FUENTES_OPERATIVO';
 const operativeSourcesAttrib = [
     'ID_FUENTE',
@@ -629,9 +641,7 @@ const nomenclaturesAttrib = [
     'FECHA_ALTA',
     'ACRONIMO',
     'OBSERVACION',
-    'DOMINIO',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'DOMINIO'
 ];
 
 const operativeFontsTableName = 'FUENTES_OPERATIVO';
@@ -1010,6 +1020,8 @@ module.exports = {
     operativeSourcesAttrib,
     relationshipAutoPhraseNomenclatureTableName,
     relationshipAutoPhraseNomenclatureAttrib,
+    relationshipQuestionClosedNomenclatureTableName,
+    relationshipQuestionClosedNomenclatureAttrib,
     relationshipAutophrasesQuestionClosedsTableName,
     relationshipAutophrasesQuestionClosedsAttrib,
     relationshipAutoPhraseLetterTableName,

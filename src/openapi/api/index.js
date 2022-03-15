@@ -21,6 +21,7 @@ const nomenclatorTypes = require('./nomenclatorTypes');
 const networkTypes = require('./networkTypes');
 const autoPhrases = require('./autoPhrases');
 const relationshipAutophrasesNomenclatures = require('./relationshipAutophrasesNomenclatures');
+const relationshipQuestionClosedsNomenclatures = require('./relationshipQuestionClosedsNomenclatures');
 const relationshipAutophrasesLetters = require('./relationshipAutophrasesLetters');
 const relationshipQuestionClosedsLetters = require('./relationshipQuestionClosedsLetters');
 const newWords = require('./newWords');
@@ -82,6 +83,7 @@ module.exports = {
     ...relationshipAutophrasesNomenclatures,
     ...relationshipAutophrasesLetters,
     ...relationshipQuestionClosedsLetters,
+    ...relationshipQuestionClosedsNomenclatures,
     ...assignmentRoles,
     ...assignmentRolesNomenclators,
     ...assignmentRolesOperativeVariables,
