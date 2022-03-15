@@ -161,11 +161,11 @@ class LotsService {
     static async create(params, userCreator) {
         const formattedLot = {
             ID_OPERATIVO: params.operativeId,
-            DESCRIPCION: params.description,
-            OBSERVACION: params.observation,
-            DOMINIO: params.domain,
-            NOMBRE_ARCHIVO: params.fileName,
-            FORMATO_ARCHIVO: params.fileFormat,
+            DESCRIPCION: trim(params.description),
+            OBSERVACION: trim(params.observation),
+            DOMINIO: trim(params.domain),
+            NOMBRE_ARCHIVO: trim(params.fileName),
+            FORMATO_ARCHIVO: trim(params.fileFormat),
             CANTIDAD_DE_REGISTROS: params.numberOfRecords,
             ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: new Date()
