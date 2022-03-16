@@ -16,19 +16,19 @@ class SourceQuestionRelationService {
         if(page && source) {
             relations = await sourceQuestionRelation.findByPage(
                 page,
-                {ID_FUENTE: source, FECHA_BAJA: null},
+                {ID_FUENTE: source},
                 sourceQuestionRelation.selectableProps,
                 [{column: 'ID_FUENTE', order: 'asc'}, {column: 'CODIGO_PREGUNTA	', order: 'asc'}]
             );
         } else if(page){
             relations = await sourceQuestionRelation.findByPage(
                 page,
-                {FECHA_BAJA: null},
+                {},
                 sourceQuestionRelation.selectableProps,
                 [{column: 'ID_FUENTE', order: 'asc'}, {column: 'CODIGO_PREGUNTA', order: 'asc'}]
             );
         } else {
-            relations = await sourceQuestionRelation.find({FECHA_BAJA: null});
+            relations = await sourceQuestionRelation.find();
         }
         relations = relations.map(relation => ({
             sourceId: relation.ID_FUENTE,
@@ -46,9 +46,7 @@ class SourceQuestionRelationService {
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            deletedAt: dateToString(relation.FECHA_BAJA)
+            createdAt: dateToString(relation.FECHA_ALTA)
         }));
         await OperativeSourcesService.getSourceData(relations);
         await QuestionsService.getQuestionData(relations);
@@ -80,9 +78,7 @@ class SourceQuestionRelationService {
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,
-            userDeleted: relation.ID_USUARIO_BAJA,
-            createdAt: dateToString(relation.FECHA_ALTA),
-            deletedAt: dateToString(relation.FECHA_BAJA)
+            createdAt: dateToString(relation.FECHA_ALTA)
         } : {};
         await StaticalVariableService.getVariableData([relation]);
         await NomenclatorsService.getNomenclatorData([relation]);
@@ -107,9 +103,7 @@ class SourceQuestionRelationService {
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: userCreator,
-            ID_USUARIO_BAJA: null,
-            FECHA_ALTA: new Date(),
-            FECHA_BAJA: null
+            FECHA_ALTA: new Date()
         };
 
         const relationId = await sourceQuestionRelation.insertOne(formattedSourceQuestionRelation,
@@ -135,8 +129,7 @@ class SourceQuestionRelationService {
             AUTOFRASE_LEER_SI_NO: params.shouldReadAutoPhrase,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
-            ID_USUARIO_ALTA: params.userCreator,
-            ID_USUARIO_BAJA: params.userDeleted
+            ID_USUARIO_ALTA: params.userCreator
         };
         const relationId = await sourceQuestionRelation.updateOne({ID_FUENTE: filters.sourceId,
             ID_PREGUNTA: filters.questionId}, formattedSourceQuestionRelation, ['ID_FUENTE', 'ID_PREGUNTA']);
@@ -144,24 +137,21 @@ class SourceQuestionRelationService {
             questionId: relationId.ID_PREGUNTA});
         return relation;
     }
-    static async delete({sourceId, questionId}, userDeleted){
+    static async delete({sourceId, questionId}){
         const ids = {
             ID_FUENTE: sourceId,
             ID_PREGUNTA: questionId
         };
-        const success = await sourceQuestionRelation.deleteOne(ids, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+        const success = await sourceQuestionRelation.delete(ids);
         return !!success;
     }
 
     static async getTotal({source}){
         let result;
         if(source){
-            result = await sourceQuestionRelation.countTotal({ID_FUENTE: source, FECHA_BAJA: null});
+            result = await sourceQuestionRelation.countTotal({ID_FUENTE: source});
         } else {
-            result = await sourceQuestionRelation.countTotal({FECHA_BAJA: null});
+            result = await sourceQuestionRelation.countTotal({});
         }
         return result.total;
     }
@@ -170,7 +160,6 @@ class SourceQuestionRelationService {
         return new Promise((resolve, reject) => {
             const stream = sourceQuestionRelation.knex.select(columns)
                 .from(sourceQuestionRelation.tableName)
-                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

@@ -1,5 +1,6 @@
 const { OperativeStructure } = include('models');
 const { dateToString, stringToDate } = include('util');
+const OperativesService = require('./operatives');
 const trim = require('lodash/trim');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
@@ -32,7 +33,9 @@ class OperativeStructureService {
         } else {
             structures = await OperativeStructure.find({FECHA_BAJA: null});
         }
-        return structures.map(structure => OperativeStructureService.rebaseFormat(structure));
+        structures = structures.map(structure => OperativeStructureService.rebaseFormat(structure));
+        await OperativesService.getOperativesData(structures);
+        return structures;
     }
 
     static async findOne({operativeId, structureId}){

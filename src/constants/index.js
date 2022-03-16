@@ -586,9 +586,7 @@ const operativeSourcesAttrib = [
     'DOMINIO',
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const sourceQuestionsRelationsTableName = 'RELACION_FUENTE_PREGUNTAS';
@@ -608,9 +606,7 @@ const sourceQuestionsRelationsAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const nomenclaturesTableName = 'NOMENCLATURAS';
@@ -661,9 +657,7 @@ const questionsAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const chatTableName = 'CHAT';

@@ -47,7 +47,6 @@ class ClosedQuestionsController {
 
     static async delete(req, res, next) {
         try {
-            console.log(req.params);
             const success = await ClosedQuestionsService.delete(req.params, req.user.id);
             if (success) {
                 res.sendStatus(204);
