@@ -53,7 +53,7 @@ class OrganizationTypeController {
         try {
             const success = await OrganizationTypeService.delete(req.params.id);
             if (success) {
-                res.sendStatus(200);
+                res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }

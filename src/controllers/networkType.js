@@ -45,7 +45,7 @@ class NetworkTypeController {
         try {
             const success = await NetworkTypeService.delete(req.params.id);
             if (success) {
-                res.sendStatus(200);
+                res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }

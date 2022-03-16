@@ -45,7 +45,7 @@ class DocumentTypeController {
         try {
             const success = await DocumentTypeService.delete(req.params.id);
             if (success) {
-                res.sendStatus(200);
+                res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }

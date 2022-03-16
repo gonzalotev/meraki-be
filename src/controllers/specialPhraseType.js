@@ -45,7 +45,7 @@ class SpecialPhraseTypeController {
         try {
             const success = await SpecialPhraseTypeService.delete(req.params.id);
             if (success) {
-                res.sendStatus(200);
+                res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }

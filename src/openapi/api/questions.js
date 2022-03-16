@@ -132,7 +132,7 @@ module.exports = {
                 }
             ],
             responses: {
-                200: {
+                204: {
                     description: 'ok',
                     content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
                 },
