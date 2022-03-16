@@ -7,7 +7,7 @@ const find = require('lodash/find');
 
 class QuestionService {
     static async fetch() {
-        const Questions = await questionsModel.find({ FECHA_BAJA: null });
+        const Questions = await questionsModel.find();
         return Questions.map(question => ({
             id: question.ID_PREGUNTA,
             question: question.PREGUNTA,
@@ -15,9 +15,7 @@ class QuestionService {
             observation: question.OBSERVACION,
             domain: question.DOMINIO,
             createdAt: dateString(question.FECHA_ALTA, 'YYYY-MM-DD'),
-            userCreator: question.ID_USUARIO_ALTA,
-            userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateString(question.FECHA_BAJA, 'YYYY-MM-DD')
+            userCreator: question.ID_USUARIO_ALTA
         }));
     }
 
@@ -45,9 +43,7 @@ class QuestionService {
             observation: question.OBSERVACION,
             domain: question.DOMINIO,
             createdAt: dateString(question.FECHA_ALTA, 'YYYY-MM-DD'),
-            userCreator: question.ID_USUARIO_ALTA,
-            userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateString(question.FECHA_BAJA, 'YYYY-MM-DD')
+            userCreator: question.ID_USUARIO_ALTA
         };
     }
 
@@ -65,12 +61,9 @@ class QuestionService {
         return question;
     }
 
-    static async delete(filters, userDeleted) {
+    static async delete(filters) {
         const formattedFilters = { ID_PREGUNTA: filters.id };
-        const success = await questionsModel.deleteOne(formattedFilters, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+        const success = await questionsModel.delete(formattedFilters);
         return !!success;
     }
 
@@ -107,9 +100,7 @@ class QuestionService {
             observation: question.OBSERVACION,
             domain: question.DOMINIO,
             createdAt: dateToString(question.FECHA_ALTA),
-            userCreator: question.ID_USUARIO_ALTA,
-            userDeleted: question.ID_USUARIO_BAJA,
-            deletedAt: dateToString(question.FECHA_BAJA)
+            userCreator: question.ID_USUARIO_ALTA
         }));
     }
 
@@ -117,7 +108,6 @@ class QuestionService {
         return new Promise((resolve, reject) => {
             const stream = questionsModel.knex.select(columns)
                 .from(questionsModel.tableName)
-                .where({FECHA_BAJA: null})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);

@@ -52,15 +52,6 @@ module.exports = {
         userCreator: {
             type: 'string',
             nullable: false
-        },
-        deletedAt: {
-            type: 'string',
-            example: '2021-08-20',
-            nullable: true
-        },
-        userDeleted: {
-            type: 'string',
-            nullable: true
         }
     }
 };
