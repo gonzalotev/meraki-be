@@ -7,7 +7,7 @@ const find = require('lodash/find');
 
 class OperativeSourcesService {
     static async fetch() {
-        const operatives = await operativeSources.find({ FECHA_BAJA: null });
+        const operatives = await operativeSources.find();
         return operatives.map(operative => ({
             sourceId: operative.ID_FUENTE,
             name: operative.NOMBRE,
@@ -21,9 +21,7 @@ class OperativeSourcesService {
             domain: operative.DOMINIO,
             supervised: !!operative.SUPERVISADO,
             createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
-            userCreator: operative.ID_USUARIO_ALTA,
-            userDeleted: operative.ID_USUARIO_BAJA,
-            deletedAt: dateString(operative.FECHA_BAJA, 'YYYY-MM-DD')
+            userCreator: operative.ID_USUARIO_ALTA
         }));
     }
 
@@ -40,9 +38,7 @@ class OperativeSourcesService {
             DOMINIO: params.domain,
             SUPERVISADO: params.supervised,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date(),
-            ID_USUARIO_BAJA: null,
-            FECHA_BAJA: null
+            FECHA_ALTA: new Date()
         };
         const sourceId = await operativeSources.insertOne(formattedOperativeSource, ['ID_FUENTE']);
         const source = await OperativeSourcesService.findOne({ sourceId });
@@ -66,9 +62,7 @@ class OperativeSourcesService {
             domain: operativeSource.DOMINIO,
             supervised: operativeSource.SUPERVISADO,
             createdAt: dateString(operativeSource.FECHA_ALTA, 'YYYY-MM-DD'),
-            userCreator: operativeSource.ID_USUARIO_ALTA,
-            userDeleted: operativeSource.ID_USUARIO_BAJA,
-            deletedAt: dateString(operativeSource.FECHA_BAJA, 'YYYY-MM-DD')
+            userCreator: operativeSource.ID_USUARIO_ALTA
         };
     }
 
@@ -91,11 +85,8 @@ class OperativeSourcesService {
         return source;
     }
 
-    static async delete(filters, userDeleted) {
-        const success = await operativeSources.deleteOne({ ID_FUENTE: filters.sourceId }, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
-        });
+    static async delete(filters) {
+        const success = await operativeSources.delete({ ID_FUENTE: filters.sourceId });
         return !!success;
     }
 
@@ -211,9 +202,7 @@ class OperativeSourcesService {
             domain: source.DOMINIO,
             supervised: source.SUPERVISADO,
             createdAt: dateToString(source.FECHA_ALTA),
-            userCreator: source.ID_USUARIO_ALTA,
-            userDeleted: source.ID_USUARIO_BAJA,
-            deletedAt: dateToString(source.FECHA_BAJA)
+            userCreator: source.ID_USUARIO_ALTA
         }));
     }
 

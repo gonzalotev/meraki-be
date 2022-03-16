@@ -161,7 +161,6 @@ class StaticDataService {
             initials: 'SIGLA'
         })
             .from('FUENTES_OPERATIVO')
-            .where({FECHA_BAJA: null})
             .orderBy([{column: 'NOMBRE', order: 'asc'}]);
         data.sources = sources;
         return data;
@@ -217,7 +216,6 @@ class StaticDataService {
             question: 'PREGUNTA'
         })
             .from('PREGUNTAS')
-            .where({FECHA_BAJA: null})
             .orderBy([{column: 'PREGUNTA', order: 'asc'}]);
         data.questions = questions;
         return data;
@@ -383,6 +381,24 @@ class StaticDataService {
     }
 
     static async getEntryFieldsNames(data, filters){
+        if (filters.decimals) {
+            const entryFieldsNames = await knex.select({
+                id: 'ID_NOMBRE_CAMPO_ENTRADA'
+            })
+                .from('DATOS_DE_ENTRADA_CAMPOS')
+                .whereNotExists(function() {
+                    this.select()
+                        .from('ESTRUCTURA_OPERATIVO')
+                        .whereRaw('ESTRUCTURA_OPERATIVO.ID_OPERATIVO = ?', [filters.operativeId])
+                        .andWhereRaw('DATOS_DE_ENTRADA_CAMPOS.ID_NOMBRE_CAMPO_ENTRADA = ESTRUCTURA_OPERATIVO.ID_NOMBRE_CAMPO_ENTRADA');
+                })
+                .andWhereRaw('ID_TIPO_DE_DATO = ?', [filters.datatypeId])
+                .andWhereRaw('TAMANIO >= ?', [filters.dataSize])
+                .andWhereRaw('DECIMALES >= ?', [filters.decimals])
+                .orderBy([{column: 'ID_NOMBRE_CAMPO_ENTRADA', order: 'asc'}]);
+            data.entryFieldsNames = entryFieldsNames;
+            return data;
+        }
         const entryFieldsNames = await knex.select({
             id: 'ID_NOMBRE_CAMPO_ENTRADA'
         })

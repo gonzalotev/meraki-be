@@ -42,14 +42,14 @@ class QuestionsController {
 
     static async delete(req, res, next){
         try {
-            const success = await QuestionsService.delete(req.params, req.user.id);
+            const success = await QuestionsService.delete(req.params);
             if (success) {
                 res.sendStatus(204);
             } else {
                 res.sendStatus(400);
             }
-        } catch (error) {
-            next(error);
+        } catch(err) {
+            next(err);
         }
     }
 

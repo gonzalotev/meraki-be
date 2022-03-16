@@ -132,10 +132,7 @@ module.exports = {
                 }
             ],
             responses: {
-                204: {
-                    description: 'ok',
-                    content: {'application/json': { schema: {$ref: '#/components/schemas/Success'}}}
-                },
+                200: {description: 'The resource was deleted successfully.'},
                 default: {
                     description: 'Error',
                     content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}

@@ -514,7 +514,8 @@ const wordsDictionaryAttrib = [
     'MARCA',
     'RAZON_SOCIAL',
     'PRODUCTO',
-    'OTRAS_CATEGORIAS'
+    'OTRAS_CATEGORIAS',
+    'CARACTERES_ESPECIALES'
 ];
 
 const relationshipQuestionClosedNomenclaturesTableName = 'RELACION_NOMENCLATURAS_PREGUNTAS_CERRADAS';
@@ -598,9 +599,7 @@ const operativeSourcesAttrib = [
     'DOMINIO',
     'SUPERVISADO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const sourceQuestionsRelationsTableName = 'RELACION_FUENTE_PREGUNTAS';
@@ -620,9 +619,7 @@ const sourceQuestionsRelationsAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const nomenclaturesTableName = 'NOMENCLATURAS';
