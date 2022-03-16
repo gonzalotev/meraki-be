@@ -165,7 +165,7 @@ class ClosedQuestionsService {
         return new Promise((resolve, reject) => {
             const stream = closedQuestionsModel.knex.select(columns)
                 .from(closedQuestionsModel.tableName)
-                .where({FECHA_BAJA: null})
+                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
