@@ -1,244 +1,132 @@
-const { wordsDictionary } = include('models');
+const { relationshipBetweenNomenclators } = include('models');
 const { dateToString } = include('util');
-const trim = require('lodash/trim');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
-class WordsDictionaryService {
+class RelationshipBetweenNomenclators {
     static async fetch({ page, search }) {
-        const orderBy = [{ column: 'PALABRA', order: 'asc' }];
+        const orderBy = [{ column: 'ID_CORRESPONDENCIA', order: 'asc' }];
         const filterBy = {};
-        const columnsToSelect = wordsDictionary.selectableProps;
-        let words = [];
+        const columnsToSelect = relationshipBetweenNomenclators.selectableProps;
+        let relationships = [];
         if (page && search) {
-            words = await wordsDictionary.findByMatch(
+            relationships = await relationshipBetweenNomenclators.findByMatch(
                 page,
                 search,
-                ['PALABRA'],
+                ['ID_CORRESPONDENCIA'],
                 filterBy,
                 orderBy
             );
         } else if (page) {
-            words = await wordsDictionary.findByPage(
+            relationships = await relationshipBetweenNomenclators.findByPage(
                 page,
                 filterBy,
                 columnsToSelect,
                 orderBy);
         } else {
-            words = await wordsDictionary.find(filterBy, columnsToSelect, orderBy);
+            relationships = await relationshipBetweenNomenclators.find(filterBy, columnsToSelect, orderBy);
         }
 
-        return words.map(words => ({
-            word: words.PALABRA,
-            truncate: words.TRUNCADO,
-            acronim: words.ACRONIMO,
-            verb: !!words.VERBO,
-            noun: !!words.SUSTANTIVO,
-            adjective: !!words.ADJETIVO,
-            adverb: !!words.ADVERBIO,
-            pronoun: !!words.PRONOMBRE,
-            article: !!words.ARTICULO,
-            preposition: !!words.PREPOSICION,
-            doubtWord: !!words.PALABRA_DUDOSA,
-            observation: words.OBSERVACION,
-            domain: words.DOMINIO,
-            supervised: !!words.SUPERVISADO,
-            hashFunction: words.FUNCION_DE_HASH,
-            hash: words.HASH,
-            createdAt: dateToString(words.FECHA_ALTA),
-            userCreator: words.ID_USUARIO_ALTA,
-            genderId: words.ID_GENERO_NUMERO,
-            numberId: words.ID_NUMERO,
-            frequency: words.FRECUENCIA,
-            abc: words.ABC,
-            family: words.FAMILIA,
-            interjection: !!words.INTERJECCION,
-            conjunction: !!words.CONJUNCION,
-            name: !!words.NOMBRE,
-            lastName: !!words.APELLIDO,
-            brand: !!words.MARCA,
-            businessName: !!words.RAZON_SOCIAL,
-            product: !!words.PRODUCTO,
-            otherCategories: !!words.OTRAS_CATEGORIAS,
-            specialCharacters: !!words.CARACTERES_ESPECIALES
+        return relationships.map(relationships => ({
+            correspondenceId: relationships.ID_CORRESPONDENCIA,
+            description: relationships.DESCRIPCION,
+            relationTypeId: relationships.ID_TIPO_RELACION,
+            domain: relationships.DOMINIO,
+            nomenclatorId1: relationships.ID_NOMENCLADOR1,
+            digitAmountId1: relationships.ID_CANTIDAD_DIGITOS1,
+            nomenclatorId2: relationships.ID_NOMENCLADOR2,
+            digitAmountId2: relationships.ID_CANTIDAD_DIGITOS2,
+            userCreator: relationships.ID_USUARIO_ALTA,
+            createdAt: relationships.FECHA_ALTA,
+            observation: relationships.OBSERVACION,
+            hasCoefficient: relationships.TIENE_COEFICIENTE,
+            isInjective: relationships.ES_INYECTIVA,
+            isSurjective: relationships.ES_SOBREYECTIVA
         }));
     }
 
     static async create(params, userCreator) {
-        const formattedWord = {
-            PALABRA: params.word,
-            TRUNCADO: params.truncate,
-            ACRONIMO: params.acronim,
-            VERBO: params.verb,
-            SUSTANTIVO: params.noun,
-            ADJETIVO: params.adjective,
-            ADVERBIO: params.adverb,
-            PRONOMBRE: params.pronoun,
-            ARTICULO: params.article,
-            PREPOSICION: params.preposition,
-            PALABRA_DUDOSA: params.doubtWord,
-            OBSERVACION: params.observation,
+        const formattedRelationship = {
+            ID_CORRESPONDENCIA: params.correspondenceId,
+            DESCRIPCION: params.description,
+            ID_TIPO_RELACION: params.relationTypeId,
             DOMINIO: params.domain,
-            SUPERVISADO: params.supervised,
-            FUNCION_DE_HASH: params.hashFunction,
-            HASH: params.hash,
+            ID_NOMENCLADOR1: params.nomenclatorId1,
+            ID_CANTIDAD_DIGITOS1: params.digitAmountId1,
+            ID_NOMENCLADOR2: params.nomenclatorId2,
+            ID_CANTIDAD_DIGITOS2: params.digitAmountId2,
+            ID_USUARIO_ALTA: userCreator,
             FECHA_ALTA: new Date(),
-            ID_USUARIO_ALTA: 1 || userCreator,
-            ID_GENERO_NUMERO: params.genderId,
-            ID_NUMERO: params.numberId,
-            FRECUENCIA: params.frequency,
-            ABC: params.abc,
-            FAMILIA: trim(params.family),
-            INTERJECCION: params.interjection,
-            CONJUNCION: params.conjunction,
-            NOMBRE: params.name,
-            APELLIDO: params.lastName,
-            MARCA: params.brand,
-            RAZON_SOCIAL: params.businessName,
-            PRODUCTO: params.product,
-            OTRAS_CATEGORIAS: params.otherCategories,
-            CARACTERES_ESPECIALES: params.specialCharacters
+            OBSERVACION: params.observation,
+            TIENE_COEFICIENTE: params.hasCoefficient,
+            ES_INYECTIVA: params.isInjective,
+            ES_SOBREYECTIVA: params.isSurjective
         };
-        const wordId = await wordsDictionary.insertOne(formattedWord, ['PALABRA']);
-        const word = await WordsDictionaryService.findOne({ word: wordId });
-        return word;
+        const correspondenceId = await relationshipBetweenNomenclators.insertOne(formattedRelationship, ['ID_CORRESPONDENCIA']);
+        const relationship = await RelationshipBetweenNomenclators.findOne({ correspondenceId: correspondenceId });
+        return relationship;
     }
 
     static async findOne(filters) {
-        const formattedFilters = { PALABRA: filters.word };
-        const word = await wordsDictionary.findById(formattedFilters);
+        const formattedFilters = { ID_CORRESPONDENCIA: filters.correspondenceId };
+        const relationships = await relationshipBetweenNomenclators.findById(formattedFilters);
         return {
-            word: word.PALABRA,
-            truncate: word.TRUNCADO,
-            acronim: word.ACRONIMO,
-            verb: !!word.VERBO,
-            noun: !!word.SUSTANTIVO,
-            adjective: !!word.ADJETIVO,
-            adverb: !!word.ADVERBIO,
-            pronoun: !!word.PRONOMBRE,
-            article: !!word.ARTICULO,
-            preposition: !!word.PREPOSICION,
-            doubtWord: !!word.PALABRA_DUDOSA,
-            observation: word.OBSERVACION,
-            domain: word.DOMINIO,
-            supervised: !!word.SUPERVISADO,
-            hashFunction: word.FUNCION_DE_HASH,
-            hash: word.HASH,
-            createdAt: dateToString(word.FECHA_ALTA),
-            userCreator: word.ID_USUARIO_ALTA,
-            genderId: word.ID_GENERO_NUMERO,
-            numberId: word.ID_NUMERO,
-            frequency: word.FRECUENCIA,
-            abc: word.ABC,
-            family: word.FAMILIA,
-            interjection: !!word.INTERJECCION,
-            conjunction: !!word.CONJUNCION,
-            name: !!word.NOMBRE,
-            lastName: !!word.APELLIDO,
-            brand: !!word.MARCA,
-            businessName: !!word.RAZON_SOCIAL,
-            product: !!word.PRODUCTO,
-            otherCategories: !!word.OTRAS_CATEGORIAS,
-            specialCharacters: !!word.CARACTERES_ESPECIALES
+            correspondenceId: relationships.ID_CORRESPONDENCIA,
+            description: relationships.DESCRIPCION,
+            relationTypeId: relationships.ID_TIPO_RELACION,
+            domain: relationships.DOMINIO,
+            nomenclatorId1: relationships.ID_NOMENCLADOR1,
+            digitAmountId1: relationships.ID_CANTIDAD_DIGITOS1,
+            nomenclatorId2: relationships.ID_NOMENCLADOR2,
+            digitAmountId2: relationships.ID_CANTIDAD_DIGITOS2,
+            userCreator: relationships.ID_USUARIO_ALTA,
+            createdAt: relationships.FECHA_ALTA,
+            observation: relationships.OBSERVACION,
+            hasCoefficient: relationships.TIENE_COEFICIENTE,
+            isInjective: relationships.ES_INYECTIVA,
+            isSurjective: relationships.ES_SOBREYECTIVA
         };
-    }
-
-    static async findMatching(filters) {
-        const formattedFilters = { PALABRA: filters.word };
-        const matchWords = await wordsDictionary.findByMatch(formattedFilters);
-        return matchWords.map(words => ({
-            word: words.PALABRA,
-            truncate: words.TRUNCADO,
-            acronim: words.ACRONIMO,
-            verb: !!words.VERBO,
-            noun: !!words.SUSTANTIVO,
-            adjective: !!words.ADJETIVO,
-            adverb: !!words.ADVERBIO,
-            pronoun: !!words.PRONOMBRE,
-            article: !!words.ARTICULO,
-            preposition: !!words.PREPOSICION,
-            doubtWord: !!words.PALABRA_DUDOSA,
-            observation: words.OBSERVACION,
-            domain: words.DOMINIO,
-            supervised: !!words.SUPERVISADO,
-            hashFunction: words.FUNCION_DE_HASH,
-            hash: words.HASH,
-            createdAt: dateToString(words.FECHA_ALTA),
-            userCreator: words.ID_USUARIO_ALTA,
-            genderId: words.ID_GENERO_NUMERO,
-            numberId: words.ID_NUMERO,
-            frequency: words.FRECUENCIA,
-            abc: words.ABC,
-            family: words.FAMILIA,
-            interjection: !!words.INTERJECCION,
-            conjunction: !!words.CONJUNCION,
-            name: !!words.NOMBRE,
-            lastName: !!words.APELLIDO,
-            brand: !!words.MARCA,
-            businessName: !!words.RAZON_SOCIAL,
-            product: !!words.PRODUCTO,
-            otherCategories: !!words.OTRAS_CATEGORIAS,
-            specialCharacters: !!words.CARACTERES_ESPECIALES
-        }));
     }
 
     static async update(filters, params) {
-        const formattedWord = {
-            PALABRA: params.word,
-            TRUNCADO: params.truncate,
-            ACRONIMO: params.acronim,
-            VERBO: params.verb,
-            SUSTANTIVO: params.noun,
-            ADJETIVO: params.adjective,
-            ADVERBIO: params.adverb,
-            PRONOMBRE: params.pronoun,
-            ARTICULO: params.article,
-            PREPOSICION: params.preposition,
-            PALABRA_DUDOSA: params.doubtWord,
-            OBSERVACION: params.observation,
+        const formattedRelationship = {
+            ID_CORRESPONDENCIA: params.correspondenceId,
+            DESCRIPCION: params.description,
+            ID_TIPO_RELACION: params.relationTypeId,
             DOMINIO: params.domain,
-            SUPERVISADO: params.supervised,
-            FUNCION_DE_HASH: params.hashFunction,
-            HASH: params.hash,
-            ID_GENERO_NUMERO: params.genderId,
-            ID_NUMERO: params.numberId,
-            FRECUENCIA: params.frequency,
-            ABC: params.abc,
-            FAMILIA: params.family,
-            INTERJECCION: params.interjection,
-            CONJUNCION: params.conjunction,
-            NOMBRE: params.name,
-            APELLIDO: params.lastName,
-            MARCA: params.brand,
-            RAZON_SOCIAL: params.businessName,
-            PRODUCTO: params.product,
-            OTRAS_CATEGORIAS: params.otherCategories,
-            CARACTERES_ESPECIALES: params.specialCharacters
+            ID_NOMENCLADOR1: params.nomenclatorId1,
+            ID_CANTIDAD_DIGITOS1: params.digitAmountId1,
+            ID_NOMENCLADOR2: params.nomenclatorId2,
+            ID_CANTIDAD_DIGITOS2: params.digitAmountId2,
+            OBSERVACION: params.observation,
+            TIENE_COEFICIENTE: params.hasCoefficient,
+            ES_INYECTIVA: params.isInjective,
+            ES_SOBREYECTIVA: params.isSurjective
         };
-        const wordId = await wordsDictionary.updateOne({ PALABRA: filters.word }, formattedWord, ['PALABRA']);
-        const word = await WordsDictionaryService.findOne({ word: wordId });
-        return word;
+        const correspondenceId = await relationshipBetweenNomenclators.updateOne({ ID_CORRESPONDENCIA: filters.correspondenceId }, formattedRelationship, ['ID_CORRESPONDENCIA']);
+        const relationship = await RelationshipBetweenNomenclators.findOne({ correspondenceId: correspondenceId });
+        return relationship;
     }
 
     static async delete(filters) {
-        const success = await wordsDictionary.delete({ PALABRA: filters.word });
+        const success = await relationshipBetweenNomenclators.delete({ ID_CORRESPONDENCIA: filters.correspondenceId });
         return !!success;
     }
 
     static async checkIfAllWordsExist(words) {
-        const wordsFound = await wordsDictionary.findWords(words);
+        const wordsFound = await relationshipBetweenNomenclators.findWords(words);
         return { wordsFound };
     }
 
     static async getTotal({ search }) {
-        const { total } = await wordsDictionary.countTotal({}, search, ['PALABRA']);
+        const { total } = await relationshipBetweenNomenclators.countTotal({}, search, ['ID_CORRESPONDENCIA']);
         return total;
     }
 
     static exportToFile(worksheet, columns) {
         return new Promise((resolve, reject) => {
-            const stream = wordsDictionary.knex.select(columns)
-                .from(wordsDictionary.tableName)
+            const stream = relationshipBetweenNomenclators.knex.select(columns)
+                .from(relationshipBetweenNomenclators.tableName)
                 .stream();
             stream.on('error', function (err) {
                 reject(err);
@@ -261,119 +149,55 @@ class WordsDictionaryService {
     static getColumns() {
         return [
             {
-                original: 'PALABRA',
-                modified: 'PALABRA'
+                original: 'ID_CORRESPONDENCIA',
+                modified: 'ID CORRESPONDENCIA'
             },
             {
-                original: 'TRUNCADO',
-                modified: 'TRUNCADO'
+                original: 'DESCRIPCION',
+                modified: 'DESCRIPCION'
             },
             {
-                original: 'ACRONIMO',
-                modified: 'ACRÓNIMO'
-            },
-            {
-                original: 'VERBO',
-                modified: 'VERBO'
-            },
-            {
-                original: 'SUSTANTIVO',
-                modified: 'SUSTANTIVO'
-            },
-            {
-                original: 'ADJETIVO',
-                modified: 'ADJETIVO'
-            },
-            {
-                original: 'ADVERBIO',
-                modified: 'ADVERBIO'
-            },
-            {
-                original: 'PRONOMBRE',
-                modified: 'PRONOMBRE'
-            },
-            {
-                original: 'ARTICULO',
-                modified: 'ARTÍCULO'
-            },
-            {
-                original: 'PREPOSICION',
-                modified: 'PREPOSICIÓN'
-            },
-            {
-                original: 'PALABRA_DUDOSA',
-                modified: 'PALABRA DUDOSA'
-            },
-            {
-                original: 'OBSERVACION',
-                modified: 'OBSERVACIÓN'
+                original: 'ID_TIPO_RELACION',
+                modified: 'ID TIPO RELACION'
             },
             {
                 original: 'DOMINIO',
                 modified: 'DOMINIO'
             },
             {
-                original: 'SUPERVISADO',
-                modified: 'SUPERVISADO'
+                original: 'ID_NOMENCLADOR1',
+                modified: 'ID NOMENCLADOR1'
             },
             {
-                original: 'ID_GENERO_NUMERO',
-                modified: 'GÉNERO Y NÚMERO ID'
+                original: 'ID_CANTIDAD_DIGITOS1',
+                modified: 'ID CANTIDAD DIGITOS 1'
             },
             {
-                original: 'ID_NUMERO',
-                modified: 'NÚMERO ID'
+                original: 'ID_NOMENCLADOR2',
+                modified: 'ID NOMENCLADOR2'
             },
             {
-                original: 'FRECUENCIA',
-                modified: 'FRECUENCÍA'
+                original: 'ID_CANTIDAD_DIGITOS2',
+                modified: 'ID CANTIDAD DIGITOS 2'
             },
             {
-                original: 'ABC',
-                modified: 'CURVA ABC'
+                original: 'OBSERVACION',
+                modified: 'OBSERVACION'
             },
             {
-                original: 'FAMILIA',
-                modified: 'FAMILIA'
+                original: 'TIENE_COEFICIENTE',
+                modified: 'TIENE COEFICIENTE'
             },
             {
-                original: 'INTERJECCION',
-                modified: 'INTERJECCION'
+                original: 'ES_INYECTIVA',
+                modified: 'ES INYECTIVA'
             },
             {
-                original: 'CONJUNCION',
-                modified: 'CONJUNCION'
-            },
-            {
-                original: 'NOMBRE',
-                modified: 'NOMBRE'
-            },
-            {
-                original: 'APELLIDO',
-                modified: 'APELLIDO'
-            },
-            {
-                original: 'MARCA',
-                modified: 'MARCA'
-            },
-            {
-                original: 'RAZON_SOCIAL',
-                modified: 'RAZON SOCIAL'
-            },
-            {
-                original: 'PRODUCTO',
-                modified: 'PRODUCTO'
-            },
-            {
-                original: 'OTRAS_CATEGORIAS',
-                modified: 'OTRAS CATEGORIAS'
-            },
-            {
-                original: 'CARACTERES_ESPECIALES',
-                modified: 'CARACTERES ESPECIALES'
+                original: 'ES_SOBREYECTIVA',
+                modified: 'ES SOBREYECTIVA'
             }
         ];
     }
 }
 
-module.exports = WordsDictionaryService;
+module.exports = RelationshipBetweenNomenclators;
