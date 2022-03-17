@@ -1,8 +1,8 @@
 module.exports = {
-    '/api/wordsDictionary': {
+    '/api/relationshipBetweenNomenclators': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
+            tags: ['Relationship Between Nomenclators'],
             parameters: [
                 {
                     in: 'query',
@@ -45,7 +45,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
+            tags: ['Relationship Between Nomenclators'],
             requestBody: {
                 description: 'The new word to create',
                 required: true,
@@ -54,28 +54,20 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                word: {type: 'string'},
-                                truncate: {type: 'string'},
-                                acronim: {type: 'string'},
-                                verb: {type: 'boolean'},
-                                noun: {type: 'boolean'},
-                                adjective: {type: 'boolean'},
-                                adverb: {type: 'boolean'},
-                                pronoun: {type: 'boolean'},
-                                article: {type: 'boolean'},
-                                preposition: {type: 'boolean'},
-                                doubtWord: {type: 'boolean'},
-                                observation: {type: 'string'},
+                                correspondenceId: {type: 'number'},
+                                description: {type: 'string'},
+                                relationTypeId: {type: 'number'},
                                 domain: {type: 'string'},
-                                supervised: {type: 'boolean'},
-                                hashFunction: {type: 'string'},
-                                hash: {type: 'string'},
-                                genderId: {type: 'string'},
-                                numberId: {type: 'string'},
-                                frequency: {type: 'string'},
-                                abc: {type: 'string'},
-                                family: {type: 'string'}
-
+                                nomenclatorId1: {type: 'number'},
+                                digitAmountId1: {type: 'number'},
+                                nomenclatorId2: {type: 'number'},
+                                digitAmountId2: {type: 'number'},
+                                userCreator: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                observation: {type: 'string'},
+                                hasCoefficient: {type: 'number'},
+                                isInjective: {type: 'number'},
+                                isSurjective: {type: 'number'}
                             }
                         }
                     }
@@ -93,27 +85,20 @@ module.exports = {
                                     word: {
                                         type: 'object',
                                         properties: {
-                                            word: {type: 'string'},
-                                            truncate: {type: 'string'},
-                                            acronim: {type: 'string'},
-                                            verb: {type: 'boolean'},
-                                            noun: {type: 'boolean'},
-                                            adjective: {type: 'boolean'},
-                                            adverb: {type: 'boolean'},
-                                            pronoun: {type: 'boolean'},
-                                            article: {type: 'boolean'},
-                                            preposition: {type: 'boolean'},
-                                            doubtWord: {type: 'boolean'},
-                                            observation: {type: 'string'},
+                                            correspondenceId: {type: 'number'},
+                                            description: {type: 'string'},
+                                            relationTypeId: {type: 'number'},
                                             domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            hashFunction: {type: 'string'},
-                                            hash: {type: 'string'},
-                                            genderId: {type: 'string'},
-                                            numberId: {type: 'string'},
-                                            frequency: {type: 'string'},
-                                            abc: {type: 'string'},
-                                            family: {type: 'string'}
+                                            nomenclatorId1: {type: 'number'},
+                                            digitAmountId1: {type: 'number'},
+                                            nomenclatorId2: {type: 'number'},
+                                            digitAmountId2: {type: 'number'},
+                                            userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            hasCoefficient: {type: 'number'},
+                                            isInjective: {type: 'number'},
+                                            isSurjective: {type: 'number'}
                                         }
                                     }
                                 }
@@ -128,76 +113,17 @@ module.exports = {
             }
         }
     },
-    '/api/wordsDictionary/match/{word}': {
-        get: {
-            security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
-            parameters: [
-                {
-                    in: 'path',
-                    name: 'word',
-                    required: true,
-                    schema: {type: 'string'},
-                    description: 'word to update'
-                }
-            ],
-            responses: {
-                200: {
-                    description: 'ok',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    word: {
-                                        type: 'object',
-                                        properties: {
-                                            word: {type: 'string'},
-                                            truncate: {type: 'string'},
-                                            acronim: {type: 'string'},
-                                            verb: {type: 'boolean'},
-                                            noun: {type: 'boolean'},
-                                            adjective: {type: 'boolean'},
-                                            adverb: {type: 'boolean'},
-                                            pronoun: {type: 'boolean'},
-                                            article: {type: 'boolean'},
-                                            preposition: {type: 'boolean'},
-                                            doubtWord: {type: 'boolean'},
-                                            observation: {type: 'string'},
-                                            domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            hashFunction: {type: 'string'},
-                                            hash: {type: 'string'},
-                                            genderId: {type: 'string'},
-                                            numberId: {type: 'string'},
-                                            frequency: {type: 'string'},
-                                            abc: {type: 'string'},
-                                            family: {type: 'string'}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                default: {
-                    description: 'Error',
-                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
-                }
-            }
-        }
-    },
-    '/api/wordsDictionary/{word}': {
+    '/api/relationshipBetweenNomenclators/{correspondenceId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
+            tags: ['Relationship Between Nomenclators'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'word',
+                    name: 'correspondenceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Word to update'
+                    description: 'correspondenceId to update'
                 }
             ],
             requestBody: {
@@ -208,27 +134,20 @@ module.exports = {
                         schema: {
                             type: 'object',
                             properties: {
-                                word: {type: 'string'},
-                                truncate: {type: 'string'},
-                                acronim: {type: 'string'},
-                                verb: {type: 'boolean'},
-                                noun: {type: 'boolean'},
-                                adjective: {type: 'boolean'},
-                                adverb: {type: 'boolean'},
-                                pronoun: {type: 'boolean'},
-                                article: {type: 'boolean'},
-                                preposition: {type: 'boolean'},
-                                doubtWord: {type: 'boolean'},
-                                observation: {type: 'string'},
+                                correspondenceId: {type: 'number'},
+                                description: {type: 'string'},
+                                relationTypeId: {type: 'number'},
                                 domain: {type: 'string'},
-                                supervised: {type: 'boolean'},
-                                hashFunction: {type: 'string'},
-                                hash: {type: 'string'},
-                                genderId: {type: 'string'},
-                                numberId: {type: 'string'},
-                                frequency: {type: 'string'},
-                                abc: {type: 'string'},
-                                family: {type: 'string'}
+                                nomenclatorId1: {type: 'number'},
+                                digitAmountId1: {type: 'number'},
+                                nomenclatorId2: {type: 'number'},
+                                digitAmountId2: {type: 'number'},
+                                userCreator: {type: 'string'},
+                                createdAt: {type: 'string'},
+                                observation: {type: 'string'},
+                                hasCoefficient: {type: 'number'},
+                                isInjective: {type: 'number'},
+                                isSurjective: {type: 'number'}
                             }
                         }
                     }
@@ -246,27 +165,20 @@ module.exports = {
                                     word: {
                                         type: 'object',
                                         properties: {
-                                            word: {type: 'string'},
-                                            truncate: {type: 'string'},
-                                            acronim: {type: 'string'},
-                                            verb: {type: 'boolean'},
-                                            noun: {type: 'boolean'},
-                                            adjective: {type: 'boolean'},
-                                            adverb: {type: 'boolean'},
-                                            pronoun: {type: 'boolean'},
-                                            article: {type: 'boolean'},
-                                            preposition: {type: 'boolean'},
-                                            doubtWord: {type: 'boolean'},
-                                            observation: {type: 'string'},
+                                            correspondenceId: {type: 'number'},
+                                            description: {type: 'string'},
+                                            relationTypeId: {type: 'number'},
                                             domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            hashFunction: {type: 'string'},
-                                            hash: {type: 'string'},
-                                            genderId: {type: 'string'},
-                                            numberId: {type: 'string'},
-                                            frequency: {type: 'string'},
-                                            abc: {type: 'string'},
-                                            family: {type: 'string'}
+                                            nomenclatorId1: {type: 'number'},
+                                            digitAmountId1: {type: 'number'},
+                                            nomenclatorId2: {type: 'number'},
+                                            digitAmountId2: {type: 'number'},
+                                            userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            hasCoefficient: {type: 'number'},
+                                            isInjective: {type: 'number'},
+                                            isSurjective: {type: 'number'}
                                         }
                                     }
                                 }
@@ -282,14 +194,14 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
+            tags: ['Relationship Between Nomenclators'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'word',
+                    name: 'correspondenceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'Word to delete'
+                    description: 'correspondenceId to delete'
                 }
             ],
             responses: {
@@ -305,14 +217,14 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
+            tags: ['Relationship Between Nomenclators'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'word',
+                    name: 'correspondenceId',
                     required: true,
                     schema: {type: 'string'},
-                    description: 'word to update'
+                    description: 'correspondenceId to update'
                 }
             ],
             responses: {
@@ -326,27 +238,20 @@ module.exports = {
                                     word: {
                                         type: 'object',
                                         properties: {
-                                            word: {type: 'string'},
-                                            truncate: {type: 'string'},
-                                            acronim: {type: 'string'},
-                                            verb: {type: 'boolean'},
-                                            noun: {type: 'boolean'},
-                                            adjective: {type: 'boolean'},
-                                            adverb: {type: 'boolean'},
-                                            pronoun: {type: 'boolean'},
-                                            article: {type: 'boolean'},
-                                            preposition: {type: 'boolean'},
-                                            doubtWord: {type: 'boolean'},
-                                            observation: {type: 'string'},
+                                            correspondenceId: {type: 'number'},
+                                            description: {type: 'string'},
+                                            relationTypeId: {type: 'number'},
                                             domain: {type: 'string'},
-                                            supervised: {type: 'boolean'},
-                                            hashFunction: {type: 'string'},
-                                            hash: {type: 'string'},
-                                            genderId: {type: 'string'},
-                                            numberId: {type: 'string'},
-                                            frequency: {type: 'string'},
-                                            abc: {type: 'string'},
-                                            family: {type: 'string'}
+                                            nomenclatorId1: {type: 'number'},
+                                            digitAmountId1: {type: 'number'},
+                                            nomenclatorId2: {type: 'number'},
+                                            digitAmountId2: {type: 'number'},
+                                            userCreator: {type: 'string'},
+                                            createdAt: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            hasCoefficient: {type: 'number'},
+                                            isInjective: {type: 'number'},
+                                            isSurjective: {type: 'number'}
                                         }
                                     }
                                 }
@@ -361,10 +266,10 @@ module.exports = {
             }
         }
     },
-    '/api/wordsDictionary/downloadCsv': {
+    '/api/relationshipBetweenNomenclators/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Words Dictionary'],
+            tags: ['Relationship Between Nomenclators'],
             responses: {
                 200: {
                     description: 'Success',
