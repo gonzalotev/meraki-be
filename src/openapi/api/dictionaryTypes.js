@@ -2,7 +2,7 @@ module.exports = {
     '/api/dictionaryTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Documents Types'],
             parameters: [
                 {
                     in: 'query',
@@ -61,7 +61,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Documents Types'],
             requestBody: {
                 description: 'The new  type of dictionary to create',
                 required: true,
@@ -118,7 +118,7 @@ module.exports = {
     '/api/dictionaryTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Documents Types'],
             parameters: [
                 {
                     in: 'path',
@@ -187,7 +187,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Documents Types'],
             parameters: [
                 {
                     in: 'path',
@@ -207,7 +207,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Documents Types'],
             parameters: [
                 {
                     in: 'path',
@@ -255,7 +255,7 @@ module.exports = {
     '/api/dictionaryTypes/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Documents Types'],
             responses: {
                 200: {
                     description: 'Success',

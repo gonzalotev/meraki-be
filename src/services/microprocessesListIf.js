@@ -8,13 +8,29 @@ const isDate = require('lodash/isDate');
 const toUpper = require('lodash/toUpper');
 
 class microprocessesListIfService {
-    static async fetch(query) {
-        let microprocessesListIfTypes = await microprocessesListIfModel.findByPage(
-            query.page,
-            {},
-            microprocessesListIfModel.selectableProps,
-            [{ column: 'ID_LISTAS', order: 'asc' }]
-        );
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_LISTAS', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = microprocessesListIfModel.selectableProps;
+        let microprocessesListIfTypes=[];
+        if(page && search) {
+            microprocessesListIfTypes = await microprocessesListIfModel.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            microprocessesListIfTypes = await microprocessesListIfModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            microprocessesListIfTypes = await microprocessesListIfModel.find();
+        }
+
         microprocessesListIfTypes = microprocessesListIfTypes.map(microprocessesListIf => ({
             id: microprocessesListIf.ID_LISTAS,
             variableId: microprocessesListIf.ID_VARIABLE,
@@ -30,9 +46,15 @@ class microprocessesListIfService {
         await DictionaryTypeService.getDictionaryTypeData(microprocessesListIfTypes, 'diccionaryTypologyId');
         return microprocessesListIfTypes;
     }
-    static async getTotal(filters) {
-        const total = await microprocessesListIfModel.countDocuments(filters);
-        return total['COUNT(*)'];
+
+    static async getTotal({ microprocesses }) {
+        let result;
+        if (microprocesses) {
+            result = await microprocessesListIfModel.countTotal({ ID_LISTAS: microprocesses });
+        } else {
+            result = await microprocessesListIfModel.countTotal();
+        }
+        return result.total;
     }
 
     static async create(params, userCreator) {

@@ -1,13 +1,19 @@
 const { NetworkTypeService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class NetworkTypeController {
     static async fetch(req, res, next) {
         try {
-            const networksTypes = await NetworkTypeService.fetch();
-            res.send({ networksTypes });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const networksTypes = await NetworkTypeService.fetch({ page, search: searchValue });
+            const total = await NetworkTypeService.getTotal({ search: searchValue });
+            res.send({ networksTypes, total });
         } catch (error) {
             next(error);
         }

@@ -8,13 +8,29 @@ const isDate = require('lodash/isDate');
 const StaticalVariableService = require('./staticalVariable');
 
 class microprocessesOptionService {
-    static async fetch(query) {
-        let microprocessesOptionTypes = await microprocessesOptionModel.findByPage(
-            query.page,
-            {},
-            microprocessesOptionModel.selectableProps,
-            [{ column: 'ID_MICROPROCESO', order: 'asc' }]
-        );
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_MICROPROCESO', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = microprocessesOptionModel.selectableProps;
+        let microprocessesOptionTypes=[];
+        if(page && search) {
+            microprocessesOptionTypes = await microprocessesOptionModel.findByMatch(
+                page,
+                search,
+                ['ID_MICROPROCESO'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            microprocessesOptionTypes = await microprocessesOptionModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            microprocessesOptionTypes = await microprocessesOptionModel.find();
+        }
+
         microprocessesOptionTypes = microprocessesOptionTypes.map(microprocessesOption => ({
             id: microprocessesOption.ID_MICROPROCESO,
             sourceId: microprocessesOption.ID_FUENTE,
@@ -30,9 +46,15 @@ class microprocessesOptionService {
         await StaticalVariableService.getVariableAbbreviationData(microprocessesOptionTypes);
         return microprocessesOptionTypes;
     }
-    static async getTotal(filters) {
-        const total = await microprocessesOptionModel.countDocuments(filters);
-        return total['COUNT(*)'];
+
+    static async getTotal({ microprocesses }) {
+        let result;
+        if (microprocesses) {
+            result = await microprocessesOptionModel.countTotal({ ID_MICROPROCESO: microprocesses });
+        } else {
+            result = await microprocessesOptionModel.countTotal();
+        }
+        return result.total;
     }
 
     static async create(params, userCreator) {

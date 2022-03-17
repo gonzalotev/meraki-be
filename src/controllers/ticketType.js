@@ -1,13 +1,18 @@
 const { TicketTypeService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class TicketTypeController {
     static async fetch(req, res, next) {
         try {
-            const ticketsTypes = await TicketTypeService.fetch(req.query);
-            const total = await TicketTypeService.getTotal({});
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const ticketsTypes = await TicketTypeService.fetch({ page, search: searchValue });
+            const total = await TicketTypeService.getTotal({ search: searchValue });
             res.send({ ticketsTypes, total });
         } catch (error) {
             next(error);

@@ -2,7 +2,7 @@ const { NomenclatorTypesController } = include('controllers');
 
 module.exports = router => {
     router.route('/')
-        .get(NomenclatorTypesController.fetchStaticNomenclatorTypes)
+        .get(NomenclatorTypesController.fetch)
         .post(NomenclatorTypesController.create);
     router.route('/downloadCsv').get(NomenclatorTypesController.downloadCsv);
     router.route('/:id')

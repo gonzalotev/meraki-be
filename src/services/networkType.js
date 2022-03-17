@@ -6,9 +6,19 @@ const isDate = require('lodash/isDate');
 const toUpper = require('lodash/toUpper');
 
 class NetworkTypeService {
-    static async fetch() {
-        const networksTypes = await networkTypeModel.find();
-        return networksTypes.map(networkType => ({
+    static async fetch({ page, search }) {
+        const orderBy = [{ column: 'ID_TIPO_RED', order: 'asc' }];
+        const filterBy = {};
+        const columnsToSelect = networkTypeModel.selectableProps;
+        let networkTypes = [];
+        if (page && search) {
+            networkTypes = await networkTypeModel.fetchByPageAndTerm(page, search);
+        } else if (page) {
+            networkTypes = await networkTypeModel.findByPage(page, filterBy, columnsToSelect, orderBy);
+        } else {
+            networkTypes = await networkTypeModel.find();
+        }
+        networkTypes = networkTypes.map(networkType => ({
             id: networkType.ID_TIPO_RED,
             description: networkType.DESCRIPCION,
             observation: networkType.OBSERVACION,
@@ -17,6 +27,13 @@ class NetworkTypeService {
             createdAt: dateToString(networkType.FECHA_ALTA),
             userCreator: networkType.ID_USUARIO_ALTA
         }));
+
+        return (networkTypes);
+    }
+
+    static async getTotal({ search }) {
+        const { total } = await networkTypeModel.countTotal({}, search, ['DESCRIPCION']);
+        return total;
     }
 
     static async create(params, userCreator) {

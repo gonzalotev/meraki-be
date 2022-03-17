@@ -1,13 +1,19 @@
 const { RelationshipTypeService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class RelationshipTypeController {
     static async fetch(req, res, next) {
         try {
-            const relationshipsTypes = await RelationshipTypeService.fetch();
-            res.send({ relationshipsTypes });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const relationshipsTypes = await RelationshipTypeService.fetch({ page, search: searchValue });
+            const total = await RelationshipTypeService.getTotal({ search: searchValue });
+            res.send({ relationshipsTypes, total });
         } catch (error) {
             next(error);
         }

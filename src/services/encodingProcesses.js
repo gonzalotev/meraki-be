@@ -9,15 +9,13 @@ const uniq = require('lodash/uniq');
 const find = require('lodash/find');
 
 class EncodingProcessService {
-    static async fetch(query) {
-        if (query.sourceId && query.questionId) {
+    static async fetch({page, search}) {
+        if (page && search) {
             const encodingProcesses = await knex('PROCESOS_DE_CODIFICACION')
                 .whereNotExists(function() {
                     this.select('*')
                         .from('PASOS_PROCESOS_CODIFICACION')
-                        .whereRaw('PASOS_PROCESOS_CODIFICACION.ID_PROCESO_CODIFICACION = PROCESOS_DE_CODIFICACION.ID_PROCESO_CODIFICACION')
-                        .andWhere('ID_FUENTE', query.sourceId)
-                        .andWhere('ID_PREGUNTA', query.questionId);
+                        .whereRaw('PASOS_PROCESOS_CODIFICACION.ID_PROCESO_CODIFICACION = PROCESOS_DE_CODIFICACION.ID_PROCESO_CODIFICACION');
                 })
                 .andWhere('AUTOMATICO_SI_NO', true)
                 .orderBy('DESCRIPCION');
@@ -82,6 +80,16 @@ class EncodingProcessService {
             userCreator: encodingProcess.ID_USUARIO_ALTA,
             createdAt: dateToString(encodingProcess.FECHA_ALTA)
         };
+    }
+
+    static async getTotal({ process }) {
+        let result;
+        if (process) {
+            result = await encodingProcessesModel.countTotal({ ID_PROCESO_CODIFICACION: process });
+        } else {
+            result = await encodingProcessesModel.countTotal();
+        }
+        return result.total;
     }
 
     static async update(filters, params, userCreator) {

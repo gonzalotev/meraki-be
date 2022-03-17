@@ -9,25 +9,46 @@ const OperativeSourcesService = require('./operativeSources');
 const QuestionsService = require('./questions');
 
 class MicroprocessesStepsOption {
-    static async fetch() {
-        let microprocessesStepsOptionList = await microprocessesStepsOption.find();
-        microprocessesStepsOptionList = microprocessesStepsOptionList.map(microprocesses => ({
-            id: microprocesses.ID_MICROPROCESO,
-            microprocessId: microprocesses.ID_MICROPROCESO,
-            orderId: microprocesses.ID_ORDEN,
-            sourceId: microprocesses.ID_FUENTE,
-            questionId: microprocesses.ID_PREGUNTA,
-            order: microprocesses.ORDEN,
-            abbreviation: microprocesses.ABREVIATURA,
-            observation: microprocesses.OBSERVACION,
-            userCreator: microprocesses.ID_USUARIO_ALTA,
-            createdAt: microprocesses.FECHA_ALTA
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_MICROPROCESO', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = microprocessesStepsOption.selectableProps;
+        let microprocesses=[];
+        if(page && search) {
+            microprocesses = await microprocessesStepsOption.findByMatch(
+                page,
+                search,
+                ['ID_MICROPROCESO'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            microprocesses = await microprocessesStepsOption.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            microprocesses = await microprocessesStepsOption.find();
+        }
+
+        microprocesses = microprocesses.map(microprocess => ({
+            id: microprocess.ID_MICROPROCESO,
+            microprocessId: microprocess.ID_MICROPROCESO,
+            orderId: microprocess.ID_ORDEN,
+            sourceId: microprocess.ID_FUENTE,
+            questionId: microprocess.ID_PREGUNTA,
+            order: microprocess.ORDEN,
+            abbreviation: microprocess.ABREVIATURA,
+            observation: microprocess.OBSERVACION,
+            userCreator: microprocess.ID_USUARIO_ALTA,
+            createdAt: microprocess.FECHA_ALTA
         }));
-        await MicroprocessStepsService.getMicroprocessesData(microprocessesStepsOptionList);
-        await staticalVariableService.getVariableId(microprocessesStepsOptionList);
-        await OperativeSourcesService.getSourceData(microprocessesStepsOptionList);
-        await QuestionsService.getQuestionData(microprocessesStepsOptionList);
-        return microprocessesStepsOptionList;
+        await MicroprocessStepsService.getMicroprocessesData(microprocesses);
+        await staticalVariableService.getVariableId(microprocesses);
+        await OperativeSourcesService.getSourceData(microprocesses);
+        await QuestionsService.getQuestionData(microprocesses);
+        return microprocesses;
     }
 
     static async create(params, userCreator) {
@@ -50,6 +71,16 @@ class MicroprocessesStepsOption {
                 questionId: microprocess.ID_PREGUNTA
             });
         return operative;
+    }
+
+    static async getTotal({ microprocesses }) {
+        let result;
+        if (microprocesses) {
+            result = await microprocessesStepsOption.countTotal({ ID_MICROPROCESO: microprocesses });
+        } else {
+            result = await microprocessesStepsOption.countTotal();
+        }
+        return result.total;
     }
 
     static async findOne(filters){

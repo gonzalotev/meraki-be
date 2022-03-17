@@ -6,9 +6,30 @@ const isDate = require('lodash/isDate');
 const toUpper = require('lodash/toUpper');
 
 class SpecialPhraseTypeService {
-    static async fetch() {
-        const specialPhrasesTypes = await specialPhraseTypeModel.find();
-        return specialPhrasesTypes.map(specialPhraseType => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_TIPO_FRASE_ESPECIAL', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = specialPhraseTypeModel.selectableProps;
+        let specialPhrases=[];
+        if(page && search) {
+            specialPhrases = await specialPhraseTypeModel.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            specialPhrases = await specialPhraseTypeModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            specialPhrases = await specialPhraseTypeModel.find();
+        }
+
+        specialPhrases = specialPhrases.map(specialPhraseType => ({
             id: specialPhraseType.ID_TIPO_FRASE_ESPECIAL,
             description: specialPhraseType.DESCRIPCION,
             observation: specialPhraseType.OBSERVACION,
@@ -17,7 +38,7 @@ class SpecialPhraseTypeService {
             createdAt: dateToString(specialPhraseType.FECHA_ALTA),
             userCreator: specialPhraseType.ID_USUARIO_ALTA
         }));
-
+        return specialPhrases;
     }
 
     static async create(params, userCreator) {

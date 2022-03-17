@@ -1,13 +1,19 @@
 const { NomenclatorSubtypesService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class NomenclatorSubtypeController {
     static async fetch(req, res, next) {
         try {
-            const nomenclators = await NomenclatorSubtypesService.fetch();
-            res.send({ nomenclators });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const nomenclators = await NomenclatorSubtypesService.fetch({ page, search: searchValue });
+            const total = await NomenclatorSubtypesService.getTotal({ search: searchValue });
+            res.send({ nomenclators, total });
         } catch (error) {
             next(error);
         }

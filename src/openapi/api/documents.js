@@ -2,7 +2,26 @@ module.exports = {
     '/api/documents': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Documentos'],
+            tags: ['Documents'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -48,7 +67,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Documentos'],
+            tags: ['Documents'],
             requestBody: {
                 description: 'The new  document to create',
                 required: true,
@@ -121,7 +140,7 @@ module.exports = {
     '/api/documents/{documentId}/{documentTypeId}/{editorId}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Documentos'],
+            tags: ['Documents'],
             parameters: [
                 {
                     in: 'path',
@@ -216,7 +235,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Documentos'],
+            tags: ['Documents'],
             parameters: [
                 {
                     in: 'path',
@@ -250,7 +269,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Documentos'],
+            tags: ['Documents'],
             parameters: [
                 {
                     in: 'path',
@@ -320,7 +339,7 @@ module.exports = {
             security: [{bearerAuth: []}],
             operationId: 'downloadDocumentsCSV',
             description: 'Returns documents in csv format',
-            tags: ['Documentos'],
+            tags: ['Documents'],
             responses: {
                 200: {
                     description: 'Success',

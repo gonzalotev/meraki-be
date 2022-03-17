@@ -8,9 +8,19 @@ const isDate = require('lodash/isDate');
 const isEmpty = require('lodash/isEmpty');
 
 class DocumentTypeService {
-    static async fetch() {
-        const documentsTypes = await documentTypeModel.find();
-        return documentsTypes.map(documentType => ({
+    static async fetch({ page, search }) {
+        const orderBy = [{ column: 'DESCRIPCION', order: 'asc' }];
+        const filterBy = {};
+        const columnsToSelect = documentTypeModel.selectableProps;
+        let documentsTypes = [];
+        if (page && search) {
+            documentsTypes = await documentTypeModel.fetchByPageAndTerm(page, search);
+        } else if (page) {
+            documentsTypes = await documentTypeModel.findByPage(page, filterBy, columnsToSelect, orderBy);
+        } else {
+            documentsTypes = await documentTypeModel.find();
+        }
+        documentsTypes = documentsTypes.map(documentType => ({
             id: documentType.ID_TIPO_DOCUMENTO,
             description: documentType.DESCRIPCION,
             observation: documentType.OBSERVACION,
@@ -19,6 +29,13 @@ class DocumentTypeService {
             createdAt: dateToString(documentType.FECHA_ALTA),
             userCreator: documentType.ID_USUARIO_ALTA
         }));
+
+        return (documentsTypes);
+    }
+
+    static async getTotal({ search }) {
+        const { total } = await documentTypeModel.countTotal({}, search, ['DESCRIPCION']);
+        return total;
     }
 
     static async create(params, userCreator) {

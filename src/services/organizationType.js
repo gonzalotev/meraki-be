@@ -5,9 +5,30 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class OrganizationTypeService {
-    static async fetch() {
-        const organizationsTypes = await organizationTypeModel.find();
-        return organizationsTypes.map(organizationType => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_TIPO_ORGANIZACION', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = organizationTypeModel.selectableProps;
+        let organizationsTypes=[];
+        if(page && search) {
+            organizationsTypes = await organizationTypeModel.findByMatch(
+                page,
+                search,
+                ['ID_TIPO_ORGANIZACION'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            organizationsTypes = await organizationTypeModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            organizationsTypes = await organizationTypeModel.find();
+        }
+
+        organizationsTypes = organizationsTypes.map(organizationType => ({
             id: organizationType.ID_TIPO_ORGANIZACION,
             abbreviation: organizationType.ABREVIATURA,
             description: organizationType.DESCRIPCION,
@@ -17,6 +38,8 @@ class OrganizationTypeService {
             createdAt: dateToString(organizationType.FECHA_ALTA),
             userCreator: organizationType.ID_USUARIO_ALTA
         }));
+
+        return organizationsTypes;
     }
 
     static async create(params, userCreator) {
@@ -47,6 +70,16 @@ class OrganizationTypeService {
             createdAt: dateToString(organizationType.FECHA_ALTA),
             userCreator: organizationType.ID_USUARIO_ALTA
         };
+    }
+
+    static async getTotal({ nomenclator }) {
+        let result;
+        if (nomenclator) {
+            result = await organizationTypeModel.countTotal({ ID_TIPO_ORGANIZACION: nomenclator });
+        } else {
+            result = await organizationTypeModel.countTotal();
+        }
+        return result.total;
     }
 
     static async update(filters, params){

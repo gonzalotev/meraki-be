@@ -1,5 +1,6 @@
 const { MicroprocessesWordsService } = include('services');
 const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
 const tempy = require('tempy');
@@ -7,10 +8,10 @@ const tempy = require('tempy');
 class MicroprocessesWordsController {
     static async fetch(req, res, next) {
         try {
-            const { page, search } = req.query;
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const microprocessesWordsss = await MicroprocessesWordsService.fetch(
-                { page, search: searchValue });
+            const microprocessesWordsss = await MicroprocessesWordsService.fetch({ page, search: searchValue });
             const total = await MicroprocessesWordsService.getTotal({ search: searchValue });
             res.send({ microprocessesWordsss, total });
         } catch (error) {

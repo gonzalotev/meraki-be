@@ -341,9 +341,7 @@ const organizationTypeAttrib = [
     'OBSERVACION',
     'DOMINIO',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'FECHA_BAJA',
-    'ID_USUARIO_BAJA'
+    'FECHA_ALTA'
 ];
 
 const relationTypeTableName = 'TIPOS_DE_RELACION';

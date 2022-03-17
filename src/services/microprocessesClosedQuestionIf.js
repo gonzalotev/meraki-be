@@ -9,11 +9,30 @@ const NomenclatureService = require('./nomenclatures');
 const NomenclatorService = require('./nomenclators');
 
 class microprocessesClosedQuestionIfService {
-    static async fetch(query) {
-        let microprocessesClosedQuestionIfTypes = await microprocessesClosedQuestionIfModel.findByPage(
-            query.page
-        );
-        microprocessesClosedQuestionIfTypes=microprocessesClosedQuestionIfTypes.map(microprocessesClosedQuestionIf => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_PREGUNTA_CERRADA', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = microprocessesClosedQuestionIfModel.selectableProps;
+        let microprocesses=[];
+        if(page && search) {
+            microprocesses = await microprocessesClosedQuestionIfModel.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            microprocesses = await microprocessesClosedQuestionIfModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            microprocesses = await microprocessesClosedQuestionIfModel.find();
+        }
+
+        microprocesses=microprocesses.map(microprocessesClosedQuestionIf => ({
             id: microprocessesClosedQuestionIf.ID_PREGUNTA_CERRADA,
             sourceId: microprocessesClosedQuestionIf.ID_FUENTE,
             questionId: microprocessesClosedQuestionIf.ID_PREGUNTA,
@@ -29,15 +48,21 @@ class microprocessesClosedQuestionIfService {
             createdAt: dateToString(microprocessesClosedQuestionIf.FECHA_ALTA),
             signJs: microprocessesClosedQuestionIf.SIGNO_JS
         }));
-        await OperativeSourcesService.getSourceData(microprocessesClosedQuestionIfTypes);
-        await QuestionsService.getQuestionData(microprocessesClosedQuestionIfTypes);
-        await NomenclatureService.getNomenclatureData(microprocessesClosedQuestionIfTypes);
-        await NomenclatorService.getNomenclatorData(microprocessesClosedQuestionIfTypes);
-        return microprocessesClosedQuestionIfTypes;
+        await OperativeSourcesService.getSourceData(microprocesses);
+        await QuestionsService.getQuestionData(microprocesses);
+        await NomenclatureService.getNomenclatureData(microprocesses);
+        await NomenclatorService.getNomenclatorData(microprocesses);
+        return microprocesses;
     }
-    static async getTotal() {
-        const total = await microprocessesClosedQuestionIfModel.countDocuments();
-        return total['COUNT(*)'];
+
+    static async getTotal({ microprocesses }) {
+        let result;
+        if (microprocesses) {
+            result = await microprocessesClosedQuestionIfModel.countTotal({ ID_PREGUNTA_CERRADA: microprocesses });
+        } else {
+            result = await microprocessesClosedQuestionIfModel.countTotal();
+        }
+        return result.total;
     }
 
     static async create(params, userCreator) {

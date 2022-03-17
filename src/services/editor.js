@@ -9,9 +9,19 @@ const isEmpty = require('lodash/isEmpty');
 const toUpper = require('lodash/toUpper');
 
 class EditorService {
-    static async fetch() {
-        const editorsss = await editorModel.find({ FECHA_BAJA: null });
-        return editorsss.map(editor => ({
+    static async fetch({ page, search }) {
+        const orderBy = [{ column: 'ID_EDITOR', order: 'asc' }];
+        const filterBy = {FECHA_BAJA: null};
+        const columnsToSelect = editorModel.selectableProps;
+        let editorsss = [];
+        if (page && search) {
+            editorsss = await editorModel.fetchByPageAndTerm(page, search);
+        } else if (page) {
+            editorsss = await editorModel.findByPage(page, filterBy, columnsToSelect, orderBy);
+        } else {
+            editorsss = await editorModel.find();
+        }
+        editorsss = editorsss.map(editor => ({
             id: editor.ID_EDITOR,
             description: editor.DESCRIPCION,
             observation: editor.OBSERVACION,
@@ -22,6 +32,13 @@ class EditorService {
             userDeleted: editor.ID_USUARIO_BAJA,
             deletedAt: dateToString(editor.FECHA_BAJA)
         }));
+
+        return (editorsss);
+    }
+
+    static async getTotal({ search }) {
+        const { total } = await editorModel.countTotal({}, search, ['DESCRIPCION']);
+        return total;
     }
 
     static async create(params, userCreator) {

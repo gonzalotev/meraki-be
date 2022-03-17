@@ -1,13 +1,19 @@
 const { DocumentsService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class DocumentsController {
     static async fetch(req, res, next) {
         try {
-            const documentss = await DocumentsService.fetch();
-            res.send({ documentss });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const documentss = await DocumentsService.fetch({ page, search: searchValue });
+            const total = await DocumentsService.getTotal({ search: searchValue });
+            res.send({ documentss, total });
         } catch (error) {
             next(error);
         }

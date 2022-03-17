@@ -14,7 +14,7 @@ class MicroprocessesListsIfWordService {
             microprocessesListsIfWordss = await microprocessesListsIfWordsModel.findByMatch(
                 page,
                 search,
-                ['ID_LISTAS'],
+                ['PALABRA_O_FRASE'],
                 filterBy,
                 orderBy
             );

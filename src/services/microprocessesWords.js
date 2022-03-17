@@ -5,29 +5,29 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class MicroprocessesWordService {
-    static async fetch({ page, search }) {
-        const orderBy = [{ column: 'ID_MICROPROCESO', order: 'asc' }, { column: 'ID_ORDEN ', order: 'asc' }];
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_MICROPROCESO', order: 'asc'}];
         const filterBy = {};
         const columnsToSelect = microprocessesWordsModel.selectableProps;
-        let microprocessesWordss = [];
-        if (page && search) {
+        let microprocessesWordss=[];
+        if(page && search) {
             microprocessesWordss = await microprocessesWordsModel.findByMatch(
                 page,
                 search,
-                ['ID_MICROPROCESO'],
+                ['PALABRA_O_FRASE'],
                 filterBy,
                 orderBy
             );
-        } else if (page) {
+        } else if(page){
             microprocessesWordss = await microprocessesWordsModel.findByPage(
                 page,
                 filterBy,
                 columnsToSelect,
                 orderBy);
         } else {
-            microprocessesWordss = await microprocessesWordsModel.find(
-                filterBy, columnsToSelect, orderBy);
+            microprocessesWordss = await microprocessesWordsModel.find();
         }
+
         microprocessesWordss = microprocessesWordss.map(microprocessesWord => ({
             idMicroprocess: microprocessesWord.ID_MICROPROCESO,
             idOrder: microprocessesWord.ID_ORDEN,
@@ -40,7 +40,6 @@ class MicroprocessesWordService {
             createdAt: dateToString(microprocessesWord.FECHA_ALTA)
 
         }));
-
         return microprocessesWordss;
     }
 

@@ -1,13 +1,19 @@
 const { OrganizationTypeService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class OrganizationTypeController {
     static async fetch(req, res, next) {
         try {
-            const organizationsTypes = await OrganizationTypeService.fetch();
-            res.send({ organizationsTypes });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const organizationsTypes = await OrganizationTypeService.fetch({ page, search: searchValue });
+            const total = await OrganizationTypeService.getTotal({ search: searchValue });
+            res.send({ organizationsTypes, total });
         } catch (error) {
             next(error);
         }

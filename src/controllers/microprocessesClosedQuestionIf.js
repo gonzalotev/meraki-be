@@ -1,15 +1,19 @@
 const { MicroprocessesClosedQuestionIfService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class MicroprocessesClosedQuestionIfController {
     static async fetch(req, res, next) {
         try {
-            const {page} = req.query;
-            // eslint-disable-next-line max-len
-            const microprocessesClosedQuestionIf = await MicroprocessesClosedQuestionIfService.fetch({page});
-            const total = await MicroprocessesClosedQuestionIfService.getTotal();
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const microprocessesClosedQuestionIf = await MicroprocessesClosedQuestionIfService.fetch(
+                { page, search: searchValue });
+            const total = await MicroprocessesClosedQuestionIfService.getTotal({ search: searchValue });
             res.send({ microprocessesClosedQuestionIf, total });
         } catch(error) {
             next(error);

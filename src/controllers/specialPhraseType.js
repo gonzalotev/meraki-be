@@ -1,13 +1,19 @@
 const { SpecialPhraseTypeService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class SpecialPhraseTypeController {
     static async fetch(req, res, next) {
         try {
-            const specialsPhrasesTypes = await SpecialPhraseTypeService.fetch();
-            res.send({ specialsPhrasesTypes });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const specialsPhrasesTypes = await SpecialPhraseTypeService.fetch({ page, search: searchValue });
+            const total = await SpecialPhraseTypeService.getTotal({ search: searchValue });
+            res.send({ specialsPhrasesTypes, total });
         } catch (error) {
             next(error);
         }

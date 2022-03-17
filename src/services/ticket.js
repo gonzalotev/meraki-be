@@ -6,13 +6,29 @@ const trim = require('lodash/trim');
 const map = require('lodash/map');
 
 class TicketService {
-    static async fetch(query, userId) {
-        let ticketsTypes = await ticketModel.findByPage(
-            query.page,
-            {ID_USUARIO_ALTA: userId, SOLUCIONADO_SI_NO: false, FECHA_BAJA_SOLUCIONADO: null},
-            ticketModel.selectableProps,
-            [{ column: 'ID_CHAT', order: 'asc' }]
-        );
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'FECHA_ALTA', order: 'asc'}];
+        const filterBy = {SOLUCIONADO_SI_NO: false};
+        const columnsToSelect = ticketModel.selectableProps;
+        let ticketsTypes=[];
+        if(page && search) {
+            ticketsTypes = await ticketModel.findByMatch(
+                page,
+                search,
+                ['ID_USUARIO_RESPONSABLE'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            ticketsTypes = await ticketModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            ticketsTypes = await ticketModel.find();
+        }
+
         ticketsTypes = ticketsTypes.map(ticket => ({
             id: ticket.ID_CHAT,
             originTable: ticket.TABLA_ORIGEN,
@@ -31,9 +47,10 @@ class TicketService {
         await TicketTypeService.getTicketTypeData(ticketsTypes);
         return ticketsTypes;
     }
-    static async getTotal(filters) {
-        const total = await ticketModel.countDocuments(filters);
-        return total['COUNT(*)'];
+
+    static async getTotal({search}){
+        const { total } = await ticketModel.countTotal({}, search, ['ID_USUARIO_RESPONSABLE']);
+        return total;
     }
 
     static async create(params, userCreator) {

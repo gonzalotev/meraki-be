@@ -6,9 +6,30 @@ const isDate = require('lodash/isDate');
 const toUpper = require('lodash/toUpper');
 
 class RelationshipTypeService {
-    static async fetch() {
-        const relationshipsTypes = await relationshipTypeModel.find();
-        return relationshipsTypes.map(relationshipType => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_TIPO_RELACION', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = relationshipTypeModel.selectableProps;
+        let relationshipsTypes=[];
+        if(page && search) {
+            relationshipsTypes = await relationshipTypeModel.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            relationshipsTypes = await relationshipTypeModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            relationshipsTypes = await relationshipTypeModel.find();
+        }
+
+        relationshipsTypes = relationshipsTypes.map(relationshipType => ({
             id: relationshipType.ID_TIPO_RELACION,
             description: relationshipType.DESCRIPCION,
             observation: relationshipType.OBSERVACION,
@@ -17,6 +38,18 @@ class RelationshipTypeService {
             createdAt: dateToString(relationshipType.FECHA_ALTA),
             userCreator: relationshipType.ID_USUARIO_ALTA
         }));
+
+        return relationshipsTypes;
+    }
+
+    static async getTotal({ relationship }) {
+        let result;
+        if (relationship) {
+            result = await relationshipTypeModel.countTotal({ ID_TIPO_RELACION: relationship });
+        } else {
+            result = await relationshipTypeModel.countTotal();
+        }
+        return result.total;
     }
 
     static async create(params, userCreator) {

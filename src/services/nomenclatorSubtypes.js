@@ -5,9 +5,30 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class NomenclatorSubtypeService {
-    static async fetch() {
-        const nomenclators = await nomenclatorSubtypes.find({FECHA_BAJA: null});
-        return nomenclators.map(nomenclator => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_SUBTIPO', order: 'asc'}];
+        const filterBy = {FECHA_BAJA: null};
+        const columnsToSelect = nomenclatorSubtypes.selectableProps;
+        let nomenclators=[];
+        if(page && search) {
+            nomenclators = await nomenclatorSubtypes.findByMatch(
+                page,
+                search,
+                ['ID_SUBTIPO'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            nomenclators = await nomenclatorSubtypes.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            nomenclators = await nomenclatorSubtypes.find();
+        }
+
+        nomenclators = nomenclators.map(nomenclator => ({
             id: nomenclator.ID_SUBTIPO,
             typeId: nomenclator.ID_TIPO,
             description: nomenclator.DESCRIPCION,
@@ -19,6 +40,18 @@ class NomenclatorSubtypeService {
             userDeleted: nomenclator.ID_USUARIO_BAJA,
             deletedAt: dateToString(nomenclator.FECHA_BAJA)
         }));
+
+        return nomenclators;
+    }
+
+    static async getTotal({ nomenclator }) {
+        let result;
+        if (nomenclator) {
+            result = await nomenclatorSubtypes.countTotal({ ID_SUBTIPO: nomenclator });
+        } else {
+            result = await nomenclatorSubtypes.countTotal({ FECHA_BAJA: null });
+        }
+        return result.total;
     }
 
     static async create(params, userCreator) {

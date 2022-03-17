@@ -1,13 +1,19 @@
 const { MicroprocessesStepsOptionService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class MicroprocessesStepsOptionController {
     static async fetch(req, res, next) {
         try {
-            const microprocesses = await MicroprocessesStepsOptionService.fetch();
-            res.send({ microprocesses });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const microprocesses = await MicroprocessesStepsOptionService.fetch({ page, search: searchValue });
+            const total = await MicroprocessesStepsOptionService.getTotal({ search: searchValue });
+            res.send({ microprocesses, total });
         } catch(error) {
             next(error);
         }

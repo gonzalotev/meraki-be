@@ -5,17 +5,50 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class NomenclatorTypesService {
-    static async fetchStaticNomenclatorTypes() {
-        const nomenclatorTypeGet = await nomenclatorTypes.find();
-        return nomenclatorTypeGet.map(nomenclatorType => ({
-            id: nomenclatorType.ID_TIPO,
-            description: nomenclatorType.DESCRIPCION,
-            supervised: !!nomenclatorType.SUPERVISADO,
-            observation: nomenclatorType.OBSERVACION,
-            domain: nomenclatorType.DOMINIO,
-            createdAt: dateToString(nomenclatorType.FECHA_ALTA),
-            userCreator: nomenclatorType.ID_USUARIO_ALTA
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_TIPO', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = nomenclatorTypes.selectableProps;
+        let nomenclatorType=[];
+        if(page && search) {
+            nomenclatorType = await nomenclatorTypes.findByMatch(
+                page,
+                search,
+                ['ID_TIPO'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            nomenclatorType = await nomenclatorTypes.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            nomenclatorType = await nomenclatorTypes.find();
+        }
+
+        nomenclatorType = nomenclatorType.map(nomenclator => ({
+            id: nomenclator.ID_TIPO,
+            description: nomenclator.DESCRIPCION,
+            supervised: !!nomenclator.SUPERVISADO,
+            observation: nomenclator.OBSERVACION,
+            domain: nomenclator.DOMINIO,
+            createdAt: dateToString(nomenclator.FECHA_ALTA),
+            userCreator: nomenclator.ID_USUARIO_ALTA
         }));
+
+        return nomenclatorType;
+    }
+
+    static async getTotal({ nomenclator }) {
+        let result;
+        if (nomenclator) {
+            result = await nomenclatorTypes.countTotal({ ID_TIPO: nomenclator });
+        } else {
+            result = await nomenclatorTypes.countTotal();
+        }
+        return result.total;
     }
 
     static async findOne(filters){

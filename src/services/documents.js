@@ -7,8 +7,18 @@ const isDate = require('lodash/isDate');
 const DocumentTypeService = require ('./documentType.js');
 
 class DocumentsService {
-    static async fetch() {
-        let documentss = await documentsModel.find();
+    static async fetch({ page, search }) {
+        const orderBy = [{ column: 'TITULO', order: 'asc' }];
+        const filterBy = {};
+        const columnsToSelect = documentsModel.selectableProps;
+        let documentss = [];
+        if (page && search) {
+            documentss = await documentsModel.fetchByPageAndTerm(page, search);
+        } else if (page) {
+            documentss = await documentsModel.findByPage(page, filterBy, columnsToSelect, orderBy);
+        } else {
+            documentss = await documentsModel.find();
+        }
         documentss = documentss.map(documents => ({
             documentId: documents.ID_DOCUMENTO,
             documentTypeId: documents.ID_TIPO_DOCUMENTO,
@@ -31,6 +41,11 @@ class DocumentsService {
         await EditorService.getEditorData(documentss);
         await DocumentTypeService.getDocumentTypeData(documentss);
         return (documentss);
+    }
+
+    static async getTotal({ search }) {
+        const { total } = await documentsModel.countTotal({}, search, ['TITULO']);
+        return total;
     }
 
     static async create(params, userCreator) {

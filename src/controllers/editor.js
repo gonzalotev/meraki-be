@@ -1,13 +1,19 @@
 const { EditorService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class EditorController {
     static async fetch(req, res, next) {
         try {
-            const editorsss = await EditorService.fetch();
-            res.send({ editorsss });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const editorsss = await EditorService.fetch({ page, search: searchValue });
+            const total = await EditorService.getTotal({ search: searchValue });
+            res.send({ editorsss, total });
         } catch (error) {
             next(error);
         }

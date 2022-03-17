@@ -10,21 +10,31 @@ const find = require('lodash/find');
 const toUpper = require('lodash/toUpper');
 
 class MicroprocessDefinitionService {
-    static async fetch(filter = {}) {
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_MICROPROCESO', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = MicroprocessDefinition.selectableProps;
         let microprocesses=[];
-        const {page} = filter;
-        if(page){
+        if(page && search) {
+            microprocesses = await MicroprocessDefinition.findByMatch(
+                page,
+                search,
+                ['DESCRIPCION'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
             microprocesses = await MicroprocessDefinition.findByPage(
                 page,
-                {FECHA_BAJA: null},
-                MicroprocessDefinition.selectableProps,
-                [{column: 'ID_MICROPROCESO', order: 'asc'}]
-            );
+                filterBy,
+                columnsToSelect,
+                orderBy);
         } else {
-            const originalColumns = map(MicroprocessDefinitionService.getColumns(), column => column.original);
-            return await MicroprocessDefinition.find({FECHA_BAJA: null}, originalColumns);
+            microprocesses = await MicroprocessDefinition.find();
         }
+
         microprocesses = microprocesses.map(microprocess => MicroprocessDefinitionService.rebaseFormat(microprocess));
+
         await MicroprocessDefinitionService.getLevelData(microprocesses);
         await StaticalVariableService.getVariableData(microprocesses);
         await DictionaryTypeService.getDictionaryTypeData(microprocesses, 'dictionaryTypeId');
@@ -112,7 +122,7 @@ class MicroprocessDefinitionService {
     static async getLevelData(resources){
         const ids = uniq(map(resources, resource => [resource.nomenclatorId, resource.amountOfDigits]));
         let levels = await MicroprocessDefinition.knex.select('*')
-            .from('NIVEL')
+            .from('NIVELES')
             .whereIn(['ID_NOMENCLADOR', 'ID_CANTIDAD_DIGITOS'], ids);
         levels = map(levels, level => ({
             nomenclatorId: level.ID_NOMENCLADOR,
