@@ -6,8 +6,7 @@ module.exports = router => {
         .get(WordsDictionaryController.fetch)
         .post(WordsDictionaryController.create);
     router.route('/downloadCsv').get(WordsDictionaryController.downloadCsv);
-    router.get('/match/:word', WordsDictionaryController.findMatch);
-    router.route('/:word')
+    router.route('/:correspondenceId')
         .get(WordsDictionaryController.find)
         .delete(WordsDictionaryController.delete)
         .put(WordsDictionaryController.update);
