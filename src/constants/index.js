@@ -291,7 +291,7 @@ const questionTypeAttrib = [
     'DESCRIPCION'
 ];
 
-const nomenclatorsGroupingsTableName = 'AGRUPACIONES_NOMENCLADOR';
+const nomenclatorsGroupingsTableName = 'AGRUPACIONES_NOMENCLADORES';
 const nomenclatorsGroupingsAttrib = [
     'ID_NOMENCLADOR',
     'ID_AGRUPACION',
@@ -304,7 +304,7 @@ const nomenclatorsGroupingsAttrib = [
     'OBSERVACION'
 ];
 
-const nomenclaturesGroupingsTableName = 'AGRUPACIONES_NOMENCLATURA';
+const nomenclaturesGroupingsTableName = 'AGRUPACIONES_NOMENCLATURAS';
 const nomenclaturesGroupingsAttrib = [
     'ID_NOMENCLADOR',
     'ID_AGRUPACION',
@@ -636,9 +636,9 @@ const nomenclaturesAttrib = [
     'ID_PADRE_NOMENCLATURA',
     'ID_USUARIO_ALTA',
     'FECHA_ALTA',
-    'ACRONIMO',
     'OBSERVACION',
-    'DOMINIO'
+    'DOMINIO',
+    'USO_EXCLUSIVO_INTERNO'
 ];
 
 const operativeFontsTableName = 'FUENTES_OPERATIVO';

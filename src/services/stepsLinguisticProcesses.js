@@ -8,8 +8,29 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class StepsLinguisticProcessesService {
-    static async fetch() {
-        let stepsLinguisticProcessesList = await stepsLinguisticProcesses.find();
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_FUENTE', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = stepsLinguisticProcesses.selectableProps;
+        let stepsLinguisticProcessesList=[];
+        if(page && search) {
+            stepsLinguisticProcessesList = await stepsLinguisticProcesses.findByMatch(
+                page,
+                search,
+                ['ID_FUENTE'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            stepsLinguisticProcessesList = await stepsLinguisticProcesses.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            stepsLinguisticProcessesList = await stepsLinguisticProcesses.find();
+        }
+
         stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
@@ -21,6 +42,7 @@ class StepsLinguisticProcessesService {
             userCreator: operative.ID_USUARIO_ALTA,
             createdAt: dateToString(operative.FECHA_ALTA)
         }));
+
         await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
         await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
         await DictionaryTypeService.getDictionaryTypeData(stepsLinguisticProcessesList);
@@ -96,6 +118,16 @@ class StepsLinguisticProcessesService {
             order: stepLinguisticProcessId.ORDEN
         });
         return stepLinguisticProcess;
+    }
+
+    static async getTotal({operative}){
+        let result;
+        if(operative){
+            result = await stepsLinguisticProcesses.countTotal({ID_FUENTE: operative});
+        } else {
+            result = await stepsLinguisticProcesses.countTotal();
+        }
+        return result.total;
     }
 
     static async delete(filters){

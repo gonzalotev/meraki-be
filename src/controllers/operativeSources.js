@@ -1,4 +1,6 @@
 const { OperativeSourcesService } = include('services');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
 const tempy = require('tempy');
@@ -6,8 +8,12 @@ const tempy = require('tempy');
 class OperativeSourcesController {
     static async fetch(req, res, next) {
         try {
-            const operativesSources = await OperativeSourcesService.fetch();
-            res.send({ operativesSources });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const operativesSources = await OperativeSourcesService.fetch({ page, search: searchValue });
+            const total = await OperativeSourcesService.getTotal({ search: searchValue });
+            res.send({ operativesSources, total });
         } catch (error) {
             next(error);
         }

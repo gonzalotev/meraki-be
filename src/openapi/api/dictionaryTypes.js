@@ -6,15 +6,20 @@ module.exports = {
             parameters: [
                 {
                     in: 'query',
-                    name: 'sourceId',
+                    name: 'page',
                     required: false,
-                    schema: { type: 'number' }
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
                 },
                 {
                     in: 'query',
-                    name: 'questionId',
+                    name: 'search',
                     required: false,
-                    schema: { type: 'number' }
+                    schema: {
+                        type: 'string'
+                    }
                 }
             ],
             responses: {

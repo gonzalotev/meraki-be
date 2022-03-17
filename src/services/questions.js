@@ -6,9 +6,30 @@ const isDate = require('lodash/isDate');
 const find = require('lodash/find');
 
 class QuestionService {
-    static async fetch() {
-        const Questions = await questionsModel.find();
-        return Questions.map(question => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'PREGUNTA', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = questionsModel.selectableProps;
+        let questionss=[];
+        if(page && search) {
+            questionss = await questionsModel.findByMatch(
+                page,
+                search,
+                ['PREGUNTA'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            questionss = await questionsModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            questionss = await questionsModel.find();
+        }
+
+        questionss = questionss.map(question => ({
             id: question.ID_PREGUNTA,
             question: question.PREGUNTA,
             approved: !!question.SUPERVISADO,
@@ -17,6 +38,8 @@ class QuestionService {
             createdAt: dateString(question.FECHA_ALTA, 'YYYY-MM-DD'),
             userCreator: question.ID_USUARIO_ALTA
         }));
+
+        return questionss;
     }
 
     static async create(params, userCreator) {
@@ -32,6 +55,16 @@ class QuestionService {
         const questionId = await questionsModel.insertOne(formattedQuestion, ['ID_PREGUNTA']);
         const question = await QuestionService.findOne({ id: questionId });
         return question;
+    }
+
+    static async getTotal({question}){
+        let result;
+        if(question){
+            result = await questionsModel.countTotal({ID_PREGUNTA: question});
+        } else {
+            result = await questionsModel.countTotal();
+        }
+        return result.total;
     }
 
     static async findOne(filters) {

@@ -5,9 +5,30 @@ const map = require('lodash/map');
 const find = require('lodash/find');
 
 class StaticalVariableService {
-    static async fetch() {
-        const staticalsVariables = await staticalVariableModel.find({FECHA_BAJA: null});
-        return staticalsVariables.map(staticalVariable => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'NOMBRE', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = staticalVariableModel.selectableProps;
+        let variabless=[];
+        if(page && search) {
+            variabless = await staticalVariableModel.findByMatch(
+                page,
+                search,
+                ['NOMBRE'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            variabless = await staticalVariableModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            variabless = await staticalVariableModel.find();
+        }
+
+        variabless = variabless.map(staticalVariable => ({
             id: staticalVariable.ID_VARIABLE,
             name: staticalVariable.NOMBRE,
             abbreviation: staticalVariable.ABREVIATURA,
@@ -21,7 +42,10 @@ class StaticalVariableService {
             userDeleted: staticalVariable.ID_USUARIO_BAJA,
             deletedAt: dateToString(staticalVariable.FECHA_BAJA)
         }));
+
+        return variabless;
     }
+
     static async shortFetch(data) {
         const staticalVariables = await staticalVariableModel.find(
             {SUPERVISADO: true, FECHA_BAJA: null},
@@ -128,6 +152,15 @@ class StaticalVariableService {
             resource.foreignData.variable = find(variables, variable => variable.id === resource.variableId);
             return resource;
         });
+    }
+    static async getTotal({variable}){
+        let result;
+        if(variable){
+            result = await staticalVariableModel.countTotal({ID_VARIABLE: variable});
+        } else {
+            result = await staticalVariableModel.countTotal();
+        }
+        return result.total;
     }
     static async getVariableId(resources){
         const abbreviationIds = uniq(map(resources, resource => resource.abbreviation));

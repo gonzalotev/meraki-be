@@ -1,13 +1,19 @@
 const { StepsEncodingProcessesService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class StepsEncodingProcessesController {
     static async fetch(req, res, next) {
         try {
-            const encodingProcesses = await StepsEncodingProcessesService.fetch();
-            res.send({ encodingProcesses });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const encodingProcesses = await StepsEncodingProcessesService.fetch({ page, search: searchValue });
+            const total = await StepsEncodingProcessesService.getTotal({ search: searchValue });
+            res.send({ encodingProcesses, total });
         } catch (error) {
             next(error);
         }

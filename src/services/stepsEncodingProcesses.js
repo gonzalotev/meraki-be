@@ -8,9 +8,30 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class StepsEncodingProcessesService {
-    static async fetch() {
-        let operatives = await stepsEncodingProcesses.find();
-        operatives = operatives.map(operative => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_FUENTE', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = stepsEncodingProcesses.selectableProps;
+        let stepsLinguisticProcessesList=[];
+        if(page && search) {
+            stepsLinguisticProcessesList = await stepsEncodingProcesses.findByMatch(
+                page,
+                search,
+                ['ID_FUENTE'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            stepsLinguisticProcessesList = await stepsEncodingProcesses.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            stepsLinguisticProcessesList = await stepsEncodingProcesses.find();
+        }
+
+        stepsLinguisticProcessesList = stepsLinguisticProcessesList.map(operative => ({
             sourceId: operative.ID_FUENTE,
             questionId: operative.ID_PREGUNTA,
             order: operative.ORDEN,
@@ -20,10 +41,11 @@ class StepsEncodingProcessesService {
             userCreator: operative.ID_USUARIO_ALTA,
             createdAt: dateToString(operative.FECHA_ALTA)
         }));
-        await OperativeSourcesService.getSourceData(operatives);
-        await QuestionsService.getQuestionData(operatives);
-        await EncodingProcessService.getEncodingProcessesData(operatives);
-        return operatives;
+        await OperativeSourcesService.getSourceData(stepsLinguisticProcessesList);
+        await QuestionsService.getQuestionData(stepsLinguisticProcessesList);
+        await EncodingProcessService.getEncodingProcessesData(stepsLinguisticProcessesList);
+
+        return stepsLinguisticProcessesList;
     }
 
     static async create(params, userCreator) {
@@ -88,6 +110,16 @@ class StepsEncodingProcessesService {
             order: operativeId.ORDEN,
             encodingProcessId: operativeId.ID_PROCESO_CODIFICACION});
         return operative;
+    }
+
+    static async getTotal({operative}){
+        let result;
+        if(operative){
+            result = await stepsEncodingProcesses.countTotal({ID_FUENTE: operative});
+        } else {
+            result = await stepsEncodingProcesses.countTotal();
+        }
+        return result.total;
     }
 
     static async delete(filters){

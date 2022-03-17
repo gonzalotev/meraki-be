@@ -1,13 +1,19 @@
 const { StaticalVariableService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class StaticalVariableController {
     static async fetch(req, res, next) {
         try {
-            const staticalsVariables = await StaticalVariableService.fetch();
-            res.send({ staticalsVariables });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const staticalsVariables = await StaticalVariableService.fetch({ page, search: searchValue });
+            const total = await StaticalVariableService.getTotal({ search: searchValue });
+            res.send({ staticalsVariables, total });
         } catch (error) {
             next(error);
         }

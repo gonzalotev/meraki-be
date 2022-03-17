@@ -6,9 +6,30 @@ const isDate = require('lodash/isDate');
 const find = require('lodash/find');
 
 class OperativeSourcesService {
-    static async fetch() {
-        const operatives = await operativeSources.find();
-        return operatives.map(operative => ({
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'NOMBRE', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = operativeSources.selectableProps;
+        let operativess=[];
+        if(page && search) {
+            operativess = await operativeSources.findByMatch(
+                page,
+                search,
+                ['NOMBRE'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            operativess = await operativeSources.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            operativess = await operativeSources.find();
+        }
+
+        operativess = operativess.map(operative => ({
             sourceId: operative.ID_FUENTE,
             name: operative.NOMBRE,
             initial: operative.SIGLA,
@@ -23,6 +44,8 @@ class OperativeSourcesService {
             createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
             userCreator: operative.ID_USUARIO_ALTA
         }));
+
+        return operativess;
     }
 
     static async create(params, userCreator) {
@@ -88,6 +111,16 @@ class OperativeSourcesService {
     static async delete(filters) {
         const success = await operativeSources.delete({ ID_FUENTE: filters.sourceId });
         return !!success;
+    }
+
+    static async getTotal({operative}){
+        let result;
+        if(operative){
+            result = await operativeSources.countTotal({ID_FUENTE: operative});
+        } else {
+            result = await operativeSources.countTotal();
+        }
+        return result.total;
     }
 
     static async getSourceOperativeData(resources){

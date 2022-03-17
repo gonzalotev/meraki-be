@@ -1,13 +1,19 @@
 const { StepsLinguisticProcessesService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class StepsLinguisticProcessesController {
     static async fetch(req, res, next) {
         try {
-            const linguisticProcesses = await StepsLinguisticProcessesService.fetch();
-            res.send({ linguisticProcesses });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const linguisticProcesses = await StepsLinguisticProcessesService.fetch({ page, search: searchValue });
+            const total = await StepsLinguisticProcessesService.getTotal({ search: searchValue });
+            res.send({ linguisticProcesses, total });
         } catch (error) {
             next(error);
         }
