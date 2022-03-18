@@ -1,6 +1,6 @@
 const ModelCreate = include('helpers/modelCreate');
 const {relationshipBetweenNomenclatorsTableName, relationshipBetweenNomenclatorsAttrib} = include('constants');
-const name = 'wordsDictionary';
+const name = 'relationshipBetweenNomenclators';
 
 class RelationshipBetweenNomenclators extends ModelCreate{
     constructor(props){

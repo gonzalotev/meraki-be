@@ -113,11 +113,6 @@ class RelationshipBetweenNomenclators {
         return !!success;
     }
 
-    static async checkIfAllWordsExist(words) {
-        const wordsFound = await relationshipBetweenNomenclators.findWords(words);
-        return { wordsFound };
-    }
-
     static async getTotal({ search }) {
         const { total } = await relationshipBetweenNomenclators.countTotal({}, search, ['ID_CORRESPONDENCIA']);
         return total;

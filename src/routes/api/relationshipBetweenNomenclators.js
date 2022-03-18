@@ -1,14 +1,14 @@
-const {WordsDictionaryController} = include('controllers');
+const {RelationshipBetweenNomenclatorsController} = include('controllers');
 
 module.exports = router => {
 
     router.route('/')
-        .get(WordsDictionaryController.fetch)
-        .post(WordsDictionaryController.create);
-    router.route('/downloadCsv').get(WordsDictionaryController.downloadCsv);
+        .get(RelationshipBetweenNomenclatorsController.fetch)
+        .post(RelationshipBetweenNomenclatorsController.create);
+    router.route('/downloadCsv').get(RelationshipBetweenNomenclatorsController.downloadCsv);
     router.route('/:correspondenceId')
-        .get(WordsDictionaryController.find)
-        .delete(WordsDictionaryController.delete)
-        .put(WordsDictionaryController.update);
+        .get(RelationshipBetweenNomenclatorsController.find)
+        .delete(RelationshipBetweenNomenclatorsController.delete)
+        .put(RelationshipBetweenNomenclatorsController.update);
     return router;
 };

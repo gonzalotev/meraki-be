@@ -1,4 +1,4 @@
-const { RelationshipBetweenNomenclators } = include('services');
+const { RelationshipBetweenNomenclatorsService } = include('services');
 const toUpper = require('lodash/toUpper');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
@@ -9,8 +9,8 @@ class RelationshipBetweenNomenclatorsController {
         try {
             const { page, search } = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const relationship = await RelationshipBetweenNomenclators.fetch({ page, search: searchValue });
-            const total = await RelationshipBetweenNomenclators.getTotal({ search: searchValue });
+            const relationship = await RelationshipBetweenNomenclatorsService.fetch({ page, search: searchValue });
+            const total = await RelationshipBetweenNomenclatorsService.getTotal({ search: searchValue });
             res.send({ relationship, total });
         } catch (error) {
             next(error);
@@ -19,7 +19,7 @@ class RelationshipBetweenNomenclatorsController {
 
     static async find(req, res, next) {
         try {
-            const relationship = await RelationshipBetweenNomenclators.findOne(req.params);
+            const relationship = await RelationshipBetweenNomenclatorsService.findOne(req.params);
             res.send({ relationship });
         } catch (error) {
             next(error);
@@ -28,7 +28,7 @@ class RelationshipBetweenNomenclatorsController {
 
     static async create(req, res, next) {
         try {
-            const relationship = await RelationshipBetweenNomenclators.create(req.body, req.user.id);
+            const relationship = await RelationshipBetweenNomenclatorsService.create(req.body, req.user.id);
             res.send({ success: true, relationship });
         } catch (err) {
             next(err);
@@ -37,7 +37,7 @@ class RelationshipBetweenNomenclatorsController {
 
     static async update(req, res, next) {
         try {
-            const relationship = await RelationshipBetweenNomenclators.update(req.params, req.body);
+            const relationship = await RelationshipBetweenNomenclatorsService.update(req.params, req.body);
             res.send({ success: true, relationship });
         } catch (err) {
             next(err);
@@ -46,7 +46,7 @@ class RelationshipBetweenNomenclatorsController {
 
     static async delete(req, res, next) {
         try {
-            const success = await RelationshipBetweenNomenclators.delete(req.params, req.user.id);
+            const success = await RelationshipBetweenNomenclatorsService.delete(req.params, req.user.id);
             if (success) {
                 res.sendStatus(204);
             } else {
@@ -59,15 +59,15 @@ class RelationshipBetweenNomenclatorsController {
 
     static async downloadCsv(req, res, next) {
         try {
-            const originalColumns = map(RelationshipBetweenNomenclators.getColumns(), column => column.original);
+            const originalColumns = map(RelationshipBetweenNomenclatorsService.getColumns(), column => column.original);
             const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet('Diccionario_de_Palabras');
+            const worksheet = workbook.addWorksheet('Relacion_Entre_Nomencladores');
             const sheetColums = map(
-                RelationshipBetweenNomenclators.getColumns(),
+                RelationshipBetweenNomenclatorsService.getColumns(),
                 column => ({ key: column.original, header: column.modified })
             );
             worksheet.columns = sheetColums;
-            await RelationshipBetweenNomenclators.exportToFile(worksheet, originalColumns);
+            await RelationshipBetweenNomenclatorsService.exportToFile(worksheet, originalColumns);
             const temp = tempy.file({extension: '.xlsx'});
             res.header('Content-type', 'text/xlsx; charset=utf-8');
             /* eslint-disable */ 
