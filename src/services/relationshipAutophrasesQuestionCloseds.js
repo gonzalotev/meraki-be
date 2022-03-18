@@ -10,18 +10,30 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class RelationshipAutophraseQuestionClosedService {
-    static async fetch({ page, source }) {
-        let relations = [];
-        if (page && source) {
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_AUTOFRASE', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = relationshipAutophraseQuestionClosed.selectableProps;
+        let relations=[];
+        if(page && search) {
+            relations = await relationshipAutophraseQuestionClosed.findByMatch(
+                page,
+                search,
+                ['ABREVIATURA'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
             relations = await relationshipAutophraseQuestionClosed.findByPage(
                 page,
-                { ID_AUTOFRASE: source},
-                relationshipAutophraseQuestionClosed.selectableProps,
-                [{ column: 'ID_AUTOFRASE', order: 'asc' }, { column: 'ID_PREGUNTA	', order: 'asc' }]
-            );
+                filterBy,
+                columnsToSelect,
+                orderBy);
         } else {
-            relations = await relationshipAutophraseQuestionClosed.find();
+            relations = await relationshipAutophraseQuestionClosed.find(
+                filterBy, columnsToSelect, orderBy);
         }
+
         relations = relations.map(relation => ({
             autophraseId: relation.ID_AUTOFRASE,
             sourceId: relation.ID_FUENTE,
@@ -35,7 +47,6 @@ class RelationshipAutophraseQuestionClosedService {
             userCreator: relation.ID_USUARIO_ALTA,
             createdAt: dateToString(relation.FECHA_ALTA)
         }));
-        // await RelationshipAutophraseQuestionClosedService.getSourceData(relations);
         await NomenclaturesService.getNomenclatureData(relations);
         await OperativeSourcesService.getSourceData(relations);
         await NomenclatorsService.getNomenclatorData(relations);

@@ -8,8 +8,30 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class RelationshipAutophrasesNomenclatureService {
-    static async fetch() {
-        let relationshipsTypes = await relationshipAutophrasesNomenclatureModel.find();
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_NOMENCLADOR', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = relationshipAutophrasesNomenclatureModel.selectableProps;
+        let relationshipsTypes=[];
+        if(page && search) {
+            relationshipsTypes = await relationshipAutophrasesNomenclatureModel.findByMatch(
+                page,
+                search,
+                ['AUTOFRASE'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            relationshipsTypes = await relationshipAutophrasesNomenclatureModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            relationshipsTypes = await relationshipAutophrasesNomenclatureModel.find(
+                filterBy, columnsToSelect, orderBy);
+        }
+
         relationshipsTypes = relationshipsTypes.map(relationshipAutophrasesNomenclature => ({
             autophraseId: relationshipAutophrasesNomenclature.ID_AUTOFRASE,
             nomenclatorId: relationshipAutophrasesNomenclature.ID_NOMENCLADOR,
@@ -30,7 +52,11 @@ class RelationshipAutophrasesNomenclatureService {
         await NomenclaturesService.getNomenclatureData(relationshipsTypes);
 
         return relationshipsTypes;
+    }
 
+    static async getTotal({ search }) {
+        const { total } = await relationshipAutophrasesNomenclatureModel.countTotal({}, search, ['AUTOFRASE']);
+        return total;
     }
 
     static async create(params, userCreator) {

@@ -101,6 +101,33 @@ class OperativesService {
         };
     }
 
+    static async findMatching(filters) {
+        const formattedFilters = { DESCRIPCION: filters.description };
+        const matchWords = await operatives.findByMatch(formattedFilters);
+        return matchWords.map(operative => ({
+            sourceId: operative.ID_FUENTE,
+            operativeId: operative.ID_OPERATIVO,
+            description: operative.DESCRIPCION,
+            observation: operative.OBSERVACION,
+            domain: operative.DOMINIO,
+            arrivalDate: dateString(operative.FECHA_LLEGADA_OPERATIVO, 'YYYY-MM-DDTHH:mm:ss'),
+            totalRecords: operative.TOTAL_REGISTROS_OPERATIVO,
+            operatingContact: operative.CONTACTO_OPERATIVO,
+            mailContact: operative.MAIL_CONTACTO,
+            codingStartDate: dateString(operative.FECHA_INICIO_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            codingEndDate: dateString(operative.FECHA_FIN_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            deliveryStartDate: dateString(operative.FECHA_INICIO_ENTREGA, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedStartDate: dateString(operative.FECHA_INICIO_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedEndDate: dateString(operative.FECHA_FIN_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
+            qualityOperational: operative.CALIDAD_TOTAL_OPERATIVO,
+            operatingErrorLevel: operative.NIVEL_ERROR_OPERATIVO,
+            userCreator: operative.ID_USUARIO_ALTA,
+            userDeleted: operative.ID_USUARIO_BAJA,
+            createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
+            deletedAt: dateString(operative.FECHA_BAJA, 'YYYY-MM-DD')
+        }));
+    }
+
     static async update(params, ids){
         const formattedOperative = {
             ID_FUENTE: params.sourceId,
@@ -143,14 +170,9 @@ class OperativesService {
         });
     }
 
-    static async getTotal({operative}){
-        let result;
-        if(operative){
-            result = await operatives.countTotal({ID_OPERATIVO: operative, FECHA_BAJA: null});
-        } else {
-            result = await operatives.countTotal({FECHA_BAJA: null});
-        }
-        return result.total;
+    static async getTotal({ search }) {
+        const { total } = await operatives.countTotal({FECHA_BAJA: null}, search, ['DESCRIPCION']);
+        return total;
     }
 
     static exportToFile(worksheet, columns) {

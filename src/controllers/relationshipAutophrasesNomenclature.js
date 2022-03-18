@@ -1,13 +1,20 @@
 const { RelationshipAutophrasesNomenclatureService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class RelationshipAutophrasesNomenclatureController {
     static async fetch(req, res, next) {
         try {
-            const relationshipsTypes = await RelationshipAutophrasesNomenclatureService.fetch();
-            res.send({ relationshipsTypes });
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
+            const relationshipsTypes = await RelationshipAutophrasesNomenclatureService.fetch(
+                { page, search: searchValue });
+            const total = await RelationshipAutophrasesNomenclatureService.getTotal({ search: searchValue });
+            res.send({ relationshipsTypes, total });
         } catch (error) {
             next(error);
         }

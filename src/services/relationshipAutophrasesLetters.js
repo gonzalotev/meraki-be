@@ -9,8 +9,30 @@ const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 
 class RelationshipAutophrasesLetterService {
-    static async fetch() {
-        let relationshipsLetter = await relationshipAutophrasesLetterModel.find();
+    static async fetch({page, search}) {
+        const orderBy = [{column: 'ID_NOMENCLADOR', order: 'asc'}];
+        const filterBy = {};
+        const columnsToSelect = relationshipAutophrasesLetterModel.selectableProps;
+        let relationshipsLetter=[];
+        if(page && search) {
+            relationshipsLetter = await relationshipAutophrasesLetterModel.findByMatch(
+                page,
+                search,
+                ['ID_NOMENCLADOR'],
+                filterBy,
+                orderBy
+            );
+        } else if(page){
+            relationshipsLetter = await relationshipAutophrasesLetterModel.findByPage(
+                page,
+                filterBy,
+                columnsToSelect,
+                orderBy);
+        } else {
+            relationshipsLetter = await relationshipAutophrasesLetterModel.find(
+                filterBy, columnsToSelect, orderBy);
+        }
+
         relationshipsLetter = relationshipsLetter.map(relationshipAutophrasesLetter => ({
             nomenclatorId: relationshipAutophrasesLetter.ID_NOMENCLADOR,
             groupId: relationshipAutophrasesLetter.ID_AGRUPACION,
@@ -27,7 +49,11 @@ class RelationshipAutophrasesLetterService {
         await NomenclatorsGroupingService.getNomenclatorsGroupingsData(relationshipsLetter);
         await NomenclaturesGroupingService.getNomenclaturesGroupingsData(relationshipsLetter);
         return relationshipsLetter;
+    }
 
+    static async getTotal({ search }) {
+        const { total } = await relationshipAutophrasesLetterModel.countTotal({}, search, ['ID_NOMENCLADOR']);
+        return total;
     }
 
     static async create(params, userCreator) {
@@ -118,17 +144,6 @@ class RelationshipAutophrasesLetterService {
         const success = await relationshipAutophrasesLetterModel.delete(ids, {
         });
         return !!success;
-    }
-
-    static async getTotal({ relationshipAutophrasesLetter }) {
-        let result;
-        if (relationshipAutophrasesLetter) {
-            result = await relationshipAutophrasesLetterModel.countTotal(
-                { ID_NOMENCLATURA_AGRUPACION: relationshipAutophrasesLetter});
-        } else {
-            result = await relationshipAutophrasesLetterModel.countTotal();
-        }
-        return result.total;
     }
 
     static exportToFile(worksheet, columns) {

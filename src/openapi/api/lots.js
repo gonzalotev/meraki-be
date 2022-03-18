@@ -20,6 +20,14 @@ module.exports = {
                     schema: {
                         type: 'string'
                     }
+                },
+                {
+                    in: 'query',
+                    name: 'linguisticLots',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
                 }
             ],
             responses: {

@@ -17,6 +17,15 @@ class OperativesController {
         }
     }
 
+    static async findMatch(req, res, next) {
+        try {
+            const matchWords = await OperativesService.findMatching(req.params);
+            res.send({ matchWords });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     static async find(req, res, next) {
         try {
             const operative = await OperativesService.findOne(req.params);

@@ -144,7 +144,6 @@ class OperativeSourcesService {
         return new Promise((resolve, reject) => {
             const stream = operativeSources.knex.select(columns)
                 .from(operativeSources.tableName)
-                .where({ FECHA_BAJA: null })
                 .stream();
             stream.on('error', function (err) {
                 reject(err);

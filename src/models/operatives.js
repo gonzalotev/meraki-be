@@ -11,6 +11,13 @@ class Operatives extends ModelCreate{
             selectableProps: operativesAttrib
         });
     }
+    async findWords(words) {
+        return await this.knex.select(['DESCRIPCION'])
+            .from(this.tableName)
+            .whereIn('DESCRIPCION', words)
+            .pluck('DESCRIPCION')
+            .timeout(this.timeout);
+    }
 }
 
 module.exports = knex => new Operatives({knex});

@@ -1,14 +1,19 @@
 const { RelationshipAutophrasesQuestionClosedsService } = include('services');
 const ExcelJS = require('exceljs');
+const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class RelationshipAutophrasesQuestionClosedsController {
     static async fetch(req, res, next) {
         try {
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
+            const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
             const relationshipAutophrasesQuestionCloseds = await RelationshipAutophrasesQuestionClosedsService
-                .fetch(req.query);
-            const total = await RelationshipAutophrasesQuestionClosedsService.getTotal({ source: req.query.source });
+                .fetch({ page, search: searchValue });
+            const total = await RelationshipAutophrasesQuestionClosedsService.getTotal({ search: searchValue });
             res.send({ relationshipAutophrasesQuestionCloseds, total });
         } catch (error) {
             next(error);

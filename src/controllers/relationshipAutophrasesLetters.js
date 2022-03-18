@@ -1,5 +1,6 @@
 const { RelationshipAutophrasesLettersService } = include('services');
 const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const ExcelJS = require('exceljs');
 const map = require('lodash/map');
 const tempy = require('tempy');
@@ -7,7 +8,8 @@ const tempy = require('tempy');
 class RelationshipAutophrasesLetterController {
     static async fetch(req, res, next) {
         try {
-            const { page, search } = req.query;
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
             const relationshipsLetter = await RelationshipAutophrasesLettersService.fetch(
                 { page, search: searchValue });

@@ -7,6 +7,12 @@ module.exports = {
             parameters: [
                 {
                     in: 'query',
+                    name: 'lotId',
+                    required: false,
+                    schema: {type: 'integer'}
+                },
+                {
+                    in: 'query',
                     name: 'page',
                     required: false,
                     schema: {
@@ -21,12 +27,6 @@ module.exports = {
                     schema: {
                         type: 'string'
                     }
-                },
-                {
-                    in: 'query',
-                    name: 'lotId',
-                    required: false,
-                    schema: {type: 'integer'}
                 }
             ],
             responses: {
