@@ -17,9 +17,7 @@ module.exports = {
                     in: 'query',
                     name: 'search',
                     required: false,
-                    schema: {
-                        type: 'string'
-                    }
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -78,6 +76,51 @@ module.exports = {
                                 type: 'object',
                                 properties: {
                                     operative: {$ref: '#/components/schemas/Operatives'}
+                                }
+                            }
+                        }
+                    }
+                },
+                default: {
+                    description: 'Error',
+                    content: {'application/json': {schema: {$ref: '#/components/schemas/Error'}}}
+                }
+            }
+        }
+    },
+    '/api/operatives/match/{description}': {
+        get: {
+            security: [{bearerAuth: []}],
+            tags: ['Operatives'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'search',
+                    required: true,
+                    schema: {type: 'string'},
+                    description: 'description to update'
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'ok',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    word: {
+                                        type: 'object',
+                                        properties: {
+                                            sourceId: {type: 'number'},
+                                            arrivalDate: {type: 'string'},
+                                            description: {type: 'string'},
+                                            observation: {type: 'string'},
+                                            mailContact: {type: 'string'},
+                                            operatingContact: {type: 'string'},
+                                            domain: {type: 'string'}
+                                        }
+                                    }
                                 }
                             }
                         }
