@@ -9,7 +9,16 @@ module.exports = {
                     name: 'page',
                     required: false,
                     schema: {
-                        type: 'number'
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
                     }
                 },
                 {

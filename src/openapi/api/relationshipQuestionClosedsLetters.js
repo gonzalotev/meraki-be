@@ -3,6 +3,25 @@ module.exports = {
         get: {
             security: [{ bearerAuth: [] }],
             tags: ['Relationship Question Closed Letters'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',

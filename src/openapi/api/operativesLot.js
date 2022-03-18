@@ -2,7 +2,26 @@ module.exports = {
     '/api/operativesLot': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['OPERATIVES LOTS'],
+            tags: ['Operative Lots'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -42,7 +61,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['OPERATIVES LOTS'],
+            tags: ['Operative Lots'],
             requestBody: {
                 description: 'The new  type of specialPhrase to create',
                 required: true,
@@ -104,7 +123,7 @@ module.exports = {
     '/api/operativesLot/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['OPERATIVES LOTS'],
+            tags: ['Operative Lots'],
             parameters: [
                 {
                     in: 'path',
@@ -174,7 +193,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['OPERATIVES LOTS'],
+            tags: ['Operative Lots'],
             parameters: [
                 {
                     in: 'path',
@@ -197,7 +216,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['OPERATIVES LOTS'],
+            tags: ['Operative Lots'],
             parameters: [
                 {
                     in: 'path',
@@ -245,7 +264,7 @@ module.exports = {
     '/api/operativesLots/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['OPERATIVES LOTS'],
+            tags: ['Operative Lots'],
             responses: {
                 200: {
                     description: 'Success',

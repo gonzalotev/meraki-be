@@ -6,10 +6,19 @@ module.exports = {
             parameters: [
                 {
                     in: 'query',
-                    name: 'linguisticLots',
+                    name: 'page',
                     required: false,
                     schema: {
-                        type: 'boolean'
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
                     }
                 }
             ],

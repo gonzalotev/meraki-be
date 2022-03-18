@@ -2,7 +2,26 @@ module.exports = {
     '/api/rolesTypes': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Roles Types'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
             responses: {
                 200: {
                     description: 'Success',
@@ -41,7 +60,7 @@ module.exports = {
         },
         post: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Roles Types'],
             requestBody: {
                 description: 'The new  type of roles to create',
                 required: true,
@@ -96,7 +115,7 @@ module.exports = {
     '/api/rolesTypes/{id}': {
         put: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Roles Types'],
             parameters: [
                 {
                     in: 'path',
@@ -163,7 +182,7 @@ module.exports = {
         },
         delete: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Roles Types'],
             parameters: [
                 {
                     in: 'path',
@@ -183,7 +202,7 @@ module.exports = {
         },
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Roles Types'],
             parameters: [
                 {
                     in: 'path',
@@ -230,7 +249,7 @@ module.exports = {
     '/api/rolesTypes/downloadCsv': {
         get: {
             security: [{bearerAuth: []}],
-            tags: ['Types'],
+            tags: ['Roles Types'],
             responses: {
                 200: {
                     description: 'Success',

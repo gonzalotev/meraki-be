@@ -15,6 +15,14 @@ module.exports = {
                 },
                 {
                     in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                },
+                {
+                    in: 'query',
                     name: 'source',
                     required: false,
                     schema: {type: 'number'}

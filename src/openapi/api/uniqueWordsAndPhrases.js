@@ -7,6 +7,23 @@ module.exports = {
             parameters: [
                 {
                     in: 'query',
+                    name: 'page',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        default: 1
+                    }
+                },
+                {
+                    in: 'query',
+                    name: 'search',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    }
+                },
+                {
+                    in: 'query',
                     name: 'lotId',
                     required: false,
                     schema: {type: 'integer'}

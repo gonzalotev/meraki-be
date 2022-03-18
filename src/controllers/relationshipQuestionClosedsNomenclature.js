@@ -1,13 +1,15 @@
 const { RelationshipQuestionClosedsNomenclatureService } = include('services');
 const ExcelJS = require('exceljs');
 const toUpper = require('lodash/toUpper');
+const {decodeQuery} = include('util');
 const map = require('lodash/map');
 const tempy = require('tempy');
 
 class RelationshipQuestionClosedsNomenclatureController {
     static async fetch(req, res, next) {
         try {
-            const { page, search } = req.query;
+            const query = decodeQuery(req.query);
+            const { page, search } = query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
             const relationshipsTypes = await RelationshipQuestionClosedsNomenclatureService.fetch(
                 { page, search: searchValue });
