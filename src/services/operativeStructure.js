@@ -11,7 +11,7 @@ class OperativeStructureService {
         if(page && operative) {
             structures = await OperativeStructure.findByPage(
                 page,
-                {ID_OPERATIVO: operative, FECHA_BAJA: null},
+                {ID_OPERATIVO: operative},
                 OperativeStructure.selectableProps,
                 [
                     {column: 'ID_OPERATIVO', order: 'asc'},
@@ -19,11 +19,11 @@ class OperativeStructureService {
                 ]
             );
         } else if (operative) {
-            structures = await OperativeStructure.find({ID_OPERATIVO: operative, FECHA_BAJA: null});
+            structures = await OperativeStructure.find({ID_OPERATIVO: operative});
         } else if(page){
             structures = await OperativeStructure.findByPage(
                 page,
-                {FECHA_BAJA: null},
+                {},
                 OperativeStructure.selectableProps,
                 [
                     {column: 'ID_OPERATIVO', order: 'asc'},
@@ -31,7 +31,7 @@ class OperativeStructureService {
                 ]
             );
         } else {
-            structures = await OperativeStructure.find({FECHA_BAJA: null});
+            structures = await OperativeStructure.find();
         }
         structures = structures.map(structure => OperativeStructureService.rebaseFormat(structure));
         await OperativesService.getOperativesData(structures);
@@ -71,20 +71,18 @@ class OperativeStructureService {
         return OperativeStructureService.findOne({operativeId: id.ID_OPERATIVO, structureId: id.ID_ESTRUCTURA});
     }
 
-    static async delete({operativeId, structureId}, userDeleted){
+    static async delete({operativeId, structureId}){
         const ids = {
             ID_OPERATIVO: operativeId,
             ID_ESTRUCTURA: structureId
         };
-        const success = await OperativeStructure.deleteOne(ids, {
-            FECHA_BAJA: new Date(),
-            ID_USUARIO_BAJA: userDeleted
+        const success = await OperativeStructure.delete(ids, {
         });
         return !!success;
     }
 
     static async getTotal(){
-        const result = await OperativeStructure.countTotal({FECHA_BAJA: null});
+        const result = await OperativeStructure.countTotal({});
         return result.total;
     }
 
@@ -92,7 +90,7 @@ class OperativeStructureService {
         return new Promise((resolve, reject) => {
             const stream = OperativeStructure.knex.select(columns)
                 .from(OperativeStructure.tableName)
-                .where({FECHA_BAJA: null})
+                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
@@ -220,9 +218,7 @@ class OperativeStructureService {
             sourceId: structure.ID_FUENTE,
             questionId: structure.ID_PREGUNTA,
             userCreator: structure.ID_USUARIO_ALTA,
-            createdAt: dateToString(structure.FECHA_ALTA),
-            userDeleted: structure.ID_USUARIO_BAJA,
-            deletedAt: dateToString(structure.FECHA_BAJA)
+            createdAt: dateToString(structure.FECHA_ALTA)
         };
     }
 
@@ -249,9 +245,7 @@ class OperativeStructureService {
             ID_FUENTE: structure.sourceId || null,
             ID_PREGUNTA: structure.questionId || null,
             ID_USUARIO_ALTA: structure.userCreator,
-            FECHA_ALTA: stringToDate(structure.createdAt),
-            ID_USUARIO_BAJA: structure.userDeleted,
-            FECHA_BAJA: stringToDate(structure.deletedAt)
+            FECHA_ALTA: stringToDate(structure.createdAt)
         };
     }
 }

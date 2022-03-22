@@ -8,7 +8,7 @@ const find = require('lodash/find');
 
 class OperativesService {
     static async fetch({page, search}) {
-        const orderBy = [{column: 'DESCRIPCION', order: 'asc'}];
+        const orderBy = [{column: 'ID_FUENTE', order: 'asc'}];
         const filterBy = {FECHA_BAJA: null};
         const columnsToSelect = operatives.selectableProps;
         let operativess=[];
@@ -74,6 +74,11 @@ class OperativesService {
         return operative;
     }
 
+    static async checkIfAllWordsExist(operativess) {
+        const wordsFound = await operatives.findWords(operativess);
+        return { wordsFound };
+    }
+
     static async findOne(filters){
         const formattedFilters = {ID_OPERATIVO: filters.operativeId};
         const operative = await operatives.findById(formattedFilters);
@@ -104,27 +109,27 @@ class OperativesService {
     static async findMatching(filters) {
         const formattedFilters = { DESCRIPCION: filters.description };
         const matchWords = await operatives.findByMatch(formattedFilters);
-        return matchWords.map(operative => ({
-            sourceId: operative.ID_FUENTE,
-            operativeId: operative.ID_OPERATIVO,
-            description: operative.DESCRIPCION,
-            observation: operative.OBSERVACION,
-            domain: operative.DOMINIO,
-            arrivalDate: dateString(operative.FECHA_LLEGADA_OPERATIVO, 'YYYY-MM-DDTHH:mm:ss'),
-            totalRecords: operative.TOTAL_REGISTROS_OPERATIVO,
-            operatingContact: operative.CONTACTO_OPERATIVO,
-            mailContact: operative.MAIL_CONTACTO,
-            codingStartDate: dateString(operative.FECHA_INICIO_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
-            codingEndDate: dateString(operative.FECHA_FIN_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
-            deliveryStartDate: dateString(operative.FECHA_INICIO_ENTREGA, 'YYYY-MM-DDTHH:mm:ss'),
-            deletedStartDate: dateString(operative.FECHA_INICIO_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
-            deletedEndDate: dateString(operative.FECHA_FIN_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
-            qualityOperational: operative.CALIDAD_TOTAL_OPERATIVO,
-            operatingErrorLevel: operative.NIVEL_ERROR_OPERATIVO,
-            userCreator: operative.ID_USUARIO_ALTA,
-            userDeleted: operative.ID_USUARIO_BAJA,
-            createdAt: dateString(operative.FECHA_ALTA, 'YYYY-MM-DD'),
-            deletedAt: dateString(operative.FECHA_BAJA, 'YYYY-MM-DD')
+        return matchWords.map(operativess => ({
+            sourceId: operativess.ID_FUENTE,
+            operativeId: operativess.ID_OPERATIVO,
+            description: operativess.DESCRIPCION,
+            observation: operativess.OBSERVACION,
+            domain: operativess.DOMINIO,
+            arrivalDate: dateString(operativess.FECHA_LLEGADA_OPERATIVO, 'YYYY-MM-DDTHH:mm:ss'),
+            totalRecords: operativess.TOTAL_REGISTROS_OPERATIVO,
+            operatingContact: operativess.CONTACTO_OPERATIVO,
+            mailContact: operativess.MAIL_CONTACTO,
+            codingStartDate: dateString(operativess.FECHA_INICIO_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            codingEndDate: dateString(operativess.FECHA_FIN_CODIFICACION, 'YYYY-MM-DDTHH:mm:ss'),
+            deliveryStartDate: dateString(operativess.FECHA_INICIO_ENTREGA, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedStartDate: dateString(operativess.FECHA_INICIO_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
+            deletedEndDate: dateString(operativess.FECHA_FIN_BORRADO, 'YYYY-MM-DDTHH:mm:ss'),
+            qualityOperational: operativess.CALIDAD_TOTAL_OPERATIVO,
+            operatingErrorLevel: operativess.NIVEL_ERROR_OPERATIVO,
+            userCreator: operativess.ID_USUARIO_ALTA,
+            userDeleted: operativess.ID_USUARIO_BAJA,
+            createdAt: dateString(operativess.FECHA_ALTA, 'YYYY-MM-DD'),
+            deletedAt: dateString(operativess.FECHA_BAJA, 'YYYY-MM-DD')
         }));
     }
 

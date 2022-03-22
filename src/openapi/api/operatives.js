@@ -88,14 +88,14 @@ module.exports = {
             }
         }
     },
-    '/api/operatives/match/{description}': {
+    '/api/operatives/match/{word}': {
         get: {
             security: [{bearerAuth: []}],
             tags: ['Operatives'],
             parameters: [
                 {
                     in: 'path',
-                    name: 'search',
+                    name: 'word',
                     required: true,
                     schema: {type: 'string'},
                     description: 'description to update'

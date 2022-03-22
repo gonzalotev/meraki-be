@@ -11,10 +11,10 @@ class Operatives extends ModelCreate{
             selectableProps: operativesAttrib
         });
     }
-    async findWords(words) {
+    async findWords(operatives) {
         return await this.knex.select(['DESCRIPCION'])
             .from(this.tableName)
-            .whereIn('DESCRIPCION', words)
+            .whereIn('DESCRIPCION', operatives)
             .pluck('DESCRIPCION')
             .timeout(this.timeout);
     }

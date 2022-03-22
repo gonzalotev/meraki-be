@@ -9,9 +9,9 @@ class OperativesController {
         try {
             const { page, search } = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const operatives = await OperativesService.fetch({ page, search: searchValue });
+            const operativess = await OperativesService.fetch({ page, search: searchValue });
             const total = await OperativesService.getTotal({ search: searchValue });
-            res.send({ operatives, total });
+            res.send({ operativess, total });
         } catch (error) {
             next(error);
         }

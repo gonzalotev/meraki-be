@@ -5,7 +5,7 @@ module.exports = router => {
         .get(OperativesController.fetch)
         .post(OperativesController.create);
     router.route('/downloadCsv').get(OperativesController.downloadCsv);
-    router.get('/match/:description', OperativesController.findMatch);
+    router.get('/match/:word', OperativesController.findMatch);
     router.route('/:operativeId')
         .get(OperativesController.find)
         .delete(OperativesController.delete)
