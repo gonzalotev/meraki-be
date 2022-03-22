@@ -937,6 +937,24 @@ const closedQuestionsAttrib = [
     'CANTIDAD_DE_AGRUPACIONES'
 ];
 
+const relationshipBetweenNomenclatorsTableName = 'RELACION_ENTRE_NOMENCLADORES';
+const relationshipBetweenNomenclatorsAttrib = [
+    'ID_CORRESPONDENCIA',
+    'DESCRIPCION',
+    'ID_TIPO_RELACION',
+    'DOMINIO',
+    'ID_NOMENCLADOR1',
+    'ID_CANTIDAD_DIGITOS1',
+    'ID_NOMENCLADOR2',
+    'ID_CANTIDAD_DIGITOS2',
+    'ID_USUARIO_ALTA',
+    'FECHA_ALTA',
+    'OBSERVACION',
+    'TIENE_COEFICIENTE',
+    'ES_INYECTIVA',
+    'ES_SOBREYECTIVA'
+];
+
 module.exports = {
     linguisticDictionaryTableName,
     linguisticDictionaryAttrib,
@@ -1054,5 +1072,7 @@ module.exports = {
     microprocessStepsTableName,
     microprocessStepsAttrib,
     closedQuestionsTableName,
-    closedQuestionsAttrib
+    closedQuestionsAttrib,
+    relationshipBetweenNomenclatorsTableName,
+    relationshipBetweenNomenclatorsAttrib
 };

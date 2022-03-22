@@ -52,6 +52,7 @@ const microprocessesWords = require('./microprocessesWords');
 const microprocessSteps = require('./microprocessSteps');
 const uniqueWordsAndPhrases = require('./uniqueWordsAndPhrases');
 const closedQuestions = require('./closedQuestions');
+const relationshipBetweenNomenclators = require('./relationshipBetweenNomenclators');
 
 module.exports = {
     ...assignments,
@@ -107,5 +108,6 @@ module.exports = {
     ...microprocessesWords,
     ...microprocessSteps,
     ...uniqueWordsAndPhrases,
-    ...closedQuestions
+    ...closedQuestions,
+    ...relationshipBetweenNomenclators
 };
