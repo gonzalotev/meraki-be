@@ -61,12 +61,8 @@ module.exports = {
                                 variableId: {type: 'string'},
                                 nomenclatorId: {type: 'integer'},
                                 questionTypeId: {type: 'string'},
-                                isRequired: {type: 'boolean'},
                                 isCodable: {type: 'boolean'},
-                                isAuxiliary: {type: 'boolean'},
                                 shouldBeProcessed: {type: 'boolean'},
-                                souldHaveAuxiliary: {type: 'boolean'},
-                                shouldReadAutoPhrase: {type: 'boolean'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'}
                             }
@@ -128,12 +124,8 @@ module.exports = {
                                     nullable: true
                                 },
                                 questionTypeId: {type: 'string'},
-                                isRequired: {type: 'boolean'},
                                 isCodable: {type: 'boolean'},
-                                isAuxiliary: {type: 'boolean'},
                                 shouldBeProcessed: {type: 'boolean'},
-                                souldHaveAuxiliary: {type: 'boolean'},
-                                shouldReadAutoPhrase: {type: 'boolean'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'}
                             }

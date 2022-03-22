@@ -424,13 +424,13 @@ class StaticDataService {
         data.originalAuxiliariesFields = originalAuxiliariesFields;
         return data;
     }
-    static async getFinalAuxiliariesFields(data){
-        const finalAuxiliariesFields = await knex.select({
-            id: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL'
+    static async getQuestionClosedProcess(data){
+        const questionClosedProcess = await knex.select({
+            id: 'ID_PROCESAMIENTO_PREGUNTA_CERRADA'
         })
-            .from('PROCESAMIENTOS_CAMPOS_AUXILIARES_FINAL')
-            .orderBy([{column: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL', order: 'asc'}]);
-        data.finalAuxiliariesFields = finalAuxiliariesFields;
+            .from('PROCESAMIENTOS_PREGUNTAS_CERRADAS')
+            .orderBy([{column: 'ID_PROCESAMIENTO_PREGUNTA_CERRADA', order: 'asc'}]);
+        data.questionClosedProcess = questionClosedProcess;
         return data;
     }
     static async getDatatypes(data){

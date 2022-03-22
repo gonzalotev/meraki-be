@@ -28,6 +28,10 @@ class OperativeSourcesController {
             res.status(201);
             res.send({ operativeSource });
         } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
             next(err);
         }
     }
@@ -36,8 +40,12 @@ class OperativeSourcesController {
         try {
             const operativeSource = await OperativeSourcesService.update(req.params, req.body);
             res.send({ operativeSource });
-        } catch (error) {
-            next(error);
+        } catch (err) {
+            const errorJson = err.message.match(/\{.+\}/);
+            if (errorJson) {
+                err.errors = JSON.parse(errorJson[0]);
+            }
+            next(err);
         }
     }
 
