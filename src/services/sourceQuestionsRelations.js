@@ -37,12 +37,8 @@ class SourceQuestionRelationService {
             variableId: relation.ID_VARIABLE,
             nomenclatorId: relation.ID_NOMENCLADOR,
             questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!relation.ES_OBLIGATORIA_SI_NO,
             isCodable: !!relation.SE_CODIFICA_SI_NO,
-            isAuxiliary: !!relation.ES_AUXILIAR_SI_NO,
             shouldBeProcessed: !!relation.PASAR_A_PROCESAMIENTO_SI_NO,
-            souldHaveAuxiliary: !!relation.NECESITA_AUXILIARES_SI_NO,
-            shouldReadAutoPhrase: !!relation.AUTOFRASE_LEER_SI_NO,
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,
@@ -69,12 +65,8 @@ class SourceQuestionRelationService {
             variableId: relation.ID_VARIABLE,
             nomenclatorId: relation.ID_NOMENCLADOR,
             questionTypeId: relation.ID_ABIERTA_CERRADA,
-            isRequired: !!toNumber(relation.ES_OBLIGATORIA_SI_NO),
             isCodable: !!toNumber(relation.SE_CODIFICA_SI_NO),
-            isAuxiliary: !!toNumber(relation.ES_AUXILIAR_SI_NO),
             shouldBeProcessed: !!toNumber(relation.PASAR_A_PROCESAMIENTO_SI_NO),
-            souldHaveAuxiliary: !!toNumber(relation.NECESITA_AUXILIARES_SI_NO),
-            shouldReadAutoPhrase: !!toNumber(relation.AUTOFRASE_LEER_SI_NO),
             observation: relation.OBSERVACION,
             domain: relation.DOMINIO,
             userCreator: relation.ID_USUARIO_ALTA,
@@ -94,12 +86,8 @@ class SourceQuestionRelationService {
             ID_VARIABLE: params.variableId,
             ID_NOMENCLADOR: params.nomenclatorId ? params.nomenclatorId : null,
             ID_ABIERTA_CERRADA: params.questionTypeId,
-            ES_OBLIGATORIA_SI_NO: params.isRequired,
             SE_CODIFICA_SI_NO: params.isCodable,
-            ES_AUXILIAR_SI_NO: params.isAuxiliary,
             PASAR_A_PROCESAMIENTO_SI_NO: params.shouldBeProcessed,
-            NECESITA_AUXILIARES_SI_NO: params.souldHaveAuxiliary,
-            AUTOFRASE_LEER_SI_NO: params.shouldReadAutoPhrase,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: userCreator,
@@ -121,12 +109,8 @@ class SourceQuestionRelationService {
             ID_VARIABLE: params.variableId,
             ID_NOMENCLADOR: params.nomenclatorId,
             ID_ABIERTA_CERRADA: params.questionTypeId,
-            ES_OBLIGATORIA_SI_NO: params.isRequired,
             SE_CODIFICA_SI_NO: params.isCodable,
-            ES_AUXILIAR_SI_NO: params.isAuxiliary,
             PASAR_A_PROCESAMIENTO_SI_NO: params.shouldBeProcessed,
-            NECESITA_AUXILIARES_SI_NO: params.souldHaveAuxiliary,
-            AUTOFRASE_LEER_SI_NO: params.shouldReadAutoPhrase,
             OBSERVACION: trim(params.observation),
             DOMINIO: trim(params.domain),
             ID_USUARIO_ALTA: params.userCreator
@@ -206,28 +190,12 @@ class SourceQuestionRelationService {
                 modified: 'PREGUNTA ABIERTA O CERRADA ID'
             },
             {
-                original: 'ES_OBLIGATORIA_SI_NO',
-                modified: 'ES OBLIGATORIA SI/NO'
-            },
-            {
                 original: 'SE_CODIFICA_SI_NO',
                 modified: 'SE CODIFICA'
             },
             {
-                original: 'ES_AUXILIAR_SI_NO',
-                modified: 'ES AUXILIAR SI/NO'
-            },
-            {
                 original: 'PASAR_A_PROCESAMIENTO_SI_NO',
                 modified: 'PASAR A PROCESAMIENTO SI/NO'
-            },
-            {
-                original: 'NECESITA_AUXILIARES_SI_NO',
-                modified: 'NECESITA AUXILIARES SI/NO'
-            },
-            {
-                original: 'AUTOFRASE_LEER_SI_NO',
-                modified: 'LEER AUTOFRASE SI/NO'
             },
             {
                 original: 'OBSERVACION',

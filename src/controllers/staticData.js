@@ -46,7 +46,7 @@ class StaticDataController {
                 microprocessesLists,
                 microprocesses,
                 originalAuxiliariesFields,
-                finalAuxiliariesFields,
+                questionClosedProcess,
                 datatypes,
                 linguisticFieldProcesses,
                 levels,
@@ -167,8 +167,8 @@ class StaticDataController {
             if (originalAuxiliariesFields) {
                 await StaticDataService.getOriginalAuxiliariesFields(data);
             }
-            if (finalAuxiliariesFields) {
-                await StaticDataService.getFinalAuxiliariesFields(data);
+            if (questionClosedProcess) {
+                await StaticDataService.getQuestionClosedProcess(data);
             }
             if (datatypes) {
                 await StaticDataService.getDatatypes(data);

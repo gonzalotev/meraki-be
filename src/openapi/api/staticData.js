@@ -222,7 +222,7 @@ module.exports = {
                 },
                 {
                     in: 'query',
-                    name: 'finalAuxiliariesFields',
+                    name: 'questionClosedProcess',
                     required: false,
                     schema: { type: 'boolean' }
                 },

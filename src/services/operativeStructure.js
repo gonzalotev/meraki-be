@@ -31,7 +31,7 @@ class OperativeStructureService {
                 ]
             );
         } else {
-            structures = await OperativeStructure.find();
+            structures = await OperativeStructure.find({});
         }
         structures = structures.map(structure => OperativeStructureService.rebaseFormat(structure));
         await OperativesService.getOperativesData(structures);
@@ -51,9 +51,7 @@ class OperativeStructureService {
         const formattedOperativeStructure = OperativeStructureService.formatData({
             ...params,
             userCreator,
-            userDeleted: null,
-            createdAt: new Date(),
-            deletedAt: null
+            createdAt: new Date()
         });
         const returnData = ['ID_OPERATIVO', 'ID_ESTRUCTURA'];
         const id = await OperativeStructure.insertOne(formattedOperativeStructure, returnData);
@@ -76,8 +74,7 @@ class OperativeStructureService {
             ID_OPERATIVO: operativeId,
             ID_ESTRUCTURA: structureId
         };
-        const success = await OperativeStructure.delete(ids, {
-        });
+        const success = await OperativeStructure.delete(ids);
         return !!success;
     }
 
@@ -90,7 +87,6 @@ class OperativeStructureService {
         return new Promise((resolve, reject) => {
             const stream = OperativeStructure.knex.select(columns)
                 .from(OperativeStructure.tableName)
-                .where({})
                 .stream();
             stream.on('error', function(err) {
                 reject(err);
@@ -129,20 +125,12 @@ class OperativeStructureService {
                 modified: 'CAMPO DE ENTRADA'
             },
             {
-                original: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL',
-                modified: 'CAMPO AUXILIAR ORIGINAL'
-            },
-            {
-                original: 'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL',
+                original: 'ID_PROCESAMIENTO_PREGUNTA_CERRADA',
                 modified: 'CAMPO AUXILIAR FINAL'
             },
             {
                 original: 'DESCRIPCION_VARIABLE',
                 modified: 'DESCRIPCIÓN DE VARIABLE'
-            },
-            {
-                original: 'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
-                modified: 'SE MUESTRA EN PANTALLA'
             },
             {
                 original: 'ES_PARTE_DEL_ID',
@@ -201,10 +189,8 @@ class OperativeStructureService {
             structureId: structure.ID_ESTRUCTURA,
             originalName: structure.NOMBRE_ORIGINAL,
             entryFieldNameId: structure.ID_NOMBRE_CAMPO_ENTRADA,
-            originalAuxiliaryFieldId: structure.ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL,
-            finalAuxiliaryFieldId: structure.ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL,
+            questionClosedProcessId: structure.ID_PROCESAMIENTO_PREGUNTA_CERRADA,
             variableDescription: structure.DESCRIPCION_VARIABLE,
-            shouldDisplayAuxiliary: structure.SE_MUESTRA_EN_PANTALLA_AUXILIAR,
             isPartOfTheId: structure.ES_PARTE_DEL_ID,
             datatypeId: structure.ID_TIPO_DE_DATO,
             dataSize: structure.TAMANIO_DATO,
@@ -228,10 +214,8 @@ class OperativeStructureService {
             ID_ESTRUCTURA: structure.structureId,
             NOMBRE_ORIGINAL: trim(structure.originalName),
             ID_NOMBRE_CAMPO_ENTRADA: structure.entryFieldNameId,
-            ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL: structure.originalAuxiliaryFieldId,
-            ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL: structure.finalAuxiliaryFieldId,
+            ID_PROCESAMIENTO_PREGUNTA_CERRADA: structure.questionClosedProcessId,
             DESCRIPCION_VARIABLE: structure.variableDescription,
-            SE_MUESTRA_EN_PANTALLA_AUXILIAR: structure.shouldDisplayAuxiliary,
             ES_PARTE_DEL_ID: structure.isPartOfTheId,
             ID_TIPO_DE_DATO: structure.datatypeId,
             TAMANIO_DATO: structure.dataSize,
