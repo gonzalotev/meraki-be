@@ -9,9 +9,9 @@ class RelationshipBetweenNomenclatorsController {
         try {
             const { page, search } = req.query;
             const searchValue = search ? toUpper(decodeURIComponent(search)) : '';
-            const relationship = await RelationshipBetweenNomenclatorsService.fetch({ page, search: searchValue });
+            const relationships = await RelationshipBetweenNomenclatorsService.fetch({ page, search: searchValue });
             const total = await RelationshipBetweenNomenclatorsService.getTotal({ search: searchValue });
-            res.send({ relationship, total });
+            res.send({ relationships, total });
         } catch (error) {
             next(error);
         }

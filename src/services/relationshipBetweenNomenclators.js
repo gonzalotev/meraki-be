@@ -47,7 +47,7 @@ class RelationshipBetweenNomenclators {
 
     static async create(params, userCreator) {
         const formattedRelationship = {
-            ID_CORRESPONDENCIA: params.correspondenceId,
+            ID_CORRESPONDENCIA: null,
             DESCRIPCION: params.description,
             ID_TIPO_RELACION: params.relationTypeId,
             DOMINIO: params.domain,
