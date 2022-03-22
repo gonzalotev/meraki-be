@@ -71,12 +71,7 @@ module.exports = {
                                     maxLength: 30,
                                     nullable: false
                                 },
-                                originalAuxiliaryFieldId: {
-                                    type: 'string',
-                                    maxLength: 30,
-                                    nullable: true
-                                },
-                                finalAuxiliaryFieldId: {
+                                questionClosedProcessId: {
                                     type: 'string',
                                     maxLength: 30,
                                     nullable: false
@@ -86,7 +81,6 @@ module.exports = {
                                     maxLength: 100,
                                     nullable: true
                                 },
-                                shouldDisplayAuxiliary: {type: 'boolean'},
                                 isPartOfTheId: {
                                     type: 'boolean',
                                     nullable: false

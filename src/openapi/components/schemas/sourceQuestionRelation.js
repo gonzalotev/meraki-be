@@ -27,12 +27,8 @@ module.exports = {
             maxLength: 1,
             nullable: false
         },
-        isRequired: {type: 'boolean'},
         isCodable: {type: 'boolean'},
-        isAuxiliary: {type: 'boolean'},
         shouldBeProcessed: {type: 'boolean'},
-        souldHaveAuxiliary: {type: 'boolean'},
-        shouldReadAutoPhrase: {type: 'boolean'},
         observation: {
             type: 'string',
             maxLength: 120
