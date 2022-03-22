@@ -1,5 +1,6 @@
 const { nomenclatures: nomenclaturesModel } = include('models');
 const { dateToString, stringToDate } = include('util');
+const NomenclatorsService = require('./nomenclators');
 const map = require('lodash/map');
 const isDate = require('lodash/isDate');
 const uniq = require('lodash/uniq');
@@ -24,20 +25,21 @@ class NomenclaturesService {
             nomenclatorId: nomenclatures.ID_NOMENCLADOR,
             nomenclatureId: nomenclatures.ID_NOMENCLATURA,
             abreviation: nomenclatures.ABREVIATURA,
-            original: nomenclatures.ORIGINAL,
+            originalPhrase: !!nomenclatures.ORIGINAL,
             description: nomenclatures.DESCRIPCION,
-            fractionationOfWords: nomenclatures.FRACCIONADO_DE_PALABRAS,
-            approved: nomenclatures.SUPERVISADO,
+            fractionationOfWords: !!nomenclatures.FRACCIONADO_DE_PALABRAS,
+            approved: !!nomenclatures.SUPERVISADO,
             coefficient: nomenclatures.COEFICIENTE,
             fatherNomenclatorId: nomenclatures.ID_PADRE_NOMENCLADOR,
             fatherNomenclatureId: nomenclatures.ID_PADRE_NOMENCLATURA,
-            acronim: nomenclatures.ACRONIMO,
             observation: nomenclatures.OBSERVACION,
             domain: nomenclatures.DOMINIO,
             userCreator: nomenclatures.ID_USUARIO_ALTA,
-            createdAt: dateToString(nomenclatures.FECHA_ALTA)
+            createdAt: dateToString(nomenclatures.FECHA_ALTA),
+            useInterno: !!nomenclatures.USO_EXCLUSIVO_INTERNO
         }));
 
+        await NomenclatorsService.getNomenclatorData(nomenclaturess);
         return (nomenclaturess);
     }
 
@@ -46,18 +48,18 @@ class NomenclaturesService {
             ID_NOMENCLADOR: params.nomenclatorId,
             ID_NOMENCLATURA: params.nomenclatureId,
             ABREVIATURA: params.abreviation,
-            ORIGINAL: params.original,
+            ORIGINAL: params.originalPhrase,
             DESCRIPCION: params.description,
             FRACCIONADO_DE_PALABRAS: params.fractionationOfWords,
             SUPERVISADO: params.approved,
             COEFICIENTE: params.coefficient,
             ID_PADRE_NOMENCLADOR: params.fatherNomenclatorId,
             ID_PADRE_NOMENCLATURA: params.fatherNomenclatureId,
-            ACRONIMO: params.acronim,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: userCreator,
-            FECHA_ALTA: new Date()
+            FECHA_ALTA: new Date(),
+            USO_EXCLUSIVO_INTERNO: params.useInterno
         };
         const nomenclature = await nomenclaturesModel.insertOne(formattedNomenclature, ['ID_NOMENCLADOR', 'ID_NOMENCLATURA', 'ABREVIATURA', 'DESCRIPCION']);
         const nomen = await NomenclaturesService.findOne(
@@ -77,24 +79,28 @@ class NomenclaturesService {
     }
 
     static async findOne(filters){
-        const nomenclatures = await nomenclaturesModel.findById({ID_NOMENCLATURA: filters.nomenclatureId});
-        return {
+        let nomenclatures = await nomenclaturesModel.findById(
+            {ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId});
+        nomenclatures = {
             nomenclatorId: nomenclatures.ID_NOMENCLADOR,
             nomenclatureId: nomenclatures.ID_NOMENCLATURA,
             abreviation: nomenclatures.ABREVIATURA,
-            original: nomenclatures.ORIGINAL,
+            originalPhrase: !!nomenclatures.ORIGINAL,
             description: nomenclatures.DESCRIPCION,
-            fractionationOfWords: nomenclatures.FRACCIONADO_DE_PALABRAS,
-            approved: nomenclatures.SUPERVISADO,
+            fractionationOfWords: !!nomenclatures.FRACCIONADO_DE_PALABRAS,
+            approved: !!nomenclatures.SUPERVISADO,
             coefficient: nomenclatures.COEFICIENTE,
             fatherNomenclatorId: nomenclatures.ID_PADRE_NOMENCLADOR,
             fatherNomenclatureId: nomenclatures.ID_PADRE_NOMENCLATURA,
-            acronim: nomenclatures.ACRONIMO,
             observation: nomenclatures.OBSERVACION,
             domain: nomenclatures.DOMINIO,
             userCreator: nomenclatures.ID_USUARIO_ALTA,
-            createdAt: dateToString(nomenclatures.FECHA_ALTA)
+            createdAt: dateToString(nomenclatures.FECHA_ALTA),
+            useInterno: !!nomenclatures.USO_EXCLUSIVO_INTERNO
         };
+        const nomenclaturesArray = await NomenclatorsService.getNomenclatorData([nomenclatures]);
+        nomenclatures = nomenclaturesArray[0];
+        return nomenclatures;
     }
 
     static async update(filters, params) {
@@ -102,28 +108,30 @@ class NomenclaturesService {
             ID_NOMENCLADOR: params.nomenclatorId,
             ID_NOMENCLATURA: params.nomenclatureId,
             ABREVIATURA: params.abreviation,
-            ORIGINAL: params.original,
+            ORIGINAL: params.originalPhrase,
             DESCRIPCION: params.description,
             FRACCIONADO_DE_PALABRAS: params.fractionationOfWords,
             SUPERVISADO: params.approved,
             COEFICIENTE: params.coefficient,
             ID_PADRE_NOMENCLADOR: params.fatherNomenclatorId,
             ID_PADRE_NOMENCLATURA: params.fatherNomenclatureId,
-            ACRONIMO: params.acronim,
             OBSERVACION: params.observation,
             DOMINIO: params.domain,
             ID_USUARIO_ALTA: params.userCreator,
-            FECHA_ALTA: stringToDate(params.createdAt)
+            FECHA_ALTA: stringToDate(params.createdAt),
+            USO_EXCLUSIVO_INTERNO: params.useInterno
         };
         // eslint-disable-next-line no-use-before-define
-        const nomenclatureId = await nomenclaturesModel.updateOne({ ID_NOMENCLATURA: filters.nomenclatureId },
-            formattedNomenclature, ['ID_NOMENCLATURA']);
-        const nomenclature = await NomenclaturesService.findOne({ nomenclatureId: nomenclatureId });
+        const nomenclatureId = await nomenclaturesModel.updateOne(
+            { ID_NOMENCLATURA: filters.nomenclatureId, ID_NOMENCLADOR: filters.nomenclatorId },
+            formattedNomenclature, ['ID_NOMENCLATURA', 'ID_NOMENCLADOR']);
+        const nomenclature = await NomenclaturesService.findOne(
+            { nomenclatorId: nomenclatureId.ID_NOMENCLADOR, nomenclatureId: nomenclatureId.ID_NOMENCLATURA });
         return nomenclature;
     }
 
     static async delete( filters ) {
-        const formattedFilters = { ID_NOMENCLATURA: filters.nomenclatureId };
+        const formattedFilters = { ID_NOMENCLADOR: filters.nomenclatorId, ID_NOMENCLATURA: filters.nomenclatureId };
         const success = await nomenclaturesModel.delete(formattedFilters, {
         });
         return !!success;

@@ -760,10 +760,8 @@ const operativeStructureAttrib = [
     'ID_ESTRUCTURA',
     'NOMBRE_ORIGINAL',
     'ID_NOMBRE_CAMPO_ENTRADA',
-    'ID_PROCESAMIENTO_CAMPO_AUXILIAR_ORIGINAL',
-    'ID_PROCESAMIENTO_CAMPO_AUXILIAR_FINAL',
+    'ID_PROCESAMIENTO_PREGUNTA_CERRADA',
     'DESCRIPCION_VARIABLE',
-    'SE_MUESTRA_EN_PANTALLA_AUXILIAR',
     'ES_PARTE_DEL_ID',
     'ID_TIPO_DE_DATO',
     'TAMANIO_DATO',
@@ -777,9 +775,7 @@ const operativeStructureAttrib = [
     'ID_FUENTE',
     'ID_PREGUNTA',
     'ID_USUARIO_ALTA',
-    'FECHA_ALTA',
-    'ID_USUARIO_BAJA',
-    'FECHA_BAJA'
+    'FECHA_ALTA'
 ];
 
 const microprocessDefinitionTableName = 'MICROPROCESOS';

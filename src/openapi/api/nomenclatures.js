@@ -38,20 +38,18 @@ module.exports = {
                                                 nomenclatorId: {type: 'number'},
                                                 nomenclatureId: {type: 'string'},
                                                 abreviation: {type: 'string'},
-                                                original: {type: 'string'},
+                                                originalPhrase: {type: 'boolean'},
                                                 description: {type: 'string'},
                                                 fractionationOfWords: {type: 'boolean'},
                                                 approved: {type: 'boolean'},
-                                                coefficient: {type: 'boolean'},
+                                                coefficient: {type: 'string'},
                                                 fatherNomenclatorId: {type: 'number'},
                                                 fatherNomenclatureId: {type: 'string'},
-                                                acronim: {type: 'string'},
                                                 observation: {type: 'string'},
                                                 domain: {type: 'string'},
                                                 userCreator: {type: 'string'},
                                                 createdAt: {type: 'string'},
-                                                userDeleted: {type: 'string'},
-                                                deletedAt: {type: 'string'}
+                                                useInterno: {type: 'boolean'}
                                             }
                                         }
                                     }
@@ -80,20 +78,18 @@ module.exports = {
                                 nomenclatorId: {type: 'number'},
                                 nomenclatureId: {type: 'string'},
                                 abreviation: {type: 'string'},
-                                original: {type: 'string'},
+                                originalPhrase: {type: 'boolean'},
                                 description: {type: 'string'},
                                 fractionationOfWords: {type: 'boolean'},
                                 approved: {type: 'boolean'},
-                                coefficient: {type: 'boolean'},
+                                coefficient: {type: 'string'},
                                 fatherNomenclatorId: {type: 'number'},
                                 fatherNomenclatureId: {type: 'string'},
-                                acronim: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                useInterno: {type: 'boolean'}
                             }
                         }
                     }
@@ -113,20 +109,18 @@ module.exports = {
                                             nomenclatorId: {type: 'number'},
                                             nomenclatureId: {type: 'string'},
                                             abreviation: {type: 'string'},
-                                            original: {type: 'string'},
+                                            originalPhrase: {type: 'boolean'},
                                             description: {type: 'string'},
                                             fractionationOfWords: {type: 'boolean'},
                                             approved: {type: 'boolean'},
-                                            coefficient: {type: 'boolean'},
+                                            coefficient: {type: 'string'},
                                             fatherNomenclatorId: {type: 'number'},
                                             fatherNomenclatureId: {type: 'string'},
-                                            acronim: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            useInterno: {type: 'boolean'}
                                         }
                                     }
                                 }
@@ -157,7 +151,7 @@ module.exports = {
                     in: 'path',
                     name: 'nomenclatureId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -172,20 +166,18 @@ module.exports = {
                                 nomenclatorId: {type: 'number'},
                                 nomenclatureId: {type: 'string'},
                                 abreviation: {type: 'string'},
-                                original: {type: 'string'},
+                                originalPhrase: {type: 'boolean'},
                                 description: {type: 'string'},
                                 fractionationOfWords: {type: 'boolean'},
                                 approved: {type: 'boolean'},
-                                coefficient: {type: 'boolean'},
+                                coefficient: {type: 'string'},
                                 fatherNomenclatorId: {type: 'number'},
                                 fatherNomenclatureId: {type: 'string'},
-                                acronim: {type: 'string'},
                                 observation: {type: 'string'},
                                 domain: {type: 'string'},
                                 userCreator: {type: 'string'},
                                 createdAt: {type: 'string'},
-                                userDeleted: {type: 'string'},
-                                deletedAt: {type: 'string'}
+                                useInterno: {type: 'boolean'}
                             }
                         }
                     }
@@ -205,20 +197,18 @@ module.exports = {
                                             nomenclatorId: {type: 'number'},
                                             nomenclatureId: {type: 'string'},
                                             abreviation: {type: 'string'},
-                                            original: {type: 'string'},
+                                            originalPhrase: {type: 'boolean'},
                                             description: {type: 'string'},
                                             fractionationOfWords: {type: 'boolean'},
                                             approved: {type: 'boolean'},
-                                            coefficient: {type: 'boolean'},
+                                            coefficient: {type: 'string'},
                                             fatherNomenclatorId: {type: 'number'},
                                             fatherNomenclatureId: {type: 'string'},
-                                            acronim: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            useInterno: {type: 'boolean'}
                                         }
                                     }
                                 }
@@ -247,7 +237,7 @@ module.exports = {
                     in: 'path',
                     name: 'nomenclatureId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -274,7 +264,7 @@ module.exports = {
                     in: 'path',
                     name: 'nomenclatureId',
                     required: true,
-                    schema: {type: 'integer'},
+                    schema: {type: 'string'},
                     description: 'User id of assignment'
                 }
             ],
@@ -292,20 +282,18 @@ module.exports = {
                                             nomenclatorId: {type: 'number'},
                                             nomenclatureId: {type: 'string'},
                                             abreviation: {type: 'string'},
-                                            original: {type: 'string'},
+                                            originalPhrase: {type: 'boolean'},
                                             description: {type: 'string'},
                                             fractionationOfWords: {type: 'boolean'},
                                             approved: {type: 'boolean'},
-                                            coefficient: {type: 'boolean'},
+                                            coefficient: {type: 'string'},
                                             fatherNomenclatorId: {type: 'number'},
                                             fatherNomenclatureId: {type: 'string'},
-                                            acronim: {type: 'string'},
                                             observation: {type: 'string'},
                                             domain: {type: 'string'},
                                             userCreator: {type: 'string'},
                                             createdAt: {type: 'string'},
-                                            userDeleted: {type: 'string'},
-                                            deletedAt: {type: 'string'}
+                                            useInterno: {type: 'boolean'}
                                         }
                                     }
                                 }
