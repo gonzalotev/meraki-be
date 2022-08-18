@@ -1,7 +1,6 @@
 {
   "plugins": [
     "promise",
-    "lodash",
     "autofix"
   ],
   "globals": {
@@ -33,32 +32,6 @@
     "promise/avoid-new": "off",
     "promise/no-new-statics": "error",
     "promise/no-return-in-finally": "warn",
-    "promise/valid-params": "error",
-    "lodash/import-scope": [
-      2,
-      "method"
-    ],
-    "lodash/prop-shorthand": [
-      "error",
-      "never"
-    ],
-    "lodash/matches-prop-shorthand": [
-      "error",
-      "never"
-    ],
-    "lodash/chain-style": 2,
-    "lodash/prefer-lodash-method": [
-      2,
-      {
-        "ignoreMethods": [
-          "find",
-          "filter",
-          "forEach",
-          "includes",
-          "map",
-          "some"
-        ]
-      }
-    ]
+    "promise/valid-params": "error"
   }
 }

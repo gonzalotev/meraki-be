@@ -5,7 +5,7 @@ const $ = require('gulp-load-plugins')();
 const rename = require('gulp-rename');
 const gulpEslint = require('gulp-eslint');
 
-const eslint = () => src(['**/*.js', '!node_modules/**', '!coverage/**', '!dist/**', '!db/**'])
+const eslint = () => src(['**/*.js', '!node_modules/**', '!dist/**', '!db/**'])
     .pipe(gulpEslint())
     .pipe(gulpEslint.format())
     .pipe(gulpEslint.failAfterError());
@@ -13,7 +13,6 @@ const eslint = () => src(['**/*.js', '!node_modules/**', '!coverage/**', '!dist/
 const server = () => $.nodemon({
     script: './',
     env: {NODE_ENV: process.env.NODE_ENV || 'development'},
-    ignore: ['./test/**/*.js'],
     nodeArgs: ['--inspect']
 });
 
@@ -24,8 +23,7 @@ const copy = () => src(
         './src/**',
         './db/**',
         './public/**',
-        'index.js',
-        'knexfile.js'
+        'index.js'
     ], {base: '.'}
 ).pipe(dest('dist'));
 

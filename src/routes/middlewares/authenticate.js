@@ -1,19 +1,23 @@
-const {ArqService} = include('services');
+/* eslint-disable */
+const {UserService} = include('services');
+
+const logger = require('../../helpers/logger');
 
 module.exports = async (req, res, next) => {
     const header = req.get('Authorization');
     if (!header) {
-        return res.sendStatus(401);
+        return res.send(401).send({message: 'error token', code: 401});
     }
     try {
-        const {success, user, message, tokenExpired} = await ArqService.validateToken(header);
+        const token = header.replace('Bearer ', '');
+        const {success, user} = await UserService.validateToken(token);
         if (!success || user.deleted) {
-            return res.sendStatus(401);
+            return res.status(401).send({message: "unauthorized", code: 401});
         }
-        // eslint-disable-next-line require-atomic-updates
-        req.user = {...user, message, tokenExpired};
-        return next();
+        req.user = user;
+        logger.info(user._id);
+        next();
     } catch (err) {
-        return res.sendStatus(401);
+        res.status(401).send({message: err.message, code: 401});
     }
 };

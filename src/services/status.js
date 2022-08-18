@@ -27,7 +27,7 @@ class StatusService {
 
     static getDBStatus() {
         return {
-            name: 'OracleDB',
+            name: 'MySQL',
             status: process.env.database || 'down'
         };
     }

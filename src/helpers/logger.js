@@ -1,7 +1,4 @@
-/* eslint-disable lodash/prefer-lodash-method */
 const winston = require('winston');
-const fs = require('fs');
-const packageJson = require('../../package.json');
 
 const {
     createLogger,
@@ -12,9 +9,7 @@ const {
         colorize,
         align
     },
-    transports: {
-        Console, Stream
-    }
+    transports: {Console}
 } = winston;
 
 const myCustomLevels = {
@@ -43,46 +38,13 @@ const format = combine(
     customFormat
 );
 
-const getTransports = () => {
-    const transportOpts = [
-        (new Console({
-            level: 'info',
-            colorize: true
-        }))
-    ];
-
-    if (process.env.NODE_ENV === 'production') {
-        transportOpts.push(
-            new Stream({
-                format,
-                stream: fs.createWriteStream(`/tmp/${packageJson.name.replace('-', '_')}_info.log`,
-                    {
-                        encoding: 'utf8',
-                        flags: 'a'
-                    })
-            })
-        );
-        transportOpts.push(
-            new Stream({
-                level: 'error',
-                format,
-                stream: fs.createWriteStream(`/tmp/${packageJson.name.replace('-', '_')}_error.log`,
-                    {
-                        encoding: 'utf8',
-                        flags: 'a'
-                    }
-                )
-            })
-        );
-    }
-
-    return transportOpts;
-};
-
 const logger = createLogger({
     format,
     levels: myCustomLevels.levels,
-    transports: getTransports()
+    transports: new Console({
+        level: 'info',
+        colorize: true
+    })
 });
 
 module.exports = logger;

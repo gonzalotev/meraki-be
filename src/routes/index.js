@@ -1,5 +1,4 @@
 const {Router} = require('express');
-const get = require('lodash/get');
 const { authenticate, errorHandler} = require('./middlewares');
 
 const {StatusController} = include('controllers');
@@ -20,16 +19,15 @@ const localRoute = route => {
     route.get('/ping', StatusController.ping);
     route.get('/ready', StatusController.getStatus);
     route.get('/health', StatusController.getHealth);
-    route.get('/swagger', (_, res) => res.send(get(include('openapi'), 'components')));
     return route;
 };
 
 class Routes {
     static configure(app) {
         app.use('/', localRoute(Router()));
-        app.use('/api', authenticate, require('./api')(Router()));
-        Logger.info('Loading publicApi...');
-        app.use('/publicApi', require('./publicApi')(Router()));
+        app.use('/api', /* authenticate, */ require('./api')(Router()));
+        Logger.info('Loading public-api...');
+        app.use('/public-api', require('./publicApi')(Router()));
         app.use(errorHandler);
     }
 }

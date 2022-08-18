@@ -11,4 +11,3 @@ public/lots/
 .nyc_output
 .vscode
 package-lock.json
->>>>>>> feat: create dictionary linguistic endpoint

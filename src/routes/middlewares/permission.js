@@ -4,7 +4,7 @@ const castArray = require('lodash/castArray');
 
 const permissionMiddleware = roles =>
     (req, res, next) => {
-        if (!roles || every(castArray(roles), permission => !includes(req.user.roles, permission))) {
+        if (!roles || !req.user || every(castArray(roles), permission => !includes(req.user?.roles, permission))) {
             return res.status(403).send({message: 'You don\'t have permission to perform this action.'});
         }
         next();

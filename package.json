@@ -1,8 +1,8 @@
 {
-  "name": "sici-be",
-  "version": "0.0.2-SNAPSHOT",
-  "description": "SICI BE",
-  "main": "index.js",
+  "name": "meraki",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "meraki",
+  "main": "src/index.js",
   "nodemonConfig": {
     "ignore": [
       "test/**/*.js",
@@ -11,123 +11,65 @@
       "public/lots"
     ],
     "restartable": "rs",
-    "delay": "3500",
     "env": {
       "NODE_ENV": "development",
       "PAGE_SIZE": "20"
     }
   },
   "scripts": {
-    "start:migrate": "npm run db:migrate && node index.js",
-    "start": "node index.js",
-    "nodemon": "nodemon index.js",
+    "start": "node src/index.js",
+    "nodemon": "nodemon src/index.js",
     "dev": "gulp dev",
-    "test": "gulp eslint && npm run test:cover",
-    "test:teamcity": "cross-env NODE_ENV=test PORT=9999 nyc mocha",
-    "mocha": "cross-env NODE_ENV=test PORT=9999 mocha",
-    "test:cover": "cross-env NODE_ENV=test PORT=9999 nyc mocha",
     "lint": "gulp eslint",
-    "build": "gulp build",
-    "db:migrate": "npx knex migrate:latest",
-    "db:seed": "npx knex seed:run"
-  },
-  "directories": {
-    "test": "./test"
-  },
-  "nyc": {
-    "all": true,
-    "reporter": [
-      "text",
-      "html",
-      "teamcity"
-    ],
-    "check-coverage": true,
-    "lines": 10,
-    "statements": 10,
-    "functions": 10,
-    "branches": 10,
-    "exclude": [
-      "coverage/**/*.js",
-      "commitlint.config.js",
-      "gulpfile.js",
-      "knexfile.js",
-      "src/app.js",
-      "src/global.js",
-      "src/index.js",
-      "db/**/*.js",
-      "test/**/*.js",
-      "src/services/arqService.js"
-    ]
+    "build": "gulp build"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "bunyan": "^1.8.12",
+    "body-parser": "^1.20.0",
+    "bunyan": "^1.8.15",
     "bunyan-express-serializer": "^1.0.0",
-    "cookie-parser": "^1.4.5",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "csvtojson": "^2.0.10",
-    "dotenv": "^8.2.0",
-    "exceljs": "^4.2.1",
-    "express": "^4.17.1",
-    "express-openapi-validator": "^3.12.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
-    "helmet": "^3.22.0",
-    "knex": "^0.95.12",
+    "helmet": "^5.1.1",
+    "knex": "^2.2.0",
     "lodash": "^4.17.21",
-    "moment": "^2.27.0",
-    "moment-timezone": "^0.5.34",
-    "node-fetch": "^2.6.7",
-    "oracledb": "^5.2.0",
-    "pg": "^8.2.1",
+    "mysql": "^2.18.1",
     "querystring": "^0.2.1",
     "require-dir": "^1.2.0",
-    "saslprep": "^1.0.3",
-    "sequelize": "^6.9.0",
-    "socket.io": "^4.4.1",
-    "stream-dbf": "^0.3.0",
-    "swagger-ui-express": "^4.1.4",
-    "tempy": "^1.0.1",
-    "uuidv4": "^6.0.7",
-    "winston": "^3.2.1"
+    "sequelize": "^6.21.3",
+    "winston": "^3.8.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.0.1",
-    "babel-eslint": "^10.1.0",
-    "cross-env": "^7.0.2",
-    "del": "^5.1.0",
-    "eslint": "^7.21.0",
-    "eslint-plugin-autofix": "^1.0.5",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-lodash": "^7.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "expect": "^25.3.0",
+    "@babel/core": "^7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
+    "@commitlint/cli": "^17.0.3",
+    "cross-env": "^7.0.3",
+    "del": "^7.0.0",
+    "eslint": "^8.21.0",
+    "eslint-plugin-autofix": "^1.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-promise": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
-    "gulp-json-editor": "^2.5.4",
-    "gulp-load-plugins": "^2.0.3",
-    "gulp-nodemon": "^2.2.1",
+    "gulp-json-editor": "^2.5.6",
+    "gulp-load-plugins": "^2.0.7",
+    "gulp-nodemon": "^2.5.0",
     "gulp-rename": "^2.0.0",
-    "husky": "^4.2.5",
-    "mocha": "^7.1.1",
-    "mock-knex": "^0.4.7",
-    "nodemon": "^2.0.14",
-    "nyc": "^15.0.1",
-    "should": "^13.2.3",
-    "sinon": "^9.0.2",
-    "supertest": "^4.0.2"
+    "husky": "^8.0.1",
+    "nodemon": "^2.0.19"
   },
   "repository": {
     "type": "git",
     "url": "https://"
   },
-  "bugs": {
-    "url": "https://jira.indec.gob.ar/projects/sici/issues"
-  },
   "homepage": "https://",
   "engines": {
-    "node": ">=12.14"
+    "node": ">=18.5.0"
   },
-  "author": "indec-it",
+  "author": "Gonzalo Tevez",
   "license": "MIT"
 }
