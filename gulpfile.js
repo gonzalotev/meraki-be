@@ -16,25 +16,18 @@ const server = () => $.nodemon({
     nodeArgs: ['--inspect']
 });
 
-const clean = () => require('del')('dist');
-
 const copy = () => src(
     [
         './src/**',
         './db/**',
         './public/**',
-        'index.js'
+        'src/index.js'
     ], {base: '.'}
 ).pipe(dest('dist'));
-
-const copyEnv = env => () => src(
-    [env ? `.env-${env}` : '.env'], {base: '.'}
-).pipe(rename('.env')).pipe(dest('dist/'));
 
 const distPackage = () => src('./package.json')
     .pipe($.jsonEditor(json => {
         delete json.devDependencies;
-        delete json.nodemonConfig;
         return json;
     }, {end_with_newline: true}))
     .pipe(dest('dist/'));
@@ -43,6 +36,5 @@ const dist = parallel(copy, distPackage);
 
 exports.eslint = eslint;
 exports.dev = server;
-exports['build-dev'] = series(clean, dist, copyEnv());
-exports['build-uat'] = series(clean, dist, copyEnv('uat'));
-exports.build = series(clean, dist, copyEnv('prod'));
+exports['build-dev'] = series(dist);
+exports.build = series(dist);
