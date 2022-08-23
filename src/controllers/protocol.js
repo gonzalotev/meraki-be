@@ -37,6 +37,7 @@ class ProtocolController {
         try{
             const protocol = await ProtocolService.create(req.body);
             res.sendStatus(200);
+            console.log(protocol);
             res.send(protocol);
         }catch(error){
             next(error);
