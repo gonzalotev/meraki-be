@@ -4,7 +4,6 @@ class ProtocolController {
     static async fetch(req, res, next) {
         try {
             const protocols = await ProtocolService.fetch();
-            console.log(protocols);
             res.send(protocols);
         } catch (error) {
             next(error);
@@ -37,7 +36,6 @@ class ProtocolController {
         try{
             const protocol = await ProtocolService.create(req.body);
             res.sendStatus(200);
-            console.log(protocol);
             res.send(protocol);
         }catch(error){
             next(error);

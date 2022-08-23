@@ -9,5 +9,4 @@ public/lots/
 .env-prod
 .env-uat
 .nyc_output
-.vscode
 package-lock.json
