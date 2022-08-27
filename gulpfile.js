@@ -21,7 +21,8 @@ const copy = () => src(
         './src/**',
         './db/**',
         './public/**',
-        'src/index.js'
+        'src/index.js',
+        'index.js'
     ], {base: '.'}
 ).pipe(dest('dist'));
 
