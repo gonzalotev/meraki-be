@@ -3,17 +3,16 @@ const {ourSpaceService} = include('services');
 class ourSpaceController {
     static async fetch(req, res, next) {
         try {
-            const ourspace = await ourSpaceService.fetch();
-            res.send(ourspace);
+            const ourSpace = await ourSpaceService.fetch();
+            res.send(ourSpace);
         } catch (error) {
             next(error);
         }
     }
     static async find(req, res, next) {
         try {
-            const ourspace = await ourSpaceService.findOne(req.params);
-            console.log(ourspace);
-            res.send(ourspace);
+            const ourSpace = await ourSpaceService.findOne(req.params);
+            res.send(ourSpace);
         } catch (error) {
             next(error);
         }
@@ -34,9 +33,9 @@ class ourSpaceController {
 
     static async create(req, res, next){
         try{
-            const ourspace = await ourSpaceService.create(req.body);
+            const ourSpace = await ourSpaceService.create(req.body);
             res.sendStatus(200);
-            res.send(ourspace);
+            res.send(ourSpace);
         }catch(error){
             next(error);
         }
@@ -44,9 +43,9 @@ class ourSpaceController {
 
     static async update(req, res, next){
         try{
-            const ourspace = await ourSpaceService.update(req.body, req.params);
+            const ourSpace = await ourSpaceService.update(req.body, req.params);
             res.sendStatus(200);
-            res.send({ourspace});
+            res.send({ourSpace});
         }catch(error){
             next(error);
         }

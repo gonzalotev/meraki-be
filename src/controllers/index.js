@@ -4,6 +4,8 @@ const ProtocolController = require('./protocol');
 const HomeController = require('./home');
 const ourSpaceController = require('./ourSpace');
 const AuthController = require('./auth');
+const TimetableController = require('./timetable');
+const DutyController = require('./duty');
 
 module.exports = {
     RoleController,
@@ -11,5 +13,7 @@ module.exports = {
     ProtocolController,
     HomeController,
     ourSpaceController,
-    AuthController
+    AuthController,
+    TimetableController,
+    DutyController
 };
