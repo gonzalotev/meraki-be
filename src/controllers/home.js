@@ -12,7 +12,6 @@ class HomeController {
     static async find(req, res, next) {
         try {
             const home = await HomeService.findOne(req.params);
-            console.log(home);
             res.send(home);
         } catch (error) {
             next(error);

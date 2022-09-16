@@ -2,46 +2,43 @@ const knex = include('helpers/database');
 
 class ourSpaceService {
     static fetch() {
-        const ourspace = knex.select('*').from('Espacio');
-        return ourspace;
+        const ourSpace = knex.select('*').from('Espacio');
+        return ourSpace;
     }
 
     static findOne(filters){
-        const ourspace = knex.select('*')
+        const ourSpace = knex.select('*')
             .from('Espacio')
-            .where({IdRegistro: filters.idregist});
-        return ourspace;
+            .where({IdRegistro: filters.idRegist});
+        return ourSpace;
     }
-    static deleteOne(idregist){
+    static deleteOne(idRegist){
         return knex.from('Espacio')
-            .where({IdRegistro: idregist})
-            .del()
-            .timeout(this.timeout);
+            .where({IdRegistro: idRegist})
+            .del();
     }
 
     static create(params){
-        const ourspace = knex.insert({
+        const ourSpace = knex.insert({
             Nombre: params.name,
             ImageUrl: params.image,
             Addwho: params.who,
-            Editwho: params.datetime
+            Editwho: new Date()
         })
-            .into('Espacio')
-            .timeout(this.timeout);
-        return ourspace;
+            .into('Espacio');
+        return ourSpace;
     }
 
     static update(params, idregist){
-        const ourspace = knex('Espacio')
+        const ourSpace = knex('Espacio')
             .update({
                 Nombre: params.name,
                 ImageUrl: params.image,
                 Addwho: params.who,
-                Editwho: params.datetime
+                Editwho: new Date()
             })
-            .where(idregist)
-            .timeout(this.timeout);
-        return ourspace;
+            .where(idregist);
+        return ourSpace;
     }
 }
 
