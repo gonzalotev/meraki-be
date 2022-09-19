@@ -1,4 +1,5 @@
 const CryptoService = require('./crypto');
+const {validateJWT} = require('../utils');
 const knex = include('helpers/database');
 
 class AuthService {
@@ -17,7 +18,10 @@ class AuthService {
             userId: response[0].IdUser
         };
     }
-
+    static validateToken(token) {
+        const user = validateJWT(token);
+        return {success: true, user};
+    }
 }
 
 module.exports = AuthService;

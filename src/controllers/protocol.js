@@ -12,7 +12,6 @@ class ProtocolController {
     static async find(req, res, next) {
         try {
             const protocol = await ProtocolService.findOne(req.params);
-            console.log(protocol);
             res.send(protocol);
         } catch (error) {
             next(error);

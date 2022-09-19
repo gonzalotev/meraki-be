@@ -5,6 +5,10 @@ const HomeService = require('./home');
 const ourSpaceService = require('./ourSpace');
 const TimetableService = require('./timetable');
 const DutyService = require('./duty');
+const UserService = require('./user');
+const CryptoService = require('./crypto');
+const AuthService = require('./auth');
+const EmailService = require('./email');
 
 module.exports = {
     RoleService,
@@ -13,5 +17,9 @@ module.exports = {
     HomeService,
     ourSpaceService,
     TimetableService,
-    DutyService
+    DutyService,
+    UserService,
+    CryptoService,
+    AuthService,
+    EmailService
 };
