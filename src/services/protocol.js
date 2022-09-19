@@ -20,24 +20,22 @@ class ProtocolService {
     }
 
     static create(params){
-        const protocol = knex.insert({
+        return knex.insert({
             Nombre: params.name,
             Detalle: params.details
         })
             .into('Protocolo')
             .timeout(this.timeout);
-        return protocol;
     }
 
     static update(params, serialKey){
-        const protocol = knex('Protocolo')
+        return knex('Protocolo')
             .update({
                 Nombre: params.name,
                 Detalle: params.details
             })
             .where(serialKey)
             .timeout(this.timeout);
-        return protocol;
     }
 }
 

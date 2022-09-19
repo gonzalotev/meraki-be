@@ -25,7 +25,7 @@ const localRoute = route => {
 class Routes {
     static configure(app) {
         app.use('/', localRoute(Router()));
-        app.use('/api', /* authenticate, */ require('./api')(Router()));
+        app.use('/api', authenticate, require('./api')(Router()));
         Logger.info('Loading public-api...');
         app.use('/public-api', require('./publicApi')(Router()));
         app.use(errorHandler);

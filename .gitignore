@@ -4,8 +4,9 @@ dist/
 coverage
 public/lots
 *.log
-.env
+
 public/lots/
+.env
 .env-prod
 .env-uat
 .nyc_output

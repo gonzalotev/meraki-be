@@ -12,9 +12,7 @@
   },
   "extends": [
     "./.eslintrc-base.json",
-    "plugin:promise/recommended",
-    "plugin:lodash/recommended",
-    "plugin:import/warnings"
+    "plugin:promise/recommended"
   ],
   "env": {
     "node": true
