@@ -23,7 +23,7 @@ class EmailService {
             from: EMAIL_USER,
             to: to,
             subject: subject,
-            html: `${message}<br/><br/><small>Please do not reply to this automated message.</small>`
+            html: `${message}<br/><br/><small>Por favor no responder este mensaje.</small>`
         };
         return transporter.sendMail(mailOptions);
     }

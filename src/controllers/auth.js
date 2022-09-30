@@ -36,7 +36,7 @@ class AuthController {
             const response = await EmailService.sendMail(
                 req.body.email,
                 'Recuperar clave - Meraki',
-                `<p>Hola! ${user.email},</p><p>Bienvenido a <strong>Meraki</strong>.</p></br><p><a href="${URL_CLIENT}Reset?token=${token}" target="_blank" rel="noopener noreferrer">Click here</a> para recuperar la clave.</p></br>`
+                `<p>Hola! ${user.email},</p><p>Bienvenido a <strong>Meraki</strong>.</p></br><p><a href="${URL_CLIENT}Reset?token=${token}" target="_blank" rel="noopener noreferrer">Click aqui</a> para recuperar la clave.</p></br>`
             );
             if (response.error) {
                 return res.status(500).send({success: false, message: 'An error occurred sending the mail.'});

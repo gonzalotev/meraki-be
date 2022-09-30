@@ -9,6 +9,7 @@ class HomeController {
             next(error);
         }
     }
+
     static async find(req, res, next) {
         try {
             const home = await HomeService.findOne(req.params);
