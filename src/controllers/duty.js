@@ -12,8 +12,8 @@ class DutyController {
 
     static async find(req, res, next) {
         try {
-            const duty = await DutyService.findOne(req.params);
-            res.send(duty);
+            const duty = await DutyService.findOne(req.params.id);
+            res.send({duty});
         } catch (error) {
             next(error);
         }
@@ -21,12 +21,8 @@ class DutyController {
 
     static async delete(req, res, next){
         try{
-            const result = await DutyService.deleteOne(req.params.idDuty);
-            if(result){
-                res.sendStatus(200);
-            }else{
-                res.sendStatus(400);
-            }
+            await DutyService.deleteOne(req.params.id);
+            res.send({success: true});
         }catch(error){
             next(error);
         }
@@ -35,8 +31,7 @@ class DutyController {
     static async create(req, res, next){
         try{
             const duty = await DutyService.create(req.body);
-            res.sendStatus(200);
-            res.send(duty);
+            res.send({duty, success: true});
         }catch(error){
             next(error);
         }
@@ -44,9 +39,8 @@ class DutyController {
 
     static async update(req, res, next){
         try{
-            const duty = await DutyService.update(req.body, req.params);
-            res.sendStatus(200);
-            res.send({duty});
+            await DutyService.update(req.params.id, req.body);
+            res.send({ success: true});
         }catch(error){
             next(error);
         }

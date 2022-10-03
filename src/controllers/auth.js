@@ -22,6 +22,23 @@ class AuthController {
         }
     }
 
+    static async register(req, res, next) {
+        try {
+            const missingFields = validate(req.body, ['email', 'password', 'role']);
+            if(missingFields.length) {
+                return res.status(400).send({success: false, missingFields, message: 'Check your data.'});
+            }
+            const user = await UserService.find({Usuario: req.body.email});
+            if(user) {
+                return res.status(400).send({message: 'The user already exist.'});
+            }
+            await AuthService.register(req.body);
+            res.send({success: true});
+        } catch (err) {
+            next(err);
+        }
+    }
+
     static async recoveryPassword(req, res, next) {
         try {
             const missingFields = validate(req.body, ['email']);
@@ -55,7 +72,6 @@ class AuthController {
                 return res.status(400).send({success: false, missingFields, message: 'Check your data.'});
             }
             const user = validateJWT(req.body.token);
-            console.log({user});
             await UserService.update(user.id, {Password: crypto.hash(req.body.password)});
             res.send({success: true});
         } catch (err) {

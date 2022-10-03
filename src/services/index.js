@@ -9,6 +9,7 @@ const UserService = require('./user');
 const CryptoService = require('./crypto');
 const AuthService = require('./auth');
 const EmailService = require('./email');
+const TopicsService = require('./topics');
 
 module.exports = {
     RoleService,
@@ -21,5 +22,6 @@ module.exports = {
     UserService,
     CryptoService,
     AuthService,
-    EmailService
+    EmailService,
+    TopicsService
 };
