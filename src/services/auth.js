@@ -6,8 +6,8 @@ class AuthService {
     static async login(email, password) {
         const cryptoService = new CryptoService('base64');
         const response = await knex.select('*')
-            .from('login')
-            .innerJoin('Rol', 'Rol.IdRol', 'login.IdRol' )
+            .from('Usuario')
+            .innerJoin('Rol', 'Rol.IdRol', 'Usuario.IdRol' )
             .where({
                 Usuario: email,
                 Password: cryptoService.hash(password)
@@ -18,6 +18,16 @@ class AuthService {
             userId: response[0].IdUser
         };
     }
+
+    static register({email, password, role}) {
+        const cryptoService = new CryptoService('base64');
+        return knex.insert({
+            Usuario: email,
+            Password: cryptoService.hash(password),
+            IdRol: role
+        }).into('Usuario');
+    }
+
     static validateToken(token) {
         const user = validateJWT(token);
         return {success: true, user};

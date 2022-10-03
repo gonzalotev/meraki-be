@@ -2,8 +2,7 @@ const knex = include('helpers/database');
 
 class TimetableService {
     static fetch() {
-        const timetable = knex.select('*').from('Horarios');
-        return timetable;
+        return knex.select('*').from('Horarios');
     }
 }
 

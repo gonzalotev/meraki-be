@@ -10,10 +10,10 @@ class UserService {
 
     static async find(filters) {
         const response = await knex.select('*')
-            .from('login')
+            .from('Usuario')
             .where(filters)
-            .innerJoin('Rol', 'Rol.IdRol', 'login.IdRol' );
-        return {
+            .innerJoin('Rol', 'Rol.IdRol', 'Usuario.IdRol' );
+        return response[0] && {
             email: response[0].Usuario,
             role: response[0].Nombre,
             id: response[0].IdUser
@@ -21,7 +21,7 @@ class UserService {
     }
 
     static update(userId, user) {
-        return knex('login')
+        return knex('Usuario')
             .update(user)
             .where({IdUser: userId});
     }

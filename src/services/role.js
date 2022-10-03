@@ -1,8 +1,12 @@
 const knex = include('helpers/database');
 
 class RoleService {
-    static fetch() {
-        return knex.select('*').from('Rol');
+    static async fetch() {
+        const roles = await knex.select('*').from('Rol');
+        return roles.map(role => ({
+            id: role.IdRol,
+            name: role.Nombre
+        }));
     }
 }
 
