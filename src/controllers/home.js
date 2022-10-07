@@ -3,8 +3,8 @@ const {HomeService} = include('services');
 class HomeController {
     static async fetch(req, res, next) {
         try {
-            const home = await HomeService.fetch();
-            res.send(home);
+            const homes = await HomeService.fetch();
+            res.send(homes);
         } catch (error) {
             next(error);
         }
@@ -21,7 +21,7 @@ class HomeController {
 
     static async delete(req, res, next){
         try{
-            const result = await HomeService.deleteOne(req.params.idregist);
+            const result = await HomeService.deleteOne(req.params.IdHome);
             if(result){
                 res.sendStatus(200);
             }else{

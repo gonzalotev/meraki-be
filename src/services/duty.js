@@ -35,7 +35,7 @@ class DutyService {
 
     static create(values){
         return knex.insert({
-            idDisciplina: 10,
+            idDisciplina: values.title,
             Arancel: values.price
         })
             .into('Arancel');
@@ -44,7 +44,7 @@ class DutyService {
     static update(idDuty, values){
         return knex('Arancel')
             .update({
-                idDisciplina: 10,
+                idDisciplina: values.title,
                 Arancel: values.price
             })
             .where({idArancel: idDuty});

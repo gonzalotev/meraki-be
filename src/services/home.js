@@ -1,22 +1,27 @@
 const knex = include('helpers/database');
 
 class HomeService {
-    static fetch() {
-        const home = knex.select('*').from('Espacio');
-        return home;
+    static async fetch() {
+        const homes = await knex.select('*').from('Home');
+        return homes.map(home => ({
+            idHome: home.IdHome,
+            name: home.Nombre,
+            image: home.ImageUrl,
+            who: home.Addwho,
+            date: home.Editwho
+        }));
     }
 
     static findOne(filters){
         const home = knex.select('*')
-            .from('Espacio')
-            .where({IdRegistro: filters.idregist});
+            .from('Home')
+            .where({IdRegistro: filters.IdHome});
         return home;
     }
-    static deleteOne(idregist){
-        return knex.from('Espacio')
-            .where({IdRegistro: idregist})
-            .del()
-            .timeout(this.timeout);
+    static deleteOne(IdHome){
+        return knex.from('Home')
+            .where({IdHome: IdHome})
+            .del();
     }
 
     static create(params){
@@ -24,23 +29,21 @@ class HomeService {
             Nombre: params.name,
             ImageUrl: params.image,
             Addwho: params.who,
-            Editwho: params.datetime
+            Editwho: new Date()
         })
-            .into('Espacio')
-            .timeout(this.timeout);
+            .into('Home');
         return home;
     }
 
-    static update(params, idregist){
-        const home = knex('Espacio')
+    static update(params, IdHome){
+        const home = knex('Home')
             .update({
                 Nombre: params.name,
                 ImageUrl: params.image,
                 Addwho: params.who,
-                Editwho: params.datetime
+                Editwho: new Date()
             })
-            .where(idregist)
-            .timeout(this.timeout);
+            .where(IdHome);
         return home;
     }
 }
