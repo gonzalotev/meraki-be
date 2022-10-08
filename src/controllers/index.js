@@ -7,6 +7,7 @@ const AuthController = require('./auth');
 const TimetableController = require('./timetable');
 const DutyController = require('./duty');
 const StaticDataController = require('./staticData');
+const InscriptionController = require('./inscription');
 
 module.exports = {
     RoleController,
@@ -17,5 +18,6 @@ module.exports = {
     AuthController,
     TimetableController,
     DutyController,
-    StaticDataController
+    StaticDataController,
+    InscriptionController
 };
