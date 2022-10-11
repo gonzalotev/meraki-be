@@ -1,7 +1,7 @@
 const RoleService = require('./role');
 const StatusService = require('./status');
 const ProtocolService = require('./protocol');
-const HomeService = require('./home');
+const ResourceService = require('./resource');
 const ourSpaceService = require('./ourSpace');
 const TimetableService = require('./timetable');
 const DutyService = require('./duty');
@@ -16,7 +16,7 @@ module.exports = {
     RoleService,
     StatusService,
     ProtocolService,
-    HomeService,
+    ResourceService,
     ourSpaceService,
     TimetableService,
     DutyService,

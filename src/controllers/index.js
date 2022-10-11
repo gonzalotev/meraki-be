@@ -1,7 +1,7 @@
 const StatusController = require('./status');
 const RoleController = require('./role');
 const ProtocolController = require('./protocol');
-const HomeController = require('./home');
+const ResourceController = require('./resource');
 const ourSpaceController = require('./ourSpace');
 const AuthController = require('./auth');
 const TimetableController = require('./timetable');
@@ -13,7 +13,7 @@ module.exports = {
     RoleController,
     StatusController,
     ProtocolController,
-    HomeController,
+    ResourceController,
     ourSpaceController,
     AuthController,
     TimetableController,

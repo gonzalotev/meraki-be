@@ -4,7 +4,8 @@ class TimetableService {
     static async fetch() {
         const timetables = await knex.select('*')
             .from('Horarios')
-            .innerJoin('Disciplina', 'Disciplina.IdDisciplina', 'Horarios.IdDisciplina');
+            .innerJoin('Disciplina', 'Disciplina.IdDisciplina', 'Horarios.IdDisciplina')
+            .orderBy('Horarios.Horario');
         return timetables.map(timetable => ({
             idTimetable: timetable.IdHorario,
             discipline: timetable.Nombre,
@@ -16,12 +17,13 @@ class TimetableService {
     static async findOne(id) {
         const timetable = await knex.select('*')
             .from('Horarios')
-            .where({idTimetable: id})
             .innerJoin('Disciplina', 'Disciplina.IdDisciplina', 'Horarios.IdDisciplina')
+            .where({IdHorario: id})
             .first();
         return {
             idTimetable: timetable.IdHorario,
-            discipline: timetable.Nombre,
+            discipline: timetable.IdDisciplina,
+            disciplineDescription: timetable.Nombre,
             day: timetable.Dia,
             schedule: timetable.Horario
         };
