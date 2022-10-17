@@ -3,15 +3,6 @@ const {TimetableService} = include('services');
 class TimetableController {
     static async fetch(req, res, next) {
         try {
-            const timetable = await TimetableService.fetch();
-            res.send(timetable);
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    static async fetch(req, res, next) {
-        try {
             const timetables = await TimetableService.fetch();
             res.send({success: true, timetables});
         } catch (error) {
