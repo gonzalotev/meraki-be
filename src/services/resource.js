@@ -12,12 +12,14 @@ const getResourceName = resourceName => {
 
 class ResourceService {
     static async fetchResource(typeId) {
-        const resource = await knex.select('*').from('Tipos')
+        const resource = await knex.select('*')
+            .from('Tipos')
             .innerJoin('Contenidos', 'Contenidos.IdTipo', 'Tipos.Id')
             .where({'Tipos.Id': Number(typeId)})
             .first();
 
-        const images = await knex.select('*').from('Imagenes')
+        const images = await knex.select('*')
+            .from('Imagenes')
             .where({'Imagenes.IdTipo': Number(typeId)});
 
         return {
@@ -48,11 +50,11 @@ class ResourceService {
             .into('Imagenes');
     }
 
-    static imageUpdate(imageId, {name, url}){
+    static imageUpdate(imageId, {values}){
         return knex('Imagenes')
             .update({
-                Nombre: name,
-                URL: url
+                Nombre: values.name,
+                URL: values.url
             })
             .where({Id: imageId});
     }

@@ -2,15 +2,14 @@ const knex = include('helpers/database');
 
 class ourSpaceService {
     static fetch() {
-        const ourSpace = knex.select('*').from('Espacio');
-        return ourSpace;
+        return knex.select('*')
+            .from('Espacio');
     }
 
     static findOne(filters){
-        const ourSpace = knex.select('*')
+        return knex.select('*')
             .from('Espacio')
             .where({IdRegistro: filters.idRegist});
-        return ourSpace;
     }
     static deleteOne(idRegist){
         return knex.from('Espacio')
@@ -19,18 +18,17 @@ class ourSpaceService {
     }
 
     static create(params){
-        const ourSpace = knex.insert({
+        return knex.insert({
             Nombre: params.name,
             ImageUrl: params.image,
             Addwho: params.who,
             Editwho: new Date()
         })
             .into('Espacio');
-        return ourSpace;
     }
 
     static update(params, idregist){
-        const ourSpace = knex('Espacio')
+        return knex('Espacio')
             .update({
                 Nombre: params.name,
                 ImageUrl: params.image,
@@ -38,7 +36,6 @@ class ourSpaceService {
                 Editwho: new Date()
             })
             .where(idregist);
-        return ourSpace;
     }
 }
 
