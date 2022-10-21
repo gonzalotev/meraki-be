@@ -8,6 +8,14 @@ class TopicsService {
             name: topic.Nombre
         }));
     }
+
+    static create(values){
+        return knex.insert({
+            Nombre: values.name
+        })
+            .into('Disciplina');
+    }
+
 }
 
 module.exports = TopicsService;

@@ -5,5 +5,5 @@ const validateJWT = require('./validateJWT');
 module.exports = {
     validate,
     createJWT,
-    validateJWT
+    validateJWT,
 };

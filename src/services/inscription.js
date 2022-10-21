@@ -53,10 +53,8 @@ class InscriptionService {
         }));
     }
 
-    static deleteOne(idInsciption){
-        return knex.from('Inscripcion')
-            .where({IdInscipcion: idInsciption})
-            .del();
+    static deleteOne(idInsciption) {
+        return knex.raw(`call sp_Del_Asig_Insc (${idInsciption});`);
     }
 
     static async create(values){
@@ -75,10 +73,12 @@ class InscriptionService {
             Personas_Authorizadas: values.personsAuthorized,
             Obra_social: values.socialWork,
             Consideraciones_Medicas: values.medicalConsiderations,
-            Permitir_Irse: values.allowGoAlone ? 1 : 0
+            Permitir_Irse: values.allowGoAlone ? 1 : 0,
+            Fecha_inscripcion: new Date()
         })
             .into('Inscripcion');
         const assignments = values.disciplines.map(discipline => ({IdInscripcion: inscription, IdHorario: discipline}));
+        console.log(inscription);
         return knex
             .insert(assignments)
             .returning('*')
