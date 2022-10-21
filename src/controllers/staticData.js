@@ -10,6 +10,15 @@ class StaticDataController {
             next(error);
         }
     }
+
+    static async create(req, res, next){
+        try{
+            const discipline = await TopicsService.create(req.body);
+            res.send({discipline, success: true});
+        }catch(error){
+            next(error);
+        }
+    }
 }
 
 module.exports = StaticDataController;
