@@ -49,7 +49,7 @@ class InscriptionService {
             fatherPhone: inscription.Telefono_Padre,
             allowGoAlone: !!inscription.Permitir_Irse,
             medicalConsiderations: inscription.Consideraciones_Medicas,
-            socialWork: inscription.Obra_social,
+            socialWork: inscription.Obra_Social,
             personsAuthorized: inscription.Personas_Authorizadas,
             timetable: JSON.parse(inscription.timetable)
         }));

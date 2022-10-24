@@ -8,62 +8,62 @@ module.exports = {
         {
             header: 'DNI',
             key: 'documentId',
-            width: 80
+            width: 20
         },
         {
             header: 'Nombre',
             key: 'name',
-            width: 40
+            width: 30
         },
         {
             header: 'Apellido',
             key: 'surname',
-            width: 40
+            width: 30
         },
         {
             header: 'Email',
             key: 'email',
-            width: 50
+            width: 40
         },
         {
             header: 'Fecha de nacimiento',
             key: 'birthdate',
-            width: 50
+            width: 20
         },
         {
             header: 'Dirección',
             key: 'address',
-            width: 50
+            width: 40
         },
         {
             header: 'Nombre (Madre)',
             key: 'motherName',
-            width: 50
+            width: 30
         },
         {
             header: 'Teléfono (Madre)',
             key: 'motherPhone',
-            width: 50
+            width: 30
         },
         {
             header: 'Nombre (Padre)',
             key: 'fatherName',
-            width: 50
+            width: 30
         },
         {
             header: 'Teléfono (Padre)',
             key: 'fatherPhone',
-            width: 50
-        },
-        {
-            header: 'Personas autorizadas',
-            key: 'personsAuthorized',
-            width: 50
+            width: 30
         },
         {
             header: 'Se retira solo?',
             key: 'allowGoAlone',
-            width: 50
+            width: 20
+        },
+        {
+            header: 'Personas autorizadas',
+            key: 'personsAuthorized',
+            width: 40
         },
         {
             header: 'Consideración médica',
@@ -73,7 +73,12 @@ module.exports = {
         {
             header: 'Obra social',
             key: 'socialWork',
-            width: 50
+            width: 40
+        },
+        {
+            header: 'Disciplina',
+            key: 'timetable',
+            width: 80
         }
     ]
 };
