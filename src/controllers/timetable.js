@@ -1,4 +1,4 @@
-const {TimetableService} = include('services');
+const {TimetableService, InscriptionService} = include('services');
 
 class TimetableController {
     static async fetch(req, res, next) {
@@ -21,9 +21,16 @@ class TimetableController {
 
     static async delete(req, res, next){
         try{
+            const assignment = await InscriptionService.findAssignment({timetableId: req.params.id});
+            if(assignment) {
+                return res.status(405).send({
+                    success: false,
+                    message: 'No se pudo borrar.'
+                });
+            }
             await TimetableService.deleteOne(req.params.id);
             res.send({success: true});
-        }catch(error){
+        } catch(error){
             next(error);
         }
     }

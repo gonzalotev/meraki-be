@@ -1,29 +1,31 @@
-const RoleService = require('./role');
-const StatusService = require('./status');
+const AuthService = require('./auth');
+const CryptoService = require('./crypto');
+const DisciplineService = require('./discipline');
+const DutyService = require('./duty');
+const EmailService = require('./email');
+const InscriptionService = require('./inscription');
+const ourSpaceService = require('./ourSpace');
 const ProtocolService = require('./protocol');
 const ResourceService = require('./resource');
-const ourSpaceService = require('./ourSpace');
+const RoleService = require('./role');
+const StatusService = require('./status');
 const TimetableService = require('./timetable');
-const DutyService = require('./duty');
-const UserService = require('./user');
-const CryptoService = require('./crypto');
-const AuthService = require('./auth');
-const EmailService = require('./email');
 const TopicsService = require('./topics');
-const InscriptionService = require('./inscription');
+const UserService = require('./user');
 
 module.exports = {
-    RoleService,
-    StatusService,
+    AuthService,
+    CryptoService,
+    DisciplineService,
+    DutyService,
+    EmailService,
+    InscriptionService,
+    ourSpaceService,
     ProtocolService,
     ResourceService,
-    ourSpaceService,
+    RoleService,
+    StatusService,
     TimetableService,
-    DutyService,
-    UserService,
-    CryptoService,
-    AuthService,
-    EmailService,
     TopicsService,
-    InscriptionService
+    UserService
 };

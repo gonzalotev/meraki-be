@@ -13,6 +13,7 @@ class DutyController {
     static async find(req, res, next) {
         try {
             const duty = await DutyService.findOne(req.params.id);
+            console.log({duty});
             res.send({duty});
         } catch (error) {
             next(error);
