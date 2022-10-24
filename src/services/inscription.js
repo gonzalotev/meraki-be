@@ -1,3 +1,5 @@
+const omitBy = require('lodash/omitBy');
+const isNil = require('lodash/isNil');
 const knex = include('helpers/database');
 
 class InscriptionService {
@@ -78,12 +80,28 @@ class InscriptionService {
         })
             .into('Inscripcion');
         const assignments = values.disciplines.map(discipline => ({IdInscripcion: inscription, IdHorario: discipline}));
-        console.log(inscription);
         return knex
             .insert(assignments)
             .returning('*')
             .into('Asignacion');
     }
+
+    static async findAssignment({inscriptionId, timetableId}) {
+        const where = omitBy({
+            IdInscripcion: inscriptionId,
+            IdHorario: timetableId
+        }, isNil);
+        const assigment = await knex.select('*')
+            .from('Asignacion')
+            .where(where)
+            .first();
+        return assigment && {
+            inscriptionId: assigment.IdInscripcion,
+            timetableId: assigment.IdHorario,
+            active: assigment.Activo
+        };
+    }
+
 }
 
 module.exports = InscriptionService;

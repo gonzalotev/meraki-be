@@ -8,7 +8,7 @@ class DutyService {
         return duties.map(duty => ({
             idDuty: duty.IdArancel,
             title: duty.Nombre,
-            subtitle: duty.Descripcion,
+            idDiscipline: duty.IdDisciplina,
             price: duty.Arancel
         }));
     }
@@ -22,7 +22,7 @@ class DutyService {
         return {
             idDuty: duty.IdArancel,
             title: duty.Nombre,
-            subtitle: duty.Descripcion,
+            idDiscipline: duty.IdDisciplina,
             price: duty.Arancel
         };
     }
@@ -35,7 +35,7 @@ class DutyService {
 
     static create(values){
         return knex.insert({
-            idDisciplina: values.title,
+            idDisciplina: values.idDiscipline,
             Arancel: values.price
         })
             .into('Arancel');
@@ -44,7 +44,7 @@ class DutyService {
     static update(idDuty, values){
         return knex('Arancel')
             .update({
-                idDisciplina: values.title,
+                idDisciplina: values.idDiscipline,
                 Arancel: values.price
             })
             .where({idArancel: idDuty});

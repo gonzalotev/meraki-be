@@ -1,4 +1,6 @@
 const {InscriptionService} = include('services');
+const {excelColumns} = include('constants');
+const ExcelJS = require('exceljs');
 
 class InscriptionController {
     static async fetch(req, res, next) {
@@ -28,6 +30,21 @@ class InscriptionController {
         }
     }
 
+    static async downloadExcel(req, res, next){
+        try {
+            const data = await InscriptionService.fetch();
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Inscripciones');
+            worksheet.columns = excelColumns.inscriptions;
+            worksheet.addRows(data);
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + 'Atributos.xlsx');
+            await workbook.xlsx.write(res);
+            res.end();
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = InscriptionController;

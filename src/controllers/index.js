@@ -1,23 +1,25 @@
-const StatusController = require('./status');
-const RoleController = require('./role');
+const AuthController = require('./auth');
+const DisciplineController = require('./discipline');
+const DutyController = require('./duty');
+const InscriptionController = require('./inscription');
+const ourSpaceController = require('./ourSpace');
 const ProtocolController = require('./protocol');
 const ResourceController = require('./resource');
-const ourSpaceController = require('./ourSpace');
-const AuthController = require('./auth');
-const TimetableController = require('./timetable');
-const DutyController = require('./duty');
+const RoleController = require('./role');
 const StaticDataController = require('./staticData');
-const InscriptionController = require('./inscription');
+const StatusController = require('./status');
+const TimetableController = require('./timetable');
 
 module.exports = {
-    RoleController,
-    StatusController,
+    AuthController,
+    DisciplineController,
+    DutyController,
+    InscriptionController,
+    ourSpaceController,
     ProtocolController,
     ResourceController,
-    ourSpaceController,
-    AuthController,
-    TimetableController,
-    DutyController,
+    RoleController,
     StaticDataController,
-    InscriptionController
+    StatusController,
+    TimetableController
 };

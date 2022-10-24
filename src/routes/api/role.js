@@ -1,7 +1,7 @@
 const {RoleController} = include('controllers');
-const {permission} = include('routes/middlewares');
 
 module.exports = router => {
-    router.route('/').get(permission(['admin']), RoleController.fetch);
+    router.route('/')
+        .get(RoleController.fetch);
     return router;
 };
