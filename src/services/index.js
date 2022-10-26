@@ -3,6 +3,7 @@ const CryptoService = require('./crypto');
 const DisciplineService = require('./discipline');
 const DutyService = require('./duty');
 const EmailService = require('./email');
+const EnrollmentService = require('./enrollment');
 const InscriptionService = require('./inscription');
 const ourSpaceService = require('./ourSpace');
 const ProtocolService = require('./protocol');
@@ -19,6 +20,7 @@ module.exports = {
     DisciplineService,
     DutyService,
     EmailService,
+    EnrollmentService,
     InscriptionService,
     ourSpaceService,
     ProtocolService,
