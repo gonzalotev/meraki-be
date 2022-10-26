@@ -1,6 +1,7 @@
 const AuthController = require('./auth');
 const DisciplineController = require('./discipline');
 const DutyController = require('./duty');
+const EnrollmentController = require('./enrollment');
 const InscriptionController = require('./inscription');
 const ourSpaceController = require('./ourSpace');
 const ProtocolController = require('./protocol');
@@ -14,6 +15,7 @@ module.exports = {
     AuthController,
     DisciplineController,
     DutyController,
+    EnrollmentController,
     InscriptionController,
     ourSpaceController,
     ProtocolController,

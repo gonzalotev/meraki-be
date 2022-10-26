@@ -25,7 +25,7 @@ class TimetableController {
             if(assignment) {
                 return res.status(405).send({
                     success: false,
-                    message: 'No se pudo borrar.'
+                    message: 'No se puede eliminar, porque el registro está siendo utilizado.'
                 });
             }
             await TimetableService.deleteOne(req.params.id);

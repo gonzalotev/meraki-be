@@ -12,7 +12,7 @@ class AuthController {
             }
             const user = await AuthService.login(req.body.email, req.body.password);
             if (!user) {
-                return res.status(400).send({message: 'Invalid username and/or password.'});
+                return res.status(400).send({message: 'Credenciales invalidas.'});
             }
             req.user = user;
             req.session = {authorized: true};
