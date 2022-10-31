@@ -14,6 +14,18 @@ class TimetableService {
         }));
     }
 
+    /* static async fetch(){
+        const timetables = await knex.raw(`select JSON_OBJECT(
+        'day', h.Dia,
+            'discipline', d.Nombre,
+            'idTimetable', h.IdHorario,
+            'schedule', h.Horario`)
+            .from Horarios h
+            .inner join Disciplina d on d.IdDisciplina = h.IdDisciplina
+            .order by h.Horario');
+        return timetables;
+    }*/
+
     static async findOne(id) {
         const timetable = await knex.select('*')
             .from('Horarios')
