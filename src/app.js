@@ -37,10 +37,10 @@ class App {
             logger.info(`${req.method} ${req.url} ${res.statusCode}`);
             next();
         });
-        express.use(cors({
+        express.use(cors(NODE_ENV === 'development' ? {
             credentials: true,
             origin: /^http:\/\/localhost/
-        }));
+        } : {}));
     }
 }
 
