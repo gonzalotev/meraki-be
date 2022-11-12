@@ -18,7 +18,7 @@ if (DB_DATABASE && DB_DRIVER) {
     db = knex({
         client: DB_DRIVER,
         connection,
-        pool: {min: 0, max: 100}
+        pool: {min: 0, max: 10}
     });
     db.raw('select * from Rol').then(() => {
         process.env.database = 'ok';

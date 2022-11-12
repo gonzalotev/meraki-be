@@ -65,12 +65,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://"
+    "url": "https://github.com/gonzalotev/meraki-be"
   },
-  "homepage": "https://",
+  "bugs": {
+    "url": "https://academiait.atlassian.net/jira/projects"
+  },
+  "homepage": "https://meraki-espacio-artistico.netlify.app",
   "engines": {
-    "node": ">=18.5.0"
+    "node": ">=18.9.0"
   },
-  "author": "Gonzalo Tevez",
+  "author": "Gonzalo Tevez (https://github.com/gonzalotev)",
   "license": "MIT"
 }

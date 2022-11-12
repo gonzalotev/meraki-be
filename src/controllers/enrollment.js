@@ -4,7 +4,7 @@ class EnrollmentController {
     static async fetch(req, res, next) {
         try {
             const enrollment = await EnrollmentService.fetch();
-            res.send(enrollment);
+            res.send({success: true, enrollment});
         } catch (error) {
             next(error);
         }

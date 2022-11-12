@@ -21,7 +21,7 @@ class StatusController {
     static async getHealth(req, res, next) {
         try {
             const status = await StatusService.getHealth();
-            res.send(status);
+            res.sendStatus(status);
         } catch (err) {
             next(err);
         }
