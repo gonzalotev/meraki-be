@@ -2,7 +2,6 @@ const {
     dest, parallel, series, src
 } = require('gulp');
 const $ = require('gulp-load-plugins')();
-const rename = require('gulp-rename');
 const gulpEslint = require('gulp-eslint');
 
 const eslint = () => src(['**/*.js', '!node_modules/**', '!dist/**', '!db/**'])
